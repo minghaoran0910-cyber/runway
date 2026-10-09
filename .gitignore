@@ -1,0 +1,25 @@
+# Flutter / Dart
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# App outputs
+app/build/
+app/.dart_tool/
+app/macos/Flutter/GeneratedPluginRegistrant.swift
+
+# Env & secrets — 真实值永不入库
+.env
+*.sqlite
+*.db
+
+# OS
+Thumbs.db

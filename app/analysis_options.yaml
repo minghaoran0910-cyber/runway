@@ -1,0 +1,6 @@
+include: package:flutter_lints/flutter.yaml
+
+# SB-001: 严格化靠 CI 的 --fatal-infos / --fatal-warnings 实现。
+linter:
+  rules:
+    avoid_print: false
