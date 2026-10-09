@@ -9,3 +9,4 @@
 - 2026-10-09 deep-grill 审计 LOOP：三次 headless 实测（读/写删/提交皆通、工作区外全拒）+ 规范全文对照， verdict 条件通过。R1/R2/R3/R4/R7/R8 已改；R5 浩然授权自动合入；P1 分支名待监工裁决。
 - 2026-10-09 watchdog 就绪未上线：launchd 实测不可行（TCC 拒读 ~/Documents，复现×2，plist 已删），改挂 openclaw cron `runway-watchdog`；但网关正离线升级（cron add 建不上），待老油条回来建，命令已备好。`tool/loop-watch.sh` 为等价手动入口。
 - 2026-10-09 SB-002：分支 `feat/SB-002-android-build`，Android工具链✓（SDK 36.0.0/JDK17），`tool/ci.sh` build闸门扩到macOS debug+APK debug双产出，四闸门全绿，hygiene OK。待监工审计。
+- 2026-10-09 SB-003：分支 `feat/SB-003-tokens`，设计token落地（tokens/motion/theme三件套+main挂接），tokens单测9项+golden2组全绿，CI四闸门全绿（format/analyze/smoke/build双平台），hygiene OK。待监工审计。
