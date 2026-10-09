@@ -1,22 +1,14 @@
-# REVIEW_REQUEST — SB-001 建仓 + CI 四闸门（首审）
+# REVIEW_REQUEST — loop bootstrap（LOOP.md 落地，请求合入）
 
-仓库：`/Users/dada561/Documents/runway`（2026-10-09 由 `Documents/攒够` 改名去中文，D1 已关闭）
-分支：`feat/SB-001-repo-ci`（未 merge，未 push main，未碰 remote，合规）
-任务卡：`docs/tasks/SB-001.md`
-验收对照（逐条）：
-1. 初始提交+main+.gitignore：本次 commit 后满足，`.gitignore` 含 build/.dart_tool/.env/*.sqlite（待监工 `git log --oneline` 复核）
-2. `flutter create --org com.zangou.runway --project-name runway` 成功，`app/pubspec.yaml` name == `runway`（已验证）
-3. `tool/ci.sh` 四闸门全绿（本机实测 `ALL GREEN SB-001`）：
-   - `dart format --set-exit-if-changed .` → 0 changed
-   - `flutter analyze --fatal-infos --fatal-warnings app` → No issues found (ran in 1.1s)
-   - `flutter test`（app 内执行 smoke_test）→ All tests passed
-   - `flutter build macos --debug` → runway.app 构建成功
-4. `tool/check-repo-hygiene.sh` → OK
-5. 目录骨架：`app/ packages/ docs/ demos/ golden/ tool/` 齐全，golden/packages 有 .gitkeep + README 占位
-6. 仓库根 `README.md` 三行（产品名/框架/四闸门命令）
+仓库：`/Users/dada561/Documents/runway`，分支：`chore/loop-bootstrap`（未 merge，未 push，无 remote，合规）
+任务卡：无（流程类变更，分支名偏差说明见下）
 
-偏差声明：无（D1 已关闭：仓库改名去中文后 `flutter analyze` 原生通过，不再用 `dart analyze` 替代。教训记入本条：中文路径 + Flutter 3.44.6 LSP 必崩，复现 3 次。）
+变更内容：
+1. `LOOP.md`（新建）：headless 唤醒状态机，S0 六守卫（分支==main / 锁 / 树干净 / 审查无堆积 / 无 WAITING_HUMAN）→ S1 返工一轮 → S2 新卡一单 → idle 退出；铁律：不 merge 不碰 remote，一轮一事。
+2. `SUPERVISOR.md`：追加"附录 LOOP 时代协作"（合入舞步 / WAITING_HUMAN 处理 / cron 文本归属 / 首轮顺序）。只加附录，未改既有条款。
+3. `progress.md / task_plan.md`：SB-001 归档 + loop 说明（随行更新）。
 
-禁止事项自查：无业务代码、无新增依赖（pubspec 依赖变更=0）、未改 docs 规范内容、未碰 remote。
-返工回复（2026-10-09）：main 已建（`git branch main`，与 feat 同指 0862042，不动文件）。请复核转 PASS 并合入。
-请监工按 SUPERVISOR.md 审查，结论写 `REVIEW.md`（PASS / REQUEST_CHANGES）。
+偏差声明（1 处，请裁决）：
+- P1：分支名用了 `chore/` 前缀，GIT_WORKFLOW 白名单只有 feat/fix/hotfix/release。理由：无任务卡的流程变更，用 feat 会污染"一卡一支"审计口径。建议接受（或你指定命名，我以后照办）。
+
+请按附录合入舞步处理：squash → checkout main → 删分支，然后发 SB-002 到 `docs/tasks/`。结论写 `REVIEW.md`。

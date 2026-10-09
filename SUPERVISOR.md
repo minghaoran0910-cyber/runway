@@ -42,3 +42,9 @@ openclaw cron add --every 30m --agent main --session isolated --name "攒够-监
 
 验证：`openclaw cron list` 能看到 `攒够-监工巡检` 为 ok。
 暂停：`openclaw cron disable --name "攒够-监工巡检"`（按实际 CLI 参数调整）。
+
+## 附录 LOOP 时代协作（2026-10-09 起，唤醒任务 `攒够-loop唤醒` :15/:45，巡检 :00/:30，错峰互不干扰）
+1. 合入舞步（缺一步下轮唤醒会因分支守卫直接退出）：squash 合入 main → `git checkout main` → `git branch -d feat/*`。工作树必须回到 main。
+2. REVIEW_REQUEST 新于 REVIEW → 正常审查；含 `WAITING_HUMAN` → 停掉唤醒任务并通知浩然，等人工裁决后再开。
+3. 唤醒任务的 message 文本归你所有，改了把新文本同步到 LOOP.md 顶部的"期望的唤醒语"备查段（只改那一段，不改状态机；状态机要改走规范流程）。
+4. 首轮顺序：先合入本 bootstrap（含 LOOP.md），再发 SB-002 卡到 `docs/tasks/`，环即转动。

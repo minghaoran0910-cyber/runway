@@ -5,7 +5,9 @@
 
 ## 里程碑（对齐 DEV_WORKFLOW §6）
 - [x] M0 需求整合：`_inbox/` 6 份 → `docs/PRD.md / DESIGN_SYSTEM.md / DEV_WORKFLOW.md / GIT_WORKFLOW.md / README.md / tasks/SB-001.md`
-- [x] SB-001 建仓 + CI 四闸门（G1 第一步）：分支 `feat/SB-001-repo-ci`，`tool/ci.sh` 全绿
+- [x] SB-001 建仓 + CI 四闸门：PASS，squash 合入 main（`d6ef4da`）
+- [ ] loop bootstrap：`LOOP.md` + 监工手册附录（分支 `chore/loop-bootstrap`，待合入）
+- [ ] SB-002：等监工发卡（Android SDK + build 双平台化），发卡后自动开工
 - [ ] G1 骨架剩余：设计 token 落地 + CI 接入（SB-002 起）
 - [ ] G2 核心闭环：三秒记一笔 → 分类 → 首页目标看板
 - [ ] G3 钩子层：目标阶梯/成就卡/安全垫/周报
@@ -23,4 +25,4 @@
 8. `docs/` 搬运 6 份（不算编辑）
 
 ## 当前阻塞
-- 无。等监工审 SB-001（只审不改，结论写 REVIEW.md）。
+- 等监工合入 loop bootstrap + 下发 SB-002（巡检会自动处理，无需人工传声）。
