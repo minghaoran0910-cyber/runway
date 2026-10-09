@@ -21,5 +21,8 @@ app/macos/Flutter/GeneratedPluginRegistrant.swift
 *.sqlite
 *.db
 
+# loop 锁文件（LOOP.md S0，headless 权限模型拒绝 /tmp，只能放仓内；已忽略不入库）
+_LOCK
+
 # OS
 Thumbs.db

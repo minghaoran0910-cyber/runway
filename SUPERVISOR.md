@@ -48,3 +48,7 @@ openclaw cron add --every 30m --agent main --session isolated --name "攒够-监
 2. REVIEW_REQUEST 新于 REVIEW → 正常审查；含 `WAITING_HUMAN` → 停掉唤醒任务并通知浩然，等人工裁决后再开。
 3. 唤醒任务的 message 文本归你所有，改了把新文本同步到 LOOP.md 顶部的"期望的唤醒语"备查段（只改那一段，不改状态机；状态机要改走规范流程）。
 4. 首轮顺序：先合入本 bootstrap（含 LOOP.md），再发 SB-002 卡到 `docs/tasks/`，环即转动。
+5. 合入授权（2026-10-09 浩然拍板，R5 关闭）：监工可自动合入结论为 PASS 的卡，含 squash 落 main、`git checkout main`、`git branch -d feat/*` 全套舞步，不再逐卡等拍板。仅 PASS 可自动合；REQUEST_CHANGES 永不合入。
+6. REVIEW 写作要求（配合 LOOP.md R4 计数）：每次 REQUEST_CHANGES 必须写轮次编号（"第 x 轮 · 卡 SB-nnn"），同一卡累计出现 2 次后开发方将直接 WAITING_HUMAN，不再动手。
+7. 唤醒语措辞（R6）：cron 里"禁止碰 main"指禁止写入 main（commit/merge 到 main），允许读 main 和从 main 切出 feat 分支。请按此理解执行，改一词亦可但含义不变。
+8. 你写 `REVIEW.md` 也请原子化（先写 tmp 再 mv），开发方同理（LOOP.md R7），避免双方读写半截。
