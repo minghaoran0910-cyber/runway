@@ -7,3 +7,4 @@
 - 2026-10-09 SB-001 PASS 已 squash 合入 main（`d6ef4da`，141 文件），feat 分支已删。headless 通路已通（模型切 Muse Spark，PONG ✓），唤醒任务「攒够-loop唤醒」:15/:45 就位。
 - 2026-10-09 loop bootstrap：分支 `chore/loop-bootstrap` 落 `LOOP.md` + SUPERVISOR 附录，待合入；合入后等 SB-002 发卡，环即转动。
 - 2026-10-09 deep-grill 审计 LOOP：三次 headless 实测（读/写删/提交皆通、工作区外全拒）+ 规范全文对照， verdict 条件通过。R1/R2/R3/R4/R7/R8 已改；R5 浩然授权自动合入；P1 分支名待监工裁决。
+- 2026-10-09 watchdog 就绪未上线：launchd 实测不可行（TCC 拒读 ~/Documents，复现×2，plist 已删），改挂 openclaw cron `runway-watchdog`；但网关正离线升级（cron add 建不上），待老油条回来建，命令已备好。`tool/loop-watch.sh` 为等价手动入口。

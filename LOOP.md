@@ -28,7 +28,14 @@
 5. 无新卡 → 解锁退出（idle，不烧 token）。
 
 ## 写文件原子性（防巡检读半截）
-更新 `REVIEW_REQUEST.md` / `progress.md` / `task_plan.md` 一律先写临时文件再 `mv` 覆盖，例如：`cat > REVIEW_REQUEST.md.tmp.$$ <<'EOF' ... EOF && mv REVIEW_REQUEST.md.tmp.$$ REVIEW_REQUEST.md`。`_LOCK` 的创建删除不需要原子性。
+更新 `REVIEW_REQUEST.md` / `progress.md` / `task_plan.md` 一律先写临时文件再 `mv` 覆盖，例如：`cat > REVIEW_REQUEST.md.tmp.$$ <<'EOF' ... EOF && mv REVIEW_REQUEST.md.tmp.$$ REVIEW_REQUEST.md`。`_LOCK` 的创建删除不需要原子性。向 `progress.md` 追加单行时同样：`cp` 到 tmp、追加、再 `mv` 回。
+
+## Watchdog（巡夜，每 2h，openclaw cron `runway-watchdog` command 模式）
+调度器宿主结论（2026-10-09 实测）：macOS launchd 跑不起来——`~/Documents` 受 TCC 保护，launchd 上下文读仓内文件直接 `Operation not permitted`（复现两次，已卸载 plist）。openclaw 网关上下文有目录授权（巡检可读写），故 watchdog 与唤醒一样挂 openclaw cron；`tool/loop-watch.sh` 留作等价手动入口（经授权的 shell 里可直接跑）。
+- 默认只读：按下清单检查，全过即健康 → 零写入直接退出。
+- 清单：①唤醒 `攒够-loop唤醒` 与巡检 `攒够-监工巡检` 都在且 enabled（`openclaw cron list`，调不通则记 unknown 跳过，不算病）；②当前分支是 main 且无悬空 `feat/*` 分支；③`_LOCK` 不存在，或存在但 PID 已死；④`REVIEW_REQUEST.md` 新于 `REVIEW.md` 超过 2h（巡检连续 ~4 轮没来）；⑤`progress.md` 停滞超 24h 且无 `WAITING_HUMAN`；⑥`WAITING_HUMAN` 存在（只记录，不重复写，等人工）。
+- 分级处置（一次只做一件，做完就退）：死锁（③命中）→ 删锁，并在 `progress.md` 追加一行说明；④/⑤命中 → `progress.md` 追加一行告警（巡检读 progress，自会接手）；连续两轮仍 sick 且 loop 实质停转 → 写 `WAITING_HUMAN` 熔断。
+- 禁区：绝不碰业务代码，绝不 commit/merge/push，绝不改 `docs/` 规范。健康检查本身不许产生提交。
 
 ## 铁律（违反=监工直接打回）
 - 不 merge、不 push、不碰 remote、不改 `docs/` 规范内容、不加依赖（`pubspec.yaml` 依赖变更=0，除非任务卡明示）。
