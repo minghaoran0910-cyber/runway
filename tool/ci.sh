@@ -1,5 +1,5 @@
 #!/bin/bash
-# SB-001 CI 四闸门：format / analyze / test / build
+# SB-002 CI 四闸门：format / analyze / test / build（build=macOS debug+Android debug双平台）
 # 用法：tool/ci.sh（仓库根执行）
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -14,7 +14,8 @@ flutter analyze --fatal-infos --fatal-warnings app
 echo "=== [3/4] flutter test ==="
 (cd app && flutter test test/smoke_test.dart)
 
-echo "=== [4/4] flutter build macos --debug ==="
+echo "=== [4/4] flutter build macos --debug + apk --debug ==="
 (cd app && flutter build macos --debug)
+(cd app && flutter build apk --debug)
 
-echo "ALL GREEN SB-001"
+echo "ALL GREEN SB-002"

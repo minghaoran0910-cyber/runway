@@ -1,21 +1,21 @@
-# REVIEW_REQUEST — loop bootstrap（LOOP.md 落地，请求合入）
+# REVIEW_REQUEST — SB-002 Android构建双平台化（请求审计）
 
-仓库：`/Users/dada561/Documents/runway`，分支：`chore/loop-bootstrap`（未 merge，未 push，无 remote，合规）
-任务卡：无（流程类变更，分支名偏差说明见下）
+仓库：`/Users/dada561/Documents/runway`，分支：`feat/SB-002-android-build`（未merge、未push、无remote，合规）
+任务卡：`docs/tasks/SB-002.md`
 
-变更内容：
-1. `LOOP.md`（新建）：headless 唤醒状态机，S0 六守卫（分支==main / 锁 / 树干净 / 审查无堆积 / 无 WAITING_HUMAN）→ S1 返工一轮 → S2 新卡一单 → idle 退出；铁律：不 merge 不碰 remote，一轮一事。
-2. `SUPERVISOR.md`：追加"附录 LOOP 时代协作"（合入舞步 / WAITING_HUMAN 处理 / cron 文本归属 / 首轮顺序）。只加附录，未改既有条款。
-3. `progress.md / task_plan.md`：SB-001 归档 + loop 说明（随行更新）。
+变更内容（1文件）：
+- `tool/ci.sh`：build闸门从单平台（macOS debug）扩到双平台（macOS debug + APK debug），加一行 `(cd app && flutter build apk --debug)`，注释/回显同步到SB-002。
 
-偏差声明（1 处，请裁决）：
-- P1：分支名用了 `chore/` 前缀，GIT_WORKFLOW 白名单只有 feat/fix/hotfix/release。理由：无任务卡的流程变更，用 feat 会污染"一卡一支"审计口径。建议接受（或你指定命名，我以后照办）。
+验收对照（卡§验收标准）：
+1. `flutter doctor -v` Android toolchain段无❌ —— ✓（Android SDK 36.0.0 / JDK openjdk17 / licenses accepted；仅Chrome缺失，与本卡无关）
+2. build闸门同时产出macOS debug与Android debug —— ✓（`flutter build macos --debug` ✓ + `flutter build apk --debug` ✓，产物 `app/build/app/outputs/flutter-apk/app-debug.apk` 139M存在）
+3. `bash tool/ci.sh`四闸门全绿退出码0 —— ✓（format 0 changed / analyze No issues / test passed / build双产出，CI_EXIT:0）
+4. `bash tool/check-repo-hygiene.sh`输出OK —— ✓（repo hygiene: OK）
+5. `git status`干净（build产物被.gitignore覆盖） —— ✓（`app/build/`已忽略，本轮仅`tool/ci.sh`+流程文件改动）
 
-请按附录合入舞步处理：squash → checkout main → 删分支，然后发 SB-002 到 `docs/tasks/`。结论写 `REVIEW.md`。
+偏差声明（1处，请裁决）：
+- P1：DEV_WORKFLOW §2.3禁区含“CI配置”，但本卡“涉及模块”明示改`tool/ci.sh`，属卡授权覆盖通用禁区。改动仅加一行构建命令+注释，无业务代码、无pubspec变更（0）、未改docs/规范。建议接受。
 
-deep-grill 审计修订（2026-10-09，用户已确认，本次 commit 已含）：
-- R1 锁进仓：headless 拒绝一切工作区外路径（`/tmp` 实测 auto-reject），锁改 `_LOCK`（gitignore），LOOP.md 已重写 S0.3。
-- R2 S2 加规范注入五件套（对应 DEV §2.1）；R3 顺序改为 commit→progress→REVIEW_REQUEST；R7 三文件原子写。
-- R4/R8：返工计数以 REVIEW 中该卡 REQUEST_CHANGES 次数为准（≥2 即停转 WAITING）；脏树守卫白名单化（流程文件不算脏，R8，否则监工写 REVIEW 即饿死 loop）。
-- R5 已关闭：浩然授权监工自动合入 PASS 卡（含全套舞步），见 SUPERVISOR 附录 §5。
-- P1（chore 分支名）仍待裁决。另请配合：REVIEW 写轮次编号（附录 §6）、唤醒语"碰"=写入（附录 §7）。
+请审计后结论写`REVIEW.md`（PASS或REQUEST_CHANGES，带轮次编号）。
+
+浩然批复（2026-10-09，用户亲批）：P1 例外口径批准写入 `docs/DEV_WORKFLOW.md` §2.3。请监工执笔（规范作者归监工；开发方禁区不碰，headless 亦不得碰），下轮巡检把 docs diff 带上复核。SB-002 本体按既有结论合入，不受影响。
