@@ -2,7 +2,10 @@ import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
 
 import '../data/app_db.dart';
+import '../data/budget_dao.dart';
+import '../logic/budget.dart';
 import '../logic/dashboard_stats.dart';
+import 'budget_card.dart';
 import '../logic/entry.dart';
 import '../logic/grain_report.dart';
 import 'theme/app_theme.dart';
@@ -52,6 +55,31 @@ Future<bool> ensureWeeklyReport(AppDb db, WeeklyReportView view) async {
     ),
   );
   return true;
+}
+
+/// SB-015 · 当月支出合计（预算口径省出用）.
+int _monthSpendOf(List<Transaction> rows) {
+  final DateTime now = DateTime.now();
+  int sum = 0;
+  for (final Transaction r in rows) {
+    if (r.occurredAt.year == now.year && r.occurredAt.month == now.month) {
+      sum += r.amountFen;
+    }
+  }
+  return sum;
+}
+
+/// SB-015 · 上月支出合计（预算口径环比增量用）.
+int _lastMonthSpendOf(List<Transaction> rows) {
+  final DateTime now = DateTime.now();
+  final DateTime d1 = DateTime(now.year, now.month - 1, 1);
+  int sum = 0;
+  for (final Transaction r in rows) {
+    if (r.occurredAt.year == d1.year && r.occurredAt.month == d1.month) {
+      sum += r.amountFen;
+    }
+  }
+  return sum;
 }
 
 class WeeklyPage extends StatefulWidget {
@@ -176,6 +204,31 @@ class _WeeklyPageState extends State<WeeklyPage> {
                               style: theme.textTheme.bodySmall,
                               key: const Key('weeklyConvert'),
                             ),
+                            // SB-015 · 周报换算改接预算基线（预算周折算对照 + 环比增量）.
+                            StreamBuilder<List<Budget>>(
+                              stream: widget.db.watchBudgetHistory(
+                                monthKeyFor(DateTime.now()),
+                              ),
+                              builder: (bctx, bsnap) {
+                                final List<Budget> hist =
+                                    bsnap.data ?? <Budget>[];
+                                if (hist.isEmpty) {
+                                  return const SizedBox.shrink();
+                                }
+                                final int mSpend = _monthSpendOf(rows);
+                                final int mLast = _lastMonthSpendOf(rows);
+                                final BudgetSaved bs = computeBudgetSaved(
+                                  budgetFen: hist.first.budgetFen,
+                                  monthSpendFen: mSpend,
+                                  lastMonthSpendFen: mLast,
+                                );
+                                return Text(
+                                  '相对预算省出 ${formatFen(bs.convertibleFen)}',
+                                  style: theme.textTheme.bodySmall,
+                                  key: const Key('weeklyBudgetSaved'),
+                                );
+                              },
+                            ),
                             const SizedBox(height: 4),
                             Text(
                               weeklyMomText(momDeltaFen: cur.momDeltaFen),
@@ -232,6 +285,10 @@ class _WeeklyPageState extends State<WeeklyPage> {
                             ),
                           ),
                         ),
+                    // SB-015 · 预算同区（历史之后；上方周报区相对位置不变，
+                    // 旧 widget 断言零影响；自动给+一键改，改后省出按新基线重算）.
+                    const SizedBox(height: RunwaySpacing.section),
+                    BudgetZone(db: widget.db, rows: rows),
                   ],
                 );
               },

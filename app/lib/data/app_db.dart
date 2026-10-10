@@ -5,18 +5,13 @@ import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
+import 'budget_store.dart';
 import 'import_batch.dart';
 
-// SB-004 · schema v1（Transactions）+ SQLCipher 加密打开 + DAO.
-// SB-007 · schema v2（Goals 目标表；PRD §4 goal 模型子集：name/target/单价/tier/doneAt）.
-// SB-008 · schema v3（Achievements 成就表；任务卡显式授权，禁区仅此一表，可回滚）.
-// SB-009 · schema v4（SafetyPad 配置 + WeeklyReports 周报缓存；任务卡显式授权，可回滚）.
-// SB-010 · schema v5（PendingRecords 待确认采集；任务卡显式授权，可回滚；无原文列 §5）.
-// SB-011 · schema v6（ImportBatches 批次表 + transactions.importBatchId 整批回滚；任务卡显式授权，可回滚）.
-// 授权：SB-007 v2；SB-008 v3；SB-009 v4.
-// SB-010 v5；SB-011 v6（任务卡显式授权迁移）.
-// 禁手改 schema，迁移走 drift.
-// 真实账目数据永不入库；测试一律合成 fixtures.
+// schema：v1 Transactions / v2 Goals(SB-007) / v3 Achievements(SB-008)
+// v4 SafetyPad+WeeklyReports(SB-009) / v5 PendingRecords(SB-010)
+// v6 ImportBatches+tx.importBatchId(SB-011) / v7 Budgets(SB-015，卡内授权可回滚).
+// 禁手改 schema，迁移走 drift；真实账目永不入库，测试合成 fixtures.
 
 part 'app_db.g.dart';
 
@@ -91,7 +86,7 @@ class PendingRecords extends Table {
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }
 
-/// schema v6 表定义见 data/import_batch.dart（单文件 ≤400 行拆分）.
+/// schema v6 表定义见 data/import_batch.dart；v7 见 data/budget_store.dart（单文件 ≤400 行拆分）.
 @DriftDatabase(
   tables: [
     Transactions,
@@ -101,6 +96,7 @@ class PendingRecords extends Table {
     WeeklyReports,
     PendingRecords,
     ImportBatches,
+    Budgets,
   ],
 )
 class AppDb extends _$AppDb {
@@ -154,16 +150,13 @@ class AppDb extends _$AppDb {
   }
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (Migrator m) => m.createAll(),
-    // v1→v2：新增 goals 表（SB-007 卡授权）；存量 transactions 不动.
-    // v2→v3：新增 achievements 表（SB-008 卡授权）；存量 goals/transactions 不动.
-    // v3→v4：新增 safety_pad + weekly_reports 表（SB-009 卡授权）；存量不动.
-    // v4→v5：新增 pending_records 表（SB-010 卡授权）；存量不动.
-    // v5→v6：新增 import_batches 表 + transactions.import_batch_id 列（SB-011 卡授权）；存量不动.
+    // v2 goals(SB-007)；v3 achievements(SB-008)；v4 safety+weekly(SB-009)；
+    // v5 pending(SB-010)；v6 importbatch+列(SB-011)；v7 budgets(SB-015). 存量不动.
     onUpgrade: (m, from, to) async {
       if (from < 2) {
         await m.createTable(goals);
@@ -181,6 +174,9 @@ class AppDb extends _$AppDb {
       if (from < 6) {
         await m.createTable(importBatches);
         await m.addColumn(transactions, transactions.importBatchId);
+      }
+      if (from < 7) {
+        await m.createTable(budgets);
       }
     },
   );

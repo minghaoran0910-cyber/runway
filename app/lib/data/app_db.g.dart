@@ -3116,6 +3116,455 @@ class ImportBatchesCompanion extends UpdateCompanion<ImportBatch> {
   }
 }
 
+class $BudgetsTable extends Budgets with TableInfo<$BudgetsTable, Budget> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $BudgetsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _monthKeyMeta = const VerificationMeta(
+    'monthKey',
+  );
+  @override
+  late final GeneratedColumn<String> monthKey = GeneratedColumn<String>(
+    'month_key',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 4,
+      maxTextLength: 16,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _budgetFenMeta = const VerificationMeta(
+    'budgetFen',
+  );
+  @override
+  late final GeneratedColumn<int> budgetFen = GeneratedColumn<int>(
+    'budget_fen',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _basisFenMeta = const VerificationMeta(
+    'basisFen',
+  );
+  @override
+  late final GeneratedColumn<int> basisFen = GeneratedColumn<int>(
+    'basis_fen',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _tightenPctMeta = const VerificationMeta(
+    'tightenPct',
+  );
+  @override
+  late final GeneratedColumn<int> tightenPct = GeneratedColumn<int>(
+    'tighten_pct',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(5),
+  );
+  static const VerificationMeta _basisMeta = const VerificationMeta('basis');
+  @override
+  late final GeneratedColumn<String> basis = GeneratedColumn<String>(
+    'basis',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('median'),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    monthKey,
+    budgetFen,
+    basisFen,
+    tightenPct,
+    basis,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'budgets';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Budget> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('month_key')) {
+      context.handle(
+        _monthKeyMeta,
+        monthKey.isAcceptableOrUnknown(data['month_key']!, _monthKeyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_monthKeyMeta);
+    }
+    if (data.containsKey('budget_fen')) {
+      context.handle(
+        _budgetFenMeta,
+        budgetFen.isAcceptableOrUnknown(data['budget_fen']!, _budgetFenMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_budgetFenMeta);
+    }
+    if (data.containsKey('basis_fen')) {
+      context.handle(
+        _basisFenMeta,
+        basisFen.isAcceptableOrUnknown(data['basis_fen']!, _basisFenMeta),
+      );
+    }
+    if (data.containsKey('tighten_pct')) {
+      context.handle(
+        _tightenPctMeta,
+        tightenPct.isAcceptableOrUnknown(data['tighten_pct']!, _tightenPctMeta),
+      );
+    }
+    if (data.containsKey('basis')) {
+      context.handle(
+        _basisMeta,
+        basis.isAcceptableOrUnknown(data['basis']!, _basisMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Budget map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Budget(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      monthKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}month_key'],
+      )!,
+      budgetFen: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}budget_fen'],
+      )!,
+      basisFen: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}basis_fen'],
+      )!,
+      tightenPct: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tighten_pct'],
+      )!,
+      basis: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}basis'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $BudgetsTable createAlias(String alias) {
+    return $BudgetsTable(attachedDatabase, alias);
+  }
+}
+
+class Budget extends DataClass implements Insertable<Budget> {
+  final int id;
+  final String monthKey;
+  final int budgetFen;
+  final int basisFen;
+  final int tightenPct;
+  final String basis;
+  final DateTime createdAt;
+  const Budget({
+    required this.id,
+    required this.monthKey,
+    required this.budgetFen,
+    required this.basisFen,
+    required this.tightenPct,
+    required this.basis,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['month_key'] = Variable<String>(monthKey);
+    map['budget_fen'] = Variable<int>(budgetFen);
+    map['basis_fen'] = Variable<int>(basisFen);
+    map['tighten_pct'] = Variable<int>(tightenPct);
+    map['basis'] = Variable<String>(basis);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  BudgetsCompanion toCompanion(bool nullToAbsent) {
+    return BudgetsCompanion(
+      id: Value(id),
+      monthKey: Value(monthKey),
+      budgetFen: Value(budgetFen),
+      basisFen: Value(basisFen),
+      tightenPct: Value(tightenPct),
+      basis: Value(basis),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory Budget.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Budget(
+      id: serializer.fromJson<int>(json['id']),
+      monthKey: serializer.fromJson<String>(json['monthKey']),
+      budgetFen: serializer.fromJson<int>(json['budgetFen']),
+      basisFen: serializer.fromJson<int>(json['basisFen']),
+      tightenPct: serializer.fromJson<int>(json['tightenPct']),
+      basis: serializer.fromJson<String>(json['basis']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'monthKey': serializer.toJson<String>(monthKey),
+      'budgetFen': serializer.toJson<int>(budgetFen),
+      'basisFen': serializer.toJson<int>(basisFen),
+      'tightenPct': serializer.toJson<int>(tightenPct),
+      'basis': serializer.toJson<String>(basis),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  Budget copyWith({
+    int? id,
+    String? monthKey,
+    int? budgetFen,
+    int? basisFen,
+    int? tightenPct,
+    String? basis,
+    DateTime? createdAt,
+  }) => Budget(
+    id: id ?? this.id,
+    monthKey: monthKey ?? this.monthKey,
+    budgetFen: budgetFen ?? this.budgetFen,
+    basisFen: basisFen ?? this.basisFen,
+    tightenPct: tightenPct ?? this.tightenPct,
+    basis: basis ?? this.basis,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  Budget copyWithCompanion(BudgetsCompanion data) {
+    return Budget(
+      id: data.id.present ? data.id.value : this.id,
+      monthKey: data.monthKey.present ? data.monthKey.value : this.monthKey,
+      budgetFen: data.budgetFen.present ? data.budgetFen.value : this.budgetFen,
+      basisFen: data.basisFen.present ? data.basisFen.value : this.basisFen,
+      tightenPct: data.tightenPct.present
+          ? data.tightenPct.value
+          : this.tightenPct,
+      basis: data.basis.present ? data.basis.value : this.basis,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Budget(')
+          ..write('id: $id, ')
+          ..write('monthKey: $monthKey, ')
+          ..write('budgetFen: $budgetFen, ')
+          ..write('basisFen: $basisFen, ')
+          ..write('tightenPct: $tightenPct, ')
+          ..write('basis: $basis, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    monthKey,
+    budgetFen,
+    basisFen,
+    tightenPct,
+    basis,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Budget &&
+          other.id == this.id &&
+          other.monthKey == this.monthKey &&
+          other.budgetFen == this.budgetFen &&
+          other.basisFen == this.basisFen &&
+          other.tightenPct == this.tightenPct &&
+          other.basis == this.basis &&
+          other.createdAt == this.createdAt);
+}
+
+class BudgetsCompanion extends UpdateCompanion<Budget> {
+  final Value<int> id;
+  final Value<String> monthKey;
+  final Value<int> budgetFen;
+  final Value<int> basisFen;
+  final Value<int> tightenPct;
+  final Value<String> basis;
+  final Value<DateTime> createdAt;
+  const BudgetsCompanion({
+    this.id = const Value.absent(),
+    this.monthKey = const Value.absent(),
+    this.budgetFen = const Value.absent(),
+    this.basisFen = const Value.absent(),
+    this.tightenPct = const Value.absent(),
+    this.basis = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  BudgetsCompanion.insert({
+    this.id = const Value.absent(),
+    required String monthKey,
+    required int budgetFen,
+    this.basisFen = const Value.absent(),
+    this.tightenPct = const Value.absent(),
+    this.basis = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  }) : monthKey = Value(monthKey),
+       budgetFen = Value(budgetFen);
+  static Insertable<Budget> custom({
+    Expression<int>? id,
+    Expression<String>? monthKey,
+    Expression<int>? budgetFen,
+    Expression<int>? basisFen,
+    Expression<int>? tightenPct,
+    Expression<String>? basis,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (monthKey != null) 'month_key': monthKey,
+      if (budgetFen != null) 'budget_fen': budgetFen,
+      if (basisFen != null) 'basis_fen': basisFen,
+      if (tightenPct != null) 'tighten_pct': tightenPct,
+      if (basis != null) 'basis': basis,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  BudgetsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? monthKey,
+    Value<int>? budgetFen,
+    Value<int>? basisFen,
+    Value<int>? tightenPct,
+    Value<String>? basis,
+    Value<DateTime>? createdAt,
+  }) {
+    return BudgetsCompanion(
+      id: id ?? this.id,
+      monthKey: monthKey ?? this.monthKey,
+      budgetFen: budgetFen ?? this.budgetFen,
+      basisFen: basisFen ?? this.basisFen,
+      tightenPct: tightenPct ?? this.tightenPct,
+      basis: basis ?? this.basis,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (monthKey.present) {
+      map['month_key'] = Variable<String>(monthKey.value);
+    }
+    if (budgetFen.present) {
+      map['budget_fen'] = Variable<int>(budgetFen.value);
+    }
+    if (basisFen.present) {
+      map['basis_fen'] = Variable<int>(basisFen.value);
+    }
+    if (tightenPct.present) {
+      map['tighten_pct'] = Variable<int>(tightenPct.value);
+    }
+    if (basis.present) {
+      map['basis'] = Variable<String>(basis.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BudgetsCompanion(')
+          ..write('id: $id, ')
+          ..write('monthKey: $monthKey, ')
+          ..write('budgetFen: $budgetFen, ')
+          ..write('basisFen: $basisFen, ')
+          ..write('tightenPct: $tightenPct, ')
+          ..write('basis: $basis, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDb extends GeneratedDatabase {
   _$AppDb(QueryExecutor e) : super(e);
   $AppDbManager get managers => $AppDbManager(this);
@@ -3126,6 +3575,7 @@ abstract class _$AppDb extends GeneratedDatabase {
   late final $WeeklyReportsTable weeklyReports = $WeeklyReportsTable(this);
   late final $PendingRecordsTable pendingRecords = $PendingRecordsTable(this);
   late final $ImportBatchesTable importBatches = $ImportBatchesTable(this);
+  late final $BudgetsTable budgets = $BudgetsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3138,6 +3588,7 @@ abstract class _$AppDb extends GeneratedDatabase {
     weeklyReports,
     pendingRecords,
     importBatches,
+    budgets,
   ];
 }
 
@@ -4798,6 +5249,237 @@ typedef $$ImportBatchesTableProcessedTableManager =
       ImportBatch,
       PrefetchHooks Function()
     >;
+typedef $$BudgetsTableCreateCompanionBuilder =
+    BudgetsCompanion Function({
+      Value<int> id,
+      required String monthKey,
+      required int budgetFen,
+      Value<int> basisFen,
+      Value<int> tightenPct,
+      Value<String> basis,
+      Value<DateTime> createdAt,
+    });
+typedef $$BudgetsTableUpdateCompanionBuilder =
+    BudgetsCompanion Function({
+      Value<int> id,
+      Value<String> monthKey,
+      Value<int> budgetFen,
+      Value<int> basisFen,
+      Value<int> tightenPct,
+      Value<String> basis,
+      Value<DateTime> createdAt,
+    });
+
+class $$BudgetsTableFilterComposer extends Composer<_$AppDb, $BudgetsTable> {
+  $$BudgetsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get monthKey => $composableBuilder(
+    column: $table.monthKey,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get budgetFen => $composableBuilder(
+    column: $table.budgetFen,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get basisFen => $composableBuilder(
+    column: $table.basisFen,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get tightenPct => $composableBuilder(
+    column: $table.tightenPct,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get basis => $composableBuilder(
+    column: $table.basis,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$BudgetsTableOrderingComposer extends Composer<_$AppDb, $BudgetsTable> {
+  $$BudgetsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get monthKey => $composableBuilder(
+    column: $table.monthKey,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get budgetFen => $composableBuilder(
+    column: $table.budgetFen,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get basisFen => $composableBuilder(
+    column: $table.basisFen,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get tightenPct => $composableBuilder(
+    column: $table.tightenPct,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get basis => $composableBuilder(
+    column: $table.basis,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$BudgetsTableAnnotationComposer
+    extends Composer<_$AppDb, $BudgetsTable> {
+  $$BudgetsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get monthKey =>
+      $composableBuilder(column: $table.monthKey, builder: (column) => column);
+
+  GeneratedColumn<int> get budgetFen =>
+      $composableBuilder(column: $table.budgetFen, builder: (column) => column);
+
+  GeneratedColumn<int> get basisFen =>
+      $composableBuilder(column: $table.basisFen, builder: (column) => column);
+
+  GeneratedColumn<int> get tightenPct => $composableBuilder(
+    column: $table.tightenPct,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get basis =>
+      $composableBuilder(column: $table.basis, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$BudgetsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $BudgetsTable,
+          Budget,
+          $$BudgetsTableFilterComposer,
+          $$BudgetsTableOrderingComposer,
+          $$BudgetsTableAnnotationComposer,
+          $$BudgetsTableCreateCompanionBuilder,
+          $$BudgetsTableUpdateCompanionBuilder,
+          (Budget, BaseReferences<_$AppDb, $BudgetsTable, Budget>),
+          Budget,
+          PrefetchHooks Function()
+        > {
+  $$BudgetsTableTableManager(_$AppDb db, $BudgetsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$BudgetsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$BudgetsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$BudgetsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> monthKey = const Value.absent(),
+                Value<int> budgetFen = const Value.absent(),
+                Value<int> basisFen = const Value.absent(),
+                Value<int> tightenPct = const Value.absent(),
+                Value<String> basis = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => BudgetsCompanion(
+                id: id,
+                monthKey: monthKey,
+                budgetFen: budgetFen,
+                basisFen: basisFen,
+                tightenPct: tightenPct,
+                basis: basis,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String monthKey,
+                required int budgetFen,
+                Value<int> basisFen = const Value.absent(),
+                Value<int> tightenPct = const Value.absent(),
+                Value<String> basis = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => BudgetsCompanion.insert(
+                id: id,
+                monthKey: monthKey,
+                budgetFen: budgetFen,
+                basisFen: basisFen,
+                tightenPct: tightenPct,
+                basis: basis,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$BudgetsTable, Budget>(table),
+                  BaseReferences<_$AppDb, $BudgetsTable, Budget>(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$BudgetsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $BudgetsTable,
+      Budget,
+      $$BudgetsTableFilterComposer,
+      $$BudgetsTableOrderingComposer,
+      $$BudgetsTableAnnotationComposer,
+      $$BudgetsTableCreateCompanionBuilder,
+      $$BudgetsTableUpdateCompanionBuilder,
+      (Budget, BaseReferences<_$AppDb, $BudgetsTable, Budget>),
+      Budget,
+      PrefetchHooks Function()
+    >;
 
 class $AppDbManager {
   final _$AppDb _db;
@@ -4816,4 +5498,6 @@ class $AppDbManager {
       $$PendingRecordsTableTableManager(_db, _db.pendingRecords);
   $$ImportBatchesTableTableManager get importBatches =>
       $$ImportBatchesTableTableManager(_db, _db.importBatches);
+  $$BudgetsTableTableManager get budgets =>
+      $$BudgetsTableTableManager(_db, _db.budgets);
 }
