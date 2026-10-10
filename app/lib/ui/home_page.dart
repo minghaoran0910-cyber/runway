@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../data/app_db.dart';
 import '../logic/entry.dart';
+import 'category_page.dart';
 import 'quick_add_page.dart';
 import 'theme/app_theme.dart';
 import 'theme/tokens.dart';
@@ -87,7 +88,18 @@ class HomePage extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final bool isDark = theme.brightness == Brightness.dark;
     return Scaffold(
-      appBar: AppBar(title: const Text('攒够')),
+      appBar: AppBar(
+        title: const Text('攒够'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.category),
+            tooltip: '类目管理',
+            onPressed: () => Navigator.of(context).push<void>(
+              MaterialPageRoute<void>(builder: (_) => CategoryPage(db: db)),
+            ),
+          ),
+        ],
+      ),
       body: Container(
         decoration: AppTheme.ground(isDark),
         child: StreamBuilder<List<Transaction>>(
