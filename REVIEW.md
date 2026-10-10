@@ -1,30 +1,31 @@
-# REVIEW — 2026-10-10 SB-006（G2）· 第 1 轮 · 卡 SB-006
+# REVIEW — 2026-10-10 G3·SB-007 目标阶梯与实物换算（第 1 轮）
 
 结论: PASS
 
 检查项:
-- [6/6] 独立复验全部通过（监工本机重跑，非采信开发自述）
-  - flutter analyze --fatal-infos --fatal-warnings：No issues（1.8s）
-  - flutter test 全量：59/59 绿（含 SB-004/005 回归键 homeTotal/emptyHint 未破坏）
-  - check-repo-hygiene.sh：OK
-  - diff 范围：仅 lib/logic、lib/ui、test、golden 新目录 sb006 + docs 流程文件；pubspec 0 改动（依赖合规）、无 schema 变更（只读 watchAll 内存聚合，符合卡"只加查询不加 schema"授权）
-  - 文件数：app 面 10 文件 ≤ 卡上限；单文件最大 dashboard_cards.dart 278 行 ≤ 闸门
-  - 真实数据红线：全 diff + 测试扫描无真实账目内容，均为合成数据与"示例数据"标签
-- [x] 验收 1 四区：DashboardHero/TodayCard/Top5Card/GoalCard 挂接 home_page，目标未设显示引导位（dashGoalEmpty）✓
-- [x] 验收 2 聚合供数：computeDashboard 复用 SB-005 CategorySummary 故障口径，其他占比>5% 暖金故障提示（dashOtherFault）✓；旧名归一 canonicalCategory ✓
-- [x] 验收 3 性能：1 万条聚合 <1s 单测通过（Stopwatch 断言）✓
-- [x] 验收 4 golden：Light/Dark × 空态/有数据 4 组新基线，测试比对通过，对比度闸门绿 ✓
-- [x] 验收 5 四闸门+hygiene：监工复验全绿 ✓
+- [x] 验收1 目标 CRUD：goal_page.dart（chips 内置奶茶1800/键盘29900/手机399900/5090 1649900 可自定义）+ app_db.dart Goals DAO（list/watch/insert/update/delete）
+- [x] 验收2 换算引擎：goal_ladder.dart 纯 Dart（grep 确认零 flutter import）；单测 17 条 ≥15，含月光月"基线花光但环比增量省出2杯"用例
+- [x] 验收3 实时联动：watchGoals+watchAll 双流重算；widget 测试"记一笔后换算文案联动"在案；home_page 传真实 goalFen（闭环 SB-006 D1）
+- [x] 验收4 得到框架：禁词全量扫描"又花掉/只剩/还差/超支/别买/不该"仅存在于注释说明，代码/UI 字符串零命中；大额 equivalentOf 只陈述无行动召唤；空态"定第一个目标，开始攒出奶茶"
+- [x] 验收5 golden 四组：golden/sb007/ 4 张新建；全量 84/84 绿（59 继承+25 新增），SB-006 golden 零回归（main 与 HEAD 对 golden/sb004-006 + docs/ 零 diff）
+- [x] 闸门复跑：flutter analyze --fatal-infos --fatal-warnings No issues；flutter test 84/84；check-repo-hygiene OK
+- [x] schema v2 合规：仅新增 goals 表（卡内显式授权禁区仅此）；onUpgrade v1→v2 createTable(goals)，存量 transactions 不动；rollbackGoalsToV1 开发期回滚在位
+- [x] 依赖变更：pubspec 0 改动（git diff main..HEAD 确认）
+- [x] 文件约束：代码文件 9（≤10），最大 goal_page 341 行（≤400）；g.dart 生成文件豁免沿 SB-004 先例
+- [x] 红线：新增代码/测试/文档扫描无真实账目数据（全合成 fixtures）；无 git remote 未碰
+- [x] commit 规范：8092cfc 带 trailer `Agent: opencode`；分支 feat/SB-007-goal-ladder 命名合规
+- [x] 模拟器冒烟：PASS — main@5f99099 squash 后 `flutter build apk --debug` 成功；runway_api36 boot=1（5×3s 轮询）；adb install -r Success；am start 启动 → Displayed +10s535ms；30s 后 pid=2586 存活；logcat 主日志+crash 缓冲 FATAL EXCEPTION=0；emulator/adb 已清理
 
 偏差裁决:
-1. D1 目标未持久化：接受。卡未授权 schema 变更，引导位行为符合验收 1；GoalCard 已留 goalFen 入参，目标存储归 G3 钩子层排卡时落实。
-2. D2 滚动 7 天口径：接受，但 UI 文案"本周"与实际口径有轻微误导。裁决为口径变更，监工直接在本卡审计结论留痕（产品文案 G5 打磨统一为"近7天"或改自然周，届时按规范先改 docs）。不动代码。
-3. D3 Top5 Container 比例条：接受，符合卡"禁图表新库/可复用现有能力"。CustomPainter 归 G5。
-4. DAO 层未新增查询：接受，watchAll 已覆盖，聚合放 logic 层反而符合"logic 纯 Dart"约束。
+1. D1（13 文件含 golden 4 张）：接受。代码文件 9≤10 卡预估；golden 基线为验收 5 明示产物，沿 SB-006 先例随附。
+2. D2（入口为目标卡 GestureDetector 点击，无显性图标）：接受。SB-006 golden 零漂移优先；显性入口按规范流程 G5 打磨补。
+3. D3（默认基线=上月实际时，比基线多省与环比增量等额、总额×2）：接受为卡口径字面实现（PRD §3 两项相加）。留观：接入月预算基线时（G4 前后）复核去重口径，周报文案（SB-010）统一时一并核对，避免"多省"虚高。
+4. D4（doneAt/tier 建列不写入）：接受。成就写入归 SB-008/G3 后续卡，tier 由 ladderNameFor 推导口径认可。
 
 问题列表:
-（无阻塞问题）
+1. 无阻塞问题。非阻塞备忘：goal_ladder.dart 注释中"攺"为"攒"之笔误（第 38/117/126 行附近，仅注释不影响文案），下轮任意卡顺手提一下即可，不必单独返工。
 
-模拟器冒烟: PASS（2026-10-10 15:41，main@bf156ec）——runway_api36 冷启 boot=1（4×3s）；adb install -r app-debug.apk Success；am start -n com.zangou.runway.runway/.MainActivity → ActivityTaskManager Displayed +5s593ms；30s 后 pid=3744 存活；crash 缓冲与主日志 FATAL EXCEPTION=0；模拟器已关闭（emulator/qemu 清理）。
-
-下一步: 按 R5 授权 squash 合入 main → 冒烟 → 回填卡状态行归档。SB-006 完成即 G2 达成；下批待办为 SB-007/SB-008（G3 前置）。
+下一步:
+- 已 squash 合入 main@5f99099（监工授权舞步：合入→checkout main→删 feat 分支→回填卡状态→归档本审+冒烟）。
+- 开发方按 docs/tasks/SB-008.md（成就卡·G3）继续；首页目标入口已闭环，SB-008 直接消费 goals 表。
+- G3 进度：目标阶梯 ✓（本卡），成就卡/安全垫/周报待 SB-008/009。
