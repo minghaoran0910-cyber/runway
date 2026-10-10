@@ -149,3 +149,38 @@
 漂移与一致性审计: 禁词 grep=表本体+自警注释+断言零新增（基线合规）；theme/motion_spec 外裸 Color(0x/Duration(milliseconds=0（feat 工作树实测）；main 头 771daeb=squash 合入对应本轮 REVIEW 归档轮，无未审先合；feat 无残留（diff feat..main app golden=0 行后 -D 删，branch -a 仅剩 main）；_LOCK 双侧不存在；无 remote（wc -l=0）；真实账目 grep（美团|工资|房贷|余额+数字）=0；progress.md 唯一真相（builder 04:5x 两行随本轮监工提交入库）；task_plan.md 薄索引未动（合规）
 利益点自省: 更近——『安全垫』变『余粮』+称号升档+周报说人话，用户每天看到的是向想要的东西挪一步的粮仓进度叙事，零新增操作成本，传感器不变现卖点
 下一步: ①两项灰区已发浩然拍板（D1 后续带迁移授权卡改 DB 英文标识符？D2 收藏页视觉分组头追加小卡还是维持逐卡 goalName？）；②05:15/05:45 wake 按 S2 派下一张无阻塞卡（SB-015~020 可派；SB-012 前置未满足）；③队列：待办 6 张（SB-012,015~020）>2 无见底提醒，done/=13，SB-021 挂起 v0.2
+
+---
+
+# REVIEW — 2026-10-11 05:3x 审查轮 · 第 1 轮 · 卡 SB-015
+结论: PASS
+
+触发: mtime REVIEW_REQUEST=1791667787（05:29 提审）新于 REVIEW=1791666665（05:11）→ SB-015 第 1 轮审查。分支 feat/SB-015-budget tip `37e7fa1` 单 commit；merge-base 实测=ecd321a（main 头，申报基座 771daeb 之上仅 docs 提交，零冲突口径吻合）。
+
+检查项（监工本轮独立实测，非采信申报）:
+- [x] 验收1 基线三要素：median3(100/200/10000→200) 单测实读；同月优先（500000 在即忽略中位数）实读；默认收紧 5%（10000→9500）+0–15 越界钳制实读；对话框收紧输入框在位（budgetTightenInput）
+- [x] 验收2 取数优先级：suggestBudget 纯函数 同月>中位数>观察期 三态单测实读；dataMonths<3 或中位数=0 → observing budgetFen=0 零编造实读；全零月份仍观察期实读
+- [x] 验收3 可改有历史：upsert 即插新行、current 取最新、历史倒序 DAO 单测实读；改基线即时重算（省出组测 6）实读；对话框空金额=按建议口径自动落库代码实读；周报『相对预算省出』行走 watchBudgetHistory StreamBuilder 即时重算实读
+- [x] 验收4 口径与文案：省出口径 10 条（月光满/持平零/超支非负/超预算环比保留/正常 200+100/改后重算/首月/观察期/反超/大额不截断）+周增量 3 条+文案 4 条全实读；『全部文案零禁词命中』循环 achievementBannedWords 断言实读；超预算文案无『超支』二字不报负数单测实读
+- [x] 验收5 闸门独立复跑：`tool/ci.sh` 本轮全跑 ALL GREEN exit=0（format 62 文件 0 改动 / analyze No issues / flutter test 227/227 All tests passed / macOS ✓Built + Gradle assembleDebug 7.2s ✓Built 双构建）；check-repo-hygiene.sh OK；budget_test 31 条+golden_budget_test 9 条 grep 计数与申报吻合
+- [x] golden 目审（监工实看图 6 张）：sb015 四图 Light/Dark×生效/观察——标题/正文/基线行/进度条/底部行结构完整，观察态空进度+『记满 3 个月』引导正确，生效态进度约 26% 与 25000/95000 口径吻合，暗底浅字可读，无截断重叠；sb014 两图重生成=底部新增预算区连带、上方周报区布局不动；diff 实测仅 sb014×2+sb015×4，sb007 零动
+- [x] 迁移合规：schemaVersion 6→7、onUpgrade from<7 createTable(budgets)、g.dart 重生成含 budgets、rollbackBudgetsToV6 DROP TABLE+v7 回滚单测实读；表定义拆分 budget_store.dart 沿 SB-011 import_batch.dart 先例
+- [x] 红线：禁词 grep=禁词表本体+goal_ladder 自警注释+测试名（先例合规，用户可见零命中）；ui/theme 与 motion_spec 外裸 Color(0x/Duration(milliseconds=0（grep 空回显）；真实账目=0（测试全合成分值 fixtures）；无 remote（wc -l=0）；无 _LOCK（双侧实测不存在）
+- [x] 文件约束：业务 9 文件≤10；app_db.dart 396/budget.dart 224/budget_card.dart 336 行≤400；无 pubspec 变更
+
+偏差裁决:
+- D1 卡注『schema v5』系写卡时基座 v4 的过期编号，实际 v6→v7，建表+迁移+回滚语义与卡授权一致 → decision_evaluate p=0.79≥0.75 按判接受
+- D2 预算区置周报页底部、首页接线延至 SB-016（实测证据：GoalPage 加任意高度致 SB-007 scrollUntilVisible(500) 视口位移 212→420 破坏旧用例）→ decision p=0.71 落灰区（0.25<p<0.75 不编判决），标『留浩然拍板』；按 SB-014 双灰区先例不阻断合入，若判改则另发小卡
+- D3 CHANGELOG 未建随 SB-012 统一补（沿用 SB-013/014 既有结论；changelog_defer 已两提浩然未回音，不三提）
+
+问题列表: 无打回项。观察（不阻塞）：BudgetZone 注释『GoalPage 目标区之上』与实际挂载（周报页底部）不符——P3 注释文案，随首页接线卡一并修。
+
+模拟器冒烟: **PASS**（本轮真实回显 05:3x，main@ce8743d 本轮重建 apk）：runway_api36 boot=1（-no-window -no-snapshot-load 11s）；install -r Success；am start -n com.zangou.runway/.MainActivity Starting；35s pidof=2319 存活；topResumedActivity=com.zangou.runway/.MainActivity；logcat FATAL 主+crash 双 buffer=0/0；pkill 后 runway_api36 进程 REMAIN=0。last_smoke_commit→ce8743d
+
+决策模型: D1 p=0.79 按判接受；D2 p=0.71 灰区留浩然拍板（已发简报）；status=ok（typesafe/jev-1.13）
+
+漂移与一致性审计: 禁词 grep=表本体+自警注释+断言零新增；theme/motion 外裸 Color(0x/Duration=0（main 工作树实测）；main 头 ecd321a 对应 SB-014 归档轮（本轮 squash→ce8743d 后 REVIEW.md 即本轮条目，无未审先合）；feat 残留 1 张空分支 feat/SB-015（tip=ecd321a 零内容，builder 预建后改名遗留）监工本轮随合入舞步删除，branch -a 仅剩 main；_LOCK 双侧不存在；无 remote；真实账目 grep=0；progress.md 唯一真相（builder 05:4x 两行随本轮入库）；task_plan.md 薄索引未动（非真相，合规）
+
+利益点自省: 更近——预算线自动给出诚实基线（中位数防单月大额固化+去年同月懂季节+默认收紧 5% 反合理化旧习惯），『省出』自此相对预算算，用户零操作成本天天看见向想要的东西挪一步，记账仍是传感器不是卖点
+
+下一步: ①D2 灰区已发浩然拍板（A=周报页底部维持、首页接线随 SB-016；B=立即上首页另发小卡）；②06:15 wake 按 S2 派下一张无阻塞卡（SB-016~020 可派；SB-012 前置未满足）；③队列：待办 6 张（SB-012,016~020）>2 无见底提醒，done/=14，SB-021 挂起 v0.2；④SB-014 双灰区（05:1x 已发）与 changelog_defer 仍等回音，不重复催
