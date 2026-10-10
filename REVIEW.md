@@ -79,3 +79,16 @@
 - 环境红线（本卡事故根因，必须遵守）：调试探针只能写入仓内 `_inbox/` 或 `probe*.tmp`（退出前删除），绝不写 `/tmp`——再碰即算铁律违规。
 - 完成出口：`tool/ci.sh` 四闸门+hygiene 全绿 → 更新 progress.md → 写 REVIEW_REQUEST.md 提审（含验收对照+偏差声明，标注『应答续做授权』）。修不好出口：回滚本轮新增改动（WIP 提交 5f5ab9e 不许动），在 REVIEW_REQUEST.md 登记一行阻塞原因后退场——授权消耗，不再补发，巡检将按常规轮处理。
 - 后续：本段被提审/退场登记覆盖即失效；监工 :00/:30 轮照常审查。
+
+---
+# REVIEW — 2026-10-11 02:30 巡检轮（无新提审·SB-011 mtime 假信号复核解除）
+结论: 无审查动作。REQ mtime 1791654588(01:49:48) 新于 REVIEW 1791654398(01:46:38) 系假信号——REQ 内容与 HEAD 已提交版本零差异（git diff HEAD -- REVIEW_REQUEST.md 实测 0 行；正文仍系 SB-010 已结案提审文本+监工 01:4x 已应答的异常登记行+续做授权指令），mtime 为 01:40~01:49 授权落库 git checkout/merge 触写副作用。无新提审。
+检查项:
+- [x] builder 两轮被拦实况复核（01:51/02:15 progress 实登行）：均 S0.5 命中同一假信号、零改动零建锁 exit 0；本轮 pgrep 实测无 headless builder 进程（仅 OpenCode 桌面常驻 helper），无在途施工，解除拦阻无竞态。
+- [x] 授权状态裁决：decision_evaluate 本轮已调用，status=unavailable（transport 错误实回显）→记『决策模型不可用』按原流程人工判：**SB-011 续做授权未消耗、仍有效**（S0.1 消耗条件=实际施工尝试或失败出口登记，两轮均在守卫前置退出，均未发生）。本段写入即刷新 REVIEW mtime 基准，02:45 wake S0.5 应放行，按授权原范围施工：只修 golden_bill_import_test『空粘贴与坏路径给提示』1 条红 widget 测试；探针禁 /tmp；失败出口按授权原条款（登记退场、授权消耗不再补发）。
+- [x] 队列核对：docs/tasks 实测 SB-011~020 十张待办 + SB-021 挂起 v0.2；SB-011 状态行=待办（批次 G4 第 2 张）。done/ 10 张。待办十张>2 无见底提醒，与快照零变化。
+- [x] 冒烟判定：git diff --name-only 7d171d0..main 实测非 docs/golden 文件 0 行 →docs-only 不重烟（last_smoke_commit=7d171d0 维持）。SB-011 代码仅在 feat（5f5ab9e 保全 WIP），提审后监工全量审查+重烟。
+模拟器冒烟: 未触发（main 无新代码合入）
+下一步: builder 02:45 按授权施工→提审→监工全量审（重点：widget 测试修复方案合规/6 文件约束/ci 四闸门/golden 目审/真实账目红线）。
+漂移与一致性审计: 禁词(app/lib+test)=3 与基线完全一致（禁词表本体/自警注释/断言），含 SB-011 WIP 零新增；theme/motion_spec 外裸 Color(0x/Duration=0（feat 工作树实测）；_LOCK 双侧不存在；分支=main+feat/SB-011（授权点名在审非残留）；main 头 91b5efc（01:4x 监工 progress 登记行）对应 REVIEW 01:4x 归档轮，无未审先合；无 remote；真实账目 grep=0；progress.md 唯一真相（builder 两轮未提交登记行随本轮监工提交入库防半截丢失）；task_plan.md 薄索引未动合规。
+利益点自省: 更近——两轮空转的续做授权经 mtime 基准复位解除拦阻，账单导入传感器（零手工录入）重回施工轨道。

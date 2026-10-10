@@ -79,6 +79,17 @@ class $TransactionsTable extends Transactions
     requiredDuringInsert: false,
     defaultValue: const Constant('manual'),
   );
+  static const VerificationMeta _importBatchIdMeta = const VerificationMeta(
+    'importBatchId',
+  );
+  @override
+  late final GeneratedColumn<int> importBatchId = GeneratedColumn<int>(
+    'import_batch_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -87,6 +98,7 @@ class $TransactionsTable extends Transactions
     category,
     note,
     source,
+    importBatchId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -139,6 +151,15 @@ class $TransactionsTable extends Transactions
         source.isAcceptableOrUnknown(data['source']!, _sourceMeta),
       );
     }
+    if (data.containsKey('import_batch_id')) {
+      context.handle(
+        _importBatchIdMeta,
+        importBatchId.isAcceptableOrUnknown(
+          data['import_batch_id']!,
+          _importBatchIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -172,6 +193,10 @@ class $TransactionsTable extends Transactions
         DriftSqlType.string,
         data['${effectivePrefix}source'],
       )!,
+      importBatchId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}import_batch_id'],
+      ),
     );
   }
 
@@ -188,6 +213,7 @@ class Transaction extends DataClass implements Insertable<Transaction> {
   final String category;
   final String note;
   final String source;
+  final int? importBatchId;
   const Transaction({
     required this.id,
     required this.amountFen,
@@ -195,6 +221,7 @@ class Transaction extends DataClass implements Insertable<Transaction> {
     required this.category,
     required this.note,
     required this.source,
+    this.importBatchId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -205,6 +232,9 @@ class Transaction extends DataClass implements Insertable<Transaction> {
     map['category'] = Variable<String>(category);
     map['note'] = Variable<String>(note);
     map['source'] = Variable<String>(source);
+    if (!nullToAbsent || importBatchId != null) {
+      map['import_batch_id'] = Variable<int>(importBatchId);
+    }
     return map;
   }
 
@@ -216,6 +246,9 @@ class Transaction extends DataClass implements Insertable<Transaction> {
       category: Value(category),
       note: Value(note),
       source: Value(source),
+      importBatchId: importBatchId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(importBatchId),
     );
   }
 
@@ -231,6 +264,7 @@ class Transaction extends DataClass implements Insertable<Transaction> {
       category: serializer.fromJson<String>(json['category']),
       note: serializer.fromJson<String>(json['note']),
       source: serializer.fromJson<String>(json['source']),
+      importBatchId: serializer.fromJson<int?>(json['importBatchId']),
     );
   }
   @override
@@ -243,6 +277,7 @@ class Transaction extends DataClass implements Insertable<Transaction> {
       'category': serializer.toJson<String>(category),
       'note': serializer.toJson<String>(note),
       'source': serializer.toJson<String>(source),
+      'importBatchId': serializer.toJson<int?>(importBatchId),
     };
   }
 
@@ -253,6 +288,7 @@ class Transaction extends DataClass implements Insertable<Transaction> {
     String? category,
     String? note,
     String? source,
+    Value<int?> importBatchId = const Value.absent(),
   }) => Transaction(
     id: id ?? this.id,
     amountFen: amountFen ?? this.amountFen,
@@ -260,6 +296,9 @@ class Transaction extends DataClass implements Insertable<Transaction> {
     category: category ?? this.category,
     note: note ?? this.note,
     source: source ?? this.source,
+    importBatchId: importBatchId.present
+        ? importBatchId.value
+        : this.importBatchId,
   );
   Transaction copyWithCompanion(TransactionsCompanion data) {
     return Transaction(
@@ -271,6 +310,9 @@ class Transaction extends DataClass implements Insertable<Transaction> {
       category: data.category.present ? data.category.value : this.category,
       note: data.note.present ? data.note.value : this.note,
       source: data.source.present ? data.source.value : this.source,
+      importBatchId: data.importBatchId.present
+          ? data.importBatchId.value
+          : this.importBatchId,
     );
   }
 
@@ -282,14 +324,22 @@ class Transaction extends DataClass implements Insertable<Transaction> {
           ..write('occurredAt: $occurredAt, ')
           ..write('category: $category, ')
           ..write('note: $note, ')
-          ..write('source: $source')
+          ..write('source: $source, ')
+          ..write('importBatchId: $importBatchId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, amountFen, occurredAt, category, note, source);
+  int get hashCode => Object.hash(
+    id,
+    amountFen,
+    occurredAt,
+    category,
+    note,
+    source,
+    importBatchId,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -299,7 +349,8 @@ class Transaction extends DataClass implements Insertable<Transaction> {
           other.occurredAt == this.occurredAt &&
           other.category == this.category &&
           other.note == this.note &&
-          other.source == this.source);
+          other.source == this.source &&
+          other.importBatchId == this.importBatchId);
 }
 
 class TransactionsCompanion extends UpdateCompanion<Transaction> {
@@ -309,6 +360,7 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
   final Value<String> category;
   final Value<String> note;
   final Value<String> source;
+  final Value<int?> importBatchId;
   const TransactionsCompanion({
     this.id = const Value.absent(),
     this.amountFen = const Value.absent(),
@@ -316,6 +368,7 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
     this.category = const Value.absent(),
     this.note = const Value.absent(),
     this.source = const Value.absent(),
+    this.importBatchId = const Value.absent(),
   });
   TransactionsCompanion.insert({
     this.id = const Value.absent(),
@@ -324,6 +377,7 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
     required String category,
     this.note = const Value.absent(),
     this.source = const Value.absent(),
+    this.importBatchId = const Value.absent(),
   }) : amountFen = Value(amountFen),
        occurredAt = Value(occurredAt),
        category = Value(category);
@@ -334,6 +388,7 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
     Expression<String>? category,
     Expression<String>? note,
     Expression<String>? source,
+    Expression<int>? importBatchId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -342,6 +397,7 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
       if (category != null) 'category': category,
       if (note != null) 'note': note,
       if (source != null) 'source': source,
+      if (importBatchId != null) 'import_batch_id': importBatchId,
     });
   }
 
@@ -352,6 +408,7 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
     Value<String>? category,
     Value<String>? note,
     Value<String>? source,
+    Value<int?>? importBatchId,
   }) {
     return TransactionsCompanion(
       id: id ?? this.id,
@@ -360,6 +417,7 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
       category: category ?? this.category,
       note: note ?? this.note,
       source: source ?? this.source,
+      importBatchId: importBatchId ?? this.importBatchId,
     );
   }
 
@@ -384,6 +442,9 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
     if (source.present) {
       map['source'] = Variable<String>(source.value);
     }
+    if (importBatchId.present) {
+      map['import_batch_id'] = Variable<int>(importBatchId.value);
+    }
     return map;
   }
 
@@ -395,7 +456,8 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
           ..write('occurredAt: $occurredAt, ')
           ..write('category: $category, ')
           ..write('note: $note, ')
-          ..write('source: $source')
+          ..write('source: $source, ')
+          ..write('importBatchId: $importBatchId')
           ..write(')'))
         .toString();
   }
@@ -2613,6 +2675,447 @@ class PendingRecordsCompanion extends UpdateCompanion<PendingRecord> {
   }
 }
 
+class $ImportBatchesTable extends ImportBatches
+    with TableInfo<$ImportBatchesTable, ImportBatch> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ImportBatchesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _sourceMeta = const VerificationMeta('source');
+  @override
+  late final GeneratedColumn<String> source = GeneratedColumn<String>(
+    'source',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('bill'),
+  );
+  static const VerificationMeta _fileNameMeta = const VerificationMeta(
+    'fileName',
+  );
+  @override
+  late final GeneratedColumn<String> fileName = GeneratedColumn<String>(
+    'file_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _rowCountMeta = const VerificationMeta(
+    'rowCount',
+  );
+  @override
+  late final GeneratedColumn<int> rowCount = GeneratedColumn<int>(
+    'row_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _okCountMeta = const VerificationMeta(
+    'okCount',
+  );
+  @override
+  late final GeneratedColumn<int> okCount = GeneratedColumn<int>(
+    'ok_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _failCountMeta = const VerificationMeta(
+    'failCount',
+  );
+  @override
+  late final GeneratedColumn<int> failCount = GeneratedColumn<int>(
+    'fail_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    source,
+    fileName,
+    rowCount,
+    okCount,
+    failCount,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'import_batches';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ImportBatch> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('source')) {
+      context.handle(
+        _sourceMeta,
+        source.isAcceptableOrUnknown(data['source']!, _sourceMeta),
+      );
+    }
+    if (data.containsKey('file_name')) {
+      context.handle(
+        _fileNameMeta,
+        fileName.isAcceptableOrUnknown(data['file_name']!, _fileNameMeta),
+      );
+    }
+    if (data.containsKey('row_count')) {
+      context.handle(
+        _rowCountMeta,
+        rowCount.isAcceptableOrUnknown(data['row_count']!, _rowCountMeta),
+      );
+    }
+    if (data.containsKey('ok_count')) {
+      context.handle(
+        _okCountMeta,
+        okCount.isAcceptableOrUnknown(data['ok_count']!, _okCountMeta),
+      );
+    }
+    if (data.containsKey('fail_count')) {
+      context.handle(
+        _failCountMeta,
+        failCount.isAcceptableOrUnknown(data['fail_count']!, _failCountMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ImportBatch map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ImportBatch(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      source: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source'],
+      )!,
+      fileName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}file_name'],
+      )!,
+      rowCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}row_count'],
+      )!,
+      okCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}ok_count'],
+      )!,
+      failCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}fail_count'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $ImportBatchesTable createAlias(String alias) {
+    return $ImportBatchesTable(attachedDatabase, alias);
+  }
+}
+
+class ImportBatch extends DataClass implements Insertable<ImportBatch> {
+  final int id;
+  final String source;
+  final String fileName;
+  final int rowCount;
+  final int okCount;
+  final int failCount;
+  final DateTime createdAt;
+  const ImportBatch({
+    required this.id,
+    required this.source,
+    required this.fileName,
+    required this.rowCount,
+    required this.okCount,
+    required this.failCount,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['source'] = Variable<String>(source);
+    map['file_name'] = Variable<String>(fileName);
+    map['row_count'] = Variable<int>(rowCount);
+    map['ok_count'] = Variable<int>(okCount);
+    map['fail_count'] = Variable<int>(failCount);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  ImportBatchesCompanion toCompanion(bool nullToAbsent) {
+    return ImportBatchesCompanion(
+      id: Value(id),
+      source: Value(source),
+      fileName: Value(fileName),
+      rowCount: Value(rowCount),
+      okCount: Value(okCount),
+      failCount: Value(failCount),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory ImportBatch.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ImportBatch(
+      id: serializer.fromJson<int>(json['id']),
+      source: serializer.fromJson<String>(json['source']),
+      fileName: serializer.fromJson<String>(json['fileName']),
+      rowCount: serializer.fromJson<int>(json['rowCount']),
+      okCount: serializer.fromJson<int>(json['okCount']),
+      failCount: serializer.fromJson<int>(json['failCount']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'source': serializer.toJson<String>(source),
+      'fileName': serializer.toJson<String>(fileName),
+      'rowCount': serializer.toJson<int>(rowCount),
+      'okCount': serializer.toJson<int>(okCount),
+      'failCount': serializer.toJson<int>(failCount),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  ImportBatch copyWith({
+    int? id,
+    String? source,
+    String? fileName,
+    int? rowCount,
+    int? okCount,
+    int? failCount,
+    DateTime? createdAt,
+  }) => ImportBatch(
+    id: id ?? this.id,
+    source: source ?? this.source,
+    fileName: fileName ?? this.fileName,
+    rowCount: rowCount ?? this.rowCount,
+    okCount: okCount ?? this.okCount,
+    failCount: failCount ?? this.failCount,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  ImportBatch copyWithCompanion(ImportBatchesCompanion data) {
+    return ImportBatch(
+      id: data.id.present ? data.id.value : this.id,
+      source: data.source.present ? data.source.value : this.source,
+      fileName: data.fileName.present ? data.fileName.value : this.fileName,
+      rowCount: data.rowCount.present ? data.rowCount.value : this.rowCount,
+      okCount: data.okCount.present ? data.okCount.value : this.okCount,
+      failCount: data.failCount.present ? data.failCount.value : this.failCount,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ImportBatch(')
+          ..write('id: $id, ')
+          ..write('source: $source, ')
+          ..write('fileName: $fileName, ')
+          ..write('rowCount: $rowCount, ')
+          ..write('okCount: $okCount, ')
+          ..write('failCount: $failCount, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    source,
+    fileName,
+    rowCount,
+    okCount,
+    failCount,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ImportBatch &&
+          other.id == this.id &&
+          other.source == this.source &&
+          other.fileName == this.fileName &&
+          other.rowCount == this.rowCount &&
+          other.okCount == this.okCount &&
+          other.failCount == this.failCount &&
+          other.createdAt == this.createdAt);
+}
+
+class ImportBatchesCompanion extends UpdateCompanion<ImportBatch> {
+  final Value<int> id;
+  final Value<String> source;
+  final Value<String> fileName;
+  final Value<int> rowCount;
+  final Value<int> okCount;
+  final Value<int> failCount;
+  final Value<DateTime> createdAt;
+  const ImportBatchesCompanion({
+    this.id = const Value.absent(),
+    this.source = const Value.absent(),
+    this.fileName = const Value.absent(),
+    this.rowCount = const Value.absent(),
+    this.okCount = const Value.absent(),
+    this.failCount = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  ImportBatchesCompanion.insert({
+    this.id = const Value.absent(),
+    this.source = const Value.absent(),
+    this.fileName = const Value.absent(),
+    this.rowCount = const Value.absent(),
+    this.okCount = const Value.absent(),
+    this.failCount = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  static Insertable<ImportBatch> custom({
+    Expression<int>? id,
+    Expression<String>? source,
+    Expression<String>? fileName,
+    Expression<int>? rowCount,
+    Expression<int>? okCount,
+    Expression<int>? failCount,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (source != null) 'source': source,
+      if (fileName != null) 'file_name': fileName,
+      if (rowCount != null) 'row_count': rowCount,
+      if (okCount != null) 'ok_count': okCount,
+      if (failCount != null) 'fail_count': failCount,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  ImportBatchesCompanion copyWith({
+    Value<int>? id,
+    Value<String>? source,
+    Value<String>? fileName,
+    Value<int>? rowCount,
+    Value<int>? okCount,
+    Value<int>? failCount,
+    Value<DateTime>? createdAt,
+  }) {
+    return ImportBatchesCompanion(
+      id: id ?? this.id,
+      source: source ?? this.source,
+      fileName: fileName ?? this.fileName,
+      rowCount: rowCount ?? this.rowCount,
+      okCount: okCount ?? this.okCount,
+      failCount: failCount ?? this.failCount,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (source.present) {
+      map['source'] = Variable<String>(source.value);
+    }
+    if (fileName.present) {
+      map['file_name'] = Variable<String>(fileName.value);
+    }
+    if (rowCount.present) {
+      map['row_count'] = Variable<int>(rowCount.value);
+    }
+    if (okCount.present) {
+      map['ok_count'] = Variable<int>(okCount.value);
+    }
+    if (failCount.present) {
+      map['fail_count'] = Variable<int>(failCount.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ImportBatchesCompanion(')
+          ..write('id: $id, ')
+          ..write('source: $source, ')
+          ..write('fileName: $fileName, ')
+          ..write('rowCount: $rowCount, ')
+          ..write('okCount: $okCount, ')
+          ..write('failCount: $failCount, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDb extends GeneratedDatabase {
   _$AppDb(QueryExecutor e) : super(e);
   $AppDbManager get managers => $AppDbManager(this);
@@ -2622,6 +3125,7 @@ abstract class _$AppDb extends GeneratedDatabase {
   late final $SafetyPadTable safetyPad = $SafetyPadTable(this);
   late final $WeeklyReportsTable weeklyReports = $WeeklyReportsTable(this);
   late final $PendingRecordsTable pendingRecords = $PendingRecordsTable(this);
+  late final $ImportBatchesTable importBatches = $ImportBatchesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2633,6 +3137,7 @@ abstract class _$AppDb extends GeneratedDatabase {
     safetyPad,
     weeklyReports,
     pendingRecords,
+    importBatches,
   ];
 }
 
@@ -2644,6 +3149,7 @@ typedef $$TransactionsTableCreateCompanionBuilder =
       required String category,
       Value<String> note,
       Value<String> source,
+      Value<int?> importBatchId,
     });
 typedef $$TransactionsTableUpdateCompanionBuilder =
     TransactionsCompanion Function({
@@ -2653,6 +3159,7 @@ typedef $$TransactionsTableUpdateCompanionBuilder =
       Value<String> category,
       Value<String> note,
       Value<String> source,
+      Value<int?> importBatchId,
     });
 
 class $$TransactionsTableFilterComposer
@@ -2691,6 +3198,11 @@ class $$TransactionsTableFilterComposer
 
   ColumnFilters<String> get source => $composableBuilder(
     column: $table.source,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get importBatchId => $composableBuilder(
+    column: $table.importBatchId,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -2733,6 +3245,11 @@ class $$TransactionsTableOrderingComposer
     column: $table.source,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get importBatchId => $composableBuilder(
+    column: $table.importBatchId,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$TransactionsTableAnnotationComposer
@@ -2763,6 +3280,11 @@ class $$TransactionsTableAnnotationComposer
 
   GeneratedColumn<String> get source =>
       $composableBuilder(column: $table.source, builder: (column) => column);
+
+  GeneratedColumn<int> get importBatchId => $composableBuilder(
+    column: $table.importBatchId,
+    builder: (column) => column,
+  );
 }
 
 class $$TransactionsTableTableManager
@@ -2802,6 +3324,7 @@ class $$TransactionsTableTableManager
                 Value<String> category = const Value.absent(),
                 Value<String> note = const Value.absent(),
                 Value<String> source = const Value.absent(),
+                Value<int?> importBatchId = const Value.absent(),
               }) => TransactionsCompanion(
                 id: id,
                 amountFen: amountFen,
@@ -2809,6 +3332,7 @@ class $$TransactionsTableTableManager
                 category: category,
                 note: note,
                 source: source,
+                importBatchId: importBatchId,
               ),
           createCompanionCallback:
               ({
@@ -2818,6 +3342,7 @@ class $$TransactionsTableTableManager
                 required String category,
                 Value<String> note = const Value.absent(),
                 Value<String> source = const Value.absent(),
+                Value<int?> importBatchId = const Value.absent(),
               }) => TransactionsCompanion.insert(
                 id: id,
                 amountFen: amountFen,
@@ -2825,6 +3350,7 @@ class $$TransactionsTableTableManager
                 category: category,
                 note: note,
                 source: source,
+                importBatchId: importBatchId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -4034,6 +4560,244 @@ typedef $$PendingRecordsTableProcessedTableManager =
       PendingRecord,
       PrefetchHooks Function()
     >;
+typedef $$ImportBatchesTableCreateCompanionBuilder =
+    ImportBatchesCompanion Function({
+      Value<int> id,
+      Value<String> source,
+      Value<String> fileName,
+      Value<int> rowCount,
+      Value<int> okCount,
+      Value<int> failCount,
+      Value<DateTime> createdAt,
+    });
+typedef $$ImportBatchesTableUpdateCompanionBuilder =
+    ImportBatchesCompanion Function({
+      Value<int> id,
+      Value<String> source,
+      Value<String> fileName,
+      Value<int> rowCount,
+      Value<int> okCount,
+      Value<int> failCount,
+      Value<DateTime> createdAt,
+    });
+
+class $$ImportBatchesTableFilterComposer
+    extends Composer<_$AppDb, $ImportBatchesTable> {
+  $$ImportBatchesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get source => $composableBuilder(
+    column: $table.source,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get fileName => $composableBuilder(
+    column: $table.fileName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rowCount => $composableBuilder(
+    column: $table.rowCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get okCount => $composableBuilder(
+    column: $table.okCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get failCount => $composableBuilder(
+    column: $table.failCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ImportBatchesTableOrderingComposer
+    extends Composer<_$AppDb, $ImportBatchesTable> {
+  $$ImportBatchesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get source => $composableBuilder(
+    column: $table.source,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get fileName => $composableBuilder(
+    column: $table.fileName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rowCount => $composableBuilder(
+    column: $table.rowCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get okCount => $composableBuilder(
+    column: $table.okCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get failCount => $composableBuilder(
+    column: $table.failCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ImportBatchesTableAnnotationComposer
+    extends Composer<_$AppDb, $ImportBatchesTable> {
+  $$ImportBatchesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get source =>
+      $composableBuilder(column: $table.source, builder: (column) => column);
+
+  GeneratedColumn<String> get fileName =>
+      $composableBuilder(column: $table.fileName, builder: (column) => column);
+
+  GeneratedColumn<int> get rowCount =>
+      $composableBuilder(column: $table.rowCount, builder: (column) => column);
+
+  GeneratedColumn<int> get okCount =>
+      $composableBuilder(column: $table.okCount, builder: (column) => column);
+
+  GeneratedColumn<int> get failCount =>
+      $composableBuilder(column: $table.failCount, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$ImportBatchesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $ImportBatchesTable,
+          ImportBatch,
+          $$ImportBatchesTableFilterComposer,
+          $$ImportBatchesTableOrderingComposer,
+          $$ImportBatchesTableAnnotationComposer,
+          $$ImportBatchesTableCreateCompanionBuilder,
+          $$ImportBatchesTableUpdateCompanionBuilder,
+          (
+            ImportBatch,
+            BaseReferences<_$AppDb, $ImportBatchesTable, ImportBatch>,
+          ),
+          ImportBatch,
+          PrefetchHooks Function()
+        > {
+  $$ImportBatchesTableTableManager(_$AppDb db, $ImportBatchesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ImportBatchesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ImportBatchesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ImportBatchesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> source = const Value.absent(),
+                Value<String> fileName = const Value.absent(),
+                Value<int> rowCount = const Value.absent(),
+                Value<int> okCount = const Value.absent(),
+                Value<int> failCount = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => ImportBatchesCompanion(
+                id: id,
+                source: source,
+                fileName: fileName,
+                rowCount: rowCount,
+                okCount: okCount,
+                failCount: failCount,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> source = const Value.absent(),
+                Value<String> fileName = const Value.absent(),
+                Value<int> rowCount = const Value.absent(),
+                Value<int> okCount = const Value.absent(),
+                Value<int> failCount = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => ImportBatchesCompanion.insert(
+                id: id,
+                source: source,
+                fileName: fileName,
+                rowCount: rowCount,
+                okCount: okCount,
+                failCount: failCount,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ImportBatchesTable, ImportBatch>(table),
+                  BaseReferences<_$AppDb, $ImportBatchesTable, ImportBatch>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ImportBatchesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $ImportBatchesTable,
+      ImportBatch,
+      $$ImportBatchesTableFilterComposer,
+      $$ImportBatchesTableOrderingComposer,
+      $$ImportBatchesTableAnnotationComposer,
+      $$ImportBatchesTableCreateCompanionBuilder,
+      $$ImportBatchesTableUpdateCompanionBuilder,
+      (ImportBatch, BaseReferences<_$AppDb, $ImportBatchesTable, ImportBatch>),
+      ImportBatch,
+      PrefetchHooks Function()
+    >;
 
 class $AppDbManager {
   final _$AppDb _db;
@@ -4050,4 +4814,6 @@ class $AppDbManager {
       $$WeeklyReportsTableTableManager(_db, _db.weeklyReports);
   $$PendingRecordsTableTableManager get pendingRecords =>
       $$PendingRecordsTableTableManager(_db, _db.pendingRecords);
+  $$ImportBatchesTableTableManager get importBatches =>
+      $$ImportBatchesTableTableManager(_db, _db.importBatches);
 }

@@ -1,19 +1,23 @@
-# REVIEW_REQUEST — SB-010返工第2轮/R3末轮（应答REVIEW第2轮REQUEST_CHANGES+22:40死锁裁决）
+# REVIEW_REQUEST — SB-011 续做授权应答提审（应答 01:4x CONTINUE_PERMIT · S0.1）
 
-仓库：`/Users/dada561/Documents/runway`，分支：`feat/SB-010-notify-collect`（未merge、未push、无remote，合规）
-任务卡：`docs/tasks/SB-010.md`（已merge main取d6ae1ab新验收4；另SB-019决策性文字顺带合入，非本卡范围不动代码）
-commit：`267c125 fix(notify): 通知身份去重替代时间桶+3单测 [SB-010]`（+ trailer `Agent: opencode`；另 `a459c8d` progress登记轮；基座第1轮 `84f47c6` 在位）
+仓库：`/Users/dada561/Documents/runway`，分支：`feat/SB-011-bill-import`（未 merge、未 push、无 remote，合规）
+任务卡：`docs/tasks/SB-011.md`（账单文件导入，批次 G4 第 2 张）
+基座：WIP 保全提交 `5f5ab9e`（数据层/解析/去重/批次撤销/性能/单测7绿/golden 四图）+ 本轮修复 commit（待审查轮核验 tip）
 
-问题逐条应答（REVIEW第2轮 P1×1，新验收4）：
-1. [P1·新验收4身份去重] 旧实现SHA-1(包|标题|金额分|UTC分钟桶)+单测锁定分钟桶语义，extras无tag/id/when → 已按卡重做：Kotlin用sbn.tag/sbn.id/sbn.postTime/notification.when+内容哈希（sha1包|标题trim|金额分），extras补传tag/notifId/whenMs/postTimeMs/contentHash，occurredAt取when可信值否则postTime；Dart键体预镜像三元组化（when可信：SHA-1包|tag|id|when毫秒|内容哈希；否则回退SHA-1包|tag|id|内容哈希|postTime秒，1e12为毫秒可信下界），parsePaymentNotice新增tag/notifId/whenMs/postTimeMs透传，occurredAt同口径回退。去重以notifyKey为准，DAO幂等逻辑不动。第1轮已修项保留未回退：键体哈希化（§5标题不明文落库，值级单测在位）+Kotlin BigDecimal HALF_UP（8.20→820镜像单测在位）+merchant三处32。
-2. 卡要求3单测已补（新文件test/notification_identity_test.dart，拆分保单文件≤400行）：①同商户同金额不同when→异键且DAO保留2条 ②同通知重投三同→同键且DAO幂等仅1条 ③回退路径（同postTime秒同键/跨秒异键/秒级when走回退/40位hex形状）。风暴测试按新语义复核（50条tag/id/when各异→50互异键不丢）。旧分钟桶单测已改身份制（同身份同when同键/when不同异键）；SHA标准向量更新为内容哈希+身份键向量（python hashlib对拍：`||0`→d2abfc06…、`a|b|99`→ebadb7a4…、身份键→edc5af55…，锁定Dart与Kotlin MessageDigest一致）。
-3. 4b已知边界如实记：when系App自报，同秒两笔理论可并（人手不可达）；通知重建出毫秒级新when的罕见情形多出一条待确认，由待确认池一键消化，非静默错账（实现未做静默合并，符合“不漏一笔真账”）。
+本轮范围（授权内最小 diff，只修测试红，不推倒重来）：
+- 唯一改动：`app/lib/ui/bill_import_page.dart` 1 行——`_parseFile` 内 `if (!await f.exists())` → `if (!f.existsSync())`。
+- 根因：旧代码先 `setState(_notice='')` 再 `await` 文件存在检查，`pumpAndSettle` 不等该 Future，测试在空窗期断言『文件不存在』得 0 命中（probe 实证：tap 后 notice count=0，修后=1 且文本『文件不存在』在位）。同步检查消空闪，真机亦是即时反馈优化。
+- 禁区遵守：数据层/解析/去重/撤销逻辑零触碰；golden 基线未动（preview/result 四图本轮实测零回归，免重生成）；探针仅写仓内 `app/test/probe_sb011.tmp.dart` 且已删（`ls probe*` 无命中），未碰 `/tmp`；无 pubspec 变更；无 `docs/` 规范改动（`docs/ios-shortcuts.md` 系 WIP 既有交付物，非本轮新增）。
 
-验证：
-- `dart format` 0改动；`flutter analyze --fatal-infos --fatal-warnings` No issues；全量`flutter test` 163/163绿（160继承+3新增）；`tool/ci.sh`四闸门全绿（含macOS+APK双build，ALL GREEN）；`tool/check-repo-hygiene.sh` OK
-- 文件约束：业务6文件（Service 112行、MainActivity 89行、parse 223行、pending_page 392行、单测363+136行）≤400，文件数6≤10；无docs规范改动（除merge带入的卡本身d6ae1ab）、无pubspec依赖变更、无schema变更（pending表结构不动，仅键内容换语义）
-- 红线：全库“全自动”（除禁令行）零命中（沿用单测grep断言）；ui/theme与motion_spec之外裸Color/Duration零新增；测试全合成fixtures，真实账目=0；未碰remote、未push
+验收对照（SB-011 卡 §验收 1~5）：
+1. 合成 fixture 解析正确+失败行行号原因：`bill_import_test` 支付宝 3 成功/2 失败（第4行金额无效/第6行非成功状态）+微信 ￥单位/对方为空失败行均绿；页面预览『可入账 2 笔·失败 1 行』+`failRow-4` widget 绿。
+2. 去重+批次撤销：同账单两次导入 inserted 3→0/skippedDup 3、落库 3 条；确认入账→结果→撤销本批 widget 绿；`revokeImportBatch` 整批删除绿。
+3. 性能：1 万行合成 parse≈159ms、total≈270ms <5s（本轮实测回显 `SB-011 perf` 行）。
+4. 原文件不留副本：`importBillFile` 读后即删单测绿；批次表列名无原文列断言绿。
+5. golden 四组+对比度：preview/result × Light/Dark 四图本轮全绿（零重生成）；对比度闸门绿；`dart format` 0 改动；`flutter analyze` No issues；全量 `flutter test` 178/178 绿；`tool/ci.sh` ALL GREEN；`tool/check-repo-hygiene.sh` OK。
 
-偏差声明：无新增偏差（桶口径废除系卡d6ae1ab实质拍板，非builder自选；阈值1e12毫秒可信判定为实现细节，已在注释与单测锁定）。
+文件约束：业务 9 文件（app_db.dart 399/app_db.g 生成除外/bill_import 269/import_batch 47/dao 98/page 338/单测175/页测193/ios-shortcuts 27）≤10，手写单文件最大 399≤400；无 remote；测试全合成 fixtures，真实账目=0。
 
-请审计后结论写 `REVIEW.md`（PASS 或 REQUEST_CHANGES，本卡第 3 轮/上限 3 轮；再打回按裁决直接熔断）。
+偏差声明：无新增偏差。`existsSync` 为实现细节（语义与 `exists` 一致，仅消 async 窗），注释未增（单行同义替换，卡文义+DESIGN_SYSTEM 令牌无影响）。
+
+失败出口未触发（已修好）。请审计后结论写 `REVIEW.md`（PASS 或 REQUEST_CHANGES）。

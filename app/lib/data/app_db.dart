@@ -5,20 +5,23 @@ import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
+import 'import_batch.dart';
+
 // SB-004 · schema v1（Transactions）+ SQLCipher 加密打开 + DAO.
 // SB-007 · schema v2（Goals 目标表；PRD §4 goal 模型子集：name/target/单价/tier/doneAt）.
 // SB-008 · schema v3（Achievements 成就表；任务卡显式授权，禁区仅此一表，可回滚）.
 // SB-009 · schema v4（SafetyPad 配置 + WeeklyReports 周报缓存；任务卡显式授权，可回滚）.
 // SB-010 · schema v5（PendingRecords 待确认采集；任务卡显式授权，可回滚；无原文列 §5）.
-// 授权：SB-007 任务卡显式授权 schema v2 迁移；SB-008 任务卡显式授权 schema v3 迁移；
-// SB-009 任务卡显式授权 schema v4 迁移.
-// SB-010 任务卡显式授权 schema v5 迁移.
+// SB-011 · schema v6（ImportBatches 批次表 + transactions.importBatchId 整批回滚；任务卡显式授权，可回滚）.
+// 授权：SB-007 v2；SB-008 v3；SB-009 v4.
+// SB-010 v5；SB-011 v6（任务卡显式授权迁移）.
 // 禁手改 schema，迁移走 drift.
 // 真实账目数据永不入库；测试一律合成 fixtures.
 
 part 'app_db.g.dart';
 
 /// schema v1：transactions（金额分/时间戳/类目/备注/来源）.
+/// SB-011 v6 新增 importBatchId（可空；账单导入批次归属，整批撤销用）.
 class Transactions extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get amountFen => integer()();
@@ -26,6 +29,7 @@ class Transactions extends Table {
   TextColumn get category => text().withLength(min: 1, max: 32)();
   TextColumn get note => text().withDefault(const Constant(''))();
   TextColumn get source => text().withDefault(const Constant('manual'))();
+  IntColumn get importBatchId => integer().nullable()();
 }
 
 /// schema v2：goals（目标名/目标额分/参考单价名/参考单价分/阶梯档/达成时间）.
@@ -86,6 +90,7 @@ class PendingRecords extends Table {
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }
 
+/// schema v6 表定义见 data/import_batch.dart（单文件 ≤400 行拆分）.
 @DriftDatabase(
   tables: [
     Transactions,
@@ -94,6 +99,7 @@ class PendingRecords extends Table {
     SafetyPad,
     WeeklyReports,
     PendingRecords,
+    ImportBatches,
   ],
 )
 class AppDb extends _$AppDb {
@@ -147,7 +153,7 @@ class AppDb extends _$AppDb {
   }
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -156,6 +162,7 @@ class AppDb extends _$AppDb {
     // v2→v3：新增 achievements 表（SB-008 卡授权）；存量 goals/transactions 不动.
     // v3→v4：新增 safety_pad + weekly_reports 表（SB-009 卡授权）；存量不动.
     // v4→v5：新增 pending_records 表（SB-010 卡授权）；存量不动.
+    // v5→v6：新增 import_batches 表 + transactions.import_batch_id 列（SB-011 卡授权）；存量不动.
     onUpgrade: (m, from, to) async {
       if (from < 2) {
         await m.createTable(goals);
@@ -170,8 +177,14 @@ class AppDb extends _$AppDb {
       if (from < 5) {
         await m.createTable(pendingRecords);
       }
+      if (from < 6) {
+        await m.createTable(importBatches);
+        await m.addColumn(transactions, transactions.importBatchId);
+      }
     },
   );
+
+  /// v6 回滚语义见 data/import_batch_dao.dart（单文件 ≤400 行拆分）.
 
   /// v5 回滚语义：删 pending_records 表即回 v4 形状（开发期回滚用）.
   Future<void> rollbackPendingToV4() async {
@@ -381,4 +394,6 @@ class AppDb extends _$AppDb {
   Future<int> deletePending(int id) {
     return (delete(pendingRecords)..where((r) => r.id.equals(id))).go();
   }
+
+  // SB-011 批次 DAO 见 import_batch_dao.dart（本文件保 ≤400 行）.
 }
