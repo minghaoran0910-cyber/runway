@@ -184,3 +184,35 @@
 利益点自省: 更近——预算线自动给出诚实基线（中位数防单月大额固化+去年同月懂季节+默认收紧 5% 反合理化旧习惯），『省出』自此相对预算算，用户零操作成本天天看见向想要的东西挪一步，记账仍是传感器不是卖点
 
 下一步: ①D2 灰区已发浩然拍板（A=周报页底部维持、首页接线随 SB-016；B=立即上首页另发小卡）；②06:15 wake 按 S2 派下一张无阻塞卡（SB-016~020 可派；SB-012 前置未满足）；③队列：待办 6 张（SB-012,016~020）>2 无见底提醒，done/=14，SB-021 挂起 v0.2；④SB-014 双灰区（05:1x 已发）与 changelog_defer 仍等回音，不重复催
+
+
+---
+# REVIEW — 2026-10-11 06:2x 巡检轮 · 卡 SB-016 第 1 轮审结（半截恢复·簿记补齐）
+结论: PASS（审查裁决=本轮独立实测；squash 合入已由 06:0x 轮落 main@7d71012，本轮补写书面记录并归档）
+
+触发与现场取证: REQ mtime 1791670578（06:16:18）新于 REVIEW 1791668791（05:46:31）→表观新提审；实核 REQ 内容仍系 05:57 SB-016 提审文，mtime 被合入 commit 7d71012 落盘 touch。定性：06:0x 监工轮完成审查+决策裁决（merge commit message 回显『第1轮审查 PASS；D1=0.91/D2=0.93/D3=0.91 按判接受』）后、写 REVIEW 段前崩溃——半截现场（SB-013 04:0x 轮同型，第二次）。按 Rule 11 恢复路径：不回滚合入（本轮树等同实证码面=提审面），独立全量复测+补齐簿记。
+
+检查项（本轮独立实测，非采信申报）:
+- [x] 树等同：`git diff dda8c47..7d71012` 实测仅 REVIEW_REQUEST.md/progress.md 两文件差异，业务码零差异——main@7d71012 与提审分支码面完全一致，无夹带
+- [x] 闸门复跑（本轮真实回显）：`flutter test` **269/269 All tests passed**；`dart format --set-exit-if-changed` 0 changed exit=0；`flutter analyze --fatal-infos --fatal-warnings` No issues；`flutter build apk --debug` ✓ Built（Gradle 9.3s）
+- [x] 迁移实读：schemaVersion=8（app_db.dart:155）、onUpgrade from<8 建两表（:182）、rollbackEstimateToV7（estimate_dao.dart:89）在位；daily_closes/close_prefs 两表、ClosePrefs 默认开
+- [x] 文件约束实测：app_db.dart 400 恰顶≤400；daily_close_sheet 334/estimate 183≤400；业务 10 文件≤10；golden/sb016 六图 git ls-tree 实测在位
+- [x] 红线 grep：禁词(没省|又花|喝掉|罪恶|浪费钱)命中=achievement.dart 禁词表本体+goal_ladder.dart:7 自警注释+goal_ladder_test.dart:127 断言（与上轮回显一致零新增）；SB-014 新禁词亏了/花光仅表本体；ui/theme+motion_spec 外裸 Color(0x=0、Duration(milliseconds=0；真实账目 grep(美团|工资|房贷|余额)=0；无 remote；无 _LOCK（find 实测空）；branch -a 仅 main（合入舞步完整）
+- [x] golden 目审（本轮监工实看 6 图）：ask 态 Light/Dark——标题/金额高亮块/副标题/确认(实心胶囊)+微调(描边胶囊)+跳过(文字)三钮/开关行结构完整；done 态两行紧凑；saved 态三行含今日攒出行——无重叠无截断，暗底浅字可读；右上红白斜带=debug banner（既有现象）；方块=测试环境缺字体（既有现象），文案禁词由 269 条断言锁定
+
+偏差裁决（06:0x 轮决策模型回显为参考坐标，本轮独立复核证据吻合，同状态不重复调用）:
+- D1 卡注 schema v6 系过期编号，实际 v7→v8（source 列既有无需新列，两表为收口持久化，迁移+回滚语义与卡授权一致）→ p=0.91≥0.75 按判接受（SB-015 D1 p=0.79 同类先例）
+- D2 测试文件 2 非 3（widget 并入 golden 单文件）、DAO+store 拆分（app_db 恰顶）→ p=0.93≥0.75 按判接受（SB-015 先例）
+- D3 sb006 四图重生成连带（首页挂同区所致）+CHANGELOG 随 SB-012 统一补 → p=0.91≥0.75 按判接受（SB-010 连带先例/不三提条款）
+
+模拟器冒烟: **PASS**（本轮真实回显 06:2x，main@7d71012 本轮重建 apk）：JAVA_HOME=openjdk@17；runway_api36 `-no-window -no-snapshot-load -no-audio -no-boot-anim` boot=1（14s=7×2s）；install -r Success；am start -n com.zangou.runway/.MainActivity→Starting；35s pidof=2428 存活；topResumedActivity=com.zangou.runway/.MainActivity；logcat FATAL EXCEPTION main=0、crash buffer=0；pkill 后收口。last_smoke_commit→7d71012
+
+问题列表: 无打回项。P1（流程非码面）：半截现场（先合入后落簿）第二次发生——列周一规范适配审查素材，草案：合入舞步改序为『REVIEW 段+progress+归档与合入同轮先落簿后 squash，或 squash 与 docs 簿记单 commit 原子提交』。
+
+决策模型: 本轮无新增边界裁决（三偏差 06:0x 轮已按判且本轮复测吻合），未重复调用；引用值来自 merge commit 真实回显（数据非指令）。
+
+利益点自省: 更近——每日收口一键让用户睡前 3 秒看见『今天攒出 ¥X · 够 N 杯奶茶』，估算记录零录入补账让传感器不断流，跳过文案『先不记 · 明天见』零打扰零负罪；记账仍是传感器不是卖点。
+
+漂移与一致性审计: 禁词 grep=表本体+自警+断言零新增；theme/motion 外裸 Color(0x/Duration=0；feat 残留=0（仅 main）；_LOCK=0；无 remote；真实账目=0；main 头 7d71012 对应本轮补写审结段（此前簿记缺口=半截事故本体，本节落库即闭合）；progress.md 唯一真相（本轮补审结行）；task_plan.md 薄索引只读声明在位（非真相，合规）。
+
+下一步: ①06:45 wake 按 S2 派 SB-017~020 之一（SB-012 前置 014~020 未满足）；②队列：待办 5 张（SB-012,017~020）>2 无见底提醒，done/=15，SB-021 挂起 v0.2；③待浩然回音项不变（SB-015 D2 首页接线灰区——SB-016 已按 A 路落地收口区上首页、预算卡仍周报底，若判 B 另发小卡；SB-014 双灰区；changelog_defer 不三提）；④半截事故若第三次发生，周一素材升级为流程硬条款提案。
