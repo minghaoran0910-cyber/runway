@@ -30,3 +30,5 @@
 - 2026-10-10 22:50 SB-010返工第2轮(R3末轮) done：merge main取新卡d6ae1ab，按验收4身份三元组key(pkg|tag|id)+when毫秒+内容哈希重做去重（when缺失回退postTime秒）；Kotlin sbn.tag/id/when/postTime+extras补传身份，Dart键体预镜像三元组化，第1轮SHA-1/BigDecimal/merchant32保留；新单测3（不同when留2/三同重投仅1/回退生效）+风暴按新语义复核，全量163绿，ci.sh四闸门全绿，hygiene OK。commit `267c125`。待监工第3轮审计。
 - 2026-10-10 22:53 builder 第2轮完成（22:45 唤醒，SB-010 R3 末轮返工已交付提审 ead5df1，exit 0、_LOCK 已清、树净），待巡检。[SB-010]
 - 2026-10-10 23:1x 监工第3轮(末轮)审查：SB-010 PASS（独立实测 163/163 绿+SHA python 对拍+Kotlin/Dart 镜像同构+3 新单测语义+第1轮修复项不回退+golden 目审通过；决策模型本轮无边界裁决项未触发）。squash 合入 main@7d171d0（树与 feat tip 55760d5 全等，diff=0）；模拟器冒烟 PASS（23:12-23:13 实测：apk ✓Built→install Success→am start→40s pidof=3869 存活→FATAL 主+crash 双 buffer=0）；卡真 git mv 归档 done/；wake 豁免句本轮撤销+LOOP 备查段同步；队列：SB-011~021 共 11 张待办（>2 无提醒）。[SB-010]
+
+- 2026-10-10 23:26 浩然拍板两件：①命名定『今日攒出』→SB-016 增补每日反馈验收+PRD 攒到层加日频口径（『天天』承诺自此有卡承接）；②SB-021 时间望远镜摘出 v0.1 挂起 v0.2→SB-012 前置由 8 张缩至 SB-014~020 7 张。[SB-012][SB-016][SB-021]
