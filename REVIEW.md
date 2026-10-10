@@ -216,3 +216,19 @@
 漂移与一致性审计: 禁词 grep=表本体+自警+断言零新增；theme/motion 外裸 Color(0x/Duration=0；feat 残留=0（仅 main）；_LOCK=0；无 remote；真实账目=0；main 头 7d71012 对应本轮补写审结段（此前簿记缺口=半截事故本体，本节落库即闭合）；progress.md 唯一真相（本轮补审结行）；task_plan.md 薄索引只读声明在位（非真相，合规）。
 
 下一步: ①06:45 wake 按 S2 派 SB-017~020 之一（SB-012 前置 014~020 未满足）；②队列：待办 5 张（SB-012,017~020）>2 无见底提醒，done/=15，SB-021 挂起 v0.2；③待浩然回音项不变（SB-015 D2 首页接线灰区——SB-016 已按 A 路落地收口区上首页、预算卡仍周报底，若判 B 另发小卡；SB-014 双灰区；changelog_defer 不三提）；④半截事故若第三次发生，周一素材升级为流程硬条款提案。
+
+---
+# REVIEW — 2026-10-11 06:4x 巡检轮 · 无新提审（漂移与一致性审计轮）
+结论: PASS（一致性维护轮，无审查对象）
+
+触发核查: REQ mtime 1791670578(06:16:18) 旧于 REVIEW 1791671357 → 无新提审；REQ 内容 shasum c55fc807=已审结 SB-016 提审面（与 473afa3 树内一致）。队列不变：待办 SB-012,017~020 共5张 + SB-021 挂起 v0.2，done/=15，>2 无见底提醒。473afa3 对 last_smoke 7d71012 为 docs-only（diff --stat 仅 REVIEW/done归档/progress 三文件零业务码）→ 不触发重烟，last_smoke_commit 维持 7d71012。
+
+漂移与一致性审计（本轮真实回显，路径口径=app/lib）: 禁词(没省|又花|喝掉|罪恶|浪费钱)命中 lib 2 行=achievement.dart:13 禁词表本体+goal_ladder.dart:7 自警注释、test 1 行=断言，对照基线零新增；theme/motion 外裸 Color(0x=0、Duration(milliseconds=0；美团|工资|房贷=0；余额命中 3 行=grain_report.dart:5/6/65 应用内概念注释（自由基金余额=本月可换算省出口径，无真实金额无用户账目）→ 决策模型裁决 p=0.95≥0.75 按判=非红线，不 FAIL；feat 残留=0（仅 main）、_LOCK=0、remote=0、工作树干净；main head 473afa3 对应 REVIEW 最近 SB-016 审结段 ✓；task_plan 薄索引只读声明在位 ✓；progress SB-016 登记行在位 ✓。
+
+过程发现（入周一素材册）: ①grep 路径口径——仓库根无 lib/ 目录（代码在 app/lib/），误 grep 根路径会得假全零；本轮开头亲身踩中即纠正，历史轮『余额=0』回显与此口径疑点相关，建议 ci.sh hygiene 闸门把禁词/裸量 grep 固定到 app/lib（素材⑩）。②06:15 wake 跑 605s 零产出（无分支/无提交/无 progress 行/无锁，lastRunStatus ok 静默）——SB-017 未派发；06:45 wake 已过（06:47 回显仍无分支无锁），07:00 轮核验其产出，若连续两轮空转升级 wake 守卫问题（素材⑨，与 watchdog 空转告警条件同题）。
+
+三件套提示词新鲜度: 巡检/wake/watchdog message 对照现实全符——卡号至 SB-021、task_plan 薄索引已落、com.zangou.runway+am start 口径、-no-snapshot-load 参数、:15/:45 与 :00/:30 错峰、consecutiveErrors 全零——无需修改。
+
+利益点自省: 更近——纯巡检轮不动码面，漂移审计为 SB-017~020 施工提前挡掉规范污染，产品仍指向『让用户以接近零的成本天天看见自己向想要的东西挪一步』。
+
+下一步: 07:00 轮核验 06:45 wake 是否派 SB-017~020；待浩然回音项不变（SB-015 D2 首页接线、SB-014 双灰区、changelog_defer 不三提）。
