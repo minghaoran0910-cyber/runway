@@ -92,3 +92,24 @@
 下一步: builder 02:45 按授权施工→提审→监工全量审（重点：widget 测试修复方案合规/6 文件约束/ci 四闸门/golden 目审/真实账目红线）。
 漂移与一致性审计: 禁词(app/lib+test)=3 与基线完全一致（禁词表本体/自警注释/断言），含 SB-011 WIP 零新增；theme/motion_spec 外裸 Color(0x/Duration=0（feat 工作树实测）；_LOCK 双侧不存在；分支=main+feat/SB-011（授权点名在审非残留）；main 头 91b5efc（01:4x 监工 progress 登记行）对应 REVIEW 01:4x 归档轮，无未审先合；无 remote；真实账目 grep=0；progress.md 唯一真相（builder 两轮未提交登记行随本轮监工提交入库防半截丢失）；task_plan.md 薄索引未动合规。
 利益点自省: 更近——两轮空转的续做授权经 mtime 基准复位解除拦阻，账单导入传感器（零手工录入）重回施工轨道。
+
+---
+# REVIEW — 2026-10-11 03:4x 审查轮 · 第 1 轮 · 卡 SB-011
+结论: PASS（应答 01:4x CONTINUE_PERMIT · S0.1 续做授权轮提审）
+检查项:
+- [x] 授权范围核验：`git show 1c96f81` 实测唯一施工 diff=`app/lib/ui/bill_import_page.dart` 1 行（`await f.exists()`→`f.existsSync()`），另 2 文件系 REQ 重写+progress 登记；授权文『以最小 diff 修页面坏路径提示或其测试匹配，二者择其一』——builder 择页面侧，字面在授权内，数据层/解析/去重/撤销零触碰；根因陈述（setState 空窗期断言 0 命中）与页测『空粘贴与坏路径给提示』断言吻合，本轮实测绿
+- [x] 全卡面首审（WIP 5f5ab9e 部分本轮全量审）：业务 9 文件≤10、手写最大 app_db.dart 399≤400（app_db.g.dart 4819 系 drift 生成除外）；schemaVersion=6、v5→v6 迁移=import_batches 表+transactions.importBatchId 可空列，与卡『授权声明』逐字吻合、存量不动可回滚；pubspec diff=0 行（零依赖变更，卡约束合规）；docs/ios-shortcuts.md 系卡文『涉及模块』点名随卡交付物（01:00 轮"builder 伸 docs/ 边界"疑虑就此闭环），『全自动』全文 1 处=禁令声明行本体
+- [x] 验收 1 解析：支付宝 fixture 3 成功+2 失败（行 4 金额无效/行 6 非成功状态，行号+原因，不整体失败）、微信 ￥单位 3200 分+对方为空失败行（行 3）、类目映射食/行、时区字段断言实测；1 万行 failures=isEmpty
+- [x] 验收 2 去重+撤销：两次导入 inserted 3→0/skippedDup 3/落库 3 条；dedupKey=日期天+金额分+对方（卡口径）；note 无逗号+source='import'+importBatchId 挂链（§5 原文不入库）；revokeImportBatch 整批清零（transactions+批次）；widget 确认入账→结果→撤销本批绿
+- [x] 验收 3 性能：监工本轮独立复跑实测回显 `SB-011 perf: parse=132ms total=225ms rows=10000`（<5s；builder 02:45 回显 159/270ms 同量级，progress.md 登记行在位）
+- [x] 验收 4 不留副本：importBillFile 读后即删单测（deleted=true+exists false）绿；批次表列名正则 raw|content|body|text|message 零命中断言绿
+- [x] 验收 5 golden+对比度：preview/result × Light/Dark 四图监工本轮实看图——预览=计数行+失败行区+确认按钮、结果=笔数+撤销双按钮，浅底深字/深底浅字正确、无重叠无乱码无异常色块（右上红白斜带=标准 debug banner）；对比度闸门 4 组合≥textMin 绿；四图自 5f5ab9e 零回归（fix commit 对 golden/ diff 实测空）
+- [x] 闸门独立复跑：`flutter test` 全量 **178/178 All tests passed**（本轮真实回显）；`tool/ci.sh` ALL GREEN exit=0（含 macOS+APK 构建）；`tool/check-repo-hygiene.sh` OK exit=0；dart format/analyze 含于 ci 四闸门
+- [x] 红线卫生：禁词 grep=3 基线条目（achievement 禁词表本体/goal_ladder 自警注释/测试断言）零新增；ui/theme+motion_spec 外裸 Color(0x/Duration=0；真实账目 grep(美团|工资|房贷|余额+数字)=0；probe 从未入库（git 历史 --diff-filter=A 实测零 probe，树零命中，/tmp 未碰）；_LOCK 双侧不存在；无 remote（wc -l=0）
+- [x] 分支与合入：merge-base(main,feat)=8440ecd，main 缺 91b5efc 仅 progress.md+1 行（监工 01:46 落 main，晚于 builder 01:40 合 main，守卫时序无碍、squash union 保留）；squash 合入@5b393e4，码面 feat↔main diff=0（仅 progress union 行）；卡真 git mv→docs/tasks/done/SB-011.md；feat 分支合入后删除
+- [x] 队列同步：SB-011 done → 待办=SB-012~020 共 9 张（>2 无见底提醒；SB-012 前置 014~020，SB-013~020 无阻塞可派）；done/=11 张；**G4 批次达成**（SB-010+SB-011，卡文『本卡完成=G4 达成』；IMAP 在线拉取留 v0.2+）
+问题列表: 无
+决策模型: 本轮无边界裁决项（授权文二者择其一为明文，非灰区），未触发调用；02:30 轮 transport 不可用不再复测（本轮无需求）
+利益点自省: 账单导入管线合入=『记账传感器零手工』真正落地，用户看见"账单自己流进攒够目标"——更近
+漂移与一致性审计: 禁词 grep=3 基线零新增；theme/motion 外裸 Color(0x/Duration=0；main 头 5b393e4=本轮 squash（无未审先合）；feat 合入即删无残留；_LOCK=0；无 remote；真实账目=0；progress.md 唯一真相在位（91b5efc 行与 builder 行 union 完整）；task_plan.md 薄索引未动（非真相）；SB-011 卡 done/ 归档 git mv 实测
+下一步: main 新码重烟（结果附本段尾）；wake 03:45 起按 S2 派下一张无阻塞卡（监工不代派）；周一 10-12 首轮巡检=周报当周卡计划+规范适配审查（素材册在 watch_items：mtime 假信号守卫、_LOCK 竞态错峰、S0.2 豁免草案等）
