@@ -12,3 +12,4 @@
 - 2026-10-09 SB-003：分支 `feat/SB-003-tokens`，设计token落地（tokens/motion/theme三件套+main挂接），tokens单测9项+golden2组全绿，CI四闸门全绿（format/analyze/smoke/build双平台），hygiene OK。待监工审计。
 - 2026-10-10 SB-004: 分支 `feat/SB-004-quick-add`, 三秒记一笔+schema v1（data/logic/ui/tests齐备）, widget测试修好（键作用域+大视口）, entry7+widget3+golden3+回归11全绿, CI四闸门全绿（format/analyze/smoke/build双平台）, hygiene OK。待监工审计。
 - 2026-10-10 SB-004 返工第1轮 done：问题1 widget_test重写主屏真实冒烟（旧计数器删），问题2 _edit加StatefulBuilder即时回显+note.dispose+编辑改类目widget测试；`flutter test`全量27绿，`tool/ci.sh`四闸门全绿，hygiene OK。commit `1bf8f73`。待监工第2轮审计。
+- 2026-10-10 SB-005: 分支 `feat/SB-005-rule-engine`，规则引擎自动归类（179 条内置规则：关键词/商户/latin别名/金额区间消歧）+纠正回写（会话内存）+其他占比供数+类目管理页（Hero占比卡/六类目合计/纠正入口/建议提示）；单测14+页测3+golden2组+对比度闸门，全量47绿，`tool/ci.sh`四闸门全绿，hygiene OK。commit `fa029f8`。待监工审计。
