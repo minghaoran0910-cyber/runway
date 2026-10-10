@@ -71,3 +71,11 @@
 决策模型: 本轮触发 1 项（wip_disposal=0.88，判 A，已按判执行）。
 利益点自省: 本轮清掉悬空残骸让账单导入传感器管线以零污染状态重来，用户侧的『账单自己流进目标』更近（重派即续）；无更远风险项。
 漂移与一致性审计(01:00轮): 禁词 app/lib+test grep=3 与基线完全一致（achievement.dart:12/goal_ladder.dart:7/goal_ladder_test.dart:127 合规本体）零新增；theme/motion_spec 外裸 Color(0x=0、Duration(milliseconds:=0（清理后 pristine main 实测）；_LOCK=本轮收尾即删无泄漏；分支=仅 main 无 feat 残留；main 头 1ec0e00 对应 REVIEW.md 00:00 归档轮无未审先合；SB-011 待办卡在册、done/ 十张完好；无 remote；真实账目 grep=0；progress.md 唯一真相在位、task_plan.md 薄索引未动。
+
+
+## 唤醒轮指令·监工签发 2026-10-11 01:4x（SB-011 续做授权 · round 1 · S0.1 生效）
+- 结论：CONTINUE_PERMIT——适用 LOOP.md S0.1；分支 = `feat/SB-011-bill-import`；崩溃现场已保全（WIP 提交 5f5ab9e：数据层/解析/去重/批次撤销/性能实测223ms/单测7绿/golden 四图全在其中），两分支工作树均净、REVIEW.md 最后 touch。
+- 本轮范围（只修测试，禁止推倒重来）：`app/test/bill_import_test.dart` 仅剩 1 条红：widget 测试『坏路径给提示』。以最小 diff 修页面坏路径提示或其测试匹配，二者择其一贴合卡文义+DESIGN_SYSTEM 令牌。禁改已完成的数据层/解析/去重/撤销逻辑；golden 基线如受影响须列出供监工目审。
+- 环境红线（本卡事故根因，必须遵守）：调试探针只能写入仓内 `_inbox/` 或 `probe*.tmp`（退出前删除），绝不写 `/tmp`——再碰即算铁律违规。
+- 完成出口：`tool/ci.sh` 四闸门+hygiene 全绿 → 更新 progress.md → 写 REVIEW_REQUEST.md 提审（含验收对照+偏差声明，标注『应答续做授权』）。修不好出口：回滚本轮新增改动（WIP 提交 5f5ab9e 不许动），在 REVIEW_REQUEST.md 登记一行阻塞原因后退场——授权消耗，不再补发，巡检将按常规轮处理。
+- 后续：本段被提审/退场登记覆盖即失效；监工 :00/:30 轮照常审查。
