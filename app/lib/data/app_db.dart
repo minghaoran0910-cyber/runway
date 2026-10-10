@@ -7,7 +7,9 @@ import 'package:path_provider/path_provider.dart';
 
 // SB-004 · schema v1（Transactions）+ SQLCipher 加密打开 + DAO.
 // SB-007 · schema v2（Goals 目标表；PRD §4 goal 模型子集：name/target/单价/tier/doneAt）.
-// 授权：SB-007 任务卡显式授权 schema v2 迁移（禁区仅此一表）；禁手改 schema，迁移走 drift.
+// SB-008 · schema v3（Achievements 成就表；任务卡显式授权，禁区仅此一表，可回滚）.
+// 授权：SB-007 任务卡显式授权 schema v2 迁移；SB-008 任务卡显式授权 schema v3 迁移.
+// 禁手改 schema，迁移走 drift.
 // 真实账目数据永不入库；测试一律合成 fixtures.
 
 part 'app_db.g.dart';
@@ -36,7 +38,19 @@ class Goals extends Table {
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }
 
-@DriftDatabase(tables: [Transactions, Goals])
+/// schema v3：achievements（成就收藏序列；goalId 去重由逻辑层保证）.
+/// tier 冗余目标档（ladderNameFor 推导）；unlockedAt 为达成落库时间（序列排序键）.
+class Achievements extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get goalId => integer()();
+  TextColumn get goalName => text().withLength(min: 1, max: 32)();
+  IntColumn get targetFen => integer()();
+  IntColumn get convertibleFen => integer()();
+  TextColumn get tier => text().withDefault(const Constant(''))();
+  DateTimeColumn get unlockedAt => dateTime().withDefault(currentDateAndTime)();
+}
+
+@DriftDatabase(tables: [Transactions, Goals, Achievements])
 class AppDb extends _$AppDb {
   AppDb(super.executor);
 
@@ -88,18 +102,27 @@ class AppDb extends _$AppDb {
   }
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (Migrator m) => m.createAll(),
     // v1→v2：新增 goals 表（SB-007 卡授权）；存量 transactions 不动.
+    // v2→v3：新增 achievements 表（SB-008 卡授权）；存量 goals/transactions 不动.
     onUpgrade: (m, from, to) async {
       if (from < 2) {
         await m.createTable(goals);
       }
+      if (from < 3) {
+        await m.createTable(achievements);
+      }
     },
   );
+
+  /// v3 回滚语义：删 achievements 表即回到 v2 形状（开发期回滚用；线上走版本号）.
+  Future<void> rollbackAchievementsToV2() async {
+    await customStatement('DROP TABLE IF EXISTS achievements');
+  }
 
   /// v2 回滚语义：删 goals 表即回到 v1 形状（开发期回滚用；线上走版本号）.
   Future<void> rollbackGoalsToV1() async {
@@ -157,5 +180,27 @@ class AppDb extends _$AppDb {
 
   Future<int> deleteGoal(int id) {
     return (delete(goals)..where((g) => g.id.equals(id))).go();
+  }
+
+  // —— Achievements DAO（SB-008；unlockedAt 倒序即收藏序列）——
+
+  Future<List<Achievement>> listAchievements() {
+    return (select(
+      achievements,
+    )..orderBy([(a) => OrderingTerm.desc(a.unlockedAt)])).get();
+  }
+
+  Stream<List<Achievement>> watchAchievements() {
+    return (select(
+      achievements,
+    )..orderBy([(a) => OrderingTerm.desc(a.unlockedAt)])).watch();
+  }
+
+  Future<int> insertAchievement(AchievementsCompanion entry) {
+    return into(achievements).insert(entry);
+  }
+
+  Future<int> deleteAchievement(int id) {
+    return (delete(achievements)..where((a) => a.id.equals(id))).go();
   }
 }

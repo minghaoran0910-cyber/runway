@@ -5,6 +5,8 @@ import '../data/app_db.dart';
 import '../logic/dashboard_stats.dart';
 import '../logic/entry.dart';
 import '../logic/goal_ladder.dart';
+import 'achievement_gate.dart';
+import 'achievements_page.dart';
 import 'dashboard_cards.dart';
 import 'goal_card.dart';
 import 'theme/app_theme.dart';
@@ -153,6 +155,24 @@ class GoalPage extends StatelessWidget {
                             monthSpendFen: sums.monthSpendFen,
                             lastMonthSpendFen: sums.lastMonthSpendFen,
                           ),
+                        // SB-008 · 达成态才出现的收藏入口（非达成零像素改动，
+                        // SB-007 golden 基线不受影响）.
+                        if (active != null &&
+                            computeGoal(
+                              monthSpendFen: sums.monthSpendFen,
+                              lastMonthSpendFen: sums.lastMonthSpendFen,
+                              targetFen: active.targetFen,
+                            ).done)
+                          TextButton(
+                            onPressed: () => Navigator.of(context).push<void>(
+                              MaterialPageRoute<void>(
+                                builder: (_) => AchievementsPage(db: db),
+                              ),
+                            ),
+                            key: const Key('goalToAchievements'),
+                            child: const Text('查看成就收藏'),
+                          ),
+                        AchievementGate(db: db),
                         const SizedBox(height: RunwaySpacing.section),
                         Text(
                           '全部目标 ${goals.length} 个 · 首个为当前目标',
