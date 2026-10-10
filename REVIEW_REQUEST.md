@@ -1,26 +1,19 @@
-# REVIEW_REQUEST — SB-009 安全垫与周报
+# REVIEW_REQUEST — SB-010返工第2轮/R3末轮（应答REVIEW第2轮REQUEST_CHANGES+22:40死锁裁决）
 
-仓库：`/Users/dada561/Documents/runway`，分支：`feat/SB-009-safety-weekly`（未merge、未push、无remote，合规）
-任务卡：`docs/tasks/SB-009.md`
-commit：`dc70a16 feat(safety): 安全垫与周报+schema v4 [SB-009]`（+ trailer `Agent: opencode`）
+仓库：`/Users/dada561/Documents/runway`，分支：`feat/SB-010-notify-collect`（未merge、未push、无remote，合规）
+任务卡：`docs/tasks/SB-010.md`（已merge main取d6ae1ab新验收4；另SB-019决策性文字顺带合入，非本卡范围不动代码）
+commit：`267c125 fix(notify): 通知身份去重替代时间桶+3单测 [SB-010]`（+ trailer `Agent: opencode`；另 `a459c8d` progress登记轮；基座第1轮 `84f47c6` 在位）
 
-验收对照（任务卡 5 项）：
-1. 安全垫目标可设（默认 6 个月，进度=自由基金余额/目标额），与目标阶梯同区展示不重复造轮子 —— ✓ `logic/safety_report.dart`（computeSafetyPad：目标=近3月月均×月数，余额=本月可换算省出computeGoal口径，validateSafetyMonths 1–36）+ `ui/safety_card.dart`（SafetyPadCard复用GoalProgressCard视觉语言：r16卡/r10进度条/tabular/tokens；SafetyZone由GoalPage目标区之下挂载；设月数对话框upsert落库）。
-2. 周报每周一自动生成历史留存：支出/收入（若有）/省出金额换算 Top3/环比上周；纯本地生成无网络 —— ✓ `ui/weekly_page.dart`（打开周报页时周一且本周未生成则自动落库，weekStart幂等去重；手动"生成本周周报"按钮兜底；历史序列weekStart倒序）+ 引擎computeWeekly/sumPrevWeekSpend/shouldGenerateWeekly；收入字段预留0（transactions暂无收入口径，见D4）；零网络调用。
-3. 换算口径复用 SB-007 引擎（禁复制粘贴第二套） —— ✓ 周报省出=max(0,上周−本周)单环比增量（见D3）；文案换算复用`equivalentOf`/`describeSaving`，禁词复用`achievementBannedWords`（safetyBannedWords getter转发，不另建表）；类目归一复用`canonicalCategory`。源码级无重复换算实现。
-4. golden四组：安全垫卡 + 周报页 Light/Dark × 空/有 —— ✓ `test/golden_safety_test.dart` 4组基线 `golden/sb009/safety_{light_data,dark_empty}` + `weekly_{light_data,dark_empty}` 新建并比对通过；SB-007 golden 4张重生成（见D2）。
-5. 四闸门全绿 + hygiene OK —— ✓ `dart format --set-exit-if-changed` 0改动；`flutter analyze --fatal-infos --fatal-warnings` No issues；全量 `flutter test` 133/133绿（107继承+26新增：单测15+widget/golden11含对比度闸门）；`tool/check-repo-hygiene.sh` OK；`flutter build macos --debug` + `flutter build apk --debug` 双成功。
+问题逐条应答（REVIEW第2轮 P1×1，新验收4）：
+1. [P1·新验收4身份去重] 旧实现SHA-1(包|标题|金额分|UTC分钟桶)+单测锁定分钟桶语义，extras无tag/id/when → 已按卡重做：Kotlin用sbn.tag/sbn.id/sbn.postTime/notification.when+内容哈希（sha1包|标题trim|金额分），extras补传tag/notifId/whenMs/postTimeMs/contentHash，occurredAt取when可信值否则postTime；Dart键体预镜像三元组化（when可信：SHA-1包|tag|id|when毫秒|内容哈希；否则回退SHA-1包|tag|id|内容哈希|postTime秒，1e12为毫秒可信下界），parsePaymentNotice新增tag/notifId/whenMs/postTimeMs透传，occurredAt同口径回退。去重以notifyKey为准，DAO幂等逻辑不动。第1轮已修项保留未回退：键体哈希化（§5标题不明文落库，值级单测在位）+Kotlin BigDecimal HALF_UP（8.20→820镜像单测在位）+merchant三处32。
+2. 卡要求3单测已补（新文件test/notification_identity_test.dart，拆分保单文件≤400行）：①同商户同金额不同when→异键且DAO保留2条 ②同通知重投三同→同键且DAO幂等仅1条 ③回退路径（同postTime秒同键/跨秒异键/秒级when走回退/40位hex形状）。风暴测试按新语义复核（50条tag/id/when各异→50互异键不丢）。旧分钟桶单测已改身份制（同身份同when同键/when不同异键）；SHA标准向量更新为内容哈希+身份键向量（python hashlib对拍：`||0`→d2abfc06…、`a|b|99`→ebadb7a4…、身份键→edc5af55…，锁定Dart与Kotlin MessageDigest一致）。
+3. 4b已知边界如实记：when系App自报，同秒两笔理论可并（人手不可达）；通知重建出毫秒级新when的罕见情形多出一条待确认，由待确认池一键消化，非静默错账（实现未做静默合并，符合“不漏一笔真账”）。
 
 验证：
-- 文件约束：代码文件8（lib新3：safety_report 273行/safety_card 228行/weekly_page 247行；lib改2：app_db 299行/goal_page 375行；test新2：safety_report_test 239行/golden_safety_test 278行；test改1：golden_goal_test 197行CRUD滚动），均≤400行（app_db.g.dart生成文件豁免沿SB-004先例）；无依赖变更（pubspec 0改动）、无docs规范改动
-- schema v4：SafetyPad表（targetMonths默认6，单行id=1约定）+WeeklyReports表（weekStart/spend/income/saved/topJson/momDelta）；onUpgrade v3→v4建双表（存量不动）；`rollbackSafetyWeeklyToV3()`开发期回滚（删双表回v3形状）；build_runner已重生成g.dart
-- 文案得到框架：安全垫/周报标题正文环比Top单测断言禁词零命中（复用成就禁词表）；大额只陈述（safetyBody/weeklyBody复用equivalentOf无行动召唤）；周报"比上周多花X·整体仍在积累"（陈述+托底，无亏欠）
+- `dart format` 0改动；`flutter analyze --fatal-infos --fatal-warnings` No issues；全量`flutter test` 163/163绿（160继承+3新增）；`tool/ci.sh`四闸门全绿（含macOS+APK双build，ALL GREEN）；`tool/check-repo-hygiene.sh` OK
+- 文件约束：业务6文件（Service 112行、MainActivity 89行、parse 223行、pending_page 392行、单测363+136行）≤400，文件数6≤10；无docs规范改动（除merge带入的卡本身d6ae1ab）、无pubspec依赖变更、无schema变更（pending表结构不动，仅键内容换语义）
+- 红线：全库“全自动”（除禁令行）零命中（沿用单测grep断言）；ui/theme与motion_spec之外裸Color/Duration零新增；测试全合成fixtures，真实账目=0；未碰remote、未push
 
-偏差声明（请监工知悉/裁决）：
-- D1 文件数9（代码8+g.dart regen豁免）：卡预估9（引擎1、DAO+迁移2、页面2、测试4）。实际test改1（golden_goal CRUD滚动，见D2）计入，lib改goal_page为同区挂载必需。golden 8张为验收4+回归4之直接产物（沿SB-006/007/008先例随附）。请监工裁决是否接受。
-- D2 SB-007 golden 4张重生成 + CRUD测试加滚动：安全垫同区展示为卡面明示要求（"与目标阶梯同区展示"），非零像素改动，基线必须跟进；目标列表被顶出首屏视口（ListView懒加载），CRUD断言前加scrollUntilVisible。请监工逐张目审（防改基线骗测）。
-- D3 周报省出口径为周粒度单环比增量（max(0,上周−本周)），未照搬月口径"基线差+环比增量"双项相加：周粒度下基线即上周，双项相加会双计。如需与月口径完全同形请打回，我改口径。
-- D4 "自由基金余额"定义为本月可换算省出（computeGoal口径，非累计存款）；收入字段记0预留（transactions暂无收入口径，无编造）；提醒开关未做（需本地通知库，按卡要求须先ADR，故不引入）。
-- D5 自动生成语义为"打开周报页时若为周一且本周未生成则自动落库"（幂等），非后台定时任务（本地优先、无后台常驻；G4采集阶段再议）；手动按钮为兜底。如需真后台调度请打回，我出ADR。
+偏差声明：无新增偏差（桶口径废除系卡d6ae1ab实质拍板，非builder自选；阈值1e12毫秒可信判定为实现细节，已在注释与单测锁定）。
 
-请审计后结论写 `REVIEW.md`（PASS 或 REQUEST_CHANGES，本卡第 1 轮/上限 3 轮）。
+请审计后结论写 `REVIEW.md`（PASS 或 REQUEST_CHANGES，本卡第 3 轮/上限 3 轮；再打回按裁决直接熔断）。

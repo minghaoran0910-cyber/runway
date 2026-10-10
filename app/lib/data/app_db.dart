@@ -9,8 +9,10 @@ import 'package:path_provider/path_provider.dart';
 // SB-007 · schema v2（Goals 目标表；PRD §4 goal 模型子集：name/target/单价/tier/doneAt）.
 // SB-008 · schema v3（Achievements 成就表；任务卡显式授权，禁区仅此一表，可回滚）.
 // SB-009 · schema v4（SafetyPad 配置 + WeeklyReports 周报缓存；任务卡显式授权，可回滚）.
+// SB-010 · schema v5（PendingRecords 待确认采集；任务卡显式授权，可回滚；无原文列 §5）.
 // 授权：SB-007 任务卡显式授权 schema v2 迁移；SB-008 任务卡显式授权 schema v3 迁移；
 // SB-009 任务卡显式授权 schema v4 迁移.
+// SB-010 任务卡显式授权 schema v5 迁移.
 // 禁手改 schema，迁移走 drift.
 // 真实账目数据永不入库；测试一律合成 fixtures.
 
@@ -71,8 +73,28 @@ class WeeklyReports extends Table {
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }
 
+/// schema v5：pending_records（待确认采集；notifyKey 去重由逻辑层保证）.
+/// §5 原文零留存：本表只有结构化字段，禁止新增原文列（单测断言列名）.
+class PendingRecords extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get amountFen => integer()();
+  DateTimeColumn get occurredAt => dateTime()();
+  TextColumn get category => text().withLength(min: 1, max: 32)();
+  TextColumn get merchant => text().withLength(min: 1, max: 64)();
+  TextColumn get sourcePkg => text().withDefault(const Constant(''))();
+  TextColumn get notifyKey => text().withDefault(const Constant(''))();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+}
+
 @DriftDatabase(
-  tables: [Transactions, Goals, Achievements, SafetyPad, WeeklyReports],
+  tables: [
+    Transactions,
+    Goals,
+    Achievements,
+    SafetyPad,
+    WeeklyReports,
+    PendingRecords,
+  ],
 )
 class AppDb extends _$AppDb {
   AppDb(super.executor);
@@ -125,7 +147,7 @@ class AppDb extends _$AppDb {
   }
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -133,6 +155,7 @@ class AppDb extends _$AppDb {
     // v1→v2：新增 goals 表（SB-007 卡授权）；存量 transactions 不动.
     // v2→v3：新增 achievements 表（SB-008 卡授权）；存量 goals/transactions 不动.
     // v3→v4：新增 safety_pad + weekly_reports 表（SB-009 卡授权）；存量不动.
+    // v4→v5：新增 pending_records 表（SB-010 卡授权）；存量不动.
     onUpgrade: (m, from, to) async {
       if (from < 2) {
         await m.createTable(goals);
@@ -144,8 +167,16 @@ class AppDb extends _$AppDb {
         await m.createTable(safetyPad);
         await m.createTable(weeklyReports);
       }
+      if (from < 5) {
+        await m.createTable(pendingRecords);
+      }
     },
   );
+
+  /// v5 回滚语义：删 pending_records 表即回 v4 形状（开发期回滚用）.
+  Future<void> rollbackPendingToV4() async {
+    await customStatement('DROP TABLE IF EXISTS pending_records');
+  }
 
   /// v4 回滚语义：删 safety_pad + weekly_reports 即回 v3 形状（开发期回滚用）.
   Future<void> rollbackSafetyWeeklyToV3() async {
@@ -295,5 +326,59 @@ class AppDb extends _$AppDb {
 
   Future<int> deleteWeeklyReport(int id) {
     return (delete(weeklyReports)..where((w) => w.id.equals(id))).go();
+  }
+
+  // —— PendingRecords DAO（SB-010；createdAt 倒序即待确认序列）——
+
+  Future<List<PendingRecord>> listPending() {
+    return (select(
+      pendingRecords,
+    )..orderBy([(r) => OrderingTerm.desc(r.createdAt)])).get();
+  }
+
+  Stream<List<PendingRecord>> watchPending() {
+    return (select(
+      pendingRecords,
+    )..orderBy([(r) => OrderingTerm.desc(r.createdAt)])).watch();
+  }
+
+  /// 幂等落库：同 notifyKey 已存在即返回既有 id（重复通知去重；风暴不丢不卡）.
+  Future<int> insertPendingDedup(PendingRecordsCompanion entry) async {
+    final String key = entry.notifyKey.value;
+    if (key.isNotEmpty) {
+      final List<PendingRecord> hit = await (select(
+        pendingRecords,
+      )..where((r) => r.notifyKey.equals(key))).get();
+      if (hit.isNotEmpty) return hit.first.id;
+    }
+    return into(pendingRecords).insert(entry);
+  }
+
+  /// 一键入账：走 SB-004 transactions 通道（source 记 `notify`），再删待确认行.
+  Future<int> confirmPending(PendingRecord row) async {
+    final int id = await insertOne(
+      TransactionsCompanion(
+        amountFen: Value(row.amountFen),
+        occurredAt: Value(row.occurredAt),
+        category: Value(row.category),
+        note: Value(row.merchant),
+        source: const Value('notify'),
+      ),
+    );
+    await deletePending(row.id);
+    return id;
+  }
+
+  /// 批量确认（仅 UI 开关打开时调用；开关默认关，见 pending_page）.
+  Future<int> confirmAllPending() async {
+    final List<PendingRecord> rows = await listPending();
+    for (final PendingRecord r in rows) {
+      await confirmPending(r);
+    }
+    return rows.length;
+  }
+
+  Future<int> deletePending(int id) {
+    return (delete(pendingRecords)..where((r) => r.id.equals(id))).go();
   }
 }

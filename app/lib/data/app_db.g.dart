@@ -2107,6 +2107,512 @@ class WeeklyReportsCompanion extends UpdateCompanion<WeeklyReport> {
   }
 }
 
+class $PendingRecordsTable extends PendingRecords
+    with TableInfo<$PendingRecordsTable, PendingRecord> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PendingRecordsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _amountFenMeta = const VerificationMeta(
+    'amountFen',
+  );
+  @override
+  late final GeneratedColumn<int> amountFen = GeneratedColumn<int>(
+    'amount_fen',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _occurredAtMeta = const VerificationMeta(
+    'occurredAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> occurredAt = GeneratedColumn<DateTime>(
+    'occurred_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+    'category',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 32,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _merchantMeta = const VerificationMeta(
+    'merchant',
+  );
+  @override
+  late final GeneratedColumn<String> merchant = GeneratedColumn<String>(
+    'merchant',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 64,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sourcePkgMeta = const VerificationMeta(
+    'sourcePkg',
+  );
+  @override
+  late final GeneratedColumn<String> sourcePkg = GeneratedColumn<String>(
+    'source_pkg',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _notifyKeyMeta = const VerificationMeta(
+    'notifyKey',
+  );
+  @override
+  late final GeneratedColumn<String> notifyKey = GeneratedColumn<String>(
+    'notify_key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    amountFen,
+    occurredAt,
+    category,
+    merchant,
+    sourcePkg,
+    notifyKey,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'pending_records';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<PendingRecord> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('amount_fen')) {
+      context.handle(
+        _amountFenMeta,
+        amountFen.isAcceptableOrUnknown(data['amount_fen']!, _amountFenMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_amountFenMeta);
+    }
+    if (data.containsKey('occurred_at')) {
+      context.handle(
+        _occurredAtMeta,
+        occurredAt.isAcceptableOrUnknown(data['occurred_at']!, _occurredAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_occurredAtMeta);
+    }
+    if (data.containsKey('category')) {
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_categoryMeta);
+    }
+    if (data.containsKey('merchant')) {
+      context.handle(
+        _merchantMeta,
+        merchant.isAcceptableOrUnknown(data['merchant']!, _merchantMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_merchantMeta);
+    }
+    if (data.containsKey('source_pkg')) {
+      context.handle(
+        _sourcePkgMeta,
+        sourcePkg.isAcceptableOrUnknown(data['source_pkg']!, _sourcePkgMeta),
+      );
+    }
+    if (data.containsKey('notify_key')) {
+      context.handle(
+        _notifyKeyMeta,
+        notifyKey.isAcceptableOrUnknown(data['notify_key']!, _notifyKeyMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  PendingRecord map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PendingRecord(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      amountFen: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}amount_fen'],
+      )!,
+      occurredAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}occurred_at'],
+      )!,
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      )!,
+      merchant: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}merchant'],
+      )!,
+      sourcePkg: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source_pkg'],
+      )!,
+      notifyKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notify_key'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $PendingRecordsTable createAlias(String alias) {
+    return $PendingRecordsTable(attachedDatabase, alias);
+  }
+}
+
+class PendingRecord extends DataClass implements Insertable<PendingRecord> {
+  final int id;
+  final int amountFen;
+  final DateTime occurredAt;
+  final String category;
+  final String merchant;
+  final String sourcePkg;
+  final String notifyKey;
+  final DateTime createdAt;
+  const PendingRecord({
+    required this.id,
+    required this.amountFen,
+    required this.occurredAt,
+    required this.category,
+    required this.merchant,
+    required this.sourcePkg,
+    required this.notifyKey,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['amount_fen'] = Variable<int>(amountFen);
+    map['occurred_at'] = Variable<DateTime>(occurredAt);
+    map['category'] = Variable<String>(category);
+    map['merchant'] = Variable<String>(merchant);
+    map['source_pkg'] = Variable<String>(sourcePkg);
+    map['notify_key'] = Variable<String>(notifyKey);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  PendingRecordsCompanion toCompanion(bool nullToAbsent) {
+    return PendingRecordsCompanion(
+      id: Value(id),
+      amountFen: Value(amountFen),
+      occurredAt: Value(occurredAt),
+      category: Value(category),
+      merchant: Value(merchant),
+      sourcePkg: Value(sourcePkg),
+      notifyKey: Value(notifyKey),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory PendingRecord.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PendingRecord(
+      id: serializer.fromJson<int>(json['id']),
+      amountFen: serializer.fromJson<int>(json['amountFen']),
+      occurredAt: serializer.fromJson<DateTime>(json['occurredAt']),
+      category: serializer.fromJson<String>(json['category']),
+      merchant: serializer.fromJson<String>(json['merchant']),
+      sourcePkg: serializer.fromJson<String>(json['sourcePkg']),
+      notifyKey: serializer.fromJson<String>(json['notifyKey']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'amountFen': serializer.toJson<int>(amountFen),
+      'occurredAt': serializer.toJson<DateTime>(occurredAt),
+      'category': serializer.toJson<String>(category),
+      'merchant': serializer.toJson<String>(merchant),
+      'sourcePkg': serializer.toJson<String>(sourcePkg),
+      'notifyKey': serializer.toJson<String>(notifyKey),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  PendingRecord copyWith({
+    int? id,
+    int? amountFen,
+    DateTime? occurredAt,
+    String? category,
+    String? merchant,
+    String? sourcePkg,
+    String? notifyKey,
+    DateTime? createdAt,
+  }) => PendingRecord(
+    id: id ?? this.id,
+    amountFen: amountFen ?? this.amountFen,
+    occurredAt: occurredAt ?? this.occurredAt,
+    category: category ?? this.category,
+    merchant: merchant ?? this.merchant,
+    sourcePkg: sourcePkg ?? this.sourcePkg,
+    notifyKey: notifyKey ?? this.notifyKey,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  PendingRecord copyWithCompanion(PendingRecordsCompanion data) {
+    return PendingRecord(
+      id: data.id.present ? data.id.value : this.id,
+      amountFen: data.amountFen.present ? data.amountFen.value : this.amountFen,
+      occurredAt: data.occurredAt.present
+          ? data.occurredAt.value
+          : this.occurredAt,
+      category: data.category.present ? data.category.value : this.category,
+      merchant: data.merchant.present ? data.merchant.value : this.merchant,
+      sourcePkg: data.sourcePkg.present ? data.sourcePkg.value : this.sourcePkg,
+      notifyKey: data.notifyKey.present ? data.notifyKey.value : this.notifyKey,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PendingRecord(')
+          ..write('id: $id, ')
+          ..write('amountFen: $amountFen, ')
+          ..write('occurredAt: $occurredAt, ')
+          ..write('category: $category, ')
+          ..write('merchant: $merchant, ')
+          ..write('sourcePkg: $sourcePkg, ')
+          ..write('notifyKey: $notifyKey, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    amountFen,
+    occurredAt,
+    category,
+    merchant,
+    sourcePkg,
+    notifyKey,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PendingRecord &&
+          other.id == this.id &&
+          other.amountFen == this.amountFen &&
+          other.occurredAt == this.occurredAt &&
+          other.category == this.category &&
+          other.merchant == this.merchant &&
+          other.sourcePkg == this.sourcePkg &&
+          other.notifyKey == this.notifyKey &&
+          other.createdAt == this.createdAt);
+}
+
+class PendingRecordsCompanion extends UpdateCompanion<PendingRecord> {
+  final Value<int> id;
+  final Value<int> amountFen;
+  final Value<DateTime> occurredAt;
+  final Value<String> category;
+  final Value<String> merchant;
+  final Value<String> sourcePkg;
+  final Value<String> notifyKey;
+  final Value<DateTime> createdAt;
+  const PendingRecordsCompanion({
+    this.id = const Value.absent(),
+    this.amountFen = const Value.absent(),
+    this.occurredAt = const Value.absent(),
+    this.category = const Value.absent(),
+    this.merchant = const Value.absent(),
+    this.sourcePkg = const Value.absent(),
+    this.notifyKey = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  PendingRecordsCompanion.insert({
+    this.id = const Value.absent(),
+    required int amountFen,
+    required DateTime occurredAt,
+    required String category,
+    required String merchant,
+    this.sourcePkg = const Value.absent(),
+    this.notifyKey = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  }) : amountFen = Value(amountFen),
+       occurredAt = Value(occurredAt),
+       category = Value(category),
+       merchant = Value(merchant);
+  static Insertable<PendingRecord> custom({
+    Expression<int>? id,
+    Expression<int>? amountFen,
+    Expression<DateTime>? occurredAt,
+    Expression<String>? category,
+    Expression<String>? merchant,
+    Expression<String>? sourcePkg,
+    Expression<String>? notifyKey,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (amountFen != null) 'amount_fen': amountFen,
+      if (occurredAt != null) 'occurred_at': occurredAt,
+      if (category != null) 'category': category,
+      if (merchant != null) 'merchant': merchant,
+      if (sourcePkg != null) 'source_pkg': sourcePkg,
+      if (notifyKey != null) 'notify_key': notifyKey,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  PendingRecordsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? amountFen,
+    Value<DateTime>? occurredAt,
+    Value<String>? category,
+    Value<String>? merchant,
+    Value<String>? sourcePkg,
+    Value<String>? notifyKey,
+    Value<DateTime>? createdAt,
+  }) {
+    return PendingRecordsCompanion(
+      id: id ?? this.id,
+      amountFen: amountFen ?? this.amountFen,
+      occurredAt: occurredAt ?? this.occurredAt,
+      category: category ?? this.category,
+      merchant: merchant ?? this.merchant,
+      sourcePkg: sourcePkg ?? this.sourcePkg,
+      notifyKey: notifyKey ?? this.notifyKey,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (amountFen.present) {
+      map['amount_fen'] = Variable<int>(amountFen.value);
+    }
+    if (occurredAt.present) {
+      map['occurred_at'] = Variable<DateTime>(occurredAt.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (merchant.present) {
+      map['merchant'] = Variable<String>(merchant.value);
+    }
+    if (sourcePkg.present) {
+      map['source_pkg'] = Variable<String>(sourcePkg.value);
+    }
+    if (notifyKey.present) {
+      map['notify_key'] = Variable<String>(notifyKey.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PendingRecordsCompanion(')
+          ..write('id: $id, ')
+          ..write('amountFen: $amountFen, ')
+          ..write('occurredAt: $occurredAt, ')
+          ..write('category: $category, ')
+          ..write('merchant: $merchant, ')
+          ..write('sourcePkg: $sourcePkg, ')
+          ..write('notifyKey: $notifyKey, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDb extends GeneratedDatabase {
   _$AppDb(QueryExecutor e) : super(e);
   $AppDbManager get managers => $AppDbManager(this);
@@ -2115,6 +2621,7 @@ abstract class _$AppDb extends GeneratedDatabase {
   late final $AchievementsTable achievements = $AchievementsTable(this);
   late final $SafetyPadTable safetyPad = $SafetyPadTable(this);
   late final $WeeklyReportsTable weeklyReports = $WeeklyReportsTable(this);
+  late final $PendingRecordsTable pendingRecords = $PendingRecordsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2125,6 +2632,7 @@ abstract class _$AppDb extends GeneratedDatabase {
     achievements,
     safetyPad,
     weeklyReports,
+    pendingRecords,
   ];
 }
 
@@ -3264,6 +3772,268 @@ typedef $$WeeklyReportsTableProcessedTableManager =
       WeeklyReport,
       PrefetchHooks Function()
     >;
+typedef $$PendingRecordsTableCreateCompanionBuilder =
+    PendingRecordsCompanion Function({
+      Value<int> id,
+      required int amountFen,
+      required DateTime occurredAt,
+      required String category,
+      required String merchant,
+      Value<String> sourcePkg,
+      Value<String> notifyKey,
+      Value<DateTime> createdAt,
+    });
+typedef $$PendingRecordsTableUpdateCompanionBuilder =
+    PendingRecordsCompanion Function({
+      Value<int> id,
+      Value<int> amountFen,
+      Value<DateTime> occurredAt,
+      Value<String> category,
+      Value<String> merchant,
+      Value<String> sourcePkg,
+      Value<String> notifyKey,
+      Value<DateTime> createdAt,
+    });
+
+class $$PendingRecordsTableFilterComposer
+    extends Composer<_$AppDb, $PendingRecordsTable> {
+  $$PendingRecordsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get amountFen => $composableBuilder(
+    column: $table.amountFen,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get occurredAt => $composableBuilder(
+    column: $table.occurredAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get merchant => $composableBuilder(
+    column: $table.merchant,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sourcePkg => $composableBuilder(
+    column: $table.sourcePkg,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get notifyKey => $composableBuilder(
+    column: $table.notifyKey,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$PendingRecordsTableOrderingComposer
+    extends Composer<_$AppDb, $PendingRecordsTable> {
+  $$PendingRecordsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get amountFen => $composableBuilder(
+    column: $table.amountFen,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get occurredAt => $composableBuilder(
+    column: $table.occurredAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get merchant => $composableBuilder(
+    column: $table.merchant,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sourcePkg => $composableBuilder(
+    column: $table.sourcePkg,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get notifyKey => $composableBuilder(
+    column: $table.notifyKey,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$PendingRecordsTableAnnotationComposer
+    extends Composer<_$AppDb, $PendingRecordsTable> {
+  $$PendingRecordsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get amountFen =>
+      $composableBuilder(column: $table.amountFen, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get occurredAt => $composableBuilder(
+    column: $table.occurredAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<String> get merchant =>
+      $composableBuilder(column: $table.merchant, builder: (column) => column);
+
+  GeneratedColumn<String> get sourcePkg =>
+      $composableBuilder(column: $table.sourcePkg, builder: (column) => column);
+
+  GeneratedColumn<String> get notifyKey =>
+      $composableBuilder(column: $table.notifyKey, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$PendingRecordsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $PendingRecordsTable,
+          PendingRecord,
+          $$PendingRecordsTableFilterComposer,
+          $$PendingRecordsTableOrderingComposer,
+          $$PendingRecordsTableAnnotationComposer,
+          $$PendingRecordsTableCreateCompanionBuilder,
+          $$PendingRecordsTableUpdateCompanionBuilder,
+          (
+            PendingRecord,
+            BaseReferences<_$AppDb, $PendingRecordsTable, PendingRecord>,
+          ),
+          PendingRecord,
+          PrefetchHooks Function()
+        > {
+  $$PendingRecordsTableTableManager(_$AppDb db, $PendingRecordsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PendingRecordsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PendingRecordsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PendingRecordsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> amountFen = const Value.absent(),
+                Value<DateTime> occurredAt = const Value.absent(),
+                Value<String> category = const Value.absent(),
+                Value<String> merchant = const Value.absent(),
+                Value<String> sourcePkg = const Value.absent(),
+                Value<String> notifyKey = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => PendingRecordsCompanion(
+                id: id,
+                amountFen: amountFen,
+                occurredAt: occurredAt,
+                category: category,
+                merchant: merchant,
+                sourcePkg: sourcePkg,
+                notifyKey: notifyKey,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int amountFen,
+                required DateTime occurredAt,
+                required String category,
+                required String merchant,
+                Value<String> sourcePkg = const Value.absent(),
+                Value<String> notifyKey = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => PendingRecordsCompanion.insert(
+                id: id,
+                amountFen: amountFen,
+                occurredAt: occurredAt,
+                category: category,
+                merchant: merchant,
+                sourcePkg: sourcePkg,
+                notifyKey: notifyKey,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$PendingRecordsTable, PendingRecord>(table),
+                  BaseReferences<_$AppDb, $PendingRecordsTable, PendingRecord>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$PendingRecordsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $PendingRecordsTable,
+      PendingRecord,
+      $$PendingRecordsTableFilterComposer,
+      $$PendingRecordsTableOrderingComposer,
+      $$PendingRecordsTableAnnotationComposer,
+      $$PendingRecordsTableCreateCompanionBuilder,
+      $$PendingRecordsTableUpdateCompanionBuilder,
+      (
+        PendingRecord,
+        BaseReferences<_$AppDb, $PendingRecordsTable, PendingRecord>,
+      ),
+      PendingRecord,
+      PrefetchHooks Function()
+    >;
 
 class $AppDbManager {
   final _$AppDb _db;
@@ -3278,4 +4048,6 @@ class $AppDbManager {
       $$SafetyPadTableTableManager(_db, _db.safetyPad);
   $$WeeklyReportsTableTableManager get weeklyReports =>
       $$WeeklyReportsTableTableManager(_db, _db.weeklyReports);
+  $$PendingRecordsTableTableManager get pendingRecords =>
+      $$PendingRecordsTableTableManager(_db, _db.pendingRecords);
 }

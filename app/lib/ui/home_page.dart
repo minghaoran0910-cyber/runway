@@ -7,6 +7,7 @@ import '../logic/entry.dart';
 import 'category_page.dart';
 import 'dashboard_cards.dart';
 import 'goal_page.dart';
+import 'pending_page.dart';
 import 'quick_add_page.dart';
 import 'theme/app_theme.dart';
 import 'theme/tokens.dart';
@@ -14,6 +15,7 @@ import 'theme/tokens.dart';
 // SB-004 · 主屏（记录列表可查/可改/可删；重开 App 数据仍在，文件库持久化）.
 // SB-006 · 首页看板四区（Hero/今日/Top5/目标）+ 原记录列表保留.
 // SB-007 · 目标入口 + goals 表真实 goalFen 供数（闭环 SB-006 D1 目标未持久化）.
+// SB-010 · 待确认入口（图标按钮进 PendingListPage；零像素改动，既有 golden 不受影响）.
 // Hero 主卡沿 §3（AppTheme.heroCard）；列表行分隔仅用 hairline（§1.3）.
 
 class HomePage extends StatelessWidget {
@@ -96,6 +98,19 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('攒够'),
         actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.markunread_mailbox),
+            tooltip: '待确认',
+            key: const Key('pendingEntry'),
+            onPressed: () => Navigator.of(context).push<void>(
+              MaterialPageRoute<void>(
+                builder: (_) => PendingListPage(
+                  db: db,
+                  source: AndroidNotificationCollector(),
+                ),
+              ),
+            ),
+          ),
           IconButton(
             icon: const Icon(Icons.category),
             tooltip: '类目管理',

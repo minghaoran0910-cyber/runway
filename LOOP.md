@@ -1,7 +1,7 @@
 # LOOP.md — runway 自动施工循环（headless 唤醒入口）
 
 > 本文件是 `opencode run` 每次被唤醒后的唯一指令来源。不依赖上轮记忆，一切以文件为准。
-> 期望的唤醒语（openclaw 侧 cron 拥有，备查）：`读 LOOP.md，按状态机只做一件事，做完就退出；_LOCK 存在则直接退出`，工作目录 `/Users/dada561/Documents/runway`。
+> 期望的唤醒语（openclaw 侧 cron 拥有，备查）：`读 LOOP.md，按状态机只做一件事，做完就退出；_LOCK 存在则直接退出；监工裁决在案（见 REVIEW.md 尾部裁决记录）：SB-010 第3轮（末轮）返工放行，S0.2 分支守卫对当前在审返工分支 feat/SB-010-notify-collect 视为通过（裁决已失效或被更新打回取代则不豁免、照常退出），其余守卫与铁律照常`，工作目录 `/Users/dada561/Documents/runway`。（2026-10-10 22:4x 巡检轮同步：R3 豁免分句系监工裁决记录授权，非状态机本体修改；R3 提审后由监工撤句）
 > 权限实测结论（2026-10-09，三次 headless 探测）：工作区内读/写/删/in-repo bash/本地 commit 均允许；工作区外（`/tmp` 等）一律拒绝。所以锁文件放仓库根 `_LOCK`（已 gitignore），绝不碰 `/tmp`。
 
 ## S0 守卫（任一命中 → 直接退出，exit 0，不动任何文件）
