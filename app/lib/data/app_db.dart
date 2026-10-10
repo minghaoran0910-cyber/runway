@@ -6,7 +6,8 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 // SB-004 · schema v1（Transactions）+ SQLCipher 加密打开 + DAO.
-// 授权：任务卡显式授权建 schema v1（DEV §2 禁区卡内授权）；ADR-001 记录选型.
+// SB-007 · schema v2（Goals 目标表；PRD §4 goal 模型子集：name/target/单价/tier/doneAt）.
+// 授权：SB-007 任务卡显式授权 schema v2 迁移（禁区仅此一表）；禁手改 schema，迁移走 drift.
 // 真实账目数据永不入库；测试一律合成 fixtures.
 
 part 'app_db.g.dart';
@@ -21,7 +22,21 @@ class Transactions extends Table {
   TextColumn get source => text().withDefault(const Constant('manual'))();
 }
 
-@DriftDatabase(tables: [Transactions])
+/// schema v2：goals（目标名/目标额分/参考单价名/参考单价分/阶梯档/达成时间）.
+/// tier/doneAt  nullable：tier 由目标额推导（goal_ladder.ladderNameFor），
+/// doneAt 待成就卡写入；当前卡只用 name/target/单价三件套.
+class Goals extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text().withLength(min: 1, max: 32)();
+  IntColumn get targetFen => integer()();
+  TextColumn get priceName => text().withLength(min: 1, max: 16)();
+  IntColumn get priceFen => integer()();
+  TextColumn get tier => text().nullable()();
+  DateTimeColumn get doneAt => dateTime().nullable()();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+}
+
+@DriftDatabase(tables: [Transactions, Goals])
 class AppDb extends _$AppDb {
   AppDb(super.executor);
 
@@ -73,14 +88,23 @@ class AppDb extends _$AppDb {
   }
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (Migrator m) => m.createAll(),
-    // v1 为首个基线版本，无线上存量；后续版本以 onUpgrade 分步脚本落地.
-    onUpgrade: (m, from, to) async {},
+    // v1→v2：新增 goals 表（SB-007 卡授权）；存量 transactions 不动.
+    onUpgrade: (m, from, to) async {
+      if (from < 2) {
+        await m.createTable(goals);
+      }
+    },
   );
+
+  /// v2 回滚语义：删 goals 表即回到 v1 形状（开发期回滚用；线上走版本号）.
+  Future<void> rollbackGoalsToV1() async {
+    await customStatement('DROP TABLE IF EXISTS goals');
+  }
 
   /// v1 回滚语义：删库重建（无存量迁移）.
   Future<void> resetDatabase() async {
@@ -111,5 +135,27 @@ class AppDb extends _$AppDb {
 
   Future<int> deleteOne(int id) {
     return (delete(transactions)..where((t) => t.id.equals(id))).go();
+  }
+
+  // —— Goals DAO（SB-007；首条 id 最小者为当前目标）——
+
+  Future<List<Goal>> listGoals() {
+    return (select(goals)..orderBy([(g) => OrderingTerm.asc(g.id)])).get();
+  }
+
+  Stream<List<Goal>> watchGoals() {
+    return (select(goals)..orderBy([(g) => OrderingTerm.asc(g.id)])).watch();
+  }
+
+  Future<int> insertGoal(GoalsCompanion entry) {
+    return into(goals).insert(entry);
+  }
+
+  Future<bool> updateGoal(GoalsCompanion entry) {
+    return update(goals).replace(entry);
+  }
+
+  Future<int> deleteGoal(int id) {
+    return (delete(goals)..where((g) => g.id.equals(id))).go();
   }
 }

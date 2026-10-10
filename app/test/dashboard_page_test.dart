@@ -2,6 +2,7 @@ import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:runway/data/app_db.dart';
+import 'package:runway/ui/goal_page.dart';
 import 'package:runway/ui/home_page.dart';
 
 // SB-006 · 看板 widget 测试（合成数据，内存库）.
@@ -82,6 +83,21 @@ void main() {
     expect(find.byKey(const Key('dashOtherHealthy')), findsOneWidget);
     expect(find.byKey(const Key('dashTop5Empty')), findsOneWidget);
     expect(find.byKey(const Key('dashGoalEmpty')), findsOneWidget);
+
+    await _unmountAndFlush(tester);
+  });
+
+  testWidgets('SB-007 目标卡点击进目标阶梯页', (WidgetTester tester) async {
+    _largeViewport(tester);
+    final AppDb db = AppDb.memoryForTest();
+
+    await tester.pumpWidget(_wrap(db));
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.pump();
+
+    await tester.tap(find.byKey(const Key('dashGoalEmpty')));
+    await tester.pumpAndSettle();
+    expect(find.byType(GoalPage), findsOneWidget);
 
     await _unmountAndFlush(tester);
   });

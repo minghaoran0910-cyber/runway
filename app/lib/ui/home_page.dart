@@ -6,12 +6,14 @@ import '../logic/dashboard_stats.dart';
 import '../logic/entry.dart';
 import 'category_page.dart';
 import 'dashboard_cards.dart';
+import 'goal_page.dart';
 import 'quick_add_page.dart';
 import 'theme/app_theme.dart';
 import 'theme/tokens.dart';
 
 // SB-004 · 主屏（记录列表可查/可改/可删；重开 App 数据仍在，文件库持久化）.
 // SB-006 · 首页看板四区（Hero/今日/Top5/目标）+ 原记录列表保留.
+// SB-007 · 目标入口 + goals 表真实 goalFen 供数（闭环 SB-006 D1 目标未持久化）.
 // Hero 主卡沿 §3（AppTheme.heroCard）；列表行分隔仅用 hairline（§1.3）.
 
 class HomePage extends StatelessWidget {
@@ -105,72 +107,90 @@ class HomePage extends StatelessWidget {
       ),
       body: Container(
         decoration: AppTheme.ground(isDark),
-        child: StreamBuilder<List<Transaction>>(
-          stream: db.watchAll(),
-          builder: (BuildContext ctx, AsyncSnapshot<List<Transaction>> snap) {
-            final List<Transaction> rows = snap.data ?? <Transaction>[];
-            final DashboardSummary summary = computeDashboard(
-              flows: rows
-                  .map(
-                    (Transaction r) => DashboardFlow(
-                      amountFen: r.amountFen,
-                      category: r.category,
-                      occurredAt: r.occurredAt,
-                    ),
-                  )
-                  .toList(),
-              now: DateTime.now(),
-            );
-            return ListView(
-              padding: const EdgeInsets.all(RunwaySpacing.page),
-              children: <Widget>[
-                DashboardHero(summary: summary),
-                const SizedBox(height: RunwaySpacing.section),
-                DashboardTodayCard(summary: summary),
-                const SizedBox(height: RunwaySpacing.section),
-                DashboardTop5Card(summary: summary),
-                const SizedBox(height: RunwaySpacing.section),
-                DashboardGoalCard(summary: summary),
-                const SizedBox(height: RunwaySpacing.section),
-                if (rows.isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 24),
-                    child: Text(
-                      '还没有记录，点右下角记第一笔',
-                      style: theme.textTheme.bodyMedium,
-                      textAlign: TextAlign.center,
-                      key: const Key('emptyHint'),
-                    ),
-                  ),
-                for (final Transaction r in rows)
-                  Card(
-                    child: ListTile(
-                      title: Text(
-                        '${r.category} · ${formatFen(r.amountFen)}',
-                        style: theme.textTheme.titleMedium,
-                      ),
-                      subtitle: Text(
-                        r.note.isEmpty ? '无备注' : r.note,
-                        style: theme.textTheme.bodySmall,
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            tooltip: '编辑',
-                            onPressed: () => _edit(context, r),
+        child: StreamBuilder<List<Goal>>(
+          stream: db.watchGoals(),
+          builder: (BuildContext gctx, AsyncSnapshot<List<Goal>> gsnap) {
+            final List<Goal> goals = gsnap.data ?? <Goal>[];
+            final int? goalFen = goals.isEmpty ? null : goals.first.targetFen;
+            return StreamBuilder<List<Transaction>>(
+              stream: db.watchAll(),
+              builder:
+                  (BuildContext ctx, AsyncSnapshot<List<Transaction>> snap) {
+                    final List<Transaction> rows = snap.data ?? <Transaction>[];
+                    final DashboardSummary summary = computeDashboard(
+                      flows: rows
+                          .map(
+                            (Transaction r) => DashboardFlow(
+                              amountFen: r.amountFen,
+                              category: r.category,
+                              occurredAt: r.occurredAt,
+                            ),
+                          )
+                          .toList(),
+                      now: DateTime.now(),
+                      goalFen: goalFen,
+                    );
+                    return ListView(
+                      padding: const EdgeInsets.all(RunwaySpacing.page),
+                      children: <Widget>[
+                        DashboardHero(summary: summary),
+                        const SizedBox(height: RunwaySpacing.section),
+                        DashboardTodayCard(summary: summary),
+                        const SizedBox(height: RunwaySpacing.section),
+                        DashboardTop5Card(summary: summary),
+                        const SizedBox(height: RunwaySpacing.section),
+                        // SB-007 · 目标卡即入口（点击进目标阶梯页；零像素改动，
+                        // SB-006 golden 基线不受影响）.
+                        GestureDetector(
+                          onTap: () => Navigator.of(context).push<void>(
+                            MaterialPageRoute<void>(
+                              builder: (_) => GoalPage(db: db),
+                            ),
                           ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            tooltip: '删除',
-                            onPressed: () => db.deleteOne(r.id),
+                          child: DashboardGoalCard(summary: summary),
+                        ),
+                        const SizedBox(height: RunwaySpacing.section),
+                        if (rows.isEmpty)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 24),
+                            child: Text(
+                              '还没有记录，点右下角记第一笔',
+                              style: theme.textTheme.bodyMedium,
+                              textAlign: TextAlign.center,
+                              key: const Key('emptyHint'),
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-              ],
+                        for (final Transaction r in rows)
+                          Card(
+                            child: ListTile(
+                              title: Text(
+                                '${r.category} · ${formatFen(r.amountFen)}',
+                                style: theme.textTheme.titleMedium,
+                              ),
+                              subtitle: Text(
+                                r.note.isEmpty ? '无备注' : r.note,
+                                style: theme.textTheme.bodySmall,
+                              ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  IconButton(
+                                    icon: const Icon(Icons.edit),
+                                    tooltip: '编辑',
+                                    onPressed: () => _edit(context, r),
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    tooltip: '删除',
+                                    onPressed: () => db.deleteOne(r.id),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
             );
           },
         ),
