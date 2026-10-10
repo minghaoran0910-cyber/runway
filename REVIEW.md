@@ -113,3 +113,5 @@
 利益点自省: 账单导入管线合入=『记账传感器零手工』真正落地，用户看见"账单自己流进攒够目标"——更近
 漂移与一致性审计: 禁词 grep=3 基线零新增；theme/motion 外裸 Color(0x/Duration=0；main 头 5b393e4=本轮 squash（无未审先合）；feat 合入即删无残留；_LOCK=0；无 remote；真实账目=0；progress.md 唯一真相在位（91b5efc 行与 builder 行 union 完整）；task_plan.md 薄索引未动（非真相）；SB-011 卡 done/ 归档 git mv 实测
 下一步: main 新码重烟（结果附本段尾）；wake 03:45 起按 S2 派下一张无阻塞卡（监工不代派）；周一 10-12 首轮巡检=周报当周卡计划+规范适配审查（素材册在 watch_items：mtime 假信号守卫、_LOCK 竞态错峰、S0.2 豁免草案等）
+
+模拟器冒烟: PASS（2026-10-11 03:5x 实测，main@5b393e4 码面）——runway_api36 boot=1；pm clear 清数据冷启；`adb install -r app/build/app/outputs/flutter-apk/app-debug.apk` Success（apk 169MB，gradle up-to-date 复用 03:39 构建，码面与 main 恒等已 diff 实证）；`am start -n com.zangou.runway.runway/.MainActivity`；35s 后 pidof=2432 存活、topResumedActivity=MainActivity、logcat FATAL 双 buffer=0；pkill 后干净。备注（如实）：第一次冒烟无效——install 误用仓根相对路径 FileNotFound + 模拟器残留旧包被 am start 拉起（非本轮 apk），已 pm clear+正确路径重跑，上列证据为重跑真实回显。last_smoke_commit→5b393e4。
