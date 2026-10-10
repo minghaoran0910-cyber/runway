@@ -37,3 +37,4 @@
 - 2026-10-11 01:0x 监工巡检轮·SB-011 崩溃 WIP 处置：连续失败升级条件成立（23:45 wake error+00:15/00:45 守卫空转）→ decision_evaluate wip_disposal p=0.88≥0.75 判 A=弃 WIP 重派。执行：WIP 10 项原样归档 runway-crash/sb011-20261011-0100/ → checkout/clean 净树 → 回 main → branch -d feat/SB-011-bill-import（tip 6541216 已并入 main 历史）→ SB-011 保持待办，待 01:15 wake 常规重派。00:15 wake 观察行（原系未提交）已原样誊入本册防丢记录。漂移审计全绿详见 REVIEW.md 01:00 轮。[SB-011]
 
 - 2026-10-11 01:4x LOOP.md 新增 S0.1 崩溃现场续做（浩然 01:35 批准）；SB-011 续做授权已签发（只修最后 1 条 widget 测试），现场保全提交 5f5ab9e。[SB-011][LOOP]
+- 2026-10-11 01:46 撤 01:30 轮『挡窗锁』：该锁 pid 1021 实为常驻 MCP 进程（永不判死），处置 A 已全部落地（5f5ab9e 现场保全 + 8440ecd S0.1+续做授权，REVIEW.md 最新段即授权），留锁将使每轮 wake 误判『另一轮在跑』永久停摆。目的已达成，按 A 语义清除。[SB-011][LOOP]
