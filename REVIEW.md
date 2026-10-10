@@ -25,6 +25,6 @@
 问题列表:
 （无阻塞问题）
 
-模拟器冒烟: 待合入 main 后执行，结果回填本节。
+模拟器冒烟: PASS（2026-10-10 15:41，main@bf156ec）——runway_api36 冷启 boot=1（4×3s）；adb install -r app-debug.apk Success；am start -n com.zangou.runway.runway/.MainActivity → ActivityTaskManager Displayed +5s593ms；30s 后 pid=3744 存活；crash 缓冲与主日志 FATAL EXCEPTION=0；模拟器已关闭（emulator/qemu 清理）。
 
 下一步: 按 R5 授权 squash 合入 main → 冒烟 → 回填卡状态行归档。SB-006 完成即 G2 达成；下批待办为 SB-007/SB-008（G3 前置）。
