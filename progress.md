@@ -10,3 +10,5 @@
 - 2026-10-09 watchdog 就绪未上线：launchd 实测不可行（TCC 拒读 ~/Documents，复现×2，plist 已删），改挂 openclaw cron `runway-watchdog`；但网关正离线升级（cron add 建不上），待老油条回来建，命令已备好。`tool/loop-watch.sh` 为等价手动入口。
 - 2026-10-09 SB-002：分支 `feat/SB-002-android-build`，Android工具链✓（SDK 36.0.0/JDK17），`tool/ci.sh` build闸门扩到macOS debug+APK debug双产出，四闸门全绿，hygiene OK。待监工审计。
 - 2026-10-09 SB-003：分支 `feat/SB-003-tokens`，设计token落地（tokens/motion/theme三件套+main挂接），tokens单测9项+golden2组全绿，CI四闸门全绿（format/analyze/smoke/build双平台），hygiene OK。待监工审计。
+- 2026-10-10 SB-004: 分支 `feat/SB-004-quick-add`, 三秒记一笔+schema v1（data/logic/ui/tests齐备）, widget测试修好（键作用域+大视口）, entry7+widget3+golden3+回归11全绿, CI四闸门全绿（format/analyze/smoke/build双平台）, hygiene OK。待监工审计。
+- 2026-10-10 SB-004 返工第1轮 done：问题1 widget_test重写主屏真实冒烟（旧计数器删），问题2 _edit加StatefulBuilder即时回显+note.dispose+编辑改类目widget测试；`flutter test`全量27绿，`tool/ci.sh`四闸门全绿，hygiene OK。commit `1bf8f73`。待监工第2轮审计。
