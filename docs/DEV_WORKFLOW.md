@@ -10,7 +10,7 @@
 
 ## 2. 施工规范（opencode 硬约束）
 1. 每任务新会话，注入：本规范 + PRD + DESIGN_SYSTEM + 任务卡；禁止"喂全历史"。
-2. 文件数 ≤10、单文件 ≤400 行；超了先拆卡。
+2. 文件数 ≤10、单文件 ≤400 行；超了先拆卡。计数**不含**：`golden/**/*.png` 基线图、`.gitkeep`、流程文件（REVIEW*.md / progress.md / task_plan.md / LOOP.md / SUPERVISOR.md / CHANGELOG.md）〔2026-10-10 浩然批准，D1 裁决转正〕；但 golden 新增/更新须在 REVIEW_REQUEST 变更清单中列出。
 3. 禁区（碰即打回）：`tokens.dart`、`pubspec.yaml` 新增依赖、数据 schema migration、README/规范文档、CI 配置。
    - **例外（P1，2026-10-09 浩然批准）**：任务卡显式授权、且**仅增强** CI 闸门（如 build 闸门扩平台、加严零告警）的改动，不视为禁区违规；须在卡内声明授权来源并留痕（commit message 带 [SB-nnn]），监工按卡审。
 4. 代码必须带测试：领域逻辑单测 / 每屏 golden / 交互 widget test。
