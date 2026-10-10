@@ -8,7 +8,9 @@ import 'package:path_provider/path_provider.dart';
 // SB-004 · schema v1（Transactions）+ SQLCipher 加密打开 + DAO.
 // SB-007 · schema v2（Goals 目标表；PRD §4 goal 模型子集：name/target/单价/tier/doneAt）.
 // SB-008 · schema v3（Achievements 成就表；任务卡显式授权，禁区仅此一表，可回滚）.
-// 授权：SB-007 任务卡显式授权 schema v2 迁移；SB-008 任务卡显式授权 schema v3 迁移.
+// SB-009 · schema v4（SafetyPad 配置 + WeeklyReports 周报缓存；任务卡显式授权，可回滚）.
+// 授权：SB-007 任务卡显式授权 schema v2 迁移；SB-008 任务卡显式授权 schema v3 迁移；
+// SB-009 任务卡显式授权 schema v4 迁移.
 // 禁手改 schema，迁移走 drift.
 // 真实账目数据永不入库；测试一律合成 fixtures.
 
@@ -50,7 +52,28 @@ class Achievements extends Table {
   DateTimeColumn get unlockedAt => dateTime().withDefault(currentDateAndTime)();
 }
 
-@DriftDatabase(tables: [Transactions, Goals, Achievements])
+/// schema v4：safety_pad（安全垫配置；单行约定 id=1，targetMonths 默认 6）.
+class SafetyPad extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get targetMonths => integer().withDefault(const Constant(6))();
+  DateTimeColumn get updatedAt => dateTime().withDefault(currentDateAndTime)();
+}
+
+/// schema v4：weekly_reports（周报缓存；weekStart 唯一由逻辑层保证，每周一生成）.
+class WeeklyReports extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  DateTimeColumn get weekStart => dateTime()();
+  IntColumn get spendFen => integer().withDefault(const Constant(0))();
+  IntColumn get incomeFen => integer().withDefault(const Constant(0))();
+  IntColumn get savedFen => integer().withDefault(const Constant(0))();
+  TextColumn get topJson => text().withDefault(const Constant(''))();
+  IntColumn get momDeltaFen => integer().withDefault(const Constant(0))();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+}
+
+@DriftDatabase(
+  tables: [Transactions, Goals, Achievements, SafetyPad, WeeklyReports],
+)
 class AppDb extends _$AppDb {
   AppDb(super.executor);
 
@@ -102,13 +125,14 @@ class AppDb extends _$AppDb {
   }
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (Migrator m) => m.createAll(),
     // v1→v2：新增 goals 表（SB-007 卡授权）；存量 transactions 不动.
     // v2→v3：新增 achievements 表（SB-008 卡授权）；存量 goals/transactions 不动.
+    // v3→v4：新增 safety_pad + weekly_reports 表（SB-009 卡授权）；存量不动.
     onUpgrade: (m, from, to) async {
       if (from < 2) {
         await m.createTable(goals);
@@ -116,8 +140,18 @@ class AppDb extends _$AppDb {
       if (from < 3) {
         await m.createTable(achievements);
       }
+      if (from < 4) {
+        await m.createTable(safetyPad);
+        await m.createTable(weeklyReports);
+      }
     },
   );
+
+  /// v4 回滚语义：删 safety_pad + weekly_reports 即回 v3 形状（开发期回滚用）.
+  Future<void> rollbackSafetyWeeklyToV3() async {
+    await customStatement('DROP TABLE IF EXISTS safety_pad');
+    await customStatement('DROP TABLE IF EXISTS weekly_reports');
+  }
 
   /// v3 回滚语义：删 achievements 表即回到 v2 形状（开发期回滚用；线上走版本号）.
   Future<void> rollbackAchievementsToV2() async {
@@ -202,5 +236,64 @@ class AppDb extends _$AppDb {
 
   Future<int> deleteAchievement(int id) {
     return (delete(achievements)..where((a) => a.id.equals(id))).go();
+  }
+
+  // —— SafetyPad DAO（SB-009；单行约定 id=1，不存在即默认 6 个月）——
+
+  Future<List<SafetyPadData>> listSafetyPad() {
+    return (select(safetyPad)..orderBy([(s) => OrderingTerm.asc(s.id)])).get();
+  }
+
+  Future<SafetyPadData?> currentSafetyPad() async {
+    final List<SafetyPadData> rows = await listSafetyPad();
+    return rows.isEmpty ? null : rows.first;
+  }
+
+  Future<int> upsertSafetyMonths(int months) async {
+    final SafetyPadData? cur = await currentSafetyPad();
+    if (cur == null) {
+      return into(safetyPad).insert(
+        SafetyPadCompanion(
+          targetMonths: Value(months),
+          updatedAt: Value(DateTime.now()),
+        ),
+      );
+    }
+    await (update(safetyPad)..where((s) => s.id.equals(cur.id))).write(
+      SafetyPadCompanion(
+        targetMonths: Value(months),
+        updatedAt: Value(DateTime.now()),
+      ),
+    );
+    return cur.id;
+  }
+
+  // —— WeeklyReports DAO（SB-009；weekStart 倒序即历史序列）——
+
+  Future<List<WeeklyReport>> listWeeklyReports() {
+    return (select(
+      weeklyReports,
+    )..orderBy([(w) => OrderingTerm.desc(w.weekStart)])).get();
+  }
+
+  Stream<List<WeeklyReport>> watchWeeklyReports() {
+    return (select(
+      weeklyReports,
+    )..orderBy([(w) => OrderingTerm.desc(w.weekStart)])).watch();
+  }
+
+  Future<bool> weeklyExists(DateTime weekStart) async {
+    final List<WeeklyReport> rows = await (select(
+      weeklyReports,
+    )..where((w) => w.weekStart.equals(weekStart))).get();
+    return rows.isNotEmpty;
+  }
+
+  Future<int> insertWeeklyReport(WeeklyReportsCompanion entry) {
+    return into(weeklyReports).insert(entry);
+  }
+
+  Future<int> deleteWeeklyReport(int id) {
+    return (delete(weeklyReports)..where((w) => w.id.equals(id))).go();
   }
 }

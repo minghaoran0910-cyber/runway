@@ -79,6 +79,12 @@ void main() {
     await tester.enterText(find.byKey(const Key('goalTarget')), '3999');
     await tester.tap(find.byKey(const Key('goalSave')));
     await tester.pumpAndSettle();
+    // SB-009 起目标列表在安全垫区之下，首屏视口外（ListView 懒加载），滚到可见再断言.
+    await tester.scrollUntilVisible(
+      find.textContaining('攒手机'),
+      500,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.textContaining('攒手机'), findsWidgets);
     expect(find.byKey(const Key('goalConvert')), findsOneWidget);
     await _unmountAndFlush(tester);
