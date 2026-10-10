@@ -115,3 +115,19 @@
 下一步: main 新码重烟（结果附本段尾）；wake 03:45 起按 S2 派下一张无阻塞卡（监工不代派）；周一 10-12 首轮巡检=周报当周卡计划+规范适配审查（素材册在 watch_items：mtime 假信号守卫、_LOCK 竞态错峰、S0.2 豁免草案等）
 
 模拟器冒烟: PASS（2026-10-11 03:5x 实测，main@5b393e4 码面）——runway_api36 boot=1；pm clear 清数据冷启；`adb install -r app/build/app/outputs/flutter-apk/app-debug.apk` Success（apk 169MB，gradle up-to-date 复用 03:39 构建，码面与 main 恒等已 diff 实证）；`am start -n com.zangou.runway.runway/.MainActivity`；35s 后 pidof=2432 存活、topResumedActivity=MainActivity、logcat FATAL 双 buffer=0；pkill 后干净。备注（如实）：第一次冒烟无效——install 误用仓根相对路径 FileNotFound + 模拟器残留旧包被 am start 拉起（非本轮 apk），已 pm clear+正确路径重跑，上列证据为重跑真实回显。last_smoke_commit→5b393e4。
+
+---
+# REVIEW — 2026-10-11 04:4x 审查轮 · 第 1 轮 · 卡 SB-013
+结论: PASS
+检查项:
+- [x] 验收1 包标识实读：gradle namespace/applicationId=com.zangou.runway（diff 回显）；Kotlin 目录上移 git mv 历史保留（tree 实测仅 com/zangou/runway/{MainActivity,PendingListenerService}.kt）；ACTION_PENDING→com.zangou.runway.PENDING_PUSH；iOS pbxproj 3×com.zangou.runway+3×RunnerTests、macOS xcconfig 主包+pbxproj 3×RunnerTests；旧标识 runway.runway 源码树（lib/test/kt/xml/pbxproj/xcconfig/plist/kts 排除 build/.dart_tool）grep=0；Manifest 走 ${applicationName}/.MainActivity/.PendingListenerService 相对引用自动跟随
+- [x] 验收2 构建+badging：本轮 main@875c1b0 重建 apk ✓；aapt dump badging 实回显 package name='com.zangou.runway' versionCode='1' versionName='1.0.0' + launchable-activity com.zangou.runway.MainActivity
+- [x] 验收3 模拟器监工独立复验 PASS（main 码面，一条龙脚本实测回显）：runway_api36 boot=1（-no-window -no-snapshot-load 14s 起）；预检 pm list=旧包 com.zangou.runway.runway 在位（builder 遗留）；install -r 新包 Success；am start -n com.zangou.runway/.MainActivity Starting；35s pidof=2321 存活；topResumedActivity=com.zangou.runway/.MainActivity；logcat FATAL 双 buffer=0/0；终检 pm list=旧新并存→实证 builder『无直升路径、卸旧装新』结论（v0.1 未发布零真实用户，无迁移义务）；golden/sb013/launch_new_pkg.png 监工目审=首页正常/DEBUG banner 在/无崩溃乱码
+- [x] 验收4 闸门独立复跑：flutter test 全量 178/178 All tests passed（本轮真实回显，既有 golden 零漂移）；tool/ci.sh 四闸门 ALL GREEN（main 码面本轮复跑）；check-repo-hygiene OK
+- [x] 文件约束与红线：业务 6 文件≤10（gradle 1+kt 2+pbxproj 2+xcconfig 1，golden png 证据不计）；无 pubspec 变更；无 remote（wc=0）；_LOCK 双侧无；禁词 grep=3 基线（禁词表本体/自警注释/断言）零新增；theme/motion 外裸 Color(0x/Duration=0；真实账目 grep=0
+问题列表: 无
+决策模型: 本轮边界裁决两项——macos_extension（macOS 主包+三端 RunnerTests 一并归一是否越界）p=0.79≥0.75 按判=卡文『同样拼重一并归一』自然延伸，接受（决策p=0.79）；changelog_defer（CHANGELOG 延补 SB-012 可否 PASS）p=0.70 灰区=不编判决，标『留浩然拍板』进简报（CHANGELOG 非本卡验收条款、SB-012 验收含补全，不阻断本卡合入；若浩然改判现在补则追加小卡或并入 SB-012 施工）
+模拟器冒烟: PASS——关键证据见验收3（boot=1/install Success/am start/35s pidof=2321/topResumedActivity 新包/FATAL 双 buffer=0/旧新并存）；last_smoke_commit 更新为 875c1b0；用完 pkill 干净（本轮实清）
+漂移与一致性审计: 禁词=3 基线零新增；theme/motion 外裸量=0；feat 无残留（squash@875c1b0 后 -D 删，tree 内容对拍 a17b693 app/ diff=0 实证）；main 头对应本轮 REVIEW 归档轮；_LOCK=0；无 remote；真实账目=0；progress.md 唯一真相（builder 03:5x/04:0x 两行随合入入库+监工本轮行）；task_plan.md 薄索引未动（合规）；04:15 wake=ok suppressed（REQ 新于 REVIEW 守卫正确拦阻，未空跑 builder）
+利益点自省: 更近——包标识归一赶在安装量上来前把升级路径债清零（卸旧装新一步到位），四端产物身份干净，G5 冻结与后续分发不再背 com.zangou.runway.runway 拼重包袱
+下一步: ①04:45 wake 按 S2 派下一张无阻塞卡（SB-014~020 可派；SB-012 前置未满足）；②监工本轮已直接 cron edit 修正巡检提示词：冒烟包名口径 com.zangou.runway.runway→com.zangou.runway（SB-013 后现行）+模拟器启动参数补 -no-window -no-snapshot-load（-no-snapshot 冷启动本轮实测 3 连崩 Vulkan 后崩溃，snapshot-load 14s 可用），记当日日志；③changelog_defer 灰区已发浩然拍板；④队列：待办 8 张（SB-012,014~020）>2 无见底提醒，done/=12，SB-021 挂起 v0.2
