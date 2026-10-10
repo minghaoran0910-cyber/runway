@@ -1,20 +1,30 @@
-# REVIEW — 2026-10-10 SB-005 规则引擎自动归类（第 1 轮 · 卡 SB-005）
+# REVIEW — 2026-10-10 SB-006（G2）· 第 1 轮 · 卡 SB-006
 
 结论: PASS
 
 检查项:
-- [x] 改动范围：`ec2823d`（squash of `fa029f8`，树内容与分支提交逐字节一致）10 文件=lib 4 + test 3 + golden png 2 + home_page 入口；单文件 ≤253 行（category_rules.dart 253 行为全仓最大）；pubspec 0 改动、无 schema 变更、无 remote、命名带 [SB-005]
-- [x] 验收1 类目表+≥20 样例：`logic/category_rules.dart` 六标准类目（食/行/居/玩/用/其他）；监工实测 `category_rules_test.dart` 关键词/商户样例 `want:` 计 22 条 ≥20，含 latin 别名与金额区间消歧专项
-- [x] 验收2 纠正回写：`logic/category_feedback.dart` 商户键优先+归一化；单测覆盖"纠正一次后同类自动生效/商户优先/空键不存"；类目页 PopupMenu 纠正入口回写 DB+同步学习（页测断言）
-- [x] 验收3 "其他"占比：`data/category_stats.dart` otherShare/otherFault（>5% 严格大于），含旧名归一；页测断言 10.0% 故障态与 0.0% 空态不误报，SB-006 看板可供数
-- [x] 验收4 纯 Dart+性能：监工 grep 证实两 logic 文件零 flutter import；`1 万条批量归类 <500ms` 实测通过（lessThan(500) 断言）
-- [x] 验收5 闸门：监工独立跑 `flutter analyze --fatal-infos --fatal-warnings` No issues；`flutter test` 47/47 全绿（含 SB-004 回归 27 项）；`tool/check-repo-hygiene.sh` repo hygiene OK；golden 两张基线入 `golden/sb005/`
-- [x] 红线：lib/ test/ 零真实账目数据（仅注释提及规则本身；测试全合成 fixture）
-- [x] 偏差声明认可：D1 纠正表会话级内存（卡未要求持久化，API 已预留注入）——留观 G4 前落地持久化；D2 空备注不学习（影响面小）；D3 新旧类目名并存+legacyCategoryAlias 归一（防 SB-004 回归，短名统一待后续卡）；T1 沿用 SB-004 实测结论
+- [6/6] 独立复验全部通过（监工本机重跑，非采信开发自述）
+  - flutter analyze --fatal-infos --fatal-warnings：No issues（1.8s）
+  - flutter test 全量：59/59 绿（含 SB-004/005 回归键 homeTotal/emptyHint 未破坏）
+  - check-repo-hygiene.sh：OK
+  - diff 范围：仅 lib/logic、lib/ui、test、golden 新目录 sb006 + docs 流程文件；pubspec 0 改动（依赖合规）、无 schema 变更（只读 watchAll 内存聚合，符合卡"只加查询不加 schema"授权）
+  - 文件数：app 面 10 文件 ≤ 卡上限；单文件最大 dashboard_cards.dart 278 行 ≤ 闸门
+  - 真实数据红线：全 diff + 测试扫描无真实账目内容，均为合成数据与"示例数据"标签
+- [x] 验收 1 四区：DashboardHero/TodayCard/Top5Card/GoalCard 挂接 home_page，目标未设显示引导位（dashGoalEmpty）✓
+- [x] 验收 2 聚合供数：computeDashboard 复用 SB-005 CategorySummary 故障口径，其他占比>5% 暖金故障提示（dashOtherFault）✓；旧名归一 canonicalCategory ✓
+- [x] 验收 3 性能：1 万条聚合 <1s 单测通过（Stopwatch 断言）✓
+- [x] 验收 4 golden：Light/Dark × 空态/有数据 4 组新基线，测试比对通过，对比度闸门绿 ✓
+- [x] 验收 5 四闸门+hygiene：监工复验全绿 ✓
 
-问题列表: 无阻塞问题。流程留痕 1 条：`ec2823d` 于 14:33 已以"supervisor-merge (R5, REVIEW PASS round-1)"名义落 main，但当时 REVIEW.md 未写、feat 分支未删、文档未归档（半截舞步）。本轮监工完成独立验证并回溯记录 PASS，结论成立、代码保留；今后合并落 main 与写 REVIEW.md、归档文档必须同轮完成，未写 REVIEW 不得先合（R5 授权前提是结论已落纸）。
+偏差裁决:
+1. D1 目标未持久化：接受。卡未授权 schema 变更，引导位行为符合验收 1；GoalCard 已留 goalFen 入参，目标存储归 G3 钩子层排卡时落实。
+2. D2 滚动 7 天口径：接受，但 UI 文案"本周"与实际口径有轻微误导。裁决为口径变更，监工直接在本卡审计结论留痕（产品文案 G5 打磨统一为"近7天"或改自然周，届时按规范先改 docs）。不动代码。
+3. D3 Top5 Container 比例条：接受，符合卡"禁图表新库/可复用现有能力"。CustomPainter 归 G5。
+4. DAO 层未新增查询：接受，watchAll 已覆盖，聚合放 logic 层反而符合"logic 纯 Dart"约束。
 
-下一步: 开发侧接 SB-006（"其他"占比看板，完成即 G2 达成）；D1 持久化进监工 watch_items，G4 前评估。里程碑口径不变：G2 按 2–3 周估，周报计划每周一发。
+问题列表:
+（无阻塞问题）
 
-模拟器冒烟: PASS（2026-10-10 15:06，main@ec2823d debug APK）
-- 证据：runway_api36 冷启动 boot_completed≈15s；`adb install -r` Success；`am start -n com.zangou.runway.runway/.MainActivity` → logcat `Displayed … +8s257ms`；30s 后进程存活 pid=2565；crash 缓冲与主日志 `FATAL EXCEPTION` 计数均 0；加验：uiautomator 定位并点按 AppBar"类目管理"（bounds [954,147][1080,273]），类目页真实渲染出"其他占比/分类健康/食行居住用/纠正"等文案，点按后进程仍存活、零 FATAL；验收后模拟器已关（qemu/netsimd 均已清理）
+模拟器冒烟: 待合入 main 后执行，结果回填本节。
+
+下一步: 按 R5 授权 squash 合入 main → 冒烟 → 回填卡状态行归档。SB-006 完成即 G2 达成；下批待办为 SB-007/SB-008（G3 前置）。

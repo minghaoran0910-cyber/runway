@@ -2,13 +2,16 @@ import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
 
 import '../data/app_db.dart';
+import '../logic/dashboard_stats.dart';
 import '../logic/entry.dart';
 import 'category_page.dart';
+import 'dashboard_cards.dart';
 import 'quick_add_page.dart';
 import 'theme/app_theme.dart';
 import 'theme/tokens.dart';
 
 // SB-004 · 主屏（记录列表可查/可改/可删；重开 App 数据仍在，文件库持久化）.
+// SB-006 · 首页看板四区（Hero/今日/Top5/目标）+ 原记录列表保留.
 // Hero 主卡沿 §3（AppTheme.heroCard）；列表行分隔仅用 hairline（§1.3）.
 
 class HomePage extends StatelessWidget {
@@ -106,45 +109,28 @@ class HomePage extends StatelessWidget {
           stream: db.watchAll(),
           builder: (BuildContext ctx, AsyncSnapshot<List<Transaction>> snap) {
             final List<Transaction> rows = snap.data ?? <Transaction>[];
-            final int total = rows.fold<int>(0, (p, r) => p + r.amountFen);
+            final DashboardSummary summary = computeDashboard(
+              flows: rows
+                  .map(
+                    (Transaction r) => DashboardFlow(
+                      amountFen: r.amountFen,
+                      category: r.category,
+                      occurredAt: r.occurredAt,
+                    ),
+                  )
+                  .toList(),
+              now: DateTime.now(),
+            );
             return ListView(
               padding: const EdgeInsets.all(RunwaySpacing.page),
               children: <Widget>[
-                Container(
-                  decoration: AppTheme.heroCard(),
-                  padding: const EdgeInsets.all(RunwaySpacing.cardInner),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const Text(
-                        '本月已记（示例数据）',
-                        style: TextStyle(
-                          fontSize: RunwayHero.titleSize,
-                          color: RunwayHero.title,
-                        ),
-                      ),
-                      Text(
-                        formatFen(total),
-                        style: const TextStyle(
-                          fontSize: RunwayHero.numberSize,
-                          color: RunwayHero.number,
-                          fontWeight: FontWeight.w700,
-                          fontFeatures: <FontFeature>[
-                            FontFeature.tabularFigures(),
-                          ],
-                        ),
-                        key: const Key('homeTotal'),
-                      ),
-                      const Text(
-                        '本地加密保存',
-                        style: TextStyle(
-                          fontSize: RunwayHero.subSize,
-                          color: RunwayHero.sub,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                DashboardHero(summary: summary),
+                const SizedBox(height: RunwaySpacing.section),
+                DashboardTodayCard(summary: summary),
+                const SizedBox(height: RunwaySpacing.section),
+                DashboardTop5Card(summary: summary),
+                const SizedBox(height: RunwaySpacing.section),
+                DashboardGoalCard(summary: summary),
                 const SizedBox(height: RunwaySpacing.section),
                 if (rows.isEmpty)
                   Padding(
