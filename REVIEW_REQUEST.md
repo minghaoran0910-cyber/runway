@@ -1,23 +1,28 @@
-# REVIEW_REQUEST — SB-011 续做授权应答提审（应答 01:4x CONTINUE_PERMIT · S0.1）
+# REVIEW_REQUEST — SB-013 applicationId 归一（com.zangou.runway）
 
-仓库：`/Users/dada561/Documents/runway`，分支：`feat/SB-011-bill-import`（未 merge、未 push、无 remote，合规）
-任务卡：`docs/tasks/SB-011.md`（账单文件导入，批次 G4 第 2 张）
-基座：WIP 保全提交 `5f5ab9e`（数据层/解析/去重/批次撤销/性能/单测7绿/golden 四图）+ 本轮修复 commit（待审查轮核验 tip）
+仓库：`/Users/dada561/Documents/runway`，分支：`feat/SB-013-appid`（未 merge、未 push、无 remote，合规）
+任务卡：`docs/tasks/SB-013.md`（包名拼重归一，浩然 2026-10-10 批准，建议先于 G5 冻结执行）
+基座：`main@3cc285b`（SB-011 结案+G4 达成后；本分支系 03:47 wake 预建空分支，tip 与 main 同，零冲突）
 
-本轮范围（授权内最小 diff，只修测试红，不推倒重来）：
-- 唯一改动：`app/lib/ui/bill_import_page.dart` 1 行——`_parseFile` 内 `if (!await f.exists())` → `if (!f.existsSync())`。
-- 根因：旧代码先 `setState(_notice='')` 再 `await` 文件存在检查，`pumpAndSettle` 不等该 Future，测试在空窗期断言『文件不存在』得 0 命中（probe 实证：tap 后 notice count=0，修后=1 且文本『文件不存在』在位）。同步检查消空闪，真机亦是即时反馈优化。
-- 禁区遵守：数据层/解析/去重/撤销逻辑零触碰；golden 基线未动（preview/result 四图本轮实测零回归，免重生成）；探针仅写仓内 `app/test/probe_sb011.tmp.dart` 且已删（`ls probe*` 无命中），未碰 `/tmp`；无 pubspec 变更；无 `docs/` 规范改动（`docs/ios-shortcuts.md` 系 WIP 既有交付物，非本轮新增）。
+改动清单（业务 6 文件 ≤10，手写单文件最大 112 行 ≤400）：
+- `app/android/app/build.gradle.kts`：`namespace` + `applicationId` → `com.zangou.runway`
+- `app/android/app/src/main/kotlin/com/zangou/runway/runway/*.kt` → `.../com/zangou/runway/*.kt`（git mv 目录上移）：`MainActivity.kt`（package 声明 + `ACTION_PENDING` 广播串 → `com.zangou.runway.PENDING_PUSH`）、`PendingListenerService.kt`（package 声明）
+- `app/ios/Runner.xcodeproj/project.pbxproj`：6 处 `com.zangou.runway.runway` → `com.zangou.runway`（主 3 + RunnerTests 3 同步为 `com.zangou.runway.RunnerTests`）
+- `app/macos/Runner/Configs/AppInfo.xcconfig`：主包 `PRODUCT_BUNDLE_IDENTIFIER` → `com.zangou.runway`（卡点名 iOS，macOS 同样拼重按同口径一并归一）
+- `app/macos/Runner.xcodeproj/project.pbxproj`：3 处 RunnerTests 同步归一
+- `golden/sb013/launch_new_pkg.png`：新包启动实拍（验收证据，非测试基线，不计文件数）
 
-验收对照（SB-011 卡 §验收 1~5）：
-1. 合成 fixture 解析正确+失败行行号原因：`bill_import_test` 支付宝 3 成功/2 失败（第4行金额无效/第6行非成功状态）+微信 ￥单位/对方为空失败行均绿；页面预览『可入账 2 笔·失败 1 行』+`failRow-4` widget 绿。
-2. 去重+批次撤销：同账单两次导入 inserted 3→0/skippedDup 3、落库 3 条；确认入账→结果→撤销本批 widget 绿；`revokeImportBatch` 整批删除绿。
-3. 性能：1 万行合成 parse≈159ms、total≈270ms <5s（本轮实测回显 `SB-011 perf` 行）。
-4. 原文件不留副本：`importBillFile` 读后即删单测绿；批次表列名无原文列断言绿。
-5. golden 四组+对比度：preview/result × Light/Dark 四图本轮全绿（零重生成）；对比度闸门绿；`dart format` 0 改动；`flutter analyze` No issues；全量 `flutter test` 178/178 绿；`tool/ci.sh` ALL GREEN；`tool/check-repo-hygiene.sh` OK。
+验收对照（SB-013 卡 §验收 1~4）：
+1. Android `applicationId` 与 `namespace` 均为 `com.zangou.runway`（gradle 实读）；iOS bundle id `com.zangou.runway`（pbxproj 3 主配置实读）；macOS 主包同步 `com.zangou.runway`。
+2. `flutter build apk --debug` 成功；`aapt dump badging` 回显 `package: name='com.zangou.runway' versionCode='1' versionName='1.0.0'` + `launchable-activity: name='com.zangou.runway.MainActivity'`。
+3. 模拟器 runway_api36（本轮 builder 实测）：新包 `adb install -r` Success；`am start -n com.zangou.runway/.MainActivity` → 35s 后 pidof=2577 存活、`topResumedActivity=com.zangou.runway/.MainActivity`、logcat FATAL=0；截图 `golden/sb013/launch_new_pkg.png`。**同机覆盖升级结论**：旧包 `com.zangou.runway.runway` 与新包视为不同应用并存（pm list 双包在位、codePath 各异），无直升路径；v0.1 未发布零真实用户，升级路径=卸旧装新，无数据迁移义务。
+4. `tool/ci.sh` ALL GREEN（format 0 改动/analyze No issues/smoke 绿/macos+apk 双构建成功）；`tool/check-repo-hygiene.sh` OK；全量 `flutter test` 178/178 绿（与 SB-011 结案数持平，既有 golden 零漂移）；`dart format` 0 改动。
 
-文件约束：业务 9 文件（app_db.dart 399/app_db.g 生成除外/bill_import 269/import_batch 47/dao 98/page 338/单测175/页测193/ios-shortcuts 27）≤10，手写单文件最大 399≤400；无 remote；测试全合成 fixtures，真实账目=0。
+文件约束：业务 6 文件 ≤10；无 pubspec 变更；无 remote；测试全合成 fixtures，真实账目=0；探针仅仓内 `_inbox/emulator_sb013.log` 且已删，未碰 `/tmp`。
 
-偏差声明：无新增偏差。`existsSync` 为实现细节（语义与 `exists` 一致，仅消 async 窗），注释未增（单行同义替换，卡文义+DESIGN_SYSTEM 令牌无影响）。
+偏差声明：
+- `CHANGELOG.md` 本仓从未建立（历卡未建），本卡未新建以免 scope creep；待 SB-012（G5 冻结卡验收含 CHANGELOG 补全）统一补。
+- macOS 主包+三端 RunnerTests 同步归一系卡文「同样拼重一并归一」口径的自然延伸，非新增工作面。
+- 本轮模拟器冒烟由 builder 执行（监工真机走查可在审查轮复验）；`ACTION_PENDING` 广播串新旧不互通，预发布阶段无影响。
 
-失败出口未触发（已修好）。请审计后结论写 `REVIEW.md`（PASS 或 REQUEST_CHANGES）。
+请审计后结论写 `REVIEW.md`（PASS 或 REQUEST_CHANGES）。

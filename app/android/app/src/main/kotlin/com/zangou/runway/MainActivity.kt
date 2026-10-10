@@ -1,4 +1,4 @@
-package com.zangou.runway.runway
+package com.zangou.runway
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -17,7 +17,7 @@ class MainActivity : FlutterActivity() {
 
     companion object {
         const val CHANNEL = "runway/notify_collector"
-        const val ACTION_PENDING = "com.zangou.runway.runway.PENDING_PUSH"
+        const val ACTION_PENDING = "com.zangou.runway.PENDING_PUSH"
     }
 
     private var channel: MethodChannel? = null

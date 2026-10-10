@@ -1,4 +1,4 @@
-package com.zangou.runway.runway
+package com.zangou.runway
 
 import android.content.Intent
 import android.service.notification.NotificationListenerService
