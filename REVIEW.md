@@ -131,3 +131,21 @@
 漂移与一致性审计: 禁词=3 基线零新增；theme/motion 外裸量=0；feat 无残留（squash@875c1b0 后 -D 删，tree 内容对拍 a17b693 app/ diff=0 实证）；main 头对应本轮 REVIEW 归档轮；_LOCK=0；无 remote；真实账目=0；progress.md 唯一真相（builder 03:5x/04:0x 两行随合入入库+监工本轮行）；task_plan.md 薄索引未动（合规）；04:15 wake=ok suppressed（REQ 新于 REVIEW 守卫正确拦阻，未空跑 builder）
 利益点自省: 更近——包标识归一赶在安装量上来前把升级路径债清零（卸旧装新一步到位），四端产物身份干净，G5 冻结与后续分发不再背 com.zangou.runway.runway 拼重包袱
 下一步: ①04:45 wake 按 S2 派下一张无阻塞卡（SB-014~020 可派；SB-012 前置未满足）；②监工本轮已直接 cron edit 修正巡检提示词：冒烟包名口径 com.zangou.runway.runway→com.zangou.runway（SB-013 后现行）+模拟器启动参数补 -no-window -no-snapshot-load（-no-snapshot 冷启动本轮实测 3 连崩 Vulkan 后崩溃，snapshot-load 14s 可用），记当日日志；③changelog_defer 灰区已发浩然拍板；④队列：待办 8 张（SB-012,014~020）>2 无见底提醒，done/=12，SB-021 挂起 v0.2
+
+---
+# REVIEW — 2026-10-11 05:0x 审查轮 · 第 1 轮 · 卡 SB-014
+结论: PASS
+检查项:
+- [x] 验收1 正名清零：监工实测 grep 安全垫 app/lib=0；Safety*→Grain* 文件名 git mv 实证（R059/R070/R053 rename 记录）；UI 一律余粮（grainTitle『余粮 · N 个月开销底气』实读）；DB 层 SafetyPad 类/DAO 方法名保留=偏差1（表名由类名派生，改=迁移，本卡无授权，与『行为零变化』冲突）——决策模型 p=0.48 灰区，留浩然拍板
+- [x] 验收2 golden：sb014 四图新建监工目审（余粮卡 light/dark+周报 light/dark：标题/金额行/进度条/状态行称号完整，浅底深字深底浅字正确，无重叠无乱码色块）；sb007 四图重生成字节增量 +50/+93/+50/+72 与申报一致（文案连带无布局改动）；golden 比对含于本轮独立复跑 187/187
+- [x] 验收3 称号引擎：五档 0/25/50/75/100% 映射代码实读（种下第一穗/青苗/半锅米/米满沿/仓满）+各±1分边界单测；小额三档 ≤500元（50000分）下种/半路/满仓；月数等比 50% 恒地主家无写死（6月/3月两例锁定）；梗池只说粮仓零第二人称零消费词（断言实测）；多目标并行单测在位；『收藏页按目标分组』仅数据层逐卡 goalName、视觉分组头未做=偏差2（超10文件硬上限）——决策模型 p=0.48 灰区，留浩然拍板
+- [x] 验收4 周报换算：weeklySavingConvert 复用 defaultPrices 实读（2700分→≈1.5杯奶茶口径；不足半件回落余粮天数；月均未知『稳步积累中』零编造）；weekly_page 同行替换 key weeklyConvert 保留
+- [x] 验收5 禁词：表 +4（亏了/没了/花光/穷）实读 achievement.dart:19-22；全仓命中=禁词表本体+goal_ladder.dart:7 自警注释+测试名/断言（先例口径非用户可见，合规零新增）
+- [x] 验收6 测试闸门独立复跑：dart format 0 改动；flutter analyze --fatal-infos No issues；flutter test 187/187 All tests passed（本轮真实回显）；check-repo-hygiene.sh OK；apk gradle assembleDebug 6.8s 构建成功
+- [x] 文件约束：业务 10 文件≤10（lib 7+test 3，golden png 不计）；单文件最大 app_db.dart 恰 400 行/grain_report 379≤400；无 pubspec 变更；偏差5（golden_goal_test.dart:82 注释残留旧词，验收 grep scope=app/lib 合规）与偏差4（称号池同文件满足『同一常量文件』字面）监工直接判定接受
+问题列表: 无（偏差1/偏差2 灰区升级拍板见上，不阻断合入；偏差3 CHANGELOG 延补沿用 SB-013 已升级未回音项）
+模拟器冒烟: PASS（2026-10-11 05:0x 一条龙实测 main@771daeb 码面本轮重建 apk）——runway_api36 boot=1（-no-window -no-snapshot-load 24s）；install -r Success；am start -n com.zangou.runway/.MainActivity Starting；35s pidof=2157 存活；topResumedActivity=com.zangou.runway/.MainActivity；logcat FATAL 双 buffer=0/0；pkill 干净。last_smoke_commit→771daeb
+决策模型: 两项边界裁决均落灰区——D1 DB 英文标识符保留 p=0.48、D2 收藏页视觉分组头留后卡 p=0.48（0.25<p<0.75 不编判决，标『留浩然拍板』进简报）；status=ok（typesafe/jev-1.13）
+漂移与一致性审计: 禁词 grep=表本体+自警注释+断言零新增（基线合规）；theme/motion_spec 外裸 Color(0x/Duration(milliseconds=0（feat 工作树实测）；main 头 771daeb=squash 合入对应本轮 REVIEW 归档轮，无未审先合；feat 无残留（diff feat..main app golden=0 行后 -D 删，branch -a 仅剩 main）；_LOCK 双侧不存在；无 remote（wc -l=0）；真实账目 grep（美团|工资|房贷|余额+数字）=0；progress.md 唯一真相（builder 04:5x 两行随本轮监工提交入库）；task_plan.md 薄索引未动（合规）
+利益点自省: 更近——『安全垫』变『余粮』+称号升档+周报说人话，用户每天看到的是向想要的东西挪一步的粮仓进度叙事，零新增操作成本，传感器不变现卖点
+下一步: ①两项灰区已发浩然拍板（D1 后续带迁移授权卡改 DB 英文标识符？D2 收藏页视觉分组头追加小卡还是维持逐卡 goalName？）；②05:15/05:45 wake 按 S2 派下一张无阻塞卡（SB-015~020 可派；SB-012 前置未满足）；③队列：待办 6 张（SB-012,015~020）>2 无见底提醒，done/=13，SB-021 挂起 v0.2
