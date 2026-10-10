@@ -42,3 +42,16 @@
 下一步: 等 23:45 wake 派 SB-011→提审后常规审查；周一(10-12)首轮附【规范适配审查】（素材已积：_LOCK 路径口径/LOOP crashed-builder 态/WAITING_HUMAN 分支/wake 撞窗错峰条款等）。
 
 补记(同轮 23:3x)：监工提交落库时发现 main 新增 4584c39（浩然 23:26 双拍板，23:33 入库）——SB-021 摘出 v0.1 改『挂起 v0.2』、SB-016 验收 5『今日攒出』增补、SB-012 前置缩至 014~020（卡文 grep 实测回显）。待办队列实为 10 张（SB-011~020），>2 无提醒不变；4584c39 与本头均 docs-only，不触发重烟（last_smoke_commit=7d171d0 维持）。快照已修正。
+
+---
+# REVIEW — 2026-10-11 00:00 巡检轮（无新提审）
+结论: 无审查动作（REVIEW_REQUEST mtime=1791645469 早于 REVIEW.md=1791646453，SB-010 结案后无新提审）。队列无变化（docs/tasks 实测 SB-011~020 十张待办 + SB-021 挂起 v0.2，>2 无见底提醒；done/ 十张）。
+检查项:
+- [x] SB-011 开工实况核验（上轮观察项闭环）：23:45 wake 实派成功——feat/SB-011-bill-import 已切（base=main@6541216）、WIP 实测 app_db.dart/.g 修改 + import_batch/bill_import/import_page/bill_import_test/golden_import_test 新增 + docs/ios-shortcuts.md + golden/sb011 四图（文件 mtime 23:55~23:58 实时写入）；feat 无 commit（log main..feat 空回显）、未提审。上轮"23:45 应派 SB-011"观察项就此闭环：非空转。
+- [x] ⚠️ wake 23:45 轮次状态=error（cron list 实回显，非推测）：会话产出上述 WIP 后异常收尾（最后文件写入 23:58:27，监工 00:01 复核无 opencode 活跃进程、仅 kotlin daemon 驻留）。00:15 wake 轮观察其是否续用 feat 现场；LOOP 缺 crashed-builder 续做状态（已在周一素材册），连续失败或 feat 滞留将升级 watchdog 关注。按通知收口条款属常规运行观察，不推送。
+- [x] 冒烟判定：git diff --stat 7d171d0..main 实测 8 文件全为 .md（LOOP/REVIEW/PRD/任务卡/progress/done 归档），docs-only 不触发重烟（last_smoke_commit=7d171d0 维持）。
+- [x] 三件套提示词新鲜度：cron list 实拉——本巡检 */30、wake 15,45、runway-watchdog every 2h、需求反思 21:30 参数均现行；wake 文案上轮已实查（卡号通用引用 docs/tasks 状态行、豁免句已撤、路径 runway），30 分钟窗口内无新过时项，无需 edit。
+决策模型: 本轮无边界裁决项（wake error 属运行观察非裁决），未触发。
+利益点自省: SB-011 账单导入=把"零手工录入"的传感器管线真正建起来（golden 预览/结果四图已出），用户看见的是"账单自己流进攒够目标"——更近。
+漂移与一致性审计: 禁词 app/lib+test grep=3 与上轮完全一致（achievement.dart:12 禁词表本体/goal_ladder.dart:7 自警注释/goal_ladder_test.dart:127 断言），零新增；theme/motion_spec 外裸 Color(0x=0、Duration(milliseconds=0（main 实测）；_LOCK tree=0；分支=main+feat/SB-011（在审非残留）；main 头 6541216 系监工巡检 docs 头，无未审先合；SB-011 WIP 未入库文件留待提审轮全量审查；无 remote；真实账目 grep(美团|工资|房贷|余额+数字)=0；progress.md 唯一真相在位、task_plan.md 薄索引未动。
+下一步: 00:15 wake 观察 SB-011 是否续做/重做 → 提审后常规审查（重点：WIP 7 文件静态检查+golden 目审+真实账目红线 grep+ci 闸门复跑）。
