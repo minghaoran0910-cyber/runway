@@ -55,3 +55,19 @@
 利益点自省: SB-011 账单导入=把"零手工录入"的传感器管线真正建起来（golden 预览/结果四图已出），用户看见的是"账单自己流进攒够目标"——更近。
 漂移与一致性审计: 禁词 app/lib+test grep=3 与上轮完全一致（achievement.dart:12 禁词表本体/goal_ladder.dart:7 自警注释/goal_ladder_test.dart:127 断言），零新增；theme/motion_spec 外裸 Color(0x=0、Duration(milliseconds=0（main 实测）；_LOCK tree=0；分支=main+feat/SB-011（在审非残留）；main 头 6541216 系监工巡检 docs 头，无未审先合；SB-011 WIP 未入库文件留待提审轮全量审查；无 remote；真实账目 grep(美团|工资|房贷|余额+数字)=0；progress.md 唯一真相在位、task_plan.md 薄索引未动。
 下一步: 00:15 wake 观察 SB-011 是否续做/重做 → 提审后常规审查（重点：WIP 7 文件静态检查+golden 目审+真实账目红线 grep+ci 闸门复跑）。
+
+# REVIEW — 2026-10-11 01:00 巡检轮（SB-011 崩溃 WIP 裁决与清理重派）
+结论: PASS（本轮无新提审——REQ mtime 1791645469=23:17:49 早于 REVIEW，非审查轮；监工处置轮记录）
+检查项:
+- [x] 队列核对：docs/tasks SB-011~020 待办+SB-021 挂起 v0.2，与上轮快照一致零变化；待办十张>2 无排卡提醒。
+- [x] 崩溃现场核验：feat/SB-011-bill-import tip=6541216 零 commit、9 项 WIP 最后写 23:59:55、无 _LOCK、无 headless 进程——与 00:15 wake 诊断一致，builder 23:45 error 后已死；00:45 wake 正常按守卫 skip（ok suppressed 非失败）。
+- [x] 决策模型二意见：wip_disposal boolean（A 弃WIP重派 vs B 特赦救援轮 vs C stash 封存），status=ok，probabilityTrue=0.88≥0.75 → 按判落 A，决策p=0.88 标注。
+- [x] A 执行实证：WIP 10 项+工作树版 progress.md(36行) 原样归档 ~/.openclaw/workspace/memory/runway-crash/sb011-20261011-0100/；checkout -- + clean -fd 后 status 净；checkout main；branch -d feat/SB-011-bill-import；branch -a 仅剩 main。
+- [x] 重派可达性：S0 守卫将全过（main✓/_LOCK 本轮收尾删✓/净树✓/REQ 旧✓/无 WAITING_HUMAN✓），01:15 wake 按第2步『未开工卡→基于 main 新建 feat』重做 SB-011。
+问题列表:
+1. [非阻塞记录] 崩溃 WIP 含 docs/ios-shortcuts.md（builder 伸向 docs/ 禁区边界）——已弃不究；重派轮若再现 docs/ 新文件，审查轮按 DEV/GIT 规范裁决。
+2. [环缺口] LOOP.md 无 crashed-builder 处置路径（WIP 悬空只能监工手裁）——本轮为首例实操，补态条款素材入周一规范适配审查（清单在案）。
+下一步: 01:30/02:00 巡检核实 01:15 wake 是否开工（feat/SB-011-* 重切+_LOCK/progress 行）；再失败则按升级链请浩然拍板。冒烟不触发（last_smoke_commit=7d171d0，7d171d0..main 仅 docs 变动）。
+决策模型: 本轮触发 1 项（wip_disposal=0.88，判 A，已按判执行）。
+利益点自省: 本轮清掉悬空残骸让账单导入传感器管线以零污染状态重来，用户侧的『账单自己流进目标』更近（重派即续）；无更远风险项。
+漂移与一致性审计(01:00轮): 禁词 app/lib+test grep=3 与基线完全一致（achievement.dart:12/goal_ladder.dart:7/goal_ladder_test.dart:127 合规本体）零新增；theme/motion_spec 外裸 Color(0x=0、Duration(milliseconds:=0（清理后 pristine main 实测）；_LOCK=本轮收尾即删无泄漏；分支=仅 main 无 feat 残留；main 头 1ec0e00 对应 REVIEW.md 00:00 归档轮无未审先合；SB-011 待办卡在册、done/ 十张完好；无 remote；真实账目 grep=0；progress.md 唯一真相在位、task_plan.md 薄索引未动。
