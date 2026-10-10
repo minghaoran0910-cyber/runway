@@ -1,6 +1,7 @@
-// SB-009 · 安全垫与周报引擎（PRD §2 安全垫/自由基金 / §6 周报；DESIGN §7 得到框架，纯 Dart）.
+// SB-009 · 余粮与周报引擎（PRD §2 余粮/自由基金 / §6 周报；DESIGN §7 得到框架，纯 Dart）.
+// SB-014 · 旧词正名余粮（标识符同步改 Grain*；DB 表名保持不动，行为零变化）.
 // 口径（复用 SB-007，不复制第二套）：
-//   安全垫目标 = 近 3 月月均支出 × 目标月数（默认 6 个月，可设 1–36）；
+//   余粮目标 = 近 3 月月均支出 × 目标月数（默认 6 个月，可设 1–36）；
 //   自由基金余额 = 本月可换算省出（goal_ladder.computeGoal 口径）；
 //   进度 = 余额 / 目标额（钳 0..1）；
 //   周报省出 = max(0, 上周支出 − 本周支出)（单环比增量，避免周粒度双计；
@@ -13,16 +14,16 @@ import 'dashboard_stats.dart';
 import 'entry.dart';
 import 'goal_ladder.dart';
 
-/// 安全垫默认目标月数.
-const int defaultSafetyMonths = 6;
+/// 余粮默认目标月数.
+const int defaultGrainMonths = 6;
 
-/// 安全垫目标月数合法区间.
-const int safetyMonthsMin = 1;
-const int safetyMonthsMax = 36;
+/// 余粮目标月数合法区间.
+const int grainMonthsMin = 1;
+const int grainMonthsMax = 36;
 
-/// 安全垫视图（纯值对象）.
-class SafetyPadView {
-  const SafetyPadView({
+/// 余粮视图（纯值对象）.
+class GrainReserveView {
+  const GrainReserveView({
     required this.avgMonthlySpendFen,
     required this.targetMonths,
     required this.targetFen,
@@ -39,15 +40,15 @@ class SafetyPadView {
   /// 0..1（目标<=0 时为 0）.
   final double progress;
 
-  /// 已攒够安全垫.
+  /// 已攒够余粮.
   final bool done;
 }
 
 /// 领域校验：返回 null = 合法，否则为错误文案.
-String? validateSafetyMonths(int? months) {
-  if (months == null) return '目标月数须为 $safetyMonthsMin–$safetyMonthsMax';
-  if (months < safetyMonthsMin || months > safetyMonthsMax) {
-    return '目标月数须为 $safetyMonthsMin–$safetyMonthsMax';
+String? validateGrainMonths(int? months) {
+  if (months == null) return '目标月数须为 $grainMonthsMin–$grainMonthsMax';
+  if (months < grainMonthsMin || months > grainMonthsMax) {
+    return '目标月数须为 $grainMonthsMin–$grainMonthsMax';
   }
   return null;
 }
@@ -61,8 +62,8 @@ int avg3MonthSpend({
   return (monthSpendFen + lastMonthSpendFen + last2MonthSpendFen) ~/ 3;
 }
 
-/// 安全垫计算（目标 = 月均 × 月数；余额 = 本月可换算省出）.
-SafetyPadView computeSafetyPad({
+/// 余粮计算（目标 = 月均 × 月数；余额 = 本月可换算省出）.
+GrainReserveView computeGrainReserve({
   required int avgMonthlySpendFen,
   required int fundFen,
   required int targetMonths,
@@ -74,7 +75,7 @@ SafetyPadView computeSafetyPad({
     progress = (fundFen / target).clamp(0.0, 1.0).toDouble();
     done = fundFen >= target;
   }
-  return SafetyPadView(
+  return GrainReserveView(
     avgMonthlySpendFen: avgMonthlySpendFen,
     targetMonths: targetMonths,
     targetFen: target,
@@ -111,24 +112,106 @@ sumLast3MonthSpend(
   );
 }
 
-/// 安全垫标题（得到框架；只报得到，无行动召唤）.
-String safetyTitle({required int targetMonths}) {
-  return '安全垫 · $targetMonths 个月开销底气';
+/// 余粮标题（得到框架；只报得到，无行动召唤）.
+String grainTitle({required int targetMonths}) {
+  return '余粮 · $targetMonths 个月开销底气';
 }
 
-/// 安全垫正文（得到框架；大额只陈述复用 equivalentOf）.
-String safetyBody({required int fundFen, required int targetFen}) {
+/// 余粮正文（得到框架；大额只陈述复用 equivalentOf）.
+String grainBody({required int fundFen, required int targetFen}) {
   if (targetFen <= 0) return '记满 3 个月，开始攒出第一个月底气';
   if (fundFen <= 0) return '本期持平 · 已有目标 ${formatFen(targetFen)} 等待攒出';
   return '已攒 ${formatFen(fundFen)} / 目标 ${formatFen(targetFen)} · ${equivalentOf(fundFen)}';
 }
 
-/// 安全垫下一站（得到框架；复用 goal_ladder.nextLadderHint 口径思想）.
-String safetyHint({required int fundFen, required int targetFen}) {
+/// 余粮下一站（得到框架；复用 goal_ladder.nextLadderHint 口径思想）.
+String grainHint({required int fundFen, required int targetFen}) {
   if (targetFen <= 0) return '先记账，底气自然来';
-  if (fundFen >= targetFen) return '已攒够安全垫 · 得到阶段性底气';
+  if (fundFen >= targetFen) return '已攒够余粮 · 得到阶段性底气';
   final double pct = (fundFen / targetFen).clamp(0.0, 1.0).toDouble();
   return '已攒 ${(pct * 100).toStringAsFixed(0)}% · 稳步积累的证明';
+}
+
+// —— SB-014 · 称号池与梗句（同一常量文件；任意目标映射，多目标各自成梯） ——
+// 只调侃粮仓，严禁调侃用户消费行为；全部得到框架，零禁词.
+
+/// 标准五档路线（常规目标）：首笔→25%→50%→75%→100%.
+const List<String> grainTitleRoute5 = <String>[
+  '种下第一穗',
+  '青苗',
+  '半锅米',
+  '米满沿',
+  '仓满',
+];
+
+/// 小额三档路线（周级小目标）：首笔→半程→满仓.
+const List<String> grainTitleRoute3 = <String>['下种', '半路', '满仓'];
+
+/// 余粮月数档（等比换算：50% 恒为「地主家」，随 targetMonths 自动前移，不写死月数）.
+const List<String> grainMonthsRoute = <String>[
+  '种下第一穗',
+  '青苗',
+  '地主家',
+  '米满沿',
+  '仓满',
+];
+
+/// 梗句池（key=称号；只说粮仓，不说人）.
+const Map<String, String> grainJokes = <String, String>{
+  '种下第一穗': '粮仓开了个小口，风往里灌希望',
+  '青苗': '苗齐了，仓底有了绿意',
+  '半锅米': '锅里有米，仓里有底',
+  '米满沿': '米快漫到仓沿了',
+  '仓满': '仓门合上，底气落袋',
+  '下种': '土松好了，等苗',
+  '半路': '走了一半，仓不空',
+  '满仓': '小仓也满，见好就收',
+  '地主家': '仓里有粮，心里有底',
+};
+
+/// 小额目标判定（周级：目标额 ≤500 元走三档；调用方可直接传 small 覆盖）.
+bool isSmallGrainTarget(int targetFen) => targetFen > 0 && targetFen <= 50000;
+
+/// 目标称号（按进度映射；small=true 走三档；targetFen<=0 返回首档）.
+String goalGrainTitle({
+  required int convertibleFen,
+  required int targetFen,
+  bool? small,
+}) {
+  final bool s = small ?? (targetFen > 0 && isSmallGrainTarget(targetFen));
+  if (targetFen <= 0) {
+    return s ? grainTitleRoute3.first : grainTitleRoute5.first;
+  }
+  if (convertibleFen >= targetFen) return s ? '满仓' : '仓满';
+  final double p = (convertibleFen / targetFen).clamp(0.0, 1.0).toDouble();
+  if (s) {
+    if (p <= 0) return '下种';
+    return '半路';
+  }
+  if (p >= 0.75) return '米满沿';
+  if (p >= 0.5) return '半锅米';
+  if (p >= 0.25) return '青苗';
+  return '种下第一穗';
+}
+
+/// 余粮月数称号（等比：50% 恒为地主家；targetMonths 仅用于合法性，不参与写死映射）.
+String grainMonthsTitle({
+  required int fundFen,
+  required int targetFen,
+  required int targetMonths,
+}) {
+  if (targetFen <= 0) return grainMonthsRoute.first;
+  if (fundFen >= targetFen) return '仓满';
+  final double p = (fundFen / targetFen).clamp(0.0, 1.0).toDouble();
+  if (p >= 0.75) return '米满沿';
+  if (p >= 0.5) return '地主家';
+  if (p >= 0.25) return '青苗';
+  return '种下第一穗';
+}
+
+/// 称号梗句（无梗回到底气陈述；只说粮仓）.
+String grainJokeFor(String title) {
+  return grainJokes[title] ?? '仓里添了一把米';
 }
 
 // —— 周报 ——
@@ -253,6 +336,29 @@ String weeklyBody({required int savedFen, required int spendFen}) {
   return '本周省出 ${formatFen(savedFen)} · ${equivalentOf(savedFen)}';
 }
 
+/// 本周攒出物理换算（SB-014：复用 SB-007 价格表；换算不出如实给余粮天数，禁止编造）.
+/// 例：≈ 1.5 杯奶茶；不足半件即回落余粮天数；月均未知回到底气陈述.
+String weeklySavingConvert({
+  required int savedFen,
+  int avgMonthlySpendFen = 0,
+}) {
+  if (savedFen <= 0) return '稳步积累中';
+  PriceRef? hit;
+  for (final PriceRef p in defaultPrices) {
+    if (p.fen * 0.5 <= savedFen) hit = p;
+  }
+  if (hit != null) {
+    final double n = savedFen / hit.fen;
+    final String ns = n.toStringAsFixed(1);
+    return '≈ $ns ${cupUnit(hit.name)}${hit.name}';
+  }
+  if (avgMonthlySpendFen > 0) {
+    final double days = savedFen * 30.0 / avgMonthlySpendFen;
+    if (days >= 0.5) return '够 ${days.toStringAsFixed(1)} 天余粮';
+  }
+  return '稳步积累中';
+}
+
 /// 周报环比文案（得到框架；只陈述不劝阻）.
 String weeklyMomText({required int momDeltaFen}) {
   if (momDeltaFen > 0) return '比上周多省 ${formatFen(momDeltaFen)}';
@@ -269,5 +375,5 @@ String weeklyTopText(List<WeeklyTop> top3) {
   return '支出 Top：$parts';
 }
 
-/// 本卡禁词复用成就表（不另建第二套；周报/安全垫文案零命中）.
-List<String> get safetyBannedWords => achievementBannedWords;
+/// 本卡禁词复用成就表（不另建第二套；周报/余粮文案零命中）.
+List<String> get grainBannedWords => achievementBannedWords;

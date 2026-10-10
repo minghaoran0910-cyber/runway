@@ -58,7 +58,8 @@ class Achievements extends Table {
   DateTimeColumn get unlockedAt => dateTime().withDefault(currentDateAndTime)();
 }
 
-/// schema v4：safety_pad（安全垫配置；单行约定 id=1，targetMonths 默认 6）.
+/// schema v4：safety_pad（余粮配置；单行约定 id=1，targetMonths 默认 6）.
+// SB-014：表名/列名保持不动（行为零变化，无迁移授权）；用户可见文案一律"余粮".
 class SafetyPad extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get targetMonths => integer().withDefault(const Constant(6))();

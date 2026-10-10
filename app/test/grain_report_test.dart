@@ -1,18 +1,21 @@
 import 'package:drift/drift.dart' hide Column, isNotNull, isNull;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:runway/data/app_db.dart';
+import 'package:runway/logic/achievement.dart';
 import 'package:runway/logic/dashboard_stats.dart';
-import 'package:runway/logic/safety_report.dart';
+import 'package:runway/logic/goal_ladder.dart';
+import 'package:runway/logic/grain_report.dart';
 
-// SB-009 · 安全垫与周报单测（合成数据，纯 Dart + DAO；≥14 条）.
+// SB-009 · 余粮与周报单测（合成数据，纯 Dart + DAO；≥14 条）.
+// SB-014 · 安全垫正名余粮 + 称号引擎 + 周报物理换算 + 禁词增补.
 
 DashboardFlow _f(int fen, DateTime t, [String c = '餐饮']) {
   return DashboardFlow(amountFen: fen, category: c, occurredAt: t);
 }
 
 void main() {
-  test('SB-009 安全垫：目标=月均×月数，进度钳制', () {
-    final SafetyPadView v = computeSafetyPad(
+  test('SB-009 余粮：目标=月均×月数，进度钳制', () {
+    final GrainReserveView v = computeGrainReserve(
       avgMonthlySpendFen: 10000,
       fundFen: 30000,
       targetMonths: 6,
@@ -22,15 +25,15 @@ void main() {
     expect(v.done, isFalse);
   });
 
-  test('SB-009 安全垫：余额超目标即达成，目标<=0 不崩', () {
-    final SafetyPadView v = computeSafetyPad(
+  test('SB-009 余粮：余额超目标即达成，目标<=0 不崩', () {
+    final GrainReserveView v = computeGrainReserve(
       avgMonthlySpendFen: 10000,
       fundFen: 60000,
       targetMonths: 6,
     );
     expect(v.done, isTrue);
     expect(v.progress, 1.0);
-    final SafetyPadView z = computeSafetyPad(
+    final GrainReserveView z = computeGrainReserve(
       avgMonthlySpendFen: 0,
       fundFen: 100,
       targetMonths: 6,
@@ -41,13 +44,13 @@ void main() {
   });
 
   test('SB-009 月数校验：默认 6 合法，区间 1–36', () {
-    expect(validateSafetyMonths(6), isNull);
-    expect(validateSafetyMonths(1), isNull);
-    expect(validateSafetyMonths(36), isNull);
-    expect(validateSafetyMonths(0), isNotNull);
-    expect(validateSafetyMonths(37), isNotNull);
-    expect(validateSafetyMonths(null), isNotNull);
-    expect(defaultSafetyMonths, 6);
+    expect(validateGrainMonths(6), isNull);
+    expect(validateGrainMonths(1), isNull);
+    expect(validateGrainMonths(36), isNull);
+    expect(validateGrainMonths(0), isNotNull);
+    expect(validateGrainMonths(37), isNotNull);
+    expect(validateGrainMonths(null), isNotNull);
+    expect(defaultGrainMonths, 6);
   });
 
   test('SB-009 月均：近 3 月求均，缺月按 0', () {
@@ -82,23 +85,25 @@ void main() {
     expect(sums.last2MonthSpendFen, 300);
   });
 
-  test('SB-009 文案：安全垫标题/正文/提示零禁词', () {
-    final String t = safetyTitle(targetMonths: 6);
-    final String b = safetyBody(fundFen: 30000, targetFen: 60000);
-    final String h = safetyHint(fundFen: 30000, targetFen: 60000);
-    for (final String bad in safetyBannedWords) {
+  test('SB-009 文案：余粮标题/正文/提示零禁词', () {
+    final String t = grainTitle(targetMonths: 6);
+    final String b = grainBody(fundFen: 30000, targetFen: 60000);
+    final String h = grainHint(fundFen: 30000, targetFen: 60000);
+    for (final String bad in grainBannedWords) {
       expect(t.contains(bad), isFalse, reason: '标题含禁词 $bad');
       expect(b.contains(bad), isFalse, reason: '正文含禁词 $bad');
       expect(h.contains(bad), isFalse, reason: '提示含禁词 $bad');
     }
     expect(t.contains('6'), isTrue);
+    expect(t.contains('余粮'), isTrue);
+    expect(t.contains('安全垫'), isFalse);
     expect(h.contains('已攒'), isTrue);
   });
 
   test('SB-009 文案：达成态报底气，未记账给引导', () {
-    expect(safetyHint(fundFen: 60000, targetFen: 60000), contains('已攒够安全垫'));
-    expect(safetyBody(fundFen: 0, targetFen: 60000), contains('持平'));
-    expect(safetyBody(fundFen: 100, targetFen: 0), contains('记满'));
+    expect(grainHint(fundFen: 60000, targetFen: 60000), contains('已攒够余粮'));
+    expect(grainBody(fundFen: 0, targetFen: 60000), contains('持平'));
+    expect(grainBody(fundFen: 100, targetFen: 0), contains('记满'));
   });
 
   test('SB-009 周起算：周一归零，周日归本周一', () {
@@ -174,7 +179,7 @@ void main() {
     final String top = weeklyTopText(const <WeeklyTop>[
       WeeklyTop(category: '餐饮', fen: 1000),
     ]);
-    for (final String bad in safetyBannedWords) {
+    for (final String bad in grainBannedWords) {
       expect(t.contains(bad), isFalse);
       expect(b.contains(bad), isFalse);
       expect(m.contains(bad), isFalse);
@@ -183,7 +188,7 @@ void main() {
     expect(b.contains('省出'), isTrue);
   });
 
-  test('SB-009 DAO：安全垫 upsert 单行 + 周报幂等', () async {
+  test('SB-009 DAO：余粮 upsert 单行 + 周报幂等', () async {
     final AppDb db = AppDb.memoryForTest();
     expect(await db.currentSafetyPad(), isNull);
     await db.upsertSafetyMonths(6);
@@ -235,5 +240,125 @@ void main() {
       ),
     );
     expect((await db.listAll()).length, 1);
+  });
+
+  // —— SB-014 新增 ——
+
+  test('SB-014 称号五档：0/25/50/75/100% 各 ±1 分边界', () {
+    const int target = 10000;
+    String at(int v) =>
+        goalGrainTitle(convertibleFen: v, targetFen: target, small: false);
+    expect(at(0), '种下第一穗');
+    expect(at(2499), '种下第一穗');
+    expect(at(2500), '青苗');
+    expect(at(2501), '青苗');
+    expect(at(4999), '青苗');
+    expect(at(5000), '半锅米');
+    expect(at(5001), '半锅米');
+    expect(at(7499), '半锅米');
+    expect(at(7500), '米满沿');
+    expect(at(7501), '米满沿');
+    expect(at(9999), '米满沿');
+    expect(at(10000), '仓满');
+    expect(at(12000), '仓满');
+  });
+
+  test('SB-014 称号三档：小额目标只保下种/半路/满仓', () {
+    String at(int v) =>
+        goalGrainTitle(convertibleFen: v, targetFen: 10000, small: true);
+    expect(at(0), '下种');
+    expect(at(1), '半路');
+    expect(at(5000), '半路');
+    expect(at(9999), '半路');
+    expect(at(10000), '满仓');
+    expect(isSmallGrainTarget(50000), isTrue);
+    expect(isSmallGrainTarget(50001), isFalse);
+    expect(isSmallGrainTarget(0), isFalse);
+  });
+
+  test('SB-014 余粮月数：等比换算，50% 恒为地主家（6 个月/3 个月）', () {
+    // 设 6 个月（月均 10000 → 目标 60000），50% = 30000 即地主家.
+    expect(
+      grainMonthsTitle(fundFen: 30000, targetFen: 60000, targetMonths: 6),
+      '地主家',
+    );
+    // 设 3 个月（月均 10000 → 目标 30000），50% = 15000 自动前移，仍为地主家.
+    expect(
+      grainMonthsTitle(fundFen: 15000, targetFen: 30000, targetMonths: 3),
+      '地主家',
+    );
+    expect(
+      grainMonthsTitle(fundFen: 0, targetFen: 60000, targetMonths: 6),
+      '种下第一穗',
+    );
+    expect(
+      grainMonthsTitle(fundFen: 60000, targetFen: 60000, targetMonths: 6),
+      '仓满',
+    );
+  });
+
+  test('SB-014 多目标并行：各自成梯，映射互不干扰', () {
+    final String a = goalGrainTitle(
+      convertibleFen: 2000,
+      targetFen: 10000,
+      small: false,
+    );
+    final String b = goalGrainTitle(
+      convertibleFen: 8000,
+      targetFen: 10000,
+      small: false,
+    );
+    expect(a, '种下第一穗');
+    expect(b, '米满沿');
+    expect(a == b, isFalse);
+  });
+
+  test('SB-014 周报物理换算：复用价格表，换算不出给余粮天数', () {
+    expect(weeklySavingConvert(savedFen: 2700), contains('奶茶'));
+    expect(weeklySavingConvert(savedFen: 2700), contains('1.5'));
+    expect(weeklySavingConvert(savedFen: 0), '稳步积累中');
+    expect(weeklySavingConvert(savedFen: 100), '稳步积累中');
+    expect(
+      weeklySavingConvert(savedFen: 500, avgMonthlySpendFen: 30000),
+      contains('余粮'),
+    );
+    for (final String bad in grainBannedWords) {
+      expect(weeklySavingConvert(savedFen: 2700).contains(bad), isFalse);
+    }
+  });
+
+  test('SB-014 禁词增补：亏了/没了/花光/穷全仓零命中', () {
+    for (final String w in <String>['亏了', '没了', '花光', '穷']) {
+      expect(achievementBannedWords.contains(w), isTrue);
+    }
+    final List<String> copies = <String>[
+      grainTitle(targetMonths: 6),
+      grainBody(fundFen: 30000, targetFen: 60000),
+      grainHint(fundFen: 30000, targetFen: 60000),
+      weeklySavingConvert(savedFen: 2700),
+      ...grainJokes.values,
+      ...grainTitleRoute5,
+      ...grainTitleRoute3,
+      ...grainMonthsRoute,
+    ];
+    for (final String c in copies) {
+      for (final String bad in achievementBannedWords) {
+        expect(c.contains(bad), isFalse, reason: '文案含禁词 $bad：$c');
+      }
+    }
+  });
+
+  test('SB-014 梗只说粮仓：零第二人称，零消费说教', () {
+    for (final String j in grainJokes.values) {
+      expect(j.contains('你'), isFalse, reason: '梗指向用户：$j');
+      expect(j.contains('买'), isFalse, reason: '梗涉消费：$j');
+    }
+    expect(grainJokeFor('仓满'), isNotEmpty);
+    expect(grainJokeFor('未知称号'), isNotEmpty);
+  });
+
+  test('SB-014 改名回归：余粮可见、安全垫清零、阶梯同步', () {
+    expect(ladderNameFor(7000000), '余粮');
+    expect(defaultLadder.any((r) => r.name.contains('安全垫')), isFalse);
   });
 }

@@ -9,13 +9,13 @@ import 'achievement_gate.dart';
 import 'achievements_page.dart';
 import 'dashboard_cards.dart';
 import 'goal_card.dart';
-import 'safety_card.dart';
+import 'grain_card.dart';
 import 'weekly_page.dart';
 import 'theme/app_theme.dart';
 import 'theme/tokens.dart';
 
 // SB-007 · 目标设定页（PRD §2 攒到层入口；进度组件见 goal_card.dart）.
-// SB-009 · 安全垫同区展示（SafetyPadCard 复用目标区视觉语言，不另造轮子）+ 周报入口.
+// SB-009 · 余粮同区展示（GrainReserveCard 复用目标区视觉语言，不另造轮子）+ 周报入口.
 // 形状只用 r16（内容卡）；分隔仅 hairline；数字 tabular（§1.4）；
 // 颜色只用 tokens；文案全量"得到"框架（§7），零亏欠表述.
 // 进度数据源为 SB-004 transactions（watchAll 实时联动）；目标持久化于 goals 表.
@@ -177,7 +177,7 @@ class GoalPage extends StatelessWidget {
                           ),
                         AchievementGate(db: db),
                         const SizedBox(height: RunwaySpacing.section),
-                        SafetyZone(db: db, rows: rows),
+                        GrainZone(db: db, rows: rows),
                         TextButton(
                           onPressed: () => Navigator.of(context).push<void>(
                             MaterialPageRoute<void>(

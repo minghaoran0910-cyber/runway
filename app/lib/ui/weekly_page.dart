@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import '../data/app_db.dart';
 import '../logic/dashboard_stats.dart';
 import '../logic/entry.dart';
-import '../logic/goal_ladder.dart';
-import '../logic/safety_report.dart';
+import '../logic/grain_report.dart';
 import 'theme/app_theme.dart';
 import 'theme/tokens.dart';
 
@@ -172,10 +171,8 @@ class _WeeklyPageState extends State<WeeklyPage> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              describeSaving(
-                                convertibleFen: cur.savedFen,
-                                price: const PriceRef(name: '奶茶', fen: 1800),
-                              ),
+                              // SB-014 · 本周攒出物理换算（复用 SB-007 价格表，禁止编造）.
+                              weeklySavingConvert(savedFen: cur.savedFen),
                               style: theme.textTheme.bodySmall,
                               key: const Key('weeklyConvert'),
                             ),

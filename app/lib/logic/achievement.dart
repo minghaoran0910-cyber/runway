@@ -8,6 +8,7 @@ import 'entry.dart';
 import 'goal_ladder.dart';
 
 /// 禁词表（得到框架；与 SB-007 一致，成就文案零命中）.
+// SB-014 增补四词（只调侃粮仓，严禁调侃用户消费行为）.
 const List<String> achievementBannedWords = <String>[
   '又花掉',
   '只剩',
@@ -15,6 +16,10 @@ const List<String> achievementBannedWords = <String>[
   '超支',
   '别买',
   '不该',
+  '亏了',
+  '没了',
+  '花光',
+  '穷',
 ];
 
 /// 待庆祝的解锁（纯值对象，便于单测）.

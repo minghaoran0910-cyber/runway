@@ -26,7 +26,7 @@ const List<PriceRef> defaultPrices = <PriceRef>[
   PriceRef(name: '5090', fen: 1649900),
 ];
 
-/// 阶梯档（PRD §2：奶茶→5090→安全垫→自由基金→FIRE；键盘/手机为实物中间档）.
+/// 阶梯档（PRD §2：奶茶→5090→余粮→自由基金→FIRE；键盘/手机为实物中间档）.
 class LadderRung {
   const LadderRung({required this.name, required this.thresholdFen});
 
@@ -39,7 +39,7 @@ const List<LadderRung> defaultLadder = <LadderRung>[
   LadderRung(name: '键盘', thresholdFen: 29900),
   LadderRung(name: '手机', thresholdFen: 399900),
   LadderRung(name: '5090', thresholdFen: 1649900),
-  LadderRung(name: '安全垫', thresholdFen: 6000000),
+  LadderRung(name: '余粮', thresholdFen: 6000000),
   LadderRung(name: '自由基金', thresholdFen: 24000000),
   LadderRung(name: 'FIRE', thresholdFen: 100000000),
 ];

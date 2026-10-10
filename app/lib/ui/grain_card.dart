@@ -3,26 +3,27 @@ import 'package:flutter/material.dart';
 import '../data/app_db.dart';
 import '../logic/entry.dart';
 import '../logic/goal_ladder.dart';
-import '../logic/safety_report.dart';
+import '../logic/grain_report.dart';
 import 'goal_card.dart';
 import 'theme/tokens.dart';
 
-// SB-009 · 安全垫卡（PRD §2 安全垫/自由基金；DESIGN §1 地面+浮起 / §7 得到框架）.
+// SB-009 · 余粮卡（PRD §2 余粮/自由基金；DESIGN §1 地面+浮起 / §7 得到框架）.
+// SB-014 · 旧词正名余粮（标识符同步改 Grain*；DB 表保持不动，行为零变化）.
 // 与目标阶梯同区展示（GoalPage 内 GoalProgressCard 之下），不重复造轮子：
-// 进度条/排版复用 GoalProgressCard 视觉语言，数据源走 safety_report 引擎.
+// 进度条/排版复用 GoalProgressCard 视觉语言，数据源走 grain_report 引擎.
 // 形状只用 r16（内容卡）/ r10（进度条裁剪）；分隔仅 hairline；数字 tabular（§1.4）；
 // 颜色只用 tokens；文案全量"得到"框架，零亏欠表述.
 // 本文件零裸时长/曲线（无动画，纯展示）.
 
-class SafetyPadCard extends StatelessWidget {
-  const SafetyPadCard({
+class GrainReserveCard extends StatelessWidget {
+  const GrainReserveCard({
     super.key,
     required this.view,
     this.onEdit,
     this.onOpenWeekly,
   });
 
-  final SafetyPadView view;
+  final GrainReserveView view;
   final VoidCallback? onEdit;
   final VoidCallback? onOpenWeekly;
 
@@ -31,6 +32,11 @@ class SafetyPadCard extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final bool isDark = theme.brightness == Brightness.dark;
     final String pct = (view.progress * 100).toStringAsFixed(0);
+    final String monthTitle = grainMonthsTitle(
+      fundFen: view.fundFen,
+      targetFen: view.targetFen,
+      targetMonths: view.targetMonths,
+    );
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(RunwaySpacing.cardInner),
@@ -41,32 +47,32 @@ class SafetyPadCard extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    safetyTitle(targetMonths: view.targetMonths),
+                    grainTitle(targetMonths: view.targetMonths),
                     style: theme.textTheme.titleMedium,
-                    key: const Key('safetyTitle'),
+                    key: const Key('grainTitle'),
                   ),
                 ),
                 if (onEdit != null)
                   TextButton(
                     onPressed: onEdit,
-                    key: const Key('safetyEdit'),
+                    key: const Key('grainEdit'),
                     child: const Text('设月数'),
                   ),
               ],
             ),
             const SizedBox(height: 8),
             Text(
-              safetyBody(fundFen: view.fundFen, targetFen: view.targetFen),
+              grainBody(fundFen: view.fundFen, targetFen: view.targetFen),
               style: theme.textTheme.headlineSmall?.copyWith(
                 fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
               ),
-              key: const Key('safetyConvert'),
+              key: const Key('grainConvert'),
             ),
             const SizedBox(height: 4),
             Text(
               '月均支出 ${formatFen(view.avgMonthlySpendFen)} · 目标 ${formatFen(view.targetFen)}',
               style: theme.textTheme.bodySmall,
-              key: const Key('safetyTarget'),
+              key: const Key('grainTarget'),
             ),
             const SizedBox(height: 8),
             ClipRRect(
@@ -87,16 +93,16 @@ class SafetyPadCard extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               view.done
-                  ? '已攒够安全垫 · 得到阶段性底气'
-                  : '已攒 $pct% · ${safetyHint(fundFen: view.fundFen, targetFen: view.targetFen)}',
+                  ? '已攒够余粮 · 仓满 · ${grainJokeFor('仓满')}'
+                  : '已攒 $pct% · $monthTitle · ${grainHint(fundFen: view.fundFen, targetFen: view.targetFen)}',
               style: theme.textTheme.bodySmall,
-              key: Key(view.done ? 'safetyDone' : 'safetyProgress'),
+              key: Key(view.done ? 'grainDone' : 'grainProgress'),
             ),
             if (onOpenWeekly != null) ...<Widget>[
               const SizedBox(height: 4),
               TextButton(
                 onPressed: onOpenWeekly,
-                key: const Key('safetyToWeekly'),
+                key: const Key('grainToWeekly'),
                 child: const Text('看本周周报'),
               ),
             ],
@@ -107,17 +113,17 @@ class SafetyPadCard extends StatelessWidget {
   }
 }
 
-/// 安全垫月数编辑框（1–36，默认 6；校验走 validateSafetyMonths）.
-class SafetyMonthsDialog extends StatefulWidget {
-  const SafetyMonthsDialog({super.key, required this.initialMonths});
+/// 余粮月数编辑框（1–36，默认 6；校验走 validateGrainMonths）.
+class GrainMonthsDialog extends StatefulWidget {
+  const GrainMonthsDialog({super.key, required this.initialMonths});
 
   final int initialMonths;
 
   @override
-  State<SafetyMonthsDialog> createState() => _SafetyMonthsDialogState();
+  State<GrainMonthsDialog> createState() => _GrainMonthsDialogState();
 }
 
-class _SafetyMonthsDialogState extends State<SafetyMonthsDialog> {
+class _GrainMonthsDialogState extends State<GrainMonthsDialog> {
   late final TextEditingController _months;
 
   @override
@@ -135,12 +141,12 @@ class _SafetyMonthsDialogState extends State<SafetyMonthsDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('安全垫目标'),
+      title: const Text('余粮目标'),
       content: TextField(
         controller: _months,
         decoration: const InputDecoration(labelText: '目标月数（1–36，默认 6）'),
         keyboardType: TextInputType.number,
-        key: const Key('safetyMonthsInput'),
+        key: const Key('grainMonthsInput'),
       ),
       actions: <Widget>[
         TextButton(
@@ -150,7 +156,7 @@ class _SafetyMonthsDialogState extends State<SafetyMonthsDialog> {
         FilledButton(
           onPressed: () {
             final int? v = int.tryParse(_months.text.trim());
-            final String? err = validateSafetyMonths(v);
+            final String? err = validateGrainMonths(v);
             if (err != null) {
               ScaffoldMessenger.of(
                 context,
@@ -159,7 +165,7 @@ class _SafetyMonthsDialogState extends State<SafetyMonthsDialog> {
             }
             Navigator.of(context).pop<int>(v!);
           },
-          key: const Key('safetyMonthsSave'),
+          key: const Key('grainMonthsSave'),
           child: const Text('保存'),
         ),
       ],
@@ -167,24 +173,24 @@ class _SafetyMonthsDialogState extends State<SafetyMonthsDialog> {
   }
 }
 
-/// 安全垫编辑入口（GoalPage 复用：弹框 → upsert 落库，返回 true=已保存）.
-Future<bool> editSafetyMonths(
+/// 余粮编辑入口（GoalPage 复用：弹框 → upsert 落库，返回 true=已保存）.
+Future<bool> editGrainMonths(
   BuildContext context,
   AppDb db,
   int current,
 ) async {
   final int? months = await showDialog<int>(
     context: context,
-    builder: (BuildContext ctx) => SafetyMonthsDialog(initialMonths: current),
+    builder: (BuildContext ctx) => GrainMonthsDialog(initialMonths: current),
   );
   if (months == null) return false;
   await db.upsertSafetyMonths(months);
   return true;
 }
 
-/// 安全垫同区（GoalPage 目标区之下；数据源 transactions + safety_pad 配置）.
-class SafetyZone extends StatelessWidget {
-  const SafetyZone({super.key, required this.db, required this.rows});
+/// 余粮同区（GoalPage 目标区之下；数据源 transactions + safety_pad 配置）.
+class GrainZone extends StatelessWidget {
+  const GrainZone({super.key, required this.db, required this.rows});
 
   final AppDb db;
   final List<Transaction> rows;
@@ -212,15 +218,15 @@ class SafetyZone extends StatelessWidget {
     return FutureBuilder<SafetyPadData?>(
       future: db.currentSafetyPad(),
       builder: (ctx, snap) {
-        final int months = snap.data?.targetMonths ?? defaultSafetyMonths;
-        final SafetyPadView view = computeSafetyPad(
+        final int months = snap.data?.targetMonths ?? defaultGrainMonths;
+        final GrainReserveView view = computeGrainReserve(
           avgMonthlySpendFen: avg,
           fundFen: fund,
           targetMonths: months,
         );
-        return SafetyPadCard(
+        return GrainReserveCard(
           view: view,
-          onEdit: () => editSafetyMonths(context, db, months),
+          onEdit: () => editGrainMonths(context, db, months),
         );
       },
     );

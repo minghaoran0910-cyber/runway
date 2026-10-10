@@ -159,11 +159,11 @@ void main() {
     expect(equivalentOf(100), '稳步积累中');
   });
 
-  test('SB-007 阶梯：目标额归档（奶茶→手机→5090→安全垫）', () {
+  test('SB-007 阶梯：目标额归档（奶茶→手机→5090→余粮）', () {
     expect(ladderNameFor(1800), '奶茶');
     expect(ladderNameFor(500000), '手机');
     expect(ladderNameFor(2000000), '5090');
-    expect(ladderNameFor(7000000), '安全垫');
+    expect(ladderNameFor(7000000), '余粮');
     expect(ladderNameFor(30000000), '自由基金');
   });
 
