@@ -3565,6 +3565,610 @@ class BudgetsCompanion extends UpdateCompanion<Budget> {
   }
 }
 
+class $DailyClosesTable extends DailyCloses
+    with TableInfo<$DailyClosesTable, DailyClose> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DailyClosesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _dateKeyMeta = const VerificationMeta(
+    'dateKey',
+  );
+  @override
+  late final GeneratedColumn<String> dateKey = GeneratedColumn<String>(
+    'date_key',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 8,
+      maxTextLength: 16,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _estimateFenMeta = const VerificationMeta(
+    'estimateFen',
+  );
+  @override
+  late final GeneratedColumn<int> estimateFen = GeneratedColumn<int>(
+    'estimate_fen',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('done'),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    dateKey,
+    estimateFen,
+    status,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'daily_closes';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DailyClose> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('date_key')) {
+      context.handle(
+        _dateKeyMeta,
+        dateKey.isAcceptableOrUnknown(data['date_key']!, _dateKeyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dateKeyMeta);
+    }
+    if (data.containsKey('estimate_fen')) {
+      context.handle(
+        _estimateFenMeta,
+        estimateFen.isAcceptableOrUnknown(
+          data['estimate_fen']!,
+          _estimateFenMeta,
+        ),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DailyClose map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DailyClose(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      dateKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}date_key'],
+      )!,
+      estimateFen: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}estimate_fen'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $DailyClosesTable createAlias(String alias) {
+    return $DailyClosesTable(attachedDatabase, alias);
+  }
+}
+
+class DailyClose extends DataClass implements Insertable<DailyClose> {
+  final int id;
+  final String dateKey;
+  final int estimateFen;
+  final String status;
+  final DateTime createdAt;
+  const DailyClose({
+    required this.id,
+    required this.dateKey,
+    required this.estimateFen,
+    required this.status,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['date_key'] = Variable<String>(dateKey);
+    map['estimate_fen'] = Variable<int>(estimateFen);
+    map['status'] = Variable<String>(status);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  DailyClosesCompanion toCompanion(bool nullToAbsent) {
+    return DailyClosesCompanion(
+      id: Value(id),
+      dateKey: Value(dateKey),
+      estimateFen: Value(estimateFen),
+      status: Value(status),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory DailyClose.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DailyClose(
+      id: serializer.fromJson<int>(json['id']),
+      dateKey: serializer.fromJson<String>(json['dateKey']),
+      estimateFen: serializer.fromJson<int>(json['estimateFen']),
+      status: serializer.fromJson<String>(json['status']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'dateKey': serializer.toJson<String>(dateKey),
+      'estimateFen': serializer.toJson<int>(estimateFen),
+      'status': serializer.toJson<String>(status),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  DailyClose copyWith({
+    int? id,
+    String? dateKey,
+    int? estimateFen,
+    String? status,
+    DateTime? createdAt,
+  }) => DailyClose(
+    id: id ?? this.id,
+    dateKey: dateKey ?? this.dateKey,
+    estimateFen: estimateFen ?? this.estimateFen,
+    status: status ?? this.status,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  DailyClose copyWithCompanion(DailyClosesCompanion data) {
+    return DailyClose(
+      id: data.id.present ? data.id.value : this.id,
+      dateKey: data.dateKey.present ? data.dateKey.value : this.dateKey,
+      estimateFen: data.estimateFen.present
+          ? data.estimateFen.value
+          : this.estimateFen,
+      status: data.status.present ? data.status.value : this.status,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DailyClose(')
+          ..write('id: $id, ')
+          ..write('dateKey: $dateKey, ')
+          ..write('estimateFen: $estimateFen, ')
+          ..write('status: $status, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, dateKey, estimateFen, status, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DailyClose &&
+          other.id == this.id &&
+          other.dateKey == this.dateKey &&
+          other.estimateFen == this.estimateFen &&
+          other.status == this.status &&
+          other.createdAt == this.createdAt);
+}
+
+class DailyClosesCompanion extends UpdateCompanion<DailyClose> {
+  final Value<int> id;
+  final Value<String> dateKey;
+  final Value<int> estimateFen;
+  final Value<String> status;
+  final Value<DateTime> createdAt;
+  const DailyClosesCompanion({
+    this.id = const Value.absent(),
+    this.dateKey = const Value.absent(),
+    this.estimateFen = const Value.absent(),
+    this.status = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  DailyClosesCompanion.insert({
+    this.id = const Value.absent(),
+    required String dateKey,
+    this.estimateFen = const Value.absent(),
+    this.status = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  }) : dateKey = Value(dateKey);
+  static Insertable<DailyClose> custom({
+    Expression<int>? id,
+    Expression<String>? dateKey,
+    Expression<int>? estimateFen,
+    Expression<String>? status,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (dateKey != null) 'date_key': dateKey,
+      if (estimateFen != null) 'estimate_fen': estimateFen,
+      if (status != null) 'status': status,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  DailyClosesCompanion copyWith({
+    Value<int>? id,
+    Value<String>? dateKey,
+    Value<int>? estimateFen,
+    Value<String>? status,
+    Value<DateTime>? createdAt,
+  }) {
+    return DailyClosesCompanion(
+      id: id ?? this.id,
+      dateKey: dateKey ?? this.dateKey,
+      estimateFen: estimateFen ?? this.estimateFen,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (dateKey.present) {
+      map['date_key'] = Variable<String>(dateKey.value);
+    }
+    if (estimateFen.present) {
+      map['estimate_fen'] = Variable<int>(estimateFen.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DailyClosesCompanion(')
+          ..write('id: $id, ')
+          ..write('dateKey: $dateKey, ')
+          ..write('estimateFen: $estimateFen, ')
+          ..write('status: $status, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ClosePrefsTable extends ClosePrefs
+    with TableInfo<$ClosePrefsTable, ClosePref> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ClosePrefsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _enabledMeta = const VerificationMeta(
+    'enabled',
+  );
+  @override
+  late final GeneratedColumn<bool> enabled = GeneratedColumn<bool>(
+    'enabled',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("enabled" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, enabled, updatedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'close_prefs';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ClosePref> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('enabled')) {
+      context.handle(
+        _enabledMeta,
+        enabled.isAcceptableOrUnknown(data['enabled']!, _enabledMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ClosePref map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ClosePref(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      enabled: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}enabled'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $ClosePrefsTable createAlias(String alias) {
+    return $ClosePrefsTable(attachedDatabase, alias);
+  }
+}
+
+class ClosePref extends DataClass implements Insertable<ClosePref> {
+  final int id;
+  final bool enabled;
+  final DateTime updatedAt;
+  const ClosePref({
+    required this.id,
+    required this.enabled,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['enabled'] = Variable<bool>(enabled);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  ClosePrefsCompanion toCompanion(bool nullToAbsent) {
+    return ClosePrefsCompanion(
+      id: Value(id),
+      enabled: Value(enabled),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory ClosePref.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ClosePref(
+      id: serializer.fromJson<int>(json['id']),
+      enabled: serializer.fromJson<bool>(json['enabled']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'enabled': serializer.toJson<bool>(enabled),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  ClosePref copyWith({int? id, bool? enabled, DateTime? updatedAt}) =>
+      ClosePref(
+        id: id ?? this.id,
+        enabled: enabled ?? this.enabled,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+  ClosePref copyWithCompanion(ClosePrefsCompanion data) {
+    return ClosePref(
+      id: data.id.present ? data.id.value : this.id,
+      enabled: data.enabled.present ? data.enabled.value : this.enabled,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ClosePref(')
+          ..write('id: $id, ')
+          ..write('enabled: $enabled, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, enabled, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ClosePref &&
+          other.id == this.id &&
+          other.enabled == this.enabled &&
+          other.updatedAt == this.updatedAt);
+}
+
+class ClosePrefsCompanion extends UpdateCompanion<ClosePref> {
+  final Value<int> id;
+  final Value<bool> enabled;
+  final Value<DateTime> updatedAt;
+  const ClosePrefsCompanion({
+    this.id = const Value.absent(),
+    this.enabled = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  ClosePrefsCompanion.insert({
+    this.id = const Value.absent(),
+    this.enabled = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  static Insertable<ClosePref> custom({
+    Expression<int>? id,
+    Expression<bool>? enabled,
+    Expression<DateTime>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (enabled != null) 'enabled': enabled,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  ClosePrefsCompanion copyWith({
+    Value<int>? id,
+    Value<bool>? enabled,
+    Value<DateTime>? updatedAt,
+  }) {
+    return ClosePrefsCompanion(
+      id: id ?? this.id,
+      enabled: enabled ?? this.enabled,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (enabled.present) {
+      map['enabled'] = Variable<bool>(enabled.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ClosePrefsCompanion(')
+          ..write('id: $id, ')
+          ..write('enabled: $enabled, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDb extends GeneratedDatabase {
   _$AppDb(QueryExecutor e) : super(e);
   $AppDbManager get managers => $AppDbManager(this);
@@ -3576,6 +4180,8 @@ abstract class _$AppDb extends GeneratedDatabase {
   late final $PendingRecordsTable pendingRecords = $PendingRecordsTable(this);
   late final $ImportBatchesTable importBatches = $ImportBatchesTable(this);
   late final $BudgetsTable budgets = $BudgetsTable(this);
+  late final $DailyClosesTable dailyCloses = $DailyClosesTable(this);
+  late final $ClosePrefsTable closePrefs = $ClosePrefsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3589,6 +4195,8 @@ abstract class _$AppDb extends GeneratedDatabase {
     pendingRecords,
     importBatches,
     budgets,
+    dailyCloses,
+    closePrefs,
   ];
 }
 
@@ -5480,6 +6088,364 @@ typedef $$BudgetsTableProcessedTableManager =
       Budget,
       PrefetchHooks Function()
     >;
+typedef $$DailyClosesTableCreateCompanionBuilder =
+    DailyClosesCompanion Function({
+      Value<int> id,
+      required String dateKey,
+      Value<int> estimateFen,
+      Value<String> status,
+      Value<DateTime> createdAt,
+    });
+typedef $$DailyClosesTableUpdateCompanionBuilder =
+    DailyClosesCompanion Function({
+      Value<int> id,
+      Value<String> dateKey,
+      Value<int> estimateFen,
+      Value<String> status,
+      Value<DateTime> createdAt,
+    });
+
+class $$DailyClosesTableFilterComposer
+    extends Composer<_$AppDb, $DailyClosesTable> {
+  $$DailyClosesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get dateKey => $composableBuilder(
+    column: $table.dateKey,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get estimateFen => $composableBuilder(
+    column: $table.estimateFen,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$DailyClosesTableOrderingComposer
+    extends Composer<_$AppDb, $DailyClosesTable> {
+  $$DailyClosesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get dateKey => $composableBuilder(
+    column: $table.dateKey,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get estimateFen => $composableBuilder(
+    column: $table.estimateFen,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$DailyClosesTableAnnotationComposer
+    extends Composer<_$AppDb, $DailyClosesTable> {
+  $$DailyClosesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get dateKey =>
+      $composableBuilder(column: $table.dateKey, builder: (column) => column);
+
+  GeneratedColumn<int> get estimateFen => $composableBuilder(
+    column: $table.estimateFen,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$DailyClosesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $DailyClosesTable,
+          DailyClose,
+          $$DailyClosesTableFilterComposer,
+          $$DailyClosesTableOrderingComposer,
+          $$DailyClosesTableAnnotationComposer,
+          $$DailyClosesTableCreateCompanionBuilder,
+          $$DailyClosesTableUpdateCompanionBuilder,
+          (DailyClose, BaseReferences<_$AppDb, $DailyClosesTable, DailyClose>),
+          DailyClose,
+          PrefetchHooks Function()
+        > {
+  $$DailyClosesTableTableManager(_$AppDb db, $DailyClosesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DailyClosesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DailyClosesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DailyClosesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> dateKey = const Value.absent(),
+                Value<int> estimateFen = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => DailyClosesCompanion(
+                id: id,
+                dateKey: dateKey,
+                estimateFen: estimateFen,
+                status: status,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String dateKey,
+                Value<int> estimateFen = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => DailyClosesCompanion.insert(
+                id: id,
+                dateKey: dateKey,
+                estimateFen: estimateFen,
+                status: status,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$DailyClosesTable, DailyClose>(table),
+                  BaseReferences<_$AppDb, $DailyClosesTable, DailyClose>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$DailyClosesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $DailyClosesTable,
+      DailyClose,
+      $$DailyClosesTableFilterComposer,
+      $$DailyClosesTableOrderingComposer,
+      $$DailyClosesTableAnnotationComposer,
+      $$DailyClosesTableCreateCompanionBuilder,
+      $$DailyClosesTableUpdateCompanionBuilder,
+      (DailyClose, BaseReferences<_$AppDb, $DailyClosesTable, DailyClose>),
+      DailyClose,
+      PrefetchHooks Function()
+    >;
+typedef $$ClosePrefsTableCreateCompanionBuilder =
+    ClosePrefsCompanion Function({
+      Value<int> id,
+      Value<bool> enabled,
+      Value<DateTime> updatedAt,
+    });
+typedef $$ClosePrefsTableUpdateCompanionBuilder =
+    ClosePrefsCompanion Function({
+      Value<int> id,
+      Value<bool> enabled,
+      Value<DateTime> updatedAt,
+    });
+
+class $$ClosePrefsTableFilterComposer
+    extends Composer<_$AppDb, $ClosePrefsTable> {
+  $$ClosePrefsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get enabled => $composableBuilder(
+    column: $table.enabled,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ClosePrefsTableOrderingComposer
+    extends Composer<_$AppDb, $ClosePrefsTable> {
+  $$ClosePrefsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get enabled => $composableBuilder(
+    column: $table.enabled,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ClosePrefsTableAnnotationComposer
+    extends Composer<_$AppDb, $ClosePrefsTable> {
+  $$ClosePrefsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<bool> get enabled =>
+      $composableBuilder(column: $table.enabled, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$ClosePrefsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $ClosePrefsTable,
+          ClosePref,
+          $$ClosePrefsTableFilterComposer,
+          $$ClosePrefsTableOrderingComposer,
+          $$ClosePrefsTableAnnotationComposer,
+          $$ClosePrefsTableCreateCompanionBuilder,
+          $$ClosePrefsTableUpdateCompanionBuilder,
+          (ClosePref, BaseReferences<_$AppDb, $ClosePrefsTable, ClosePref>),
+          ClosePref,
+          PrefetchHooks Function()
+        > {
+  $$ClosePrefsTableTableManager(_$AppDb db, $ClosePrefsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ClosePrefsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ClosePrefsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ClosePrefsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<bool> enabled = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+              }) => ClosePrefsCompanion(
+                id: id,
+                enabled: enabled,
+                updatedAt: updatedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<bool> enabled = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+              }) => ClosePrefsCompanion.insert(
+                id: id,
+                enabled: enabled,
+                updatedAt: updatedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ClosePrefsTable, ClosePref>(table),
+                  BaseReferences<_$AppDb, $ClosePrefsTable, ClosePref>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ClosePrefsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $ClosePrefsTable,
+      ClosePref,
+      $$ClosePrefsTableFilterComposer,
+      $$ClosePrefsTableOrderingComposer,
+      $$ClosePrefsTableAnnotationComposer,
+      $$ClosePrefsTableCreateCompanionBuilder,
+      $$ClosePrefsTableUpdateCompanionBuilder,
+      (ClosePref, BaseReferences<_$AppDb, $ClosePrefsTable, ClosePref>),
+      ClosePref,
+      PrefetchHooks Function()
+    >;
 
 class $AppDbManager {
   final _$AppDb _db;
@@ -5500,4 +6466,8 @@ class $AppDbManager {
       $$ImportBatchesTableTableManager(_db, _db.importBatches);
   $$BudgetsTableTableManager get budgets =>
       $$BudgetsTableTableManager(_db, _db.budgets);
+  $$DailyClosesTableTableManager get dailyCloses =>
+      $$DailyClosesTableTableManager(_db, _db.dailyCloses);
+  $$ClosePrefsTableTableManager get closePrefs =>
+      $$ClosePrefsTableTableManager(_db, _db.closePrefs);
 }

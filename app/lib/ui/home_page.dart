@@ -5,6 +5,7 @@ import '../data/app_db.dart';
 import '../logic/dashboard_stats.dart';
 import '../logic/entry.dart';
 import 'category_page.dart';
+import 'daily_close_sheet.dart';
 import 'dashboard_cards.dart';
 import 'goal_page.dart';
 import 'pending_page.dart';
@@ -164,6 +165,9 @@ class HomePage extends StatelessWidget {
                           ),
                           child: DashboardGoalCard(summary: summary),
                         ),
+                        const SizedBox(height: RunwaySpacing.section),
+                        // SB-016 · 每日收口同区（目标卡之后；确认/微调/跳过三选，估算 source=estimate）.
+                        DailyCloseZone(db: db, rows: rows),
                         const SizedBox(height: RunwaySpacing.section),
                         if (rows.isEmpty)
                           Padding(

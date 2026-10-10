@@ -6,11 +6,11 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import 'budget_store.dart';
+import 'estimate_store.dart';
 import 'import_batch.dart';
 
-// schema：v1 Transactions / v2 Goals(SB-007) / v3 Achievements(SB-008)
-// v4 SafetyPad+WeeklyReports(SB-009) / v5 PendingRecords(SB-010)
-// v6 ImportBatches+tx.importBatchId(SB-011) / v7 Budgets(SB-015，卡内授权可回滚).
+// schema：v1 Tx / v2 Goals(SB-007) / v3 Ach(SB-008) / v4 Grain+Weekly(SB-009)
+// v5 Pending(SB-010) / v6 ImportBatch(SB-011) / v7 Budgets(SB-015) / v8 DailyClose(SB-016).
 // 禁手改 schema，迁移走 drift；真实账目永不入库，测试合成 fixtures.
 
 part 'app_db.g.dart';
@@ -86,7 +86,7 @@ class PendingRecords extends Table {
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }
 
-/// schema v6 表定义见 data/import_batch.dart；v7 见 data/budget_store.dart（单文件 ≤400 行拆分）.
+/// schema v6 表见 import_batch.dart；v7 见 budget_store.dart；v8 见 estimate_store.dart.
 @DriftDatabase(
   tables: [
     Transactions,
@@ -97,6 +97,8 @@ class PendingRecords extends Table {
     PendingRecords,
     ImportBatches,
     Budgets,
+    DailyCloses,
+    ClosePrefs,
   ],
 )
 class AppDb extends _$AppDb {
@@ -150,13 +152,12 @@ class AppDb extends _$AppDb {
   }
 
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 8;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (Migrator m) => m.createAll(),
-    // v2 goals(SB-007)；v3 achievements(SB-008)；v4 safety+weekly(SB-009)；
-    // v5 pending(SB-010)；v6 importbatch+列(SB-011)；v7 budgets(SB-015). 存量不动.
+    // v2 goals；v3 ach；v4 grain+weekly；v5 pending；v6 importbatch+列；v7 budgets；v8 dailyclose.
     onUpgrade: (m, from, to) async {
       if (from < 2) {
         await m.createTable(goals);
@@ -178,33 +179,36 @@ class AppDb extends _$AppDb {
       if (from < 7) {
         await m.createTable(budgets);
       }
+      if (from < 8) {
+        await m.createTable(dailyCloses);
+        await m.createTable(closePrefs);
+      }
     },
   );
 
-  /// v6 回滚语义见 data/import_batch_dao.dart（单文件 ≤400 行拆分）.
+  /// v6 回滚见 import_batch_dao.dart；v7 回滚见 budget_dao.dart；v8 见 estimate_dao.dart.
 
-  /// v5 回滚语义：删 pending_records 表即回 v4 形状（开发期回滚用）.
+  /// v5 回滚：删 pending_records 即回 v4（开发期用）.
   Future<void> rollbackPendingToV4() async {
     await customStatement('DROP TABLE IF EXISTS pending_records');
   }
 
-  /// v4 回滚语义：删 safety_pad + weekly_reports 即回 v3 形状（开发期回滚用）.
+  /// v4 回滚：删 safety_pad + weekly_reports 即回 v3（开发期用）.
   Future<void> rollbackSafetyWeeklyToV3() async {
     await customStatement('DROP TABLE IF EXISTS safety_pad');
     await customStatement('DROP TABLE IF EXISTS weekly_reports');
   }
 
-  /// v3 回滚语义：删 achievements 表即回到 v2 形状（开发期回滚用；线上走版本号）.
+  /// v3 回滚：删 achievements 即回 v2；v2 回滚：删 goals 即回 v1（开发期用）.
   Future<void> rollbackAchievementsToV2() async {
     await customStatement('DROP TABLE IF EXISTS achievements');
   }
 
-  /// v2 回滚语义：删 goals 表即回到 v1 形状（开发期回滚用；线上走版本号）.
   Future<void> rollbackGoalsToV1() async {
     await customStatement('DROP TABLE IF EXISTS goals');
   }
 
-  /// v1 回滚语义：删库重建（无存量迁移）.
+  /// v1 回滚：删库重建（无存量迁移）.
   Future<void> resetDatabase() async {
     for (final TableInfo table in allTables) {
       await delete(table).go();
