@@ -5619,6 +5619,311 @@ class ExperimentPrefsCompanion extends UpdateCompanion<ExperimentPref> {
   }
 }
 
+class $RoleOverridesTable extends RoleOverrides
+    with TableInfo<$RoleOverridesTable, RoleOverride> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $RoleOverridesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+    'category',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 32,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _roleMeta = const VerificationMeta('role');
+  @override
+  late final GeneratedColumn<String> role = GeneratedColumn<String>(
+    'role',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 8,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, category, role, updatedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'role_overrides';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<RoleOverride> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('category')) {
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_categoryMeta);
+    }
+    if (data.containsKey('role')) {
+      context.handle(
+        _roleMeta,
+        role.isAcceptableOrUnknown(data['role']!, _roleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_roleMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  RoleOverride map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return RoleOverride(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      )!,
+      role: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}role'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $RoleOverridesTable createAlias(String alias) {
+    return $RoleOverridesTable(attachedDatabase, alias);
+  }
+}
+
+class RoleOverride extends DataClass implements Insertable<RoleOverride> {
+  final int id;
+  final String category;
+  final String role;
+  final DateTime updatedAt;
+  const RoleOverride({
+    required this.id,
+    required this.category,
+    required this.role,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['category'] = Variable<String>(category);
+    map['role'] = Variable<String>(role);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  RoleOverridesCompanion toCompanion(bool nullToAbsent) {
+    return RoleOverridesCompanion(
+      id: Value(id),
+      category: Value(category),
+      role: Value(role),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory RoleOverride.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return RoleOverride(
+      id: serializer.fromJson<int>(json['id']),
+      category: serializer.fromJson<String>(json['category']),
+      role: serializer.fromJson<String>(json['role']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'category': serializer.toJson<String>(category),
+      'role': serializer.toJson<String>(role),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  RoleOverride copyWith({
+    int? id,
+    String? category,
+    String? role,
+    DateTime? updatedAt,
+  }) => RoleOverride(
+    id: id ?? this.id,
+    category: category ?? this.category,
+    role: role ?? this.role,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  RoleOverride copyWithCompanion(RoleOverridesCompanion data) {
+    return RoleOverride(
+      id: data.id.present ? data.id.value : this.id,
+      category: data.category.present ? data.category.value : this.category,
+      role: data.role.present ? data.role.value : this.role,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RoleOverride(')
+          ..write('id: $id, ')
+          ..write('category: $category, ')
+          ..write('role: $role, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, category, role, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is RoleOverride &&
+          other.id == this.id &&
+          other.category == this.category &&
+          other.role == this.role &&
+          other.updatedAt == this.updatedAt);
+}
+
+class RoleOverridesCompanion extends UpdateCompanion<RoleOverride> {
+  final Value<int> id;
+  final Value<String> category;
+  final Value<String> role;
+  final Value<DateTime> updatedAt;
+  const RoleOverridesCompanion({
+    this.id = const Value.absent(),
+    this.category = const Value.absent(),
+    this.role = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  RoleOverridesCompanion.insert({
+    this.id = const Value.absent(),
+    required String category,
+    required String role,
+    this.updatedAt = const Value.absent(),
+  }) : category = Value(category),
+       role = Value(role);
+  static Insertable<RoleOverride> custom({
+    Expression<int>? id,
+    Expression<String>? category,
+    Expression<String>? role,
+    Expression<DateTime>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (category != null) 'category': category,
+      if (role != null) 'role': role,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  RoleOverridesCompanion copyWith({
+    Value<int>? id,
+    Value<String>? category,
+    Value<String>? role,
+    Value<DateTime>? updatedAt,
+  }) {
+    return RoleOverridesCompanion(
+      id: id ?? this.id,
+      category: category ?? this.category,
+      role: role ?? this.role,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (role.present) {
+      map['role'] = Variable<String>(role.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RoleOverridesCompanion(')
+          ..write('id: $id, ')
+          ..write('category: $category, ')
+          ..write('role: $role, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDb extends GeneratedDatabase {
   _$AppDb(QueryExecutor e) : super(e);
   $AppDbManager get managers => $AppDbManager(this);
@@ -5638,6 +5943,7 @@ abstract class _$AppDb extends GeneratedDatabase {
   late final $ExperimentPrefsTable experimentPrefs = $ExperimentPrefsTable(
     this,
   );
+  late final $RoleOverridesTable roleOverrides = $RoleOverridesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -5657,6 +5963,7 @@ abstract class _$AppDb extends GeneratedDatabase {
     cooloffPrefs,
     experiments,
     experimentPrefs,
+    roleOverrides,
   ];
 }
 
@@ -8727,6 +9034,190 @@ typedef $$ExperimentPrefsTableProcessedTableManager =
       ExperimentPref,
       PrefetchHooks Function()
     >;
+typedef $$RoleOverridesTableCreateCompanionBuilder =
+    RoleOverridesCompanion Function({
+      Value<int> id,
+      required String category,
+      required String role,
+      Value<DateTime> updatedAt,
+    });
+typedef $$RoleOverridesTableUpdateCompanionBuilder =
+    RoleOverridesCompanion Function({
+      Value<int> id,
+      Value<String> category,
+      Value<String> role,
+      Value<DateTime> updatedAt,
+    });
+
+class $$RoleOverridesTableFilterComposer
+    extends Composer<_$AppDb, $RoleOverridesTable> {
+  $$RoleOverridesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get role => $composableBuilder(
+    column: $table.role,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$RoleOverridesTableOrderingComposer
+    extends Composer<_$AppDb, $RoleOverridesTable> {
+  $$RoleOverridesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get role => $composableBuilder(
+    column: $table.role,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$RoleOverridesTableAnnotationComposer
+    extends Composer<_$AppDb, $RoleOverridesTable> {
+  $$RoleOverridesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<String> get role =>
+      $composableBuilder(column: $table.role, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$RoleOverridesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $RoleOverridesTable,
+          RoleOverride,
+          $$RoleOverridesTableFilterComposer,
+          $$RoleOverridesTableOrderingComposer,
+          $$RoleOverridesTableAnnotationComposer,
+          $$RoleOverridesTableCreateCompanionBuilder,
+          $$RoleOverridesTableUpdateCompanionBuilder,
+          (
+            RoleOverride,
+            BaseReferences<_$AppDb, $RoleOverridesTable, RoleOverride>,
+          ),
+          RoleOverride,
+          PrefetchHooks Function()
+        > {
+  $$RoleOverridesTableTableManager(_$AppDb db, $RoleOverridesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$RoleOverridesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$RoleOverridesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$RoleOverridesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> category = const Value.absent(),
+                Value<String> role = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+              }) => RoleOverridesCompanion(
+                id: id,
+                category: category,
+                role: role,
+                updatedAt: updatedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String category,
+                required String role,
+                Value<DateTime> updatedAt = const Value.absent(),
+              }) => RoleOverridesCompanion.insert(
+                id: id,
+                category: category,
+                role: role,
+                updatedAt: updatedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$RoleOverridesTable, RoleOverride>(table),
+                  BaseReferences<_$AppDb, $RoleOverridesTable, RoleOverride>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$RoleOverridesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $RoleOverridesTable,
+      RoleOverride,
+      $$RoleOverridesTableFilterComposer,
+      $$RoleOverridesTableOrderingComposer,
+      $$RoleOverridesTableAnnotationComposer,
+      $$RoleOverridesTableCreateCompanionBuilder,
+      $$RoleOverridesTableUpdateCompanionBuilder,
+      (
+        RoleOverride,
+        BaseReferences<_$AppDb, $RoleOverridesTable, RoleOverride>,
+      ),
+      RoleOverride,
+      PrefetchHooks Function()
+    >;
 
 class $AppDbManager {
   final _$AppDb _db;
@@ -8759,4 +9250,6 @@ class $AppDbManager {
       $$ExperimentsTableTableManager(_db, _db.experiments);
   $$ExperimentPrefsTableTableManager get experimentPrefs =>
       $$ExperimentPrefsTableTableManager(_db, _db.experimentPrefs);
+  $$RoleOverridesTableTableManager get roleOverrides =>
+      $$RoleOverridesTableTableManager(_db, _db.roleOverrides);
 }

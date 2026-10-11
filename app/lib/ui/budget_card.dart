@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../data/app_db.dart';
 import '../data/budget_dao.dart';
+import '../data/category_role_dao.dart';
 import '../logic/budget.dart';
 import '../logic/entry.dart';
+import '../logic/role_resolver.dart';
 import 'theme/tokens.dart';
 
 // SB-015 · 预算卡（PRD §2 改变层 / §3 比预算基线多省；DESIGN §1 地面+浮起 / §7 得到框架）.
@@ -253,8 +255,35 @@ Future<bool> editBudget(
 }
 
 /// 预算同区（GoalPage 目标区之上；数据源 transactions + budgets 表）.
+/// SB-019：基线口径仅弹性（transactions 先按角色过滤，再复用 suggestBudget 原公式，禁第二套）.
 class BudgetZone extends StatelessWidget {
   const BudgetZone({super.key, required this.db, required this.rows});
+
+  final AppDb db;
+  final List<Transaction> rows;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<List<RoleOverride>>(
+      stream: db.watchCategoryRoles(),
+      builder: (rctx, rsnap) {
+        final Map<String, CategoryRole> overrides = <String, CategoryRole>{};
+        for (final RoleOverride o in rsnap.data ?? <RoleOverride>[]) {
+          final CategoryRole? r = parseRole(o.role);
+          if (r != null) overrides[o.category] = r;
+        }
+        // 仅弹性：预算只压可优化的空间（SB-019 联动改一处）.
+        final List<Transaction> elastic = rows
+            .where((t) => isElasticCategory(t.category, overrides))
+            .toList();
+        return _BudgetBody(db: db, rows: elastic);
+      },
+    );
+  }
+}
+
+class _BudgetBody extends StatelessWidget {
+  const _BudgetBody({required this.db, required this.rows});
 
   final AppDb db;
   final List<Transaction> rows;
@@ -301,8 +330,8 @@ class BudgetZone extends StatelessWidget {
             : quote.budgetFen;
         final bool observing = hist.isEmpty && quote.observing;
         final String basis = hist.isNotEmpty
-            ? '已设定 ${formatFen(budgetFen)} · 共调整 ${hist.length} 次'
-            : budgetBasisText(quote: quote);
+            ? '已设定 ${formatFen(budgetFen)} · 共调整 ${hist.length} 次 · 仅弹性'
+            : '${budgetBasisText(quote: quote)} · 仅弹性';
         final BudgetSaved saved = computeBudgetSaved(
           budgetFen: budgetFen,
           monthSpendFen: m0,

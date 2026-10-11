@@ -1,33 +1,37 @@
-# REVIEW_REQUEST — SB-018 月度小实验
+# REVIEW_REQUEST — SB-019 分类角色轴
 
-仓库：`/Users/dada561/Documents/runway`，分支：`feat/SB-018-experiment`（未 merge、未 push、无 remote，合规）
-任务卡：`docs/tasks/SB-018.md`（排期注 SB-017 之后；SB-017 已合入，前置满足；改变层四卡之四，G3.5 达成）
-基座：`main@fb03f78`（SB-017 冒烟回填后；预建空分支与 main 同点零差异起步）
-提交：`a1f37a0 feat(experiment)` + progress 登记（本轮 docs 提交）
+仓库：`/Users/dada561/Documents/runway`，分支：`feat/SB-019-role`（未 merge、未 push、无 remote，合规）
+任务卡：`docs/tasks/SB-019.md`（排期注 SB-015/017 之后；两者已合入，前置满足；SB-012 前置 019/020 之其一）
+基座：`main@e004fce`（SB-018 审结 PASS 后；预建空分支与 main 同点零差异起步）
+提交：`71ca614 feat(role)`（本轮业务+测试+golden 单 commit）
 
-改动清单（业务 10 文件 ≤10，手写单文件最大 397 行 ≤400；golden png 不计）：
-- `app/lib/logic/experiment.dart`（新建，208 行）：experimentDays=7 + 建议库 8（无奶茶/自带午饭/走路通勤/不点外卖/零食暂停/手冲代外带/公交优先/自己做晚饭，日省额合成缺省）+ 自设 custom（resolveExperimentPlan）+ dayIndexFor（0..6，周期外 -1）+ checkInDays（同天幂等，越界忽略）+ isExperimentFinished（start+7 天起）+ elapsedDays（日历口径 0..7）+ experimentSavedFen（打卡天×日省额，缺席即 0）+ 进度/结果文案（得到框架；换算复用 SB-007 equivalentOf，禁第二套公式）+ experimentGoalId（900000+id 防撞段）+ validateExperimentCustom；禁词复用 achievementBannedWords
-- `app/lib/data/experiment_store.dart`（新建，27 行）：Experiments（templateId/name/dailySaveFen/startDate/checkIns 逗号集/status active-done）+ ExperimentPrefs（开关默认开，单行 id=1）
-- `app/lib/data/experiment_dao.dart`（新建，141 行）：startExperiment（先完结旧 active，同月只一单）+ checkInExperiment（同天幂等，返回新增与否）+ finishExperiment + 开关读写/watch + rollbackExperimentToV9
-- `app/lib/data/app_db.dart`（改，397 行）：import + 两表入@DriftDatabase + schemaVersion 9→10 + onUpgrade from<10 建两表；注释压缩让行（回滚方法全保留，零语义改动）
-- `app/lib/data/app_db.g.dart`（改）：build_runner 重生成（含 Experiment/ExperimentPref）
-- `app/lib/ui/experiment_card.dart`（新建，276 行）：ExperimentSelectCard（8 模板 ChoiceChip+开始钮，Key experimentTpl-*/experimentStart）+ ExperimentActiveCard（进度 Key experimentProgress/结果 Key experimentResult/3 秒打卡 Key experimentCheckIn；已打过当天按钮置灰 null）+ ExperimentZone（开关行 Key experimentSwitch + 无单选模板/有单打卡+第 8 天自动完结落成就；省出>0 才落成就行，幂等防重）
-- `app/lib/ui/home_page.dart`（改）：冷静区之后挂 ExperimentZone（+2 行 import/同区）
-- `app/lib/ui/weekly_page.dart`（改）：预算区之后实验接线行（无实验/零省出零高度，Key weeklyExperiment；旧像素不动）
-- `app/test/experiment_test.dart`（新建，18 条）：周期 7/库≥8 唯一正值/三示例/模板与自设解析/dayIndex 边界/打卡幂等越界/结束边界/已过天数/省出口径/进度如实/结果得到框架与持平态/成就名与防撞段/自设校验/零禁词/零说教恐吓 12 词抽查
-- `app/test/golden_experiment_test.dart`（新建，11 条）：widget 5（选择 8 模板+开始/进行进度+打卡/打卡回调/首页集成开关/DAO 开关默认开建单打卡幂等完结回滚）+ golden 4（sb018 选择/进行×Light/Dark）+ 动效零裸量 + 对比度闸门
-- golden（不计文件数）：新建 `golden/sb018/` 四图；重生成 `golden/sb006/` 四图（首页同区连带，2400 高整屏含新增实验区，上方看板区相对位置不变）
+改动清单（业务 10 文件 ≤10，手写单文件最大 398 行 ≤400；golden png 不计）：
+- `app/lib/logic/role_resolver.dart`（新建，133 行）：CategoryRole 必要/弹性/固定 + 默认映射（食/行/用必要，居固定，玩/其他弹性；其他归弹性=未知即暴露为可优化）+ 旧名归一（餐饮/交通/购物/居住/娱乐）+ 覆盖优先 + 未知兜底弹性（永无未映射态）+ validateRole（新建/编辑必选）+ isDiningSplitCandidate（食+聚餐，只引导不强制）+ summarizeRoles/elasticShareText（类目页头部供数）+ 禁词复用 achievementBannedWords
+- `app/lib/data/category_role_store.dart`（新建，15 行）：RoleOverrides 表（category 唯一，role=必要/弹性/固定；表类取名避 logic 层 CategoryRole 枚举名冲突，见偏差 D4）
+- `app/lib/data/category_role_dao.dart`（新建，81 行）：list/watch/roleOverrideMap/setCategoryRole（有行更新无行插入）+ ensureDefaultRoles（幂等补齐，已有覆盖不动）+ rollbackCategoryRolesToV10
+- `app/lib/data/app_db.dart`（改，398 行）：import + RoleOverrides 入表 + schemaVersion 10→11 + onUpgrade from<11 建表 + 回滚索引；注释压缩让行 3 行（devKey 注 + try/catch 空块化，零语义改动）
+- `app/lib/data/app_db.g.dart`（改）：build_runner 重生成（含 RoleOverride）
+- `app/lib/ui/category_page.dart`（改，326 行）：头部本月弹性占比 hero（elasticShare/elasticHint，首页不放）+ 聚餐引导卡（diningGuide/diningCount，有候选才出现）+ 每类目角色三选 ChoiceChip（role-<类>-<角色>，落库覆盖）+ 自定义无覆盖必提示（rolePrompt-<类>，error 色）+ 原其他占比/规则/纠正区零改动
+- `app/lib/ui/budget_card.dart`（改，365 行）：BudgetZone 外包角色流，transactions 先按角色过滤仅弹性，再复用 suggestBudget/computeBudgetSaved 原公式（禁第二套）；基线文案缀「· 仅弹性」；_BudgetBody 原聚合逻辑逐行未动
+- `app/lib/ui/cooloff_card.dart`（改，326 行）：阈值 flows 先按角色过滤仅弹性，再复用 dailyAverage/cooloffThreshold 原公式（自定义仍优先）；候选加弹性过滤（固定账单不触发）；卡 UI 零改动
+- `app/test/role_test.dart`（新建，24 条）：默认映射/旧名归一/兜底/覆盖优先/编解码互逆/validateRole/聚餐候选三态/聚合口径（30%/空/覆盖改写）/elasticShareText两态/预算联动（弹性中位数+固定不固化）/冷静联动（弹性日均×3+自定义优先）/DAO 幂等（6/0）/覆盖不动/更新语义/v11回滚/零禁词
+- `app/test/golden_role_test.dart`（新建，6 条）：widget 3（弹性头行 25.0%/未选提示→选中消失+落库/聚餐引导不强制）+ golden 2（sb019 角色选择 Light/Dark）+ 对比度闸门
+- golden（不计文件数）：新建 `golden/sb019/` 两图；重生成 `golden/sb005/` 两图（页新增弹性头+角色区，~24% 即新增区块）；重生成 `golden/sb014/` 周报两图（预算基线行缀仅弹性，422px）
 
-验收对照（SB-018 卡 §验收 1~3）：
-1. 断卡不惩罚只如实显示（缺席天省出记 0、无扣分无负罪词，单测+文案断言锁定；进度文案"缺席 X 天如实记录"）；实验省出自动并入目标（完结省出经 SB-007 同口径换算展示 + 周报"实验累计省出"行 + 落一张实验成就行 `实验 · <名>`，无第二套账本）+ 一张实验成就（achievements 表一行，goalId 防撞段）
-2. golden 两组 Light+Dark 四图（选择/进行中；结构完整无重叠无截断，测试环境中文字体缺字为方块属既有现象，SB-013~017 先例口径）
-3. `tool/ci.sh` ALL GREEN（format 0 改动/analyze No issues/冒烟绿/macos+apk 双构建成功）+ `tool/check-repo-hygiene.sh` OK；全量 330/330 绿（302 继承+28 新）；`dart format` 0 改动
+验收对照（SB-019 卡 §验收 1~6）：
+1. 全类目角色完整：默认 6 全覆盖 + 未知兜底弹性，resolveRole 永不 null；存量迁移 ensureDefaultRoles 幂等（首轮补 6、次轮 0）+ 可改（set overlay）
+2. 本月弹性占比头行放类目管理页头部（elasticShare），首页零新增（home_page 未动，grep 验证）
+3. 预算基线仅弹性（BudgetZone 过滤后复用原公式，单测锁定）+ 冷静默认阈值=弹性日均×3（复用原公式，自定义优先；固定账单候选过滤）
+4. 聚餐拆分：isDiningSplitCandidate + 一次性引导卡（有候选才现，不强制改类；食仍解析必要，单测锁定）
+5. 单测 ≥12：24+6=30 新，全量 360/360 绿（330 继承+30 新）
+6. golden 两组 Light+Dark（sb019 选择/提示态）+ `tool/ci.sh` ALL GREEN（format/analyze/smoke/双构建）+ `tool/check-repo-hygiene.sh` OK
 
-文件约束：业务 10 文件 ≤10；单文件最大 397 行（app_db）；无 pubspec 变更；无 remote；测试全合成 fixtures，真实账目=0（美团|工资|房贷 grep 零命中）；探针零使用（未写 /tmp，未建 probe 文件）。
+文件约束：业务 10 文件 ≤10；单文件最大 398 行（app_db）；无 pubspec 变更；无 remote；测试全合成 fixtures，真实账目=0（美团|工资|房贷 grep 零命中）；裸 Color(0x)/裸 Duration=0；探针零使用（未写 /tmp，未建 probe 文件）。
 
-偏差声明：
-1. 省出并入目标=展示+成就口径并入（卡称"省出自动并入目标"）：实验省的是行为改变后自然变低的支出（已体现在月支出下降中，无第二套省额账本）；完结时省出经 SB-007 同口径换算展示、周报累计行、成就行三处并入，与"省额入目标进度"口径一致，实现位置在 ExperimentZone._finish。
-2. 自设入口=模板 id 直选（卡称"建议库≥8 + 自设"）：建议库 8 已齐；自设走 `resolveExperimentPlan(templateId=custom)` 引擎侧已就绪（单测覆盖），UI 选择卡首版只暴露 8 模板直选，自设输入框随 SB-019 类目联动时补（引擎零改动）。
-3. sb006 四图重生成连带（首页挂同区所致，上方看板区相对位置不变，沿 SB-016 D3/SB-017 D3 先例）；CHANGELOG 待 SB-012 统一补（沿用 SB-013~017 既有结论，不三提）。
+偏差声明（请监工裁决）：
+1. schema v11 vs 卡注 v7：卡下发时 schema 为 v6（v7 系当时下一号），SB-016/017/018 连发后实际 v10→v11；迁移+回滚齐备，SB-015 同型先例（卡注 v5→实际 v6→v7，决策 p=0.79 按判接受）。
+2. 新建类目无独立表单：全应用无创建类目入口（QuickAdd 固定表、类目页历来无新建），新类目=交易中新名出现即提示必选（validateRole 锁定 + rolePrompt UI + 单测覆盖）；独立新建表单随后续卡补（SB-018 D2 自设 UI 延后同型，p=0.72 灰区先例）。
+3. golden 连带重生成：sb005（页新增区块 ~24%）+ sb014 周报（预算行后缀 422px）；CHANGELOG 随 SB-012 统一补（既有结论不三提）。
+4. 表类取名 RoleOverrides（行 RoleOverride）：drift 单数化 CategoryRoles→CategoryRole 与 logic 枚举重名，改名避冲突；DB 表 role_overrides，v11 未发布前无兼容问题。
 
-请审计后结论写 `REVIEW.md`（PASS 或 REQUEST_CHANGES）。
+状态：待审查（2026-10-11 09:2x builder 提审·SB-019）

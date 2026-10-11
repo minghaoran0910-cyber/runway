@@ -6,12 +6,13 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import 'budget_store.dart';
+import 'category_role_store.dart';
 import 'cooloff_store.dart';
 import 'estimate_store.dart';
 import 'experiment_store.dart';
 import 'import_batch.dart';
 
-// schema：v1 Tx/v2 Goals/v3 Ach/v4 Grain+Weekly/v5 Pending/v6 ImportBatch/v7 Budgets/v8 DailyClose/v9 Cooloff/v10 Experiment(SB-018).
+// schema：v1 Tx/v2 Goals/v3 Ach/v4 Grain+Weekly/v5 Pending/v6 ImportBatch/v7 Budgets/v8 DailyClose/v9 Cooloff/v10 Experiment/v11 Roles(SB-019).
 // 禁手改；真实账目永不入库，测试合成 fixtures.
 
 part 'app_db.g.dart';
@@ -81,7 +82,7 @@ class PendingRecords extends Table {
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }
 
-/// schema v6 见 import_batch.dart；v7 见 budget_store.dart；v8 见 estimate_store.dart；v9 见 cooloff_store.dart；v10 见 experiment_store.dart.
+/// schema v6 见 import_batch.dart；v7 见 budget_store.dart；v8 见 estimate_store.dart；v9 见 cooloff_store.dart；v10 见 experiment_store.dart；v11 见 category_role_store.dart.
 @DriftDatabase(
   tables: [
     Transactions,
@@ -98,12 +99,13 @@ class PendingRecords extends Table {
     CooloffPrefs,
     Experiments,
     ExperimentPrefs,
+    RoleOverrides,
   ],
 )
 class AppDb extends _$AppDb {
   AppDb(super.executor);
 
-  /// v1 开发期密钥（TODO: G4 前迁 Keychain/Keystore 随机密钥）.
+  /// v1 开发期密钥（G4 前迁系统密钥）.
   // ignore: constant_identifier_names
   static const String devKey = 'runway-dev-key-v1';
   static String pragmaFor(String key) => "PRAGMA key = '$key'";
@@ -111,17 +113,13 @@ class AppDb extends _$AppDb {
   static void _setupRaw(dynamic rawDb, String key) {
     try {
       rawDb.execute(pragmaFor(key));
-    } catch (_) {
-      // 普通 sqlite 忽略未知 PRAGMA；加密构建则已设钥. 测试宿主安全.
-    }
+    } catch (_) {}
   }
 
   static Future<void> _applyLive(AppDb db, String key) async {
     try {
       await db.customStatement(pragmaFor(key));
-    } catch (_) {
-      // 同上：可用性优先.
-    }
+    } catch (_) {}
   }
 
   /// 文件库（应用文档目录 runway.db，SQLCipher 整体加密）.
@@ -150,12 +148,12 @@ class AppDb extends _$AppDb {
   }
 
   @override
-  int get schemaVersion => 10;
+  int get schemaVersion => 11;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (Migrator m) => m.createAll(),
-    // v2 goals；v3 ach；v4 grain+weekly；v5 pending；v6 importbatch+列；v7 budgets；v8 dailyclose；v9 cooloff；v10 experiment.
+    // v2 goals；v3 ach；v4 grain+weekly；v5 pending；v6 importbatch+列；v7 budgets；v8 dailyclose；v9 cooloff；v10 experiment；v11 roles.
     onUpgrade: (m, from, to) async {
       if (from < 2) {
         await m.createTable(goals);
@@ -189,10 +187,13 @@ class AppDb extends _$AppDb {
         await m.createTable(experiments);
         await m.createTable(experimentPrefs);
       }
+      if (from < 11) {
+        await m.createTable(roleOverrides);
+      }
     },
   );
 
-  /// 回滚见各 dao（v9 cooloff_dao / v10 experiment_dao）；v5 删 pending_records 即回 v4；v4 删 safety_pad+weekly_reports 即回 v3.
+  /// 回滚见各 dao（v9 cooloff_dao / v10 experiment_dao / v11 category_role_dao）；v5 删 pending_records 即回 v4；v4 删 safety_pad+weekly_reports 即回 v3.
   Future<void> rollbackPendingToV4() async {
     await customStatement('DROP TABLE IF EXISTS pending_records');
   }
