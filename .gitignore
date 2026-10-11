@@ -26,3 +26,6 @@ _LOCK
 
 # OS
 Thumbs.db
+_inbox/dispatch.log
+_inbox/*.log
+probe*.tmp
