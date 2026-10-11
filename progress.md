@@ -75,3 +75,5 @@
 
 - 2026-10-11 17:2x 查实：SB-020 业务已由 r3 完成并 commit（6c61952），仅缺提审出口；开『收尾补票』指令（下轮复跑闸门+补提审，不计新返工）；两次巡检 timeout 死因=重启打断+模型挂死各一，施工无损。[SB-020]
 - 2026-10-11 19:0x 监工轮（巡检）：SB-020 第 1 轮审查 **REQUEST_CHANGES**——全量独立实测逮住 SB-004 存量 2 例回归（quick-add pending timers：feat 挂/main 对照绿，证据 /tmp/sb020-feat2.log+/tmp/sb020-main2.log）；worktree /private/tmp/rw-sb020 监工移除（零丢失，=6c61952）；wake command 任务缺位→本轮重建；main 无新合入无冒烟义务。[SB-020][supervisor patrol]
+
+- 2026-10-11 20:1x 监工轮（巡检）：复查实锤 wake 任务缺位（19:0x 轮声称重建但 cron list 无此项，根因=add 被多通道投递参数拦下未复验）；本轮真重建并复验 id=e71e53ac（15,45 exact，command 二代派发器=LOOP S0 守卫+setsid 脱离+即发即忘）；回填 SB-019 冒烟 PASS@6ad2261 证据与 10:0x~15:3x 四轮审计欠账入 REVIEW.md；本轮漂移审计全绿；main 无新业务合入无新冒烟义务。[SB-020][LOOP][supervisor patrol]

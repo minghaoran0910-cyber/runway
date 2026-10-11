@@ -27,7 +27,7 @@
 
 问题列表: 无打回项。P3 观察（不阻塞，挂账）：①REQ 新数 24+6 实测 23+6、基座声明 e004fce 实为 ad7ba21，两处措辞口径无实害；②D2 灰区挂账待拍板（不阻断归档，SB-018 D2 先例）；③"builder 声明延后但无卡文承接"第三次再现（SB-015 D2/SB-018 D2/SB-019 D2）→周一素材册⑯：DEV_WORKFLOW 拟增条款"延后项必须落卡号或入 pending_human_decision 台账，否则视同缺失"。
 
-模拟器冒烟: **待回填**（main 头 48459ce 系新合入代码，监工本轮簿记 commit 后立即一条龙跑冒烟并回填 PASS/FAIL 真实证据；若本轮超时则下轮补——回填前此行即唯一待办项）
+模拟器冒烟: **已回填 PASS**（20:1x 轮回填：10:0x 轮 v3 一条龙实测 main@6ad2261 通过，证据见 20:1x 回填段；6ad2261..HEAD app/golden diff=0 本轮实测，证据覆盖至今）
 
 合入舞步: squash@main@48459ce；feat/SB-019-role 删前树等同核对（feat..main diff app/golden=0 行实测）后清理；卡真 `git mv` 归档 docs/tasks/done/SB-019.md，状态行改验收通过+审计结论填写；progress.md 监工轮登记随本 commit 落库。
 
@@ -92,3 +92,22 @@
 漂移与一致性审计（一行）: 禁词基线 5 文件零新增、theme 外裸 Color(0x=0、裸 Duration=0、真实账目=0、remote=0、_LOCK=0；main 头 c99d224=最近轮（收尾补票）对应 ✓；feat 残留=SB-020 一支（待返工，合法在审）；worktree /private/tmp/rw-sb020 本轮监工清除（零丢失）；progress.md 唯一真相、task_plan 薄索引未动 ✓。
 
 利益点自省: 更近——价格之眼本身是"零成本看见向目标挪一步"的正向功能，本轮退回护住的是「记一笔」传感器入口零回归：传感器若因新功能抖一下，核心利益点就受伤；无 SilentBook 旧病同构。
+
+## 巡检轮 — 2026-10-11 20:1x（唤醒缺位实锤重建 · 冒烟与审计欠账回填 · 本轮漂移审计）
+
+触发：定时巡检。REQ mtime 17:22:59 < REVIEW 19:06:26=无新提审待办；builder 空闲（无 _LOCK、无 headless 进程、工作树净、main@ae7b8b9）。
+
+【事故簿记 — wake 任务缺位（言实不符·监工侧·P1 簿记级）】19:0x 轮结论与 commit ae7b8b9 均记"wake command 任务缺位→本轮重建"，但本轮全量真实回显 `openclaw cron list`（27 项）中**无任何 wake 任务**；wake.log 末条 17:45（SB-020 r3 提审未遂现场）、dispatch.log 停 16:10 → 施工环 17:45 后停摆≈2.5h+。归因：上轮 cron add 大概率被多通道投递参数报错拦下而未复验——本轮首次 add 同样真实回显 `invalid cron.add params: ...requires an explicit channel (feishu, openclaw-weixin)`，改 `--no-deliver` 重试成功。**本轮已重建并 list 复验**：攒够-loop唤醒 id=e71e53ac-adcc-4f75-a85a-25c92a06a65a，cron `15,45 * * * *`(exact)，payload=command `sh ~/.openclaw/tools/runway-wake-dispatch.sh`（二代派发器：LOOP S0 全套守卫+python setsid 完全脱离点火+即发即忘；零 poll、零 kill、零超时，防友军火力复发）。重建后 `openclaw cron run` 手动实测，点火结果见本条快照/下轮续查。周一素材册⑱新增：凡任务重建必须 id+list 双回验方可入"已重建"口径。
+
+【回填段（20:1x 轮，账与快照核对）】
+- SB-019 模拟器冒烟 **PASS**@main 6ad2261（10:0x 轮 v3 一条龙·archive 独立构建·零碰工作树）：BUILD_EXIT=0（Gradle 29.5s ✓Built，apk 155MB）；BOOT=1（14s）；adb install Success；am start -n com.zangou.runway/.MainActivity 后 35s 存活（PIDOF=2190）；logcat FATAL=0/crash=0；pkill 收口二次 pgrep=0。本轮实测 `git diff 6ad2261..HEAD --stat -- app/ golden/`=空 → main 头 ae7b8b9 与冒烟证据 app 码零差，last_smoke_commit=6ad2261 账实相符持续成立。
+- 10:0x/14:3x 巡检轮漂移审计：全绿（快照历史 note 在册）。
+- 15:0x 轮：审计全绿+冒烟延迟裁决 decision p=0.86（6ad2261..446ffd0 app 码零差缓行）；15:3x 轮：WIP/feat 树禁词零新增（基线 5 文件本体）、裸 Color/Duration=0、_LOCK=builder 施工锁（pid99089 当时存活）非泄漏、d758032 保全 WIP 未污 main。
+
+【本轮漂移与一致性审计（一行·真实回显）】禁词命中=基线本体 6 文件（achievement/goal_ladder+3 测试+DESIGN_SYSTEM.md 禁词表自身）零新增；theme/motion 外裸 Color(0x=0；裸 Duration=0；美团|工资|房贷=0；remote=0；_LOCK=0；main 头 ae7b8b9 对应 REVIEW 最近归档轮（SB-020 第1轮 RC）✓；feat 残留唯一=SB-020 在返工（合法在审）；task_plan 薄索引未动、progress.md 唯一真相 ✓。本轮新增不符项仅一条且已修复：wake 言实不符（见事故簿记）。
+
+决策模型: 本轮无灰区边界裁决（wake 重建为机械修复非裁量事项），未调用。
+
+利益点自省: 更近——本轮修复的是施工环瘫痪本身；SB-020『价格之眼』（=你想要的东西到价了自动看见，零自律零输入负担）能否交付完全取决于环是否活着。无 SilentBook 旧病同构。
+
+下一步: ①builder 经新 wake 应答 SB-020 第 1 轮返工票（修 quick_add PriceHint 订阅退场泄漏；同症状再现=第 2 次 RC→WAITING_HUMAN 升浩然）；②明日周一首轮巡检：当周卡计划+规范适配审查（素材册⑫~⑲＋本轮新增⑱ wake 复验条款、⑰ mtime 启发式在分支出口架构下失效）。
