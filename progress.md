@@ -86,8 +86,13 @@
 
 - 2026-10-11 21:39 浩然双定调落卡：SB-022 零日温度线新建（翻案隐藏条款：鼓励+周结构、禁 guilt）；SB-012 增验收8 多平台完善闸门 + 验收9 本人 7 天真实使用后 tag；PRD 攒到层同步。队列：SB-022 → SB-012（终卡）。[SB-012][SB-022]
 
+- 2026-10-11 21:4x SB-022 按浩然反馈改版：负结余禁『今天攒0』改打趣三段（承认多花→翻译成得到的物件→犒劳+明天努力），『多花』出禁词表，金标准句入卡。[SB-022]
+
 - 2026-10-11 21:5x SB-022 卡升 v3（浩然指正：点名制取代换算，读现成记录说买了啥）；监工票落 REVIEW.md：按 v3 审在制轮、返工不计轮次、builder 改卡+缺锁两观察入册。[SB-022]
+
+- 2026-10-11 22:0x builder SB-022 done：分支 `feat/SB-022-zero-warm`，零日温度线（logic/week_warm 纯函数：resolveRole归组+weekStartFor周界只读复用+零日文案三件套，92行）+TodaySavedRow零日分支（saved<=0仍显示三段，saved>0行为零改）+DailyCloseZone闭环透传（RoleOverride流内联，budget_card同口径）；单测10+widget/golden8=18新，全量398/398绿+ci ALL GREEN+hygiene OK+双构建成功；golden sb022两图新建+sb016零结余两图/sb006看板有数据两图连带重生成（对照实验：藏改则全绿，确系本卡像素）。待监工审查。另：施工中发现分支基线含main外本地提交60d2555（progress21:4x行，声称浩然改版禁『今天攒0』+『多花』出表+金标准句入卡）与卡文件（21:39版，未动）矛盾——按卡施工，冲突已列REVIEW_REQUEST请裁决。[SB-022]
 
 - 2026-10-11 22:3x 监工轮（审查）：SB-022 第 1 轮按卡 **v3** 审结 **REQUEST_CHANGES**（规范变更返工·不计 R4，监工票 d3edd0f 在册）——builder 持 21:39 旧卡施工且诚实列冲突上报，处置合规零违规；监工独立实测全量 **398/398 exit=0**（16s 无挂死）+format 94/0 changed+analyze No issues+hygiene OK+分支 diff 13 文件=3 lib+2 test+6 golden 与提审声明逐一对应；21:52 观察项①结案（分支零 docs/tasks 改动，未改卡）、观察项②结案（builder 已退场、无 _LOCK、提审出口完整）；冲突裁决=**A**（main 卡已 v3，返工第一步 feat merge main）；点名制退档口径按卡判（note 空=无名可点走退档链，决策 p=0.31+卡文三级链文义）；D2 恰零日『已记 N 笔』含估算行=灰区（p=0.58）留浩然拍板，返工不阻塞按现口径落码；冒烟未触发（7bfe4cc 后 main 纯 docs）。下一步=wake :45 派 v3 精准返工；周一首轮=当周卡计划+G5 素材+规范适配审查（新增素材⑳：progress/卡双轨失同步守卫提案）。[SB-022][supervisor patrol]
 
 - 2026-10-11 22:56 浩然拍板 A：SB-022 零日线 N 含估算补记，D2 灰区结案入卡+监工票。[SB-022]
+- 2026-10-11 23:4x builder SB-022 v3返工done（应答第1轮RC·规范变更不计R4，分支 `feat/SB-022-zero-warm`）：merge main取v3卡+RC票（91d7d78，progress按时序union解冲突）；week_warm增负结余三段纯函数（承认¥X=|saved|/点名弹性+非estimate+有备注最大≤2笔原样/退档交代通用句→记账句/犒劳前瞻零感叹号）+多花移出扩展集（浪费保留，成就表零触碰）+JoyRow小类（400行红线等价表达）；TodaySavedRow/DailyCloseCard/Zone透传当日行快照，saved==0/saved>0一字不动；单测10→17+widget+2+golden负结余双态新建（sb022 overspend_light/dark），zero双图字节零差、sb016/sb006全量通过免重生成（偏差声明）；全量409/409 exit=0+`tool/ci.sh` ALL GREEN+hygiene OK+双构建成功；commit 437a5fd。待监工第2轮审查。[SB-022]

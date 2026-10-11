@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 
 import '../data/app_db.dart';
 import '../data/budget_dao.dart';
+import '../data/category_role_dao.dart';
 import '../data/estimate_dao.dart';
 import '../logic/budget.dart';
 import '../logic/entry.dart';
 import '../logic/estimate.dart';
+import '../logic/role_resolver.dart';
+import '../logic/week_warm.dart';
 import 'theme/tokens.dart';
 import 'today_saved_row.dart';
 
@@ -23,6 +26,12 @@ class DailyCloseCard extends StatelessWidget {
     required this.todaySpendFen,
     required this.closed,
     required this.savedFen,
+    this.todayCount = 0,
+    this.necessaryFen = 0,
+    this.flexibleFen = 0,
+    this.fixedFen = 0,
+    this.joyRows = const <JoyRow>[],
+    this.roleOverrides = const <String, CategoryRole>{},
     this.onConfirm,
     this.onAdjust,
     this.onSkip,
@@ -32,6 +41,16 @@ class DailyCloseCard extends StatelessWidget {
   final int todaySpendFen;
   final bool closed;
   final int savedFen;
+
+  /// SB-022 · 零日温度线透传（今日笔数 + 本周角色归组；非零日忽略）.
+  final int todayCount;
+  final int necessaryFen;
+  final int flexibleFen;
+  final int fixedFen;
+
+  /// SB-022 v3 · 点名行快照 + 角色覆盖（负结余用，默认空）.
+  final List<JoyRow> joyRows;
+  final Map<String, CategoryRole> roleOverrides;
   final VoidCallback? onConfirm;
   final VoidCallback? onAdjust;
   final VoidCallback? onSkip;
@@ -64,7 +83,15 @@ class DailyCloseCard extends StatelessWidget {
             ),
             if (closed) ...<Widget>[
               const SizedBox(height: 4),
-              TodaySavedRow(savedFen: savedFen),
+              TodaySavedRow(
+                savedFen: savedFen,
+                todayCount: todayCount,
+                necessaryFen: necessaryFen,
+                flexibleFen: flexibleFen,
+                fixedFen: fixedFen,
+                joyRows: joyRows,
+                roleOverrides: roleOverrides,
+              ),
             ],
             if (!closed) ...<Widget>[
               const SizedBox(height: 4),
@@ -237,6 +264,12 @@ class DailyCloseZone extends StatelessWidget {
     final int estimate = estimateToday(dailyAvgFen: avg, today: now);
     final List<CloseFlow> today = todayFlowsOf(flows, now);
     final int todaySpend = todaySpendOf(today);
+    // SB-022 v3 · 当日行快照（点名用；与 today 同自然日口径）.
+    final List<JoyRow> joy = <JoyRow>[
+      for (final Transaction t in rows)
+        if (dateKeyFor(t.occurredAt) == key)
+          JoyRow(t.amountFen, t.category, t.note, t.source),
+    ];
     return StreamBuilder<bool>(
       stream: db.watchCloseEnabled(),
       builder: (ectx, esnap) {
@@ -313,14 +346,44 @@ class DailyCloseZone extends StatelessWidget {
                         onSkip: () => _skip(key),
                       )
                     else
-                      DailyCloseCard(
-                        estimateFen: estimate,
-                        todaySpendFen: todaySpend,
-                        closed: true,
-                        savedFen: saved,
-                        onConfirm: null,
-                        onAdjust: null,
-                        onSkip: null,
+                      StreamBuilder<List<RoleOverride>>(
+                        stream: db.watchCategoryRoles(),
+                        builder: (rctx, rsnap) {
+                          final Map<String, CategoryRole> overrides =
+                              <String, CategoryRole>{};
+                          for (final RoleOverride o
+                              in rsnap.data ?? <RoleOverride>[]) {
+                            final CategoryRole? r = parseRole(o.role);
+                            if (r != null) overrides[o.category] = r;
+                          }
+                          // SB-022 · 本周去向按角色归组（调 resolveRole，不新建第二套判定）.
+                          final WeekRoleSums week = summarizeWeekRoles(
+                            flows: rows.map(
+                              (Transaction t) => (
+                                amountFen: t.amountFen,
+                                category: t.category,
+                                occurredAt: t.occurredAt,
+                              ),
+                            ),
+                            now: now,
+                            overrides: overrides,
+                          );
+                          return DailyCloseCard(
+                            estimateFen: estimate,
+                            todaySpendFen: todaySpend,
+                            closed: true,
+                            savedFen: saved,
+                            todayCount: today.length,
+                            necessaryFen: week.necessaryFen,
+                            flexibleFen: week.flexibleFen,
+                            fixedFen: week.fixedFen,
+                            joyRows: joy,
+                            roleOverrides: overrides,
+                            onConfirm: null,
+                            onAdjust: null,
+                            onSkip: null,
+                          );
+                        },
                       ),
                   ],
                 );
