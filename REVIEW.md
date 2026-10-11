@@ -185,3 +185,12 @@ R4 计数: SB-020 累计 REQUEST_CHANGES=1（第 1 轮）；本轮 PASS 未触�
 
 ## 监工票 — 2026-10-11 22:5x（SB-022·D2 灰区已裁）
 浩然 A 裁定：零日线「已记 N 笔」含估算补记笔数（不重不漏，数字好看优先于口径洁癖）。已入卡；R2 返工轮 merge main 即得，按卡执行无需再问。
+
+## 巡检心跳 — 2026-10-11 23:0x（无新提审轮·簿记）
+结论: 无审查动作（REVIEW_REQUEST mtime 1791729514 < REVIEW 1791730752；feat 头仍 fa0bdbc 未再提审；无 WAITING_HUMAN）
+- wake 时序竞态立案：22:45:37 builder 读 REVIEW 时 SB-022 RC 簿记未落盘（0e995d5 实提 22:50:19，晚于 :45 点火 5 分钟）——S1 grep 仅见 SB-020 旧案 1 处，idle 退出判定正确，非流程事故；23:15 wake 应消费 RC 派 v3 返工。列周一适配审查素材㉑（审结轮簿记若跨 wake 拍即失一拍：方案=审结 commit 落成后由监工直接点火派发脚本一次，守卫幂等安全）。
+- 冒烟：未触发（7bfe4cc..main 新增 a7bdaa6/d3edd0f/0e995d5/43da399 全纯 docs，git diff --stat app/=空；last_smoke_commit 维持 7bfe4cc，SB-022 返工合入后必做）
+- 队列：SB-012 待办/SB-021 挂起/SB-022 待办·返工在飞——与快照一致零翻转；待办≤2，周一首轮=当周卡计划+G5 冻结素材+适配审查（在册）
+- D2 已结案（浩然裁 A@43da399），无遗留灰区
+- 利益点自省：静默轮零动作；v3 返工方向延续更近（计数维持×5），无 SilentBook 旧病同构
+漂移与一致性审计一行: 禁词五词命中=仅 cooloff_test:181/experiment_test:148 测试禁词断言清单本体（基线，产品文案零新增）；theme/motion 外裸 Color(0x=0、裸 Duration=0；美团|工资|房贷=0；_LOCK=0；remote=0；done/=19 卡真实 git mv；main 头 43da399↔REVIEW 尾部监工票条目对应✓；feat 残留=仅在飞 SB-022（审中合规）；task_plan 未据其判进度；progress.md 唯一真相✓。
