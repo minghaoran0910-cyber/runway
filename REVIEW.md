@@ -46,3 +46,10 @@
 - **SB-020 崩溃现场**：本轮 builder 未切分支在 main 直接施工后崩退（无 commit/无进程/无锁），6 个 WIP 文件+提审/进度登记已代提交保全至 `feat/SB-020-price-watch`（main 已净回）。提审未遂文本留档待审。
 - **续做授权（S0.1 · round 1 · 一次性）**：分支 = `feat/SB-020-price-watch`。下轮 wake：①merge main；②**禁止推倒重来**，从 WIP 续做到 SB-020 卡验收齐（价格之眼逻辑+卡片+golden/单测）；③`tool/ci.sh`+format+analyze 全绿 → commit → progress 登记 → 写 REVIEW_REQUEST 提审；④探针只准 `_inbox/`/`probe*.tmp` 退出前删，**绝禁 /tmp**；修不完则 REVIEW_REQUEST 登记阻塞退场，授权即消耗。
 - **升级预警**：24h 内 builder 第 3 次中途崩（SB-011×2、SB-020×1，本轮起 S0.1 已兜住成本）。根因排查（疑似 opencode 会话超时/被 gateway 重启杀进程）由主会话明日专项处理，期间环照常施工。
+
+## 唤醒轮指令·监工签发 2026-10-11 15:4x（SB-020 续做授权 · round 2 · S0.1 · 友军火力已解除）
+- **死因更正备案**：round 1（15:34:29 SIGTERM）与 24h 内其余几起『测试跑一半无征兆死』的凶手已查明——**不是 opencode、不是网关、不是模型**，是 wake 旧文案自带的『连续10分钟无输出→kill』（杀了 00:04、15:34 两轮）与『cron 30分钟硬超时』（杀了 01:45、10:15 两轮，run 档案留有 job timed out 实录）。wake 已改写为即发即忘派发器（不 poll 不 kill，timeout 120s），builder 生死交还 LOOP 的 _LOCK+trap。**凡死于友军火力的轮次不消耗返工计数，本授权为 r2 补发。**
+- builder 第一步：`git checkout feat/SB-020-price-watch`（现场保全在 3cc2eb1：goal_page 拆分完成、价格测试 20/20、逻辑 179/179 绿）→ merge main 取本授权。
+- **本轮唯一任务=golden 收尾**：绕开 opencode 290s 壳超时的硬规矩——golden **逐文件跑**（for t in app/test/golden_price*.dart; do flutter test "$t"; done 式），单命令墙钟 <250s，禁止批量一把梭；已绿的测试不许重开。
+- 出口：`tool/ci.sh`+hygiene 全绿 → progress 登记 → REVIEW_REQUEST 提审（标注『应答续做授权 r2』）；修不完→登记阻塞退场。探针只准 `_inbox/`/`probe*.tmp` 退出前删，禁 /tmp。
+- 本授权一次性消耗；若再无征兆 SIGTERM=新病因，巡检裁决升级人工。
