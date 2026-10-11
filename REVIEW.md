@@ -25,7 +25,7 @@
 
 问题列表: 无打回项。P3 观察（不阻塞，随账挂账）：①REQ"home_page +2行"实测+4行=措辞计数口径，无实害；②Zone build 内副作用写库（建单/超时 expired）有 _proposedTxIds/_expiredIds 去重集+DAO 幂等双保险，若第三张卡仍 build 内写库→列规范提案；③卡文"离 5090 又近 1/6"为示例文案非硬口径，验收2 达成。
 
-模拟器冒烟: 待补（本轮补跑 main@a6c92e4 一条龙，结果回填本节尾行；回填后本行作废）
+模拟器冒烟: **PASS**（本轮真实回显 main@a6c92e4 一条龙重建 apk：Gradle assembleDebug 8.7s ✓Built；runway_api36 `-no-window -no-snapshot-load -no-audio -no-boot-anim` boot_completed=1（7×2s=14s）；install -r Success；am start -n com.zangou.runway/.MainActivity→Starting；35s pidof=2603 存活；topResumedActivity=com.zangou.runway/.MainActivity；logcat FATAL EXCEPTION main=0、crash=0；pkill 收口干净。last_smoke_commit→a6c92e4)
 
 合入舞步: squash@main@a6c92e4；feat 分支已清（-d 因 squash 语义拒绝→-D 执行，删前 diff 树等同核对）；卡真 `git mv` 归档 docs/tasks/done/SB-017.md，状态行已改验收通过。
 
