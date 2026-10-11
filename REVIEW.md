@@ -26,9 +26,9 @@
 
 问题列表: 无打回项。P3 观察（不阻塞，挂账）：①Zone build 内自动完结落成就副作用写库（_finishingIds 幂等防重在位）=挂账"第三张卡再现则升规范提案"条件达成→周一素材册正式列册；②REQ 新增数 28/实测 29、home_page +2/+4 两处措辞口径无实害；③自设 UI 承接条款未写入 SB-019 卡文（随 D2 拍板处理）。
 
-模拟器冒烟: 待本轮补跑回填（簿记三件套先行落库，半截事故防御新序）。
+模拟器冒烟: **PASS**（本轮真实回显 main@e004fce 一条龙 v2 重建 apk：Gradle assembleDebug 9.0s ✓Built；runway_api36 `-no-window -no-snapshot-load -no-audio -no-boot-anim` boot=1（7×2s=14s）；install -r Success；am start -n com.zangou.runway/.MainActivity→Starting；35s pidof=2245 存活；topResumedActivity=com.zangou.runway/.MainActivity；logcat FATAL EXCEPTION main=0、crash=0；pkill 收口 REMAIN=0 复验干净。last_smoke_commit→e004fce。备注：v1 脚本因 macOS 无 GNU timeout 致 pidof/FATAL 计数空转假绿风险，监工识别后 v2 重跑取真证——该脚本坑记入监控口径，后续冒烟一律无 timeout 写法）
 
-合入舞步: squash@main（本轮提交后回填 hash）；feat 分支删前树等同核对（feat..main diff app/golden=0 行实测）后 -D 清理；卡真 `git mv` 归档 docs/tasks/done/SB-018.md，状态行已改验收通过。
+合入舞步: squash@main@b2b89e3+审结簿记@e004fce；feat 分支删前树等同核对（feat..main diff app/golden=0 行实测）后 -D 清理；卡真 `git mv` 归档 docs/tasks/done/SB-018.md，状态行已改验收通过。
 
 利益点自省: 更近——每月一个 7 天小实验=行为改变成本压到"选一个+每天 3 秒"，断卡不罚只如实显示、省出肉眼进目标与成就，得到框架零负罪；打卡即传感器，不要求任何全量记账。连续计数：SB-017 更近第 1 次→本轮更近第 2 次，无 SilentBook 旧病同构（机制兜底=不打卡实验照常完结记 0）。SB-019 联动时复核实验卡真实开启率/打卡率。
 
