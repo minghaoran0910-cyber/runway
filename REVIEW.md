@@ -59,3 +59,8 @@
 - 派发架构已换代：wake 现为 command 型定时任务（纯 shell 守卫+点火+心跳保活，无 agent turn，杀 builder 的『静默判死/硬超时』两条规则随旧架构作废）。
 - builder 第一步：`git checkout feat/SB-020-price-watch` → merge main 取本授权。范围不变：**只剩 golden 逐文件收尾**（for t in app/test/golden_price*.dart 式单命令 <250s），已绿测试与拆分成果禁重开。
 - 出口：`tool/ci.sh`+hygiene 全绿 → progress → REVIEW_REQUEST 提审（标『应答 r3』）；失败→登记阻塞退场。探针只准 `_inbox/`/`probe*.tmp`（已 gitignore），禁 /tmp。
+
+## 监工票 — 2026-10-11 17:2x（r3 收尾补票 · 非新授权）
+- r3 实况：builder 16:15 轮已完成全部业务（merge 244e8e3 + feat 6c61952 常买价格眼·同键统计+跟随），但崩于出口之前——REVIEW_REQUEST 仍是 SB-019 旧文本，提审未写。
+- 下一轮 builder 唯一任务=r3 出口补齐（不计新一轮）：①git checkout feat/SB-020-price-watch → merge main 取本票；②tool/ci.sh 四闸门 + golden 逐文件（单命令 <250s）复跑验证；③progress 登记 + 写 REVIEW_REQUEST 提审（标注『r3 收尾补票 · 6c61952』）；④禁止新增业务代码。验证不过→登记阻塞退场转人工。
+- 观察者近况备案：16:00 巡检轮被网关重启打断（正常）；16:30 巡检轮一次模型挂死触发 40min 超时（孤例，复发再处理）。施工链无损伤。
