@@ -111,3 +111,34 @@
 利益点自省: 更近——本轮修复的是施工环瘫痪本身；SB-020『价格之眼』（=你想要的东西到价了自动看见，零自律零输入负担）能否交付完全取决于环是否活着。无 SilentBook 旧病同构。
 
 下一步: ①builder 经新 wake 应答 SB-020 第 1 轮返工票（修 quick_add PriceHint 订阅退场泄漏；同症状再现=第 2 次 RC→WAITING_HUMAN 升浩然）；②明日周一首轮巡检：当周卡计划+规范适配审查（素材册⑫~⑲＋本轮新增⑱ wake 复验条款、⑰ mtime 启发式在分支出口架构下失效）。
+
+# REVIEW — 2026-10-11 21:3x 轮 · SB-020 第 2 轮（监工独立复跑实审）
+结论: PASS（第 2 轮 · 卡 SB-020）——第 1 轮 RC 唯一问题（P1 quick_add 存量回归）本轮返工达标
+
+触发核查（真实回显）: REQ mtime 1791721631 > REVIEW 1791721284；feat@41a9fcf ct=1791721637（20:2x 提审）=真新提审面（应答第 1 轮 RC）。基座 f23a7c2 merge main@43ffac9 ✓（main is ancestor of feat 实测 YES）。工作树净（status=0 行）。
+
+检查项（监工在 feat@41a9fcf 独立实跑，非转述 builder 声明）:
+- [x] **RC 硬标准①** `flutter test test/quick_add_test.dart test/golden_quick_add_test.dart` → `00:02 +6: All tests passed!` PAIR_EXIT=0 无挂死（第 1 轮 feat 挂>2min → 本轮根治）
+- [x] **RC 硬标准②** 全量 `flutter test` → `00:16 +380: All tests passed!` FULL_EXIT=0 无挂死（REQ 声明 380/380 与实测一致，本轮诚实）
+- [x] 存量断言零削弱：10c6b50 diff 逐行实测——quick_add 3 例+golden 2 例 expect 断言原文未动，仅 `addTearDown(db.close)`→`_unmountAndFlush`（pumpWidget(Container)+100ms×2 多 pump 排干 drift 零时长 Timer）；该口径系 widget_test.dart 文件头自 SB-004 时代既有全仓统一记录（close-after-watch 挂起实测），非本轮新造
+- [x] golden/sb004 基线零改动：`git diff main..feat -- golden/sb004/`=空回显；matchesGoldenFile 复跑通过（像素零差实证）
+- [x] 已绿 price 20 例禁重开遵守：10c6b50 --stat 实测=3 文件（quick_add_page/quick_add_test/golden_quick_add_test），price_watch/golden_price 零触碰
+- [x] 生产侧根治实读：PriceHint 外包 Builder 先算 priceKeyFor——无键直接 SizedBox.shrink，不建 StreamBuilder 不订阅 watchAll（空态零订阅：测试免 pending+生产省订阅各一）；有键路径原逻辑逐行保留（summarizeAll→≥3 现身→Key priceHint）
+- [x] 闸门独立复跑：dart format 91 files 0 changed；flutter analyze No issues；check-repo-hygiene OK；ci.sh 构建闸门由本轮冒烟 apk 真实构建覆盖（BUILD_EXIT=0）
+- [x] 文件约束：净差 main..feat 14 文件=代码 10（6 lib+4 test）+golden png 2+REQ/progress；≤10 ✓；wc 实测最大 goal_page 391≤400（quick_add_page 203/quick_add_test 112）；无 pubspec
+- [x] 验收 1~4：本轮无逻辑改动，第 1 轮已审项（priceKeyFor 精确匹配/summarizePrices <3→null/describeVsAvg 纯陈述/resolveGoalPrice 手动优先+中位数跟随）由全量回归再锁定
+- [x] 红线：remote=0；_LOCK=0；真实账目（美团|工资|房贷）=0；禁词全库命中=基线本体零新增（achievement 禁词表/goal_ladder 自警/3 测试断言基线/_inbox+DESIGN_SYSTEM 禁词表自身/REVIEW.md 审计行）；golden/sb020 两图在位
+
+边界裁决（规则10）: 存量测试 teardown 机制变更（db.close→unmount 排干）属第 1 轮 RC 红线明文允许的『补正确 teardown 排干』而非违禁的『改 SB-004 测试语义交差』→ **decision p=0.93**（typesafe/jev-1.13-20260917，status=ok）按判接受。本轮无其他灰区。
+
+R4 计数: SB-020 累计 REQUEST_CHANGES=1（第 1 轮）；本轮 PASS 未触发熔断（阈值 2）。
+
+模拟器冒烟: **PASS @main 7bfe4cc**（v3 一条龙实测，`git archive` 独立构建 /tmp/runway-smoke-7bfe4cc，监工 git 纯读零碰工作树）：BUILD_EXIT=0（✓Built，apk 155473984B≈155MB）；BOOT=1（实测 ~28s）；adb install `Success`；`am start -n com.zangou.runway/.MainActivity` 后 35s 存活 PIDOF=2572；logcat FATAL crash=0/main=0；pkill 收口复测 pgrep=0。applicationId com.zangou.runway 现行口径再证 ✓。last_smoke_commit: 6ad2261→7bfe4cc。
+
+合入舞步: squash 落 main@**7bfe4cc**（git log 头实存）；删支前树等同核对 `git diff main feat | wc -l`=**0** 后方 `-D`（squash 不置 upstream，树等同系历轮归档口径）；卡真 `git mv` 归档 docs/tasks/done/SB-020.md（状态行=验收通过+审计结论已填）；progress.md 监工轮登记；本条随同轮簿记 commit 落库。
+
+漂移与一致性审计（一行·真实回显）: 禁词基线外零新增；theme/motion 外裸 Color(0x=0（app/lib 实测）；裸 Duration theme/motion 外=0（app/lib；测试排干 Timer=仓内既有口径豁免项，见边界裁决注）；美团|工资|房贷=0；_LOCK=0；remote=0；main 头 7bfe4cc=本轮审结合落 ✓；合入后 feat 残留=0；工作树净 ✓；task_plan 薄索引未动（未据此判进度）；progress.md 唯一真相 ✓。本轮无不符项。
+
+利益点自省: **更近**——本卡把"常买的东西"从用户记忆里挪出来自动摆到眼前：均价/最低/这次比均价如何，≥3 笔自动现身、无备注零订阅零打扰（本轮根治恰是这条）；目标单价中位数跟随=省用户一次心算。零新增输入负担、不要自律、不预设全量记账（无键即不出）。连续计数：更近×4（SB-017→018→019→020），无 SilentBook 旧病同构。
+
+下一步: ①wake（e71e53ac 在册 ok，21:45 已跑）下轮应派批次最后一张 **SB-012**（前置已满足；SB-012 完成=G5·v0.1.0 冻结）；②待办卡=1≤2 → 明日（周一）首轮巡检=当周卡计划+下一批提案+规范适配审查（素材册⑫~⑲，含⑰ mtime 启发式在分支出口架构下失效、⑱ wake id+list 双复验）；③待浩然灰区挂账=无新增（旧账五连A已消化）；④SB-021 维持挂起 v0.2。
