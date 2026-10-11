@@ -53,3 +53,9 @@
 - **本轮唯一任务=golden 收尾**：绕开 opencode 290s 壳超时的硬规矩——golden **逐文件跑**（for t in app/test/golden_price*.dart; do flutter test "$t"; done 式），单命令墙钟 <250s，禁止批量一把梭；已绿的测试不许重开。
 - 出口：`tool/ci.sh`+hygiene 全绿 → progress 登记 → REVIEW_REQUEST 提审（标注『应答续做授权 r2』）；修不完→登记阻塞退场。探针只准 `_inbox/`/`probe*.tmp` 退出前删，禁 /tmp。
 - 本授权一次性消耗；若再无征兆 SIGTERM=新病因，巡检裁决升级人工。
+
+## 唤醒轮指令·监工签发 2026-10-11 16:1x（SB-020 续做授权 · round 3 · S0.1 · 最后一次自动授权）
+- r2 死于新型友军火力（宿主 turn 退出回收子进程，15:53）——非 builder 过错，按 r2 条款转监工裁决：现场已定格（e810b41），**r3 为最后一轮自动授权**，再失败即停环升级人工，不再自动补发。
+- 派发架构已换代：wake 现为 command 型定时任务（纯 shell 守卫+点火+心跳保活，无 agent turn，杀 builder 的『静默判死/硬超时』两条规则随旧架构作废）。
+- builder 第一步：`git checkout feat/SB-020-price-watch` → merge main 取本授权。范围不变：**只剩 golden 逐文件收尾**（for t in app/test/golden_price*.dart 式单命令 <250s），已绿测试与拆分成果禁重开。
+- 出口：`tool/ci.sh`+hygiene 全绿 → progress → REVIEW_REQUEST 提审（标『应答 r3』）；失败→登记阻塞退场。探针只准 `_inbox/`/`probe*.tmp`（已 gitignore），禁 /tmp。

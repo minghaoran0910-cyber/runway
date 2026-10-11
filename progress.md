@@ -70,3 +70,5 @@
 - 2026-10-11 09:3x 监工审查轮·SB-019 第1轮 PASS：REQ 09:2x 真新提审面（mtime 新于 REVIEW+内容 SB-019 双核）；独立复跑 360/360 绿(exit=0)+分文件实跑 23+6(REQ 称 24+6 措辞差 1)+format 86 文件 0 改动/analyze/hygiene 零告警；schema v11 实读（from<11 建 roleOverrides+rollbackCategoryRolesToV10+ensureDefaultRoles 幂等）；resolveRole 覆盖优先+兜底弹性永不 null、预算/冷静仅弹性过滤复用原公式禁第二套、home_page 零 diff（验收 2）、聚餐只引导（验收 4）全实读；四偏差 decision_evaluate 单调用：D1 p=0.87/D3 p=0.88/D4 p=0.89 按判接受，D2 新建类目表单延后 p=0.70 灰区留浩然拍板（与 SB-018 D2 同病，可一并拍板）；squash 合入 main@48459ce+审结簿记；卡真 git mv 归档 done/；冒烟新头 48459ce 本轮补跑回填。[SB-019] [supervisor patrol]
 
 - 2026-10-11 15:4x 崩溃根因结案：wake 旧文案双杀规则（10min静默kill+30min硬超时）系 4 起 builder 猝死元凶，wake 已改即发即忘派发器；SB-020 现场二次保全 3cc2eb1，续做授权 r2 签发。[SB-020][LOOP]
+
+- 2026-10-11 16:1x 网关 16:03:40 重启核验：maxTokens×4 已加载、phone-notifications 注册 1.18.1 转正在册；wake 换代为 command 定时任务（脚本含心跳保活）；SB-020 续做授权 r3（最后一轮自动）签发。[SB-020][LOOP]
