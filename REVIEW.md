@@ -226,3 +226,7 @@ R4 计数: SB-020 累计 REQUEST_CHANGES=1（第 1 轮）；本轮 PASS 未触�
 利益点自省: **更近×6**——多花的日子里产品不再装无事：诚实承认+把你自己的账本点名你的快乐+犒劳前瞻；情绪价值从传感器数据回流、零新增输入负担、不要自律，无 SilentBook 旧病同构（SB-017→018→019→020→022裁决→022通过）。
 
 下一步: ①冒烟一条龙实测+REVIEW 回填段+快照 last_smoke_commit→c581f7d；②wake（:15/:45）下轮应派批次末卡 **SB-012**（完成=G5·v0.1.0 冻结）；③待办卡=1≤2 →明日（周一）首轮巡检=当周卡计划+下一批提案+规范适配审查（素材⑫~㉒）；④简报含灰区 G1/G2 默认照受，浩然如有异议一票翻案（零代码成本）。
+
+## 冒烟回填 — 2026-10-12 00:0x（SB-022 合入轮必做项·监工一条龙实测）
+模拟器冒烟: **PASS @main 树 5b1d9a5**（git archive 独立构建 /tmp/runway-smoke-5b1d9a5，监工 git 纯读零碰工作树；该树 app/golden 与代码头 c581f7d 零差异——c581f7d 后监工簿记均纯 docs）：BUILD_EXIT=0（✓Built，app-debug.apk 155482764B≈155MB）；BOOT=1（27s，固定参数 -no-window -no-snapshot-load -no-audio -no-boot-anim）；adb install `Success`；`am start -n com.zangou.runway/.MainActivity` 后 35s 存活 PIDOF=2261；logcat FATAL EXCEPTION=0；pkill 收口复测 EMUPROC_AFTER=0。applicationId com.zangou.runway 现行口径再证 ✓。last_smoke_commit: 7bfe4cc→**c581f7d**（口径记代码头，实测树 5b1d9a5）。第 2 轮条目『冒烟待补』义务本轮回填闭环，本轮簿记无欠账。
+时间注：本轮跨零点（23:40 触发→00:06 收口）——**周一首轮巡检（0:30 拍）待输出**：当周卡计划（队列仅剩 SB-012 末卡，完成=G5·v0.1.0 冻结；待办≤2 排下一批）+规范适配审查（素材册⑫~㉒，㉑ wake 簿记竞态、㉒ probe.log tracked 遗留本轮新列）+灰区 G1/G2 备忘浩然（默认照受·一票翻案零代码成本）。wake（e71e53ac 在册）下一拍应派 SB-012。
