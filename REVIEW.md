@@ -36,3 +36,7 @@
 漂移与一致性审计（真实回显，口径=app/lib+app/test+docs）: 禁词(没省|又花|喝掉|罪恶|浪费钱)零新增——命中全=成就表本体+goal_ladder 自警+测试断言基线；本卡 6 新/改文件内唯一命中=budget_card 注释"零亏欠表述"（自警措辞非禁词，与 goal_ladder 同型）；theme/motion 外裸 Color(0x=0、Duration(milliseconds=0；美团|工资|房贷=0；_LOCK find=0；remote=0；main 头 48459ce 对应本轮审结 ✓；合入后 feat 残留=0（仅 main）；task_plan 薄索引只读声明实读在位（未据此判进度）；progress.md 唯一真相 ✓。
 
 下一步: ①冒烟回填证据段+快照 last_smoke_commit→48459ce（本轮或下轮）；②09:45/10:15 wake 应派 SB-020（SB-019 已归档）；SB-012 前置（019/020 其一）已随本卡满足，批次仅剩 SB-020+SB-012=2 张 ≤2 → 周一排下一批（素材册）；③待浩然回音：SB-019 D2 灰区（A/B，本轮随简报发）+SB-018 D2 自设 UI（同拍）+SB-015 D2/SB-014 D1/D2/SB-010 D1/D3 旧灰区未回音（周一再提）+changelog_defer 不三提；④明日周一首轮：当周卡计划+规范适配审查（素材册⑫~⑯）。
+
+## 监工清障 — 2026-10-11 14:4x（SB-020 停摆 4h 处置）
+- 根因：10:32 轮 builder 崩在两个预建空分支（price-watch/pricewatch，与 main 零差异），遗留 SB-019 旧提审文本的 REVIEW_REQUEST mtime(10:32) 反而新于 REVIEW(09:40) → 唤醒每轮撞 S0.5 空退；巡检 12:07/13:38 两轮又被模型掐死，无人解套。夜半 7 条『投递失败』=空简报 NO_REPLY 发不进微信，只吵耳朵不碍施工。
+- 处置：两空分支已删（零差异，安全）；工作树回 main；本段落盘即刷新 REVIEW.md mtime → S0.5 解除。下一轮唤醒（:15/:45）按 S2 正常开 SB-020（价格之眼），无需人工。
