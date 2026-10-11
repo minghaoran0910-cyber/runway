@@ -6,17 +6,17 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import 'budget_store.dart';
+import 'cooloff_store.dart';
 import 'estimate_store.dart';
 import 'import_batch.dart';
 
 // schema：v1 Tx / v2 Goals(SB-007) / v3 Ach(SB-008) / v4 Grain+Weekly(SB-009)
-// v5 Pending(SB-010) / v6 ImportBatch(SB-011) / v7 Budgets(SB-015) / v8 DailyClose(SB-016).
+// v5 Pending(SB-010) / v6 ImportBatch(SB-011) / v7 Budgets(SB-015) / v8 DailyClose(SB-016) / v9 Cooloff(SB-017).
 // 禁手改 schema，迁移走 drift；真实账目永不入库，测试合成 fixtures.
 
 part 'app_db.g.dart';
 
-/// schema v1：transactions（金额分/时间戳/类目/备注/来源）.
-/// SB-011 v6 新增 importBatchId（可空；账单导入批次归属，整批撤销用）.
+/// schema v1 transactions（金额分/时间戳/类目/备注/来源）；v6 +importBatchId（SB-011，可空，整批撤销用）.
 class Transactions extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get amountFen => integer()();
@@ -27,9 +27,7 @@ class Transactions extends Table {
   IntColumn get importBatchId => integer().nullable()();
 }
 
-/// schema v2：goals（目标名/目标额分/参考单价名/参考单价分/阶梯档/达成时间）.
-/// tier/doneAt  nullable：tier 由目标额推导（goal_ladder.ladderNameFor），
-/// doneAt 待成就卡写入；当前卡只用 name/target/单价三件套.
+/// schema v2 goals（目标名/目标额分/单价名/单价分/阶梯档/达成时间；tier/doneAt 可空）.
 class Goals extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text().withLength(min: 1, max: 32)();
@@ -41,8 +39,7 @@ class Goals extends Table {
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }
 
-/// schema v3：achievements（成就收藏序列；goalId 去重由逻辑层保证）.
-/// tier 冗余目标档（ladderNameFor 推导）；unlockedAt 为达成落库时间（序列排序键）.
+/// schema v3 achievements（收藏序列；goalId 去重逻辑层保证，tier 冗余，unlockedAt 排序键）.
 class Achievements extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get goalId => integer()();
@@ -53,8 +50,7 @@ class Achievements extends Table {
   DateTimeColumn get unlockedAt => dateTime().withDefault(currentDateAndTime)();
 }
 
-/// schema v4：safety_pad（余粮配置；单行约定 id=1，targetMonths 默认 6）.
-// SB-014：表名/列名保持不动（行为零变化，无迁移授权）；用户可见文案一律"余粮".
+// SB-014：表名/列名保持不动（行为零变化）；用户可见文案一律"余粮".
 class SafetyPad extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get targetMonths => integer().withDefault(const Constant(6))();
@@ -73,8 +69,7 @@ class WeeklyReports extends Table {
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }
 
-/// schema v5：pending_records（待确认采集；notifyKey 去重由逻辑层保证）.
-/// §5 原文零留存：本表只有结构化字段，禁止新增原文列（单测断言列名）.
+/// schema v5 pending_records（待确认采集；§5 原文零留存：只有结构化字段，禁原文列）.
 class PendingRecords extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get amountFen => integer()();
@@ -86,7 +81,7 @@ class PendingRecords extends Table {
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }
 
-/// schema v6 表见 import_batch.dart；v7 见 budget_store.dart；v8 见 estimate_store.dart.
+/// schema v6 表见 import_batch.dart；v7 见 budget_store.dart；v8 见 estimate_store.dart；v9 见 cooloff_store.dart.
 @DriftDatabase(
   tables: [
     Transactions,
@@ -99,6 +94,8 @@ class PendingRecords extends Table {
     Budgets,
     DailyCloses,
     ClosePrefs,
+    Cooloffs,
+    CooloffPrefs,
   ],
 )
 class AppDb extends _$AppDb {
@@ -107,7 +104,6 @@ class AppDb extends _$AppDb {
   /// v1 开发期密钥（TODO: G4 前迁 Keychain/Keystore 随机密钥）.
   // ignore: constant_identifier_names
   static const String devKey = 'runway-dev-key-v1';
-
   static String pragmaFor(String key) => "PRAGMA key = '$key'";
 
   static void _setupRaw(dynamic rawDb, String key) {
@@ -152,12 +148,12 @@ class AppDb extends _$AppDb {
   }
 
   @override
-  int get schemaVersion => 8;
+  int get schemaVersion => 9;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (Migrator m) => m.createAll(),
-    // v2 goals；v3 ach；v4 grain+weekly；v5 pending；v6 importbatch+列；v7 budgets；v8 dailyclose.
+    // v2 goals；v3 ach；v4 grain+weekly；v5 pending；v6 importbatch+列；v7 budgets；v8 dailyclose；v9 cooloff.
     onUpgrade: (m, from, to) async {
       if (from < 2) {
         await m.createTable(goals);
@@ -183,11 +179,14 @@ class AppDb extends _$AppDb {
         await m.createTable(dailyCloses);
         await m.createTable(closePrefs);
       }
+      if (from < 9) {
+        await m.createTable(cooloffs);
+        await m.createTable(cooloffPrefs);
+      }
     },
   );
 
-  /// v6 回滚见 import_batch_dao.dart；v7 回滚见 budget_dao.dart；v8 见 estimate_dao.dart.
-
+  /// v6 回滚见 import_batch_dao.dart；v7 见 budget_dao.dart；v8 见 estimate_dao.dart；v9 见 cooloff_dao.dart.
   /// v5 回滚：删 pending_records 即回 v4（开发期用）.
   Future<void> rollbackPendingToV4() async {
     await customStatement('DROP TABLE IF EXISTS pending_records');

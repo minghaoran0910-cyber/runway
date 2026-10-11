@@ -4169,6 +4169,698 @@ class ClosePrefsCompanion extends UpdateCompanion<ClosePref> {
   }
 }
 
+class $CooloffsTable extends Cooloffs with TableInfo<$CooloffsTable, Cooloff> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CooloffsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _txIdMeta = const VerificationMeta('txId');
+  @override
+  late final GeneratedColumn<int> txId = GeneratedColumn<int>(
+    'tx_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _amountFenMeta = const VerificationMeta(
+    'amountFen',
+  );
+  @override
+  late final GeneratedColumn<int> amountFen = GeneratedColumn<int>(
+    'amount_fen',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _proposedAtMeta = const VerificationMeta(
+    'proposedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> proposedAt = GeneratedColumn<DateTime>(
+    'proposed_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('pending'),
+  );
+  static const VerificationMeta _decidedAtMeta = const VerificationMeta(
+    'decidedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> decidedAt = GeneratedColumn<DateTime>(
+    'decided_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    txId,
+    amountFen,
+    proposedAt,
+    status,
+    decidedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'cooloffs';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Cooloff> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('tx_id')) {
+      context.handle(
+        _txIdMeta,
+        txId.isAcceptableOrUnknown(data['tx_id']!, _txIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_txIdMeta);
+    }
+    if (data.containsKey('amount_fen')) {
+      context.handle(
+        _amountFenMeta,
+        amountFen.isAcceptableOrUnknown(data['amount_fen']!, _amountFenMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_amountFenMeta);
+    }
+    if (data.containsKey('proposed_at')) {
+      context.handle(
+        _proposedAtMeta,
+        proposedAt.isAcceptableOrUnknown(data['proposed_at']!, _proposedAtMeta),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('decided_at')) {
+      context.handle(
+        _decidedAtMeta,
+        decidedAt.isAcceptableOrUnknown(data['decided_at']!, _decidedAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Cooloff map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Cooloff(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      txId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tx_id'],
+      )!,
+      amountFen: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}amount_fen'],
+      )!,
+      proposedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}proposed_at'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      decidedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}decided_at'],
+      ),
+    );
+  }
+
+  @override
+  $CooloffsTable createAlias(String alias) {
+    return $CooloffsTable(attachedDatabase, alias);
+  }
+}
+
+class Cooloff extends DataClass implements Insertable<Cooloff> {
+  final int id;
+  final int txId;
+  final int amountFen;
+  final DateTime proposedAt;
+  final String status;
+  final DateTime? decidedAt;
+  const Cooloff({
+    required this.id,
+    required this.txId,
+    required this.amountFen,
+    required this.proposedAt,
+    required this.status,
+    this.decidedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['tx_id'] = Variable<int>(txId);
+    map['amount_fen'] = Variable<int>(amountFen);
+    map['proposed_at'] = Variable<DateTime>(proposedAt);
+    map['status'] = Variable<String>(status);
+    if (!nullToAbsent || decidedAt != null) {
+      map['decided_at'] = Variable<DateTime>(decidedAt);
+    }
+    return map;
+  }
+
+  CooloffsCompanion toCompanion(bool nullToAbsent) {
+    return CooloffsCompanion(
+      id: Value(id),
+      txId: Value(txId),
+      amountFen: Value(amountFen),
+      proposedAt: Value(proposedAt),
+      status: Value(status),
+      decidedAt: decidedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(decidedAt),
+    );
+  }
+
+  factory Cooloff.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Cooloff(
+      id: serializer.fromJson<int>(json['id']),
+      txId: serializer.fromJson<int>(json['txId']),
+      amountFen: serializer.fromJson<int>(json['amountFen']),
+      proposedAt: serializer.fromJson<DateTime>(json['proposedAt']),
+      status: serializer.fromJson<String>(json['status']),
+      decidedAt: serializer.fromJson<DateTime?>(json['decidedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'txId': serializer.toJson<int>(txId),
+      'amountFen': serializer.toJson<int>(amountFen),
+      'proposedAt': serializer.toJson<DateTime>(proposedAt),
+      'status': serializer.toJson<String>(status),
+      'decidedAt': serializer.toJson<DateTime?>(decidedAt),
+    };
+  }
+
+  Cooloff copyWith({
+    int? id,
+    int? txId,
+    int? amountFen,
+    DateTime? proposedAt,
+    String? status,
+    Value<DateTime?> decidedAt = const Value.absent(),
+  }) => Cooloff(
+    id: id ?? this.id,
+    txId: txId ?? this.txId,
+    amountFen: amountFen ?? this.amountFen,
+    proposedAt: proposedAt ?? this.proposedAt,
+    status: status ?? this.status,
+    decidedAt: decidedAt.present ? decidedAt.value : this.decidedAt,
+  );
+  Cooloff copyWithCompanion(CooloffsCompanion data) {
+    return Cooloff(
+      id: data.id.present ? data.id.value : this.id,
+      txId: data.txId.present ? data.txId.value : this.txId,
+      amountFen: data.amountFen.present ? data.amountFen.value : this.amountFen,
+      proposedAt: data.proposedAt.present
+          ? data.proposedAt.value
+          : this.proposedAt,
+      status: data.status.present ? data.status.value : this.status,
+      decidedAt: data.decidedAt.present ? data.decidedAt.value : this.decidedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Cooloff(')
+          ..write('id: $id, ')
+          ..write('txId: $txId, ')
+          ..write('amountFen: $amountFen, ')
+          ..write('proposedAt: $proposedAt, ')
+          ..write('status: $status, ')
+          ..write('decidedAt: $decidedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, txId, amountFen, proposedAt, status, decidedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Cooloff &&
+          other.id == this.id &&
+          other.txId == this.txId &&
+          other.amountFen == this.amountFen &&
+          other.proposedAt == this.proposedAt &&
+          other.status == this.status &&
+          other.decidedAt == this.decidedAt);
+}
+
+class CooloffsCompanion extends UpdateCompanion<Cooloff> {
+  final Value<int> id;
+  final Value<int> txId;
+  final Value<int> amountFen;
+  final Value<DateTime> proposedAt;
+  final Value<String> status;
+  final Value<DateTime?> decidedAt;
+  const CooloffsCompanion({
+    this.id = const Value.absent(),
+    this.txId = const Value.absent(),
+    this.amountFen = const Value.absent(),
+    this.proposedAt = const Value.absent(),
+    this.status = const Value.absent(),
+    this.decidedAt = const Value.absent(),
+  });
+  CooloffsCompanion.insert({
+    this.id = const Value.absent(),
+    required int txId,
+    required int amountFen,
+    this.proposedAt = const Value.absent(),
+    this.status = const Value.absent(),
+    this.decidedAt = const Value.absent(),
+  }) : txId = Value(txId),
+       amountFen = Value(amountFen);
+  static Insertable<Cooloff> custom({
+    Expression<int>? id,
+    Expression<int>? txId,
+    Expression<int>? amountFen,
+    Expression<DateTime>? proposedAt,
+    Expression<String>? status,
+    Expression<DateTime>? decidedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (txId != null) 'tx_id': txId,
+      if (amountFen != null) 'amount_fen': amountFen,
+      if (proposedAt != null) 'proposed_at': proposedAt,
+      if (status != null) 'status': status,
+      if (decidedAt != null) 'decided_at': decidedAt,
+    });
+  }
+
+  CooloffsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? txId,
+    Value<int>? amountFen,
+    Value<DateTime>? proposedAt,
+    Value<String>? status,
+    Value<DateTime?>? decidedAt,
+  }) {
+    return CooloffsCompanion(
+      id: id ?? this.id,
+      txId: txId ?? this.txId,
+      amountFen: amountFen ?? this.amountFen,
+      proposedAt: proposedAt ?? this.proposedAt,
+      status: status ?? this.status,
+      decidedAt: decidedAt ?? this.decidedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (txId.present) {
+      map['tx_id'] = Variable<int>(txId.value);
+    }
+    if (amountFen.present) {
+      map['amount_fen'] = Variable<int>(amountFen.value);
+    }
+    if (proposedAt.present) {
+      map['proposed_at'] = Variable<DateTime>(proposedAt.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (decidedAt.present) {
+      map['decided_at'] = Variable<DateTime>(decidedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CooloffsCompanion(')
+          ..write('id: $id, ')
+          ..write('txId: $txId, ')
+          ..write('amountFen: $amountFen, ')
+          ..write('proposedAt: $proposedAt, ')
+          ..write('status: $status, ')
+          ..write('decidedAt: $decidedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $CooloffPrefsTable extends CooloffPrefs
+    with TableInfo<$CooloffPrefsTable, CooloffPref> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CooloffPrefsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _enabledMeta = const VerificationMeta(
+    'enabled',
+  );
+  @override
+  late final GeneratedColumn<bool> enabled = GeneratedColumn<bool>(
+    'enabled',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("enabled" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _customFenMeta = const VerificationMeta(
+    'customFen',
+  );
+  @override
+  late final GeneratedColumn<int> customFen = GeneratedColumn<int>(
+    'custom_fen',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, enabled, customFen, updatedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'cooloff_prefs';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CooloffPref> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('enabled')) {
+      context.handle(
+        _enabledMeta,
+        enabled.isAcceptableOrUnknown(data['enabled']!, _enabledMeta),
+      );
+    }
+    if (data.containsKey('custom_fen')) {
+      context.handle(
+        _customFenMeta,
+        customFen.isAcceptableOrUnknown(data['custom_fen']!, _customFenMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CooloffPref map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CooloffPref(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      enabled: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}enabled'],
+      )!,
+      customFen: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}custom_fen'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $CooloffPrefsTable createAlias(String alias) {
+    return $CooloffPrefsTable(attachedDatabase, alias);
+  }
+}
+
+class CooloffPref extends DataClass implements Insertable<CooloffPref> {
+  final int id;
+  final bool enabled;
+  final int customFen;
+  final DateTime updatedAt;
+  const CooloffPref({
+    required this.id,
+    required this.enabled,
+    required this.customFen,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['enabled'] = Variable<bool>(enabled);
+    map['custom_fen'] = Variable<int>(customFen);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  CooloffPrefsCompanion toCompanion(bool nullToAbsent) {
+    return CooloffPrefsCompanion(
+      id: Value(id),
+      enabled: Value(enabled),
+      customFen: Value(customFen),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory CooloffPref.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CooloffPref(
+      id: serializer.fromJson<int>(json['id']),
+      enabled: serializer.fromJson<bool>(json['enabled']),
+      customFen: serializer.fromJson<int>(json['customFen']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'enabled': serializer.toJson<bool>(enabled),
+      'customFen': serializer.toJson<int>(customFen),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  CooloffPref copyWith({
+    int? id,
+    bool? enabled,
+    int? customFen,
+    DateTime? updatedAt,
+  }) => CooloffPref(
+    id: id ?? this.id,
+    enabled: enabled ?? this.enabled,
+    customFen: customFen ?? this.customFen,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  CooloffPref copyWithCompanion(CooloffPrefsCompanion data) {
+    return CooloffPref(
+      id: data.id.present ? data.id.value : this.id,
+      enabled: data.enabled.present ? data.enabled.value : this.enabled,
+      customFen: data.customFen.present ? data.customFen.value : this.customFen,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CooloffPref(')
+          ..write('id: $id, ')
+          ..write('enabled: $enabled, ')
+          ..write('customFen: $customFen, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, enabled, customFen, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CooloffPref &&
+          other.id == this.id &&
+          other.enabled == this.enabled &&
+          other.customFen == this.customFen &&
+          other.updatedAt == this.updatedAt);
+}
+
+class CooloffPrefsCompanion extends UpdateCompanion<CooloffPref> {
+  final Value<int> id;
+  final Value<bool> enabled;
+  final Value<int> customFen;
+  final Value<DateTime> updatedAt;
+  const CooloffPrefsCompanion({
+    this.id = const Value.absent(),
+    this.enabled = const Value.absent(),
+    this.customFen = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  CooloffPrefsCompanion.insert({
+    this.id = const Value.absent(),
+    this.enabled = const Value.absent(),
+    this.customFen = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  static Insertable<CooloffPref> custom({
+    Expression<int>? id,
+    Expression<bool>? enabled,
+    Expression<int>? customFen,
+    Expression<DateTime>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (enabled != null) 'enabled': enabled,
+      if (customFen != null) 'custom_fen': customFen,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  CooloffPrefsCompanion copyWith({
+    Value<int>? id,
+    Value<bool>? enabled,
+    Value<int>? customFen,
+    Value<DateTime>? updatedAt,
+  }) {
+    return CooloffPrefsCompanion(
+      id: id ?? this.id,
+      enabled: enabled ?? this.enabled,
+      customFen: customFen ?? this.customFen,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (enabled.present) {
+      map['enabled'] = Variable<bool>(enabled.value);
+    }
+    if (customFen.present) {
+      map['custom_fen'] = Variable<int>(customFen.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CooloffPrefsCompanion(')
+          ..write('id: $id, ')
+          ..write('enabled: $enabled, ')
+          ..write('customFen: $customFen, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDb extends GeneratedDatabase {
   _$AppDb(QueryExecutor e) : super(e);
   $AppDbManager get managers => $AppDbManager(this);
@@ -4182,6 +4874,8 @@ abstract class _$AppDb extends GeneratedDatabase {
   late final $BudgetsTable budgets = $BudgetsTable(this);
   late final $DailyClosesTable dailyCloses = $DailyClosesTable(this);
   late final $ClosePrefsTable closePrefs = $ClosePrefsTable(this);
+  late final $CooloffsTable cooloffs = $CooloffsTable(this);
+  late final $CooloffPrefsTable cooloffPrefs = $CooloffPrefsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -4197,6 +4891,8 @@ abstract class _$AppDb extends GeneratedDatabase {
     budgets,
     dailyCloses,
     closePrefs,
+    cooloffs,
+    cooloffPrefs,
   ];
 }
 
@@ -6446,6 +7142,404 @@ typedef $$ClosePrefsTableProcessedTableManager =
       ClosePref,
       PrefetchHooks Function()
     >;
+typedef $$CooloffsTableCreateCompanionBuilder =
+    CooloffsCompanion Function({
+      Value<int> id,
+      required int txId,
+      required int amountFen,
+      Value<DateTime> proposedAt,
+      Value<String> status,
+      Value<DateTime?> decidedAt,
+    });
+typedef $$CooloffsTableUpdateCompanionBuilder =
+    CooloffsCompanion Function({
+      Value<int> id,
+      Value<int> txId,
+      Value<int> amountFen,
+      Value<DateTime> proposedAt,
+      Value<String> status,
+      Value<DateTime?> decidedAt,
+    });
+
+class $$CooloffsTableFilterComposer extends Composer<_$AppDb, $CooloffsTable> {
+  $$CooloffsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get txId => $composableBuilder(
+    column: $table.txId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get amountFen => $composableBuilder(
+    column: $table.amountFen,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get proposedAt => $composableBuilder(
+    column: $table.proposedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get decidedAt => $composableBuilder(
+    column: $table.decidedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CooloffsTableOrderingComposer
+    extends Composer<_$AppDb, $CooloffsTable> {
+  $$CooloffsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get txId => $composableBuilder(
+    column: $table.txId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get amountFen => $composableBuilder(
+    column: $table.amountFen,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get proposedAt => $composableBuilder(
+    column: $table.proposedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get decidedAt => $composableBuilder(
+    column: $table.decidedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CooloffsTableAnnotationComposer
+    extends Composer<_$AppDb, $CooloffsTable> {
+  $$CooloffsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get txId =>
+      $composableBuilder(column: $table.txId, builder: (column) => column);
+
+  GeneratedColumn<int> get amountFen =>
+      $composableBuilder(column: $table.amountFen, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get proposedAt => $composableBuilder(
+    column: $table.proposedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get decidedAt =>
+      $composableBuilder(column: $table.decidedAt, builder: (column) => column);
+}
+
+class $$CooloffsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $CooloffsTable,
+          Cooloff,
+          $$CooloffsTableFilterComposer,
+          $$CooloffsTableOrderingComposer,
+          $$CooloffsTableAnnotationComposer,
+          $$CooloffsTableCreateCompanionBuilder,
+          $$CooloffsTableUpdateCompanionBuilder,
+          (Cooloff, BaseReferences<_$AppDb, $CooloffsTable, Cooloff>),
+          Cooloff,
+          PrefetchHooks Function()
+        > {
+  $$CooloffsTableTableManager(_$AppDb db, $CooloffsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CooloffsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CooloffsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CooloffsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> txId = const Value.absent(),
+                Value<int> amountFen = const Value.absent(),
+                Value<DateTime> proposedAt = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime?> decidedAt = const Value.absent(),
+              }) => CooloffsCompanion(
+                id: id,
+                txId: txId,
+                amountFen: amountFen,
+                proposedAt: proposedAt,
+                status: status,
+                decidedAt: decidedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int txId,
+                required int amountFen,
+                Value<DateTime> proposedAt = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime?> decidedAt = const Value.absent(),
+              }) => CooloffsCompanion.insert(
+                id: id,
+                txId: txId,
+                amountFen: amountFen,
+                proposedAt: proposedAt,
+                status: status,
+                decidedAt: decidedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$CooloffsTable, Cooloff>(table),
+                  BaseReferences<_$AppDb, $CooloffsTable, Cooloff>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CooloffsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $CooloffsTable,
+      Cooloff,
+      $$CooloffsTableFilterComposer,
+      $$CooloffsTableOrderingComposer,
+      $$CooloffsTableAnnotationComposer,
+      $$CooloffsTableCreateCompanionBuilder,
+      $$CooloffsTableUpdateCompanionBuilder,
+      (Cooloff, BaseReferences<_$AppDb, $CooloffsTable, Cooloff>),
+      Cooloff,
+      PrefetchHooks Function()
+    >;
+typedef $$CooloffPrefsTableCreateCompanionBuilder =
+    CooloffPrefsCompanion Function({
+      Value<int> id,
+      Value<bool> enabled,
+      Value<int> customFen,
+      Value<DateTime> updatedAt,
+    });
+typedef $$CooloffPrefsTableUpdateCompanionBuilder =
+    CooloffPrefsCompanion Function({
+      Value<int> id,
+      Value<bool> enabled,
+      Value<int> customFen,
+      Value<DateTime> updatedAt,
+    });
+
+class $$CooloffPrefsTableFilterComposer
+    extends Composer<_$AppDb, $CooloffPrefsTable> {
+  $$CooloffPrefsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get enabled => $composableBuilder(
+    column: $table.enabled,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get customFen => $composableBuilder(
+    column: $table.customFen,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CooloffPrefsTableOrderingComposer
+    extends Composer<_$AppDb, $CooloffPrefsTable> {
+  $$CooloffPrefsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get enabled => $composableBuilder(
+    column: $table.enabled,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get customFen => $composableBuilder(
+    column: $table.customFen,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CooloffPrefsTableAnnotationComposer
+    extends Composer<_$AppDb, $CooloffPrefsTable> {
+  $$CooloffPrefsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<bool> get enabled =>
+      $composableBuilder(column: $table.enabled, builder: (column) => column);
+
+  GeneratedColumn<int> get customFen =>
+      $composableBuilder(column: $table.customFen, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$CooloffPrefsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $CooloffPrefsTable,
+          CooloffPref,
+          $$CooloffPrefsTableFilterComposer,
+          $$CooloffPrefsTableOrderingComposer,
+          $$CooloffPrefsTableAnnotationComposer,
+          $$CooloffPrefsTableCreateCompanionBuilder,
+          $$CooloffPrefsTableUpdateCompanionBuilder,
+          (
+            CooloffPref,
+            BaseReferences<_$AppDb, $CooloffPrefsTable, CooloffPref>,
+          ),
+          CooloffPref,
+          PrefetchHooks Function()
+        > {
+  $$CooloffPrefsTableTableManager(_$AppDb db, $CooloffPrefsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CooloffPrefsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CooloffPrefsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CooloffPrefsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<bool> enabled = const Value.absent(),
+                Value<int> customFen = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+              }) => CooloffPrefsCompanion(
+                id: id,
+                enabled: enabled,
+                customFen: customFen,
+                updatedAt: updatedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<bool> enabled = const Value.absent(),
+                Value<int> customFen = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+              }) => CooloffPrefsCompanion.insert(
+                id: id,
+                enabled: enabled,
+                customFen: customFen,
+                updatedAt: updatedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$CooloffPrefsTable, CooloffPref>(table),
+                  BaseReferences<_$AppDb, $CooloffPrefsTable, CooloffPref>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CooloffPrefsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $CooloffPrefsTable,
+      CooloffPref,
+      $$CooloffPrefsTableFilterComposer,
+      $$CooloffPrefsTableOrderingComposer,
+      $$CooloffPrefsTableAnnotationComposer,
+      $$CooloffPrefsTableCreateCompanionBuilder,
+      $$CooloffPrefsTableUpdateCompanionBuilder,
+      (CooloffPref, BaseReferences<_$AppDb, $CooloffPrefsTable, CooloffPref>),
+      CooloffPref,
+      PrefetchHooks Function()
+    >;
 
 class $AppDbManager {
   final _$AppDb _db;
@@ -6470,4 +7564,8 @@ class $AppDbManager {
       $$DailyClosesTableTableManager(_db, _db.dailyCloses);
   $$ClosePrefsTableTableManager get closePrefs =>
       $$ClosePrefsTableTableManager(_db, _db.closePrefs);
+  $$CooloffsTableTableManager get cooloffs =>
+      $$CooloffsTableTableManager(_db, _db.cooloffs);
+  $$CooloffPrefsTableTableManager get cooloffPrefs =>
+      $$CooloffPrefsTableTableManager(_db, _db.cooloffPrefs);
 }
