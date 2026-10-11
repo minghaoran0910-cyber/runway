@@ -10,6 +10,7 @@ import '../logic/entry.dart';
 import '../logic/role_resolver.dart';
 import 'theme/app_theme.dart';
 import 'theme/tokens.dart';
+import 'price_card.dart';
 
 // SB-005 · 类目管理页（规则引擎落地页：其他占比 + 六类目合计 + 手工纠正回写入口）.
 // SB-019 · 角色轴：头部本月弹性占比（首页不放）+ 每类目角色三选（编辑必选，未选必提示）
@@ -314,6 +315,8 @@ class CategoryPage extends StatelessWidget {
                           );
                         },
                       ),
+                    // SB-020 · 常买价格眼同区（无 ≥3 条同键即零高度，旧 golden 零改动）.
+                    PriceZone(db: db),
                   ],
                 );
               },

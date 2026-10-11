@@ -5,6 +5,9 @@ import 'package:runway/ui/quick_add_page.dart';
 import 'package:runway/ui/widgets/amount_keyboard.dart';
 
 // SB-004 · widget 测试：键盘输入→保存流（内存库合成数据）.
+// drift watch 流说明见 widget_test.dart 文件头：SB-020 起 QuickAdd 含 PriceHint
+// 流订阅（有备注时），故本文件遵循全仓统一口径——不调 db.close（内存库随进程
+// 退出释放），测末 unmount + 多 pump 消化零时长 Timer；断言语义零改动.
 
 Widget _wrap(AppDb db) {
   return MaterialApp(home: QuickAddPage(db: db));
@@ -35,11 +38,19 @@ void _largeViewport(WidgetTester tester) {
   addTearDown(tester.view.resetPhysicalSize);
 }
 
+Future<void> _unmountAndFlush(WidgetTester tester) async {
+  await tester.pumpWidget(Container());
+  await tester.pump();
+  await tester.pump(const Duration(milliseconds: 100));
+  await tester.pump();
+  await tester.pump(const Duration(milliseconds: 100));
+  await tester.pump();
+}
+
 void main() {
   testWidgets('SB-004 键盘输入 12.34 并保存落库', (WidgetTester tester) async {
     _largeViewport(tester);
     final AppDb db = AppDb.memoryForTest();
-    addTearDown(db.close);
 
     await tester.pumpWidget(_wrap(db));
     await tester.pumpAndSettle();
@@ -57,12 +68,13 @@ void main() {
     expect(rows.length, 1);
     expect(rows.first.amountFen, 1234);
     expect(rows.first.category, '餐饮');
+
+    await _unmountAndFlush(tester);
   });
 
   testWidgets('SB-004 金额为 0 时拦截并提示', (WidgetTester tester) async {
     _largeViewport(tester);
     final AppDb db = AppDb.memoryForTest();
-    addTearDown(db.close);
 
     await tester.pumpWidget(_wrap(db));
     await tester.pumpAndSettle();
@@ -73,12 +85,13 @@ void main() {
 
     expect(find.byKey(const Key('amountError')), findsOneWidget);
     expect(await db.listAll(), isEmpty);
+
+    await _unmountAndFlush(tester);
   });
 
   testWidgets('SB-004 切换类目后保存带新类目', (WidgetTester tester) async {
     _largeViewport(tester);
     final AppDb db = AppDb.memoryForTest();
-    addTearDown(db.close);
 
     await tester.pumpWidget(_wrap(db));
     await tester.pumpAndSettle();
@@ -93,5 +106,7 @@ void main() {
     expect(rows.length, 1);
     expect(rows.first.amountFen, 5000);
     expect(rows.first.category, '交通');
+
+    await _unmountAndFlush(tester);
   });
 }

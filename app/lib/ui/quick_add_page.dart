@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/app_db.dart';
 import '../../logic/entry.dart';
+import '../../logic/price_watch.dart';
 import 'theme/app_theme.dart';
 import 'theme/motion_spec.dart';
 import 'theme/tokens.dart';
@@ -130,6 +131,52 @@ class _QuickAddPageState extends State<QuickAddPage> {
                 border: OutlineInputBorder(),
               ),
               maxLength: 200,
+              onChanged: (_) => setState(() {}),
+            ),
+            // SB-020 · 常买提示：同键≥3 条才现身（中性小字，只陈述，无说教）.
+            // 无键（备注空）时不建 StreamBuilder、不订阅 watchAll：
+            // 空态持流会在 widget 测试 teardown 触发 drift 零时长 Timer
+            // pending（见 widget_test.dart 头注），且生产侧亦省一次订阅.
+            Builder(
+              builder: (BuildContext bctx) {
+                final String? priceKey = priceKeyFor(
+                  category: _category,
+                  note: _note.text,
+                );
+                if (priceKey == null) return const SizedBox.shrink();
+                return StreamBuilder<List<Transaction>>(
+                  stream: widget.db.watchAll(),
+                  builder: (BuildContext pctx, AsyncSnapshot<List<Transaction>> psnap) {
+                    final List<Transaction> rows =
+                        psnap.data ?? <Transaction>[];
+                    final Map<String, PriceStats> all = summarizeAll(
+                      rows
+                          .map(
+                            (Transaction r) => (
+                              category: r.category,
+                              note: r.note,
+                              amountFen: r.amountFen,
+                            ),
+                          )
+                          .toList(),
+                    );
+                    final PriceStats? stats = all[priceKey];
+                    if (stats == null) return const SizedBox.shrink();
+                    final int? cur = parseAmountToFen(_amount);
+                    final String tail = cur == null
+                        ? '共 ${stats.count} 笔'
+                        : '共 ${stats.count} 笔 · 这次${describeVsAvg(currentFen: cur, avgFen: stats.avgFen)}';
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(
+                        '常买均价 ${formatFen(stats.avgFen)} · 最低 ${formatFen(stats.minFen)} · $tail',
+                        style: Theme.of(pctx).textTheme.bodySmall,
+                        key: const Key('priceHint'),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
             const SizedBox(height: 8),
             AmountKeyboard(

@@ -9,6 +9,7 @@ import 'achievement_gate.dart';
 import 'achievements_page.dart';
 import 'dashboard_cards.dart';
 import 'goal_card.dart';
+import 'goal_price_follow.dart';
 import 'grain_card.dart';
 import 'weekly_page.dart';
 import 'theme/app_theme.dart';
@@ -31,6 +32,7 @@ class GoalPage extends StatelessWidget {
       context: context,
       builder: (BuildContext ctx) => _GoalDialog(
         goal: goal,
+        db: db,
         onSave: (BuildContext dctx, _GoalForm form) async {
           await _saveDialog(dctx, form, goal);
           if (dctx.mounted) Navigator.of(dctx).pop(true);
@@ -248,13 +250,17 @@ class _GoalForm {
   int? targetFen;
   String priceName = '奶茶';
   int? priceFen = 1800;
+  String followKey = '';
 }
 
 /// 目标设定对话框（名称/目标额/参考单价；内置单价 chips 一键填入，可自定义改）.
+/// SB-020 · 常买跟随（可选）：填"类目｜备注"键取中位数填入单价；
+/// 填入后仍可手改，手改即锁定优先；换算引擎零改动（复用 SB-007）.
 class _GoalDialog extends StatefulWidget {
-  const _GoalDialog({this.goal, this.onSave});
+  const _GoalDialog({this.goal, this.db, this.onSave});
 
   final Goal? goal;
+  final AppDb? db;
   final Future<void> Function(BuildContext ctx, _GoalForm form)? onSave;
 
   @override
@@ -344,6 +350,16 @@ class _GoalDialogState extends State<_GoalDialog> {
                 decimal: true,
               ),
               key: const Key('goalPrice'),
+            ),
+            const SizedBox(height: 8),
+            GoalFollowField(
+              db: widget.db,
+              onPick: (int medianFen, String noteName) {
+                setState(() {
+                  _price.text = formatFen(medianFen);
+                  _priceName.text = noteName;
+                });
+              },
             ),
           ],
         ),

@@ -7,6 +7,8 @@ import 'package:runway/ui/theme/tokens.dart';
 
 // SB-004 Golden：记一笔页 Light/Dark 各一，基线 golden/sb004/.
 // 生成：cd app && flutter test --update-goldens test/golden_quick_add_test.dart
+// drift watch 流说明见 widget_test.dart 文件头：SB-020 起 QuickAdd 含 PriceHint
+// 流订阅（有备注时），空态虽不订阅仍统一用 unmount 消化口径，不调 db.close.
 
 class QuickAddBoard extends StatelessWidget {
   const QuickAddBoard({super.key, required this.isDark, required this.db});
@@ -26,26 +28,35 @@ class QuickAddBoard extends StatelessWidget {
 }
 
 void main() {
+  Future<void> unmountAndFlush(WidgetTester tester) async {
+    await tester.pumpWidget(Container());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.pump();
+  }
+
   testWidgets('SB-004 golden quick-add light', (WidgetTester tester) async {
     final AppDb db = AppDb.memoryForTest();
-    addTearDown(db.close);
     await tester.pumpWidget(QuickAddBoard(isDark: false, db: db));
     await tester.pumpAndSettle();
     await expectLater(
       find.byType(QuickAddBoard),
       matchesGoldenFile('../../golden/sb004/quick_add_light.png'),
     );
+    await unmountAndFlush(tester);
   });
 
   testWidgets('SB-004 golden quick-add dark', (WidgetTester tester) async {
     final AppDb db = AppDb.memoryForTest();
-    addTearDown(db.close);
     await tester.pumpWidget(QuickAddBoard(isDark: true, db: db));
     await tester.pumpAndSettle();
     await expectLater(
       find.byType(QuickAddBoard),
       matchesGoldenFile('../../golden/sb004/quick_add_dark.png'),
     );
+    await unmountAndFlush(tester);
   });
 
   test('SB-004 对比度闸门（记账页文字组合）', () {
