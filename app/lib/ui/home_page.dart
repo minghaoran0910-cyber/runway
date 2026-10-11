@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../data/app_db.dart';
 import '../logic/dashboard_stats.dart';
 import '../logic/entry.dart';
+import 'budget_card.dart';
 import 'category_page.dart';
 import 'cooloff_card.dart';
 import 'daily_close_sheet.dart';
@@ -176,6 +177,10 @@ class HomePage extends StatelessWidget {
                         const SizedBox(height: RunwaySpacing.section),
                         // SB-018 · 月度小实验同区（冷静之后；7 天打卡，断卡不罚）.
                         ExperimentZone(db: db),
+                        const SizedBox(height: RunwaySpacing.section),
+                        // SB-012 · 预算卡上首页（周报页 BudgetZone 保留；
+                        // 口径/禁词/换算零改，仅换宿主位，复用同一 BudgetZone）.
+                        BudgetZone(db: db, rows: rows),
                         const SizedBox(height: RunwaySpacing.section),
                         if (rows.isEmpty)
                           Padding(
