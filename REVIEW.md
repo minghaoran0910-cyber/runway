@@ -194,3 +194,35 @@ R4 计数: SB-020 累计 REQUEST_CHANGES=1（第 1 轮）；本轮 PASS 未触�
 - D2 已结案（浩然裁 A@43da399），无遗留灰区
 - 利益点自省：静默轮零动作；v3 返工方向延续更近（计数维持×5），无 SilentBook 旧病同构
 漂移与一致性审计一行: 禁词五词命中=仅 cooloff_test:181/experiment_test:148 测试禁词断言清单本体（基线，产品文案零新增）；theme/motion 外裸 Color(0x=0、裸 Duration=0；美团|工资|房贷=0；_LOCK=0；remote=0；done/=19 卡真实 git mv；main 头 43da399↔REVIEW 尾部监工票条目对应✓；feat 残留=仅在飞 SB-022（审中合规）；task_plan 未据其判进度；progress.md 唯一真相✓。
+
+# REVIEW — 2026-10-11 23:5x 轮 · SB-022 第 2 轮（监工独立实测 · v3 返工应答）
+结论: PASS（第 2 轮 · 卡 SB-022；R4 累计=1 [第1轮规范变更不计轮 d3edd0f]，本轮 PASS 无熔断）
+
+触发核查（真实回显）: REQ mtime 1791732108 > REVIEW 1791731730；feat@437a5fd+24a80ec 应答 RC 清单 1~5 提审；main@cf7a646 系 feat 祖先实测 YES；工作树净 0 行；REQ 无 WAITING_HUMAN（grep=0）。
+
+检查项（监工在 feat 独立实跑，非转述 builder 声明）:
+- [x] RC1 负结余打趣三段全落地（week_warm.dart 150 行全文实读）：overspendHeadline『虽然今天多花了 ¥X』X=|saved| 走 formatFen 实读；pickJoyNotes=当日弹性+source≠estimate+note 非空、金额倒序≤2 笔原样引用（单测 17 例含单笔/合并/估算排除/空备注排除，实跑绿）；三级退档链：点名句→通用交代句『但该交的都交上了，日子在稳稳过』（编造防护单测实跑：房租/水电/奶茶/霸王茶姬 四词零命中）→『但账记明白了』；犒劳句『周中了犒劳犒劳自己吧。工作辛苦了。明天努力💪』零感叹号单测锁实跑绿
+- [x] 『今天攒 0』负结余禁用：widget 实测 findsNothing@负结余 + findsOneWidget@恰零；golden 负结余双态 overspend_light/dark 新建实存（golden/sb022 四图）
+- [x] RC2 禁词修正：多花/多花了移出扩展集（翻转断言实跑绿）、浪费增补保留+成就表 `same()` 锁实跑绿（零触碰）、负结余文案全量扫描禁词零命中（golden 测试实跑绿）
+- [x] RC3 透传：TodaySavedRow joyRows/roleOverrides 默认空（直构调用方零改）；saved>0 与 saved==0 路径 diff 实读零改（仅新增 saved<0 分支）；DailyCloseZone 当日快照闭包外一次组装（dateKeyFor 同自然日口径实读）、D2 含估算=todayCount: today.length 零改（浩然裁 A 执行✓）
+- [x] RC4 golden：zero 双图字节零差实测（diff 8cb9865..437a5fd golden/sb022 zero=0 行）
+- [x] 文件约束实测：代码 5 文件 ≤10（wc：week_warm 150/today_saved_row 126/daily_close_sheet 397/week_warm_test 202/golden_zero_day_test 254，最大 397≤400）；无 pubspec；main..feat=15 文件（5 代码+REQ+progress+8 png）
+- [x] 闸门独立复跑：全量 `flutter test` **409/409 All tests passed exit=0**（17s 无挂死；REQ 声明 398+11=409 与实测一致）；week_warm+golden_zero_day 两文件 29 例单独实跑绿；`dart format --output=none --set-exit-if-changed .` EXIT=0；`flutter analyze --fatal-infos --fatal-warnings` No issues；`tool/check-repo-hygiene.sh` OK
+- [x] 红线：remote=0；_LOCK=0；美团|工资|房贷=0（测试全合成数据）；真实账目=0
+
+边界裁决（规则10，decision_evaluate typesafe/jev-1.13-20260917 status=ok）:
+- G1 偏差①（sb016 done×2/sb006 data×2 免重生成，对照实验口径替代 RC 字面『将再次重生成』）：决策 p=0.64 **灰区=留浩然拍板**——监工核验链：diff 8cb9865..437a5fd 两目录=0 行（本轮确未重生成声明属实）+ 全量 golden 实测绿（现存基线与 v3 渲染零像素差实证）+ saved>=0 渲染路径实读一字未动；『将重生成』系监工条款预判，预判证伪则字面义务消解——监工按其余证据判 PASS 合入，**默认接受、浩然可一票否决翻案**（翻案成本=重生成四图一个 commit，代码零动不触发返工）
+- G2 偏差③（JoyRow 小类替代 record）：决策 p=0.73 **灰区**——RC/卡文只要求『当日行列表透传』未指定数据结构语法，小类系 400 行红线下等价表达（语义一致、logic 不碰 drift 分层保持）；同**默认接受可否决**
+- G3 D1 点名资格（note 空走退档）：第 1 轮已按卡判（p=0.31），本轮 builder 照判执行✓无新裁
+
+合入舞步: squash 落 main@**c581f7d**；删支前树等同核对 `git diff main feat`=**0 行**实测后方 `-D`（was 24a80ec）；卡真 `git mv` 归档 docs/tasks/done/SB-022.md（状态行=验收通过+第 2 轮审计结论已填）；progress.md 监工轮登记随本簿记 commit 落库。
+
+模拟器冒烟: **待补——本轮必做**（main 新代码头 c581f7d，last_smoke_commit=7bfe4cc 已过期；v3 一条龙 git archive 独立构建实测，结果由本轮回填段追加，快照同步更新）。
+
+漂移与一致性审计（一行·真实回显）: 禁词五词命中=基线本体 5 文件零新增；theme/motion 外裸 Color(0x=0、裸 Duration=0（app/lib 实测）；美团|工资|房贷=0；remote=0；_LOCK=0；**观察项**：app/probe.log 系 SB-020 时代 builder 探针遗留 tracked 文件（10-10 13:09 mtime，违『探针只准 _inbox/probe*.tmp』规，非本轮损伤）→P3 挂账，列周一素材㉒（下轮 builder/监工清扫轮删除）；main 头 c581f7d=本轮审结合落✓；合入后 feat 残留=0（仅 main）；task_plan 薄索引未动（未据此判进度）；progress.md 唯一真相✓。done/=20 卡真实 git mv。
+
+提示词新鲜度自审（规则8）: 巡检 message 参照『已发到 SB-022』与 docs/tasks 最高卡号一致✓（归档后待派=SB-012，G5 末卡）；wake 派发脚本 grep 卡号零硬编码✓；applicationId com.zangou.runway 冒烟口径现行✓——无需 cron edit。
+
+利益点自省: **更近×6**——多花的日子里产品不再装无事：诚实承认+把你自己的账本点名你的快乐+犒劳前瞻；情绪价值从传感器数据回流、零新增输入负担、不要自律，无 SilentBook 旧病同构（SB-017→018→019→020→022裁决→022通过）。
+
+下一步: ①冒烟一条龙实测+REVIEW 回填段+快照 last_smoke_commit→c581f7d；②wake（:15/:45）下轮应派批次末卡 **SB-012**（完成=G5·v0.1.0 冻结）；③待办卡=1≤2 →明日（周一）首轮巡检=当周卡计划+下一批提案+规范适配审查（素材⑫~㉒）；④简报含灰区 G1/G2 默认照受，浩然如有异议一票翻案（零代码成本）。
