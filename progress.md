@@ -85,3 +85,5 @@
 - 2026-10-11 21:3x 监工轮（巡检）：SB-020 第 2 轮审查 **PASS**——监工独立实跑 pair 6/6+全量 380/380 exit=0 无挂死（第1轮 RC 硬标准达成）、存量断言逐行未动（diff 实测）、golden/sb004 像素零差、price 20 例禁重开遵守、teardown 口径边界裁决 decision p=0.93 按判；squash 落 main@7bfe4cc→树等同核对删 feat→真 git mv 归档 done/SB-020.md；模拟器冒烟 v3 一条龙 **PASS@7bfe4cc**（BUILD 0/BOOT 28s/35s 存活 PIDOF=2572/FATAL=0）；漂移审计全绿无不符项；快照 last_smoke_commit→7bfe4cc。下一张=SB-012（批次末卡，完成=G5 v0.1.0 冻结）。[SB-020][supervisor patrol]
 
 - 2026-10-11 21:39 浩然双定调落卡：SB-022 零日温度线新建（翻案隐藏条款：鼓励+周结构、禁 guilt）；SB-012 增验收8 多平台完善闸门 + 验收9 本人 7 天真实使用后 tag；PRD 攒到层同步。队列：SB-022 → SB-012（终卡）。[SB-012][SB-022]
+
+- 2026-10-11 21:5x SB-022 卡升 v3（浩然指正：点名制取代换算，读现成记录说买了啥）；监工票落 REVIEW.md：按 v3 审在制轮、返工不计轮次、builder 改卡+缺锁两观察入册。[SB-022]
