@@ -34,3 +34,6 @@
 利益点自省: **更近×7**——预算线从"要点开周报才看见"变成"首页天天看见"，向想要的东西挪一步的进度可见性零新增输入成本；传感器数据（自动聚合）反哺展示位，不要自律，无 SilentBook 旧病同构。
 
 下一步: ①冒烟一条龙实测+回填；②监工本周=三端冒烟（Android 本轮＋iOS 模拟器＋Mac 原生）+六类动效双端走查清单（含验收6 可发现性定夺+sb012 golden 差异位重截）+perf --release 预估留数；③三端就绪后交浩然 7 天真人体验（验收9），断点记 CHANGELOG 销项，后验通过打 tag v0.1.0=真 G5；④grain date-rot 修复卡提请本周计划；⑤队列见底（builder 无待派卡）=周一简报向浩然出当周卡计划+下一批提案+规范适配审查（素材⑫~㉓）。
+
+## 冒烟回填 — 2026-10-12 01:1x（SB-012 合入轮必做项·监工一条龙实测）
+模拟器冒烟: **PASS @main@b218a21**（git archive 独立构建 /tmp/runway-smoke-55b04ae，监工纯读零碰工作树）：BOOT=1@28s（固定参数 -no-window -no-snapshot-load -no-audio -no-boot-anim）；BUILD_EXIT=0 ✓Built app-debug.apk 155482848B；adb install `Success`；`am start -n com.zangou.runway/.MainActivity` Starting 确认；35s 存活 PIDOF=3448；logcat FATAL EXCEPTION=0；`adb emu kill`+pkill 收口，复核进程已清。首页预算卡（BudgetZone 双宿主新挂载）随包真机渲染无崩溃=验收7 冒烟级佐证。last_smoke_commit: c581f7d→**b218a21**。本轮簿记闭环无欠账。
