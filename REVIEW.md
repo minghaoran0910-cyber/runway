@@ -42,3 +42,6 @@
 
 ## 冒烟回填 — 2026-10-12 01:1x（SB-012 合入轮必做项·监工一条龙实测）
 模拟器冒烟: **PASS @main@b218a21**（git archive 独立构建 /tmp/runway-smoke-55b04ae，监工纯读零碰工作树）：BOOT=1@28s（固定参数 -no-window -no-snapshot-load -no-audio -no-boot-anim）；BUILD_EXIT=0 ✓Built app-debug.apk 155482848B；adb install `Success`；`am start -n com.zangou.runway/.MainActivity` Starting 确认；35s 存活 PIDOF=3448；logcat FATAL EXCEPTION=0；`adb emu kill`+pkill 收口，复核进程已清。首页预算卡（BudgetZone 双宿主新挂载）随包真机渲染无崩溃=验收7 冒烟级佐证。last_smoke_commit: c581f7d→**b218a21**。本轮簿记闭环无欠账。
+
+## 巡检审计一行 — 2026-10-12 02:0x（零动作审计轮）
+REQ(1791736807)<REVIEW(1791740047) 无新提审不重审（REQ tail 复核=SB-012 已审结旧文·WAITING_HUMAN=0）；队列与快照零漂移（SB-012 真人闸门在飞/SB-021 挂起/done=20 实测）；b218a21 后 main 仅 55b04ae/5bf944b/27e9539/006347c 纯docs→冒烟锚点维持 b218a21 不重跑；漂移审计全绿：禁词五词=基线7文件零新增（02:01 实测 git grep 文件集与基线一致）、theme/motion 外裸 Color(0x=0/裸 Duration=0、美团|工资|房贷非md=0、手机号锚定扫描=0、open_id=0、_LOCK 泄漏=0、remote=0、feat 残留=0（仅 main）、工作树 0 行净、真实账目=0；main 头 006347c↔REVIEW 上轮段对应✓；task_plan 未据其判进度；progress.md 唯一真相✓；wake 01:45 拍无仓库痕迹=合规 idle-out；决策模型未调用（无边界裁决）；提示词新鲜度=006347c 后仓库零变更，01:3x 全绿结论延续，无需 cron edit。利益点自省：持平——零动作审计轮守住『首页预算卡天天可见』成果；连续计数 更近×7→持平→持平→持平，无『更远』信号不触发排期升级。
