@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 import '../data/app_db.dart';
 import '../data/budget_dao.dart';
+import '../data/experiment_dao.dart';
 import '../logic/budget.dart';
 import '../logic/dashboard_stats.dart';
+import '../logic/experiment.dart';
 import 'budget_card.dart';
 import '../logic/entry.dart';
 import '../logic/grain_report.dart';
@@ -289,6 +291,36 @@ class _WeeklyPageState extends State<WeeklyPage> {
                     // 旧 widget 断言零影响；自动给+一键改，改后省出按新基线重算）.
                     const SizedBox(height: RunwaySpacing.section),
                     BudgetZone(db: widget.db, rows: rows),
+                    // SB-018 · 实验接线（预算之后；无实验即零高度，旧像素不动）.
+                    const SizedBox(height: RunwaySpacing.section),
+                    StreamBuilder<List<Experiment>>(
+                      stream: widget.db.watchExperiments(),
+                      builder: (xctx, xsnap) {
+                        final List<Experiment> exps =
+                            xsnap.data ?? <Experiment>[];
+                        if (exps.isEmpty) return const SizedBox.shrink();
+                        int total = 0;
+                        for (final Experiment e in exps) {
+                          total += experimentSavedFen(
+                            dailySaveFen: e.dailySaveFen,
+                            checkedCount: decodeCheckIns(e.checkIns).length,
+                          );
+                        }
+                        if (total <= 0) return const SizedBox.shrink();
+                        return Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(
+                              RunwaySpacing.cardInner,
+                            ),
+                            child: Text(
+                              '实验累计省出 ${formatFen(total)}',
+                              style: theme.textTheme.bodySmall,
+                              key: const Key('weeklyExperiment'),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 );
               },

@@ -8,6 +8,7 @@ import 'category_page.dart';
 import 'cooloff_card.dart';
 import 'daily_close_sheet.dart';
 import 'dashboard_cards.dart';
+import 'experiment_card.dart';
 import 'goal_page.dart';
 import 'pending_page.dart';
 import 'quick_add_page.dart';
@@ -172,6 +173,9 @@ class HomePage extends StatelessWidget {
                         const SizedBox(height: RunwaySpacing.section),
                         // SB-017 · 大额冷静同区（收口之后；只手动大额，仍要买无摩擦）.
                         CooloffZone(db: db),
+                        const SizedBox(height: RunwaySpacing.section),
+                        // SB-018 · 月度小实验同区（冷静之后；7 天打卡，断卡不罚）.
+                        ExperimentZone(db: db),
                         const SizedBox(height: RunwaySpacing.section),
                         if (rows.isEmpty)
                           Padding(

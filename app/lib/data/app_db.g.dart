@@ -4861,6 +4861,764 @@ class CooloffPrefsCompanion extends UpdateCompanion<CooloffPref> {
   }
 }
 
+class $ExperimentsTable extends Experiments
+    with TableInfo<$ExperimentsTable, Experiment> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ExperimentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _templateIdMeta = const VerificationMeta(
+    'templateId',
+  );
+  @override
+  late final GeneratedColumn<String> templateId = GeneratedColumn<String>(
+    'template_id',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 32,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 32,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _dailySaveFenMeta = const VerificationMeta(
+    'dailySaveFen',
+  );
+  @override
+  late final GeneratedColumn<int> dailySaveFen = GeneratedColumn<int>(
+    'daily_save_fen',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _startDateMeta = const VerificationMeta(
+    'startDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> startDate = GeneratedColumn<DateTime>(
+    'start_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _checkInsMeta = const VerificationMeta(
+    'checkIns',
+  );
+  @override
+  late final GeneratedColumn<String> checkIns = GeneratedColumn<String>(
+    'check_ins',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('active'),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    templateId,
+    name,
+    dailySaveFen,
+    startDate,
+    checkIns,
+    status,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'experiments';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Experiment> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('template_id')) {
+      context.handle(
+        _templateIdMeta,
+        templateId.isAcceptableOrUnknown(data['template_id']!, _templateIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_templateIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('daily_save_fen')) {
+      context.handle(
+        _dailySaveFenMeta,
+        dailySaveFen.isAcceptableOrUnknown(
+          data['daily_save_fen']!,
+          _dailySaveFenMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_dailySaveFenMeta);
+    }
+    if (data.containsKey('start_date')) {
+      context.handle(
+        _startDateMeta,
+        startDate.isAcceptableOrUnknown(data['start_date']!, _startDateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_startDateMeta);
+    }
+    if (data.containsKey('check_ins')) {
+      context.handle(
+        _checkInsMeta,
+        checkIns.isAcceptableOrUnknown(data['check_ins']!, _checkInsMeta),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Experiment map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Experiment(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      templateId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}template_id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      dailySaveFen: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}daily_save_fen'],
+      )!,
+      startDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}start_date'],
+      )!,
+      checkIns: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}check_ins'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $ExperimentsTable createAlias(String alias) {
+    return $ExperimentsTable(attachedDatabase, alias);
+  }
+}
+
+class Experiment extends DataClass implements Insertable<Experiment> {
+  final int id;
+  final String templateId;
+  final String name;
+  final int dailySaveFen;
+  final DateTime startDate;
+  final String checkIns;
+  final String status;
+  final DateTime createdAt;
+  const Experiment({
+    required this.id,
+    required this.templateId,
+    required this.name,
+    required this.dailySaveFen,
+    required this.startDate,
+    required this.checkIns,
+    required this.status,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['template_id'] = Variable<String>(templateId);
+    map['name'] = Variable<String>(name);
+    map['daily_save_fen'] = Variable<int>(dailySaveFen);
+    map['start_date'] = Variable<DateTime>(startDate);
+    map['check_ins'] = Variable<String>(checkIns);
+    map['status'] = Variable<String>(status);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  ExperimentsCompanion toCompanion(bool nullToAbsent) {
+    return ExperimentsCompanion(
+      id: Value(id),
+      templateId: Value(templateId),
+      name: Value(name),
+      dailySaveFen: Value(dailySaveFen),
+      startDate: Value(startDate),
+      checkIns: Value(checkIns),
+      status: Value(status),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory Experiment.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Experiment(
+      id: serializer.fromJson<int>(json['id']),
+      templateId: serializer.fromJson<String>(json['templateId']),
+      name: serializer.fromJson<String>(json['name']),
+      dailySaveFen: serializer.fromJson<int>(json['dailySaveFen']),
+      startDate: serializer.fromJson<DateTime>(json['startDate']),
+      checkIns: serializer.fromJson<String>(json['checkIns']),
+      status: serializer.fromJson<String>(json['status']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'templateId': serializer.toJson<String>(templateId),
+      'name': serializer.toJson<String>(name),
+      'dailySaveFen': serializer.toJson<int>(dailySaveFen),
+      'startDate': serializer.toJson<DateTime>(startDate),
+      'checkIns': serializer.toJson<String>(checkIns),
+      'status': serializer.toJson<String>(status),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  Experiment copyWith({
+    int? id,
+    String? templateId,
+    String? name,
+    int? dailySaveFen,
+    DateTime? startDate,
+    String? checkIns,
+    String? status,
+    DateTime? createdAt,
+  }) => Experiment(
+    id: id ?? this.id,
+    templateId: templateId ?? this.templateId,
+    name: name ?? this.name,
+    dailySaveFen: dailySaveFen ?? this.dailySaveFen,
+    startDate: startDate ?? this.startDate,
+    checkIns: checkIns ?? this.checkIns,
+    status: status ?? this.status,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  Experiment copyWithCompanion(ExperimentsCompanion data) {
+    return Experiment(
+      id: data.id.present ? data.id.value : this.id,
+      templateId: data.templateId.present
+          ? data.templateId.value
+          : this.templateId,
+      name: data.name.present ? data.name.value : this.name,
+      dailySaveFen: data.dailySaveFen.present
+          ? data.dailySaveFen.value
+          : this.dailySaveFen,
+      startDate: data.startDate.present ? data.startDate.value : this.startDate,
+      checkIns: data.checkIns.present ? data.checkIns.value : this.checkIns,
+      status: data.status.present ? data.status.value : this.status,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Experiment(')
+          ..write('id: $id, ')
+          ..write('templateId: $templateId, ')
+          ..write('name: $name, ')
+          ..write('dailySaveFen: $dailySaveFen, ')
+          ..write('startDate: $startDate, ')
+          ..write('checkIns: $checkIns, ')
+          ..write('status: $status, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    templateId,
+    name,
+    dailySaveFen,
+    startDate,
+    checkIns,
+    status,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Experiment &&
+          other.id == this.id &&
+          other.templateId == this.templateId &&
+          other.name == this.name &&
+          other.dailySaveFen == this.dailySaveFen &&
+          other.startDate == this.startDate &&
+          other.checkIns == this.checkIns &&
+          other.status == this.status &&
+          other.createdAt == this.createdAt);
+}
+
+class ExperimentsCompanion extends UpdateCompanion<Experiment> {
+  final Value<int> id;
+  final Value<String> templateId;
+  final Value<String> name;
+  final Value<int> dailySaveFen;
+  final Value<DateTime> startDate;
+  final Value<String> checkIns;
+  final Value<String> status;
+  final Value<DateTime> createdAt;
+  const ExperimentsCompanion({
+    this.id = const Value.absent(),
+    this.templateId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.dailySaveFen = const Value.absent(),
+    this.startDate = const Value.absent(),
+    this.checkIns = const Value.absent(),
+    this.status = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  ExperimentsCompanion.insert({
+    this.id = const Value.absent(),
+    required String templateId,
+    required String name,
+    required int dailySaveFen,
+    required DateTime startDate,
+    this.checkIns = const Value.absent(),
+    this.status = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  }) : templateId = Value(templateId),
+       name = Value(name),
+       dailySaveFen = Value(dailySaveFen),
+       startDate = Value(startDate);
+  static Insertable<Experiment> custom({
+    Expression<int>? id,
+    Expression<String>? templateId,
+    Expression<String>? name,
+    Expression<int>? dailySaveFen,
+    Expression<DateTime>? startDate,
+    Expression<String>? checkIns,
+    Expression<String>? status,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (templateId != null) 'template_id': templateId,
+      if (name != null) 'name': name,
+      if (dailySaveFen != null) 'daily_save_fen': dailySaveFen,
+      if (startDate != null) 'start_date': startDate,
+      if (checkIns != null) 'check_ins': checkIns,
+      if (status != null) 'status': status,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  ExperimentsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? templateId,
+    Value<String>? name,
+    Value<int>? dailySaveFen,
+    Value<DateTime>? startDate,
+    Value<String>? checkIns,
+    Value<String>? status,
+    Value<DateTime>? createdAt,
+  }) {
+    return ExperimentsCompanion(
+      id: id ?? this.id,
+      templateId: templateId ?? this.templateId,
+      name: name ?? this.name,
+      dailySaveFen: dailySaveFen ?? this.dailySaveFen,
+      startDate: startDate ?? this.startDate,
+      checkIns: checkIns ?? this.checkIns,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (templateId.present) {
+      map['template_id'] = Variable<String>(templateId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (dailySaveFen.present) {
+      map['daily_save_fen'] = Variable<int>(dailySaveFen.value);
+    }
+    if (startDate.present) {
+      map['start_date'] = Variable<DateTime>(startDate.value);
+    }
+    if (checkIns.present) {
+      map['check_ins'] = Variable<String>(checkIns.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ExperimentsCompanion(')
+          ..write('id: $id, ')
+          ..write('templateId: $templateId, ')
+          ..write('name: $name, ')
+          ..write('dailySaveFen: $dailySaveFen, ')
+          ..write('startDate: $startDate, ')
+          ..write('checkIns: $checkIns, ')
+          ..write('status: $status, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ExperimentPrefsTable extends ExperimentPrefs
+    with TableInfo<$ExperimentPrefsTable, ExperimentPref> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ExperimentPrefsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _enabledMeta = const VerificationMeta(
+    'enabled',
+  );
+  @override
+  late final GeneratedColumn<bool> enabled = GeneratedColumn<bool>(
+    'enabled',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("enabled" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, enabled, updatedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'experiment_prefs';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ExperimentPref> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('enabled')) {
+      context.handle(
+        _enabledMeta,
+        enabled.isAcceptableOrUnknown(data['enabled']!, _enabledMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ExperimentPref map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ExperimentPref(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      enabled: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}enabled'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $ExperimentPrefsTable createAlias(String alias) {
+    return $ExperimentPrefsTable(attachedDatabase, alias);
+  }
+}
+
+class ExperimentPref extends DataClass implements Insertable<ExperimentPref> {
+  final int id;
+  final bool enabled;
+  final DateTime updatedAt;
+  const ExperimentPref({
+    required this.id,
+    required this.enabled,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['enabled'] = Variable<bool>(enabled);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  ExperimentPrefsCompanion toCompanion(bool nullToAbsent) {
+    return ExperimentPrefsCompanion(
+      id: Value(id),
+      enabled: Value(enabled),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory ExperimentPref.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ExperimentPref(
+      id: serializer.fromJson<int>(json['id']),
+      enabled: serializer.fromJson<bool>(json['enabled']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'enabled': serializer.toJson<bool>(enabled),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  ExperimentPref copyWith({int? id, bool? enabled, DateTime? updatedAt}) =>
+      ExperimentPref(
+        id: id ?? this.id,
+        enabled: enabled ?? this.enabled,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+  ExperimentPref copyWithCompanion(ExperimentPrefsCompanion data) {
+    return ExperimentPref(
+      id: data.id.present ? data.id.value : this.id,
+      enabled: data.enabled.present ? data.enabled.value : this.enabled,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ExperimentPref(')
+          ..write('id: $id, ')
+          ..write('enabled: $enabled, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, enabled, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ExperimentPref &&
+          other.id == this.id &&
+          other.enabled == this.enabled &&
+          other.updatedAt == this.updatedAt);
+}
+
+class ExperimentPrefsCompanion extends UpdateCompanion<ExperimentPref> {
+  final Value<int> id;
+  final Value<bool> enabled;
+  final Value<DateTime> updatedAt;
+  const ExperimentPrefsCompanion({
+    this.id = const Value.absent(),
+    this.enabled = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  ExperimentPrefsCompanion.insert({
+    this.id = const Value.absent(),
+    this.enabled = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  static Insertable<ExperimentPref> custom({
+    Expression<int>? id,
+    Expression<bool>? enabled,
+    Expression<DateTime>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (enabled != null) 'enabled': enabled,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  ExperimentPrefsCompanion copyWith({
+    Value<int>? id,
+    Value<bool>? enabled,
+    Value<DateTime>? updatedAt,
+  }) {
+    return ExperimentPrefsCompanion(
+      id: id ?? this.id,
+      enabled: enabled ?? this.enabled,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (enabled.present) {
+      map['enabled'] = Variable<bool>(enabled.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ExperimentPrefsCompanion(')
+          ..write('id: $id, ')
+          ..write('enabled: $enabled, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDb extends GeneratedDatabase {
   _$AppDb(QueryExecutor e) : super(e);
   $AppDbManager get managers => $AppDbManager(this);
@@ -4876,6 +5634,10 @@ abstract class _$AppDb extends GeneratedDatabase {
   late final $ClosePrefsTable closePrefs = $ClosePrefsTable(this);
   late final $CooloffsTable cooloffs = $CooloffsTable(this);
   late final $CooloffPrefsTable cooloffPrefs = $CooloffPrefsTable(this);
+  late final $ExperimentsTable experiments = $ExperimentsTable(this);
+  late final $ExperimentPrefsTable experimentPrefs = $ExperimentPrefsTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -4893,6 +5655,8 @@ abstract class _$AppDb extends GeneratedDatabase {
     closePrefs,
     cooloffs,
     cooloffPrefs,
+    experiments,
+    experimentPrefs,
   ];
 }
 
@@ -7540,6 +8304,429 @@ typedef $$CooloffPrefsTableProcessedTableManager =
       CooloffPref,
       PrefetchHooks Function()
     >;
+typedef $$ExperimentsTableCreateCompanionBuilder =
+    ExperimentsCompanion Function({
+      Value<int> id,
+      required String templateId,
+      required String name,
+      required int dailySaveFen,
+      required DateTime startDate,
+      Value<String> checkIns,
+      Value<String> status,
+      Value<DateTime> createdAt,
+    });
+typedef $$ExperimentsTableUpdateCompanionBuilder =
+    ExperimentsCompanion Function({
+      Value<int> id,
+      Value<String> templateId,
+      Value<String> name,
+      Value<int> dailySaveFen,
+      Value<DateTime> startDate,
+      Value<String> checkIns,
+      Value<String> status,
+      Value<DateTime> createdAt,
+    });
+
+class $$ExperimentsTableFilterComposer
+    extends Composer<_$AppDb, $ExperimentsTable> {
+  $$ExperimentsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get templateId => $composableBuilder(
+    column: $table.templateId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get dailySaveFen => $composableBuilder(
+    column: $table.dailySaveFen,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get startDate => $composableBuilder(
+    column: $table.startDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get checkIns => $composableBuilder(
+    column: $table.checkIns,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ExperimentsTableOrderingComposer
+    extends Composer<_$AppDb, $ExperimentsTable> {
+  $$ExperimentsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get templateId => $composableBuilder(
+    column: $table.templateId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get dailySaveFen => $composableBuilder(
+    column: $table.dailySaveFen,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get startDate => $composableBuilder(
+    column: $table.startDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get checkIns => $composableBuilder(
+    column: $table.checkIns,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ExperimentsTableAnnotationComposer
+    extends Composer<_$AppDb, $ExperimentsTable> {
+  $$ExperimentsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get templateId => $composableBuilder(
+    column: $table.templateId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<int> get dailySaveFen => $composableBuilder(
+    column: $table.dailySaveFen,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get startDate =>
+      $composableBuilder(column: $table.startDate, builder: (column) => column);
+
+  GeneratedColumn<String> get checkIns =>
+      $composableBuilder(column: $table.checkIns, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$ExperimentsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $ExperimentsTable,
+          Experiment,
+          $$ExperimentsTableFilterComposer,
+          $$ExperimentsTableOrderingComposer,
+          $$ExperimentsTableAnnotationComposer,
+          $$ExperimentsTableCreateCompanionBuilder,
+          $$ExperimentsTableUpdateCompanionBuilder,
+          (Experiment, BaseReferences<_$AppDb, $ExperimentsTable, Experiment>),
+          Experiment,
+          PrefetchHooks Function()
+        > {
+  $$ExperimentsTableTableManager(_$AppDb db, $ExperimentsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ExperimentsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ExperimentsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ExperimentsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> templateId = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<int> dailySaveFen = const Value.absent(),
+                Value<DateTime> startDate = const Value.absent(),
+                Value<String> checkIns = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => ExperimentsCompanion(
+                id: id,
+                templateId: templateId,
+                name: name,
+                dailySaveFen: dailySaveFen,
+                startDate: startDate,
+                checkIns: checkIns,
+                status: status,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String templateId,
+                required String name,
+                required int dailySaveFen,
+                required DateTime startDate,
+                Value<String> checkIns = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => ExperimentsCompanion.insert(
+                id: id,
+                templateId: templateId,
+                name: name,
+                dailySaveFen: dailySaveFen,
+                startDate: startDate,
+                checkIns: checkIns,
+                status: status,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ExperimentsTable, Experiment>(table),
+                  BaseReferences<_$AppDb, $ExperimentsTable, Experiment>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ExperimentsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $ExperimentsTable,
+      Experiment,
+      $$ExperimentsTableFilterComposer,
+      $$ExperimentsTableOrderingComposer,
+      $$ExperimentsTableAnnotationComposer,
+      $$ExperimentsTableCreateCompanionBuilder,
+      $$ExperimentsTableUpdateCompanionBuilder,
+      (Experiment, BaseReferences<_$AppDb, $ExperimentsTable, Experiment>),
+      Experiment,
+      PrefetchHooks Function()
+    >;
+typedef $$ExperimentPrefsTableCreateCompanionBuilder =
+    ExperimentPrefsCompanion Function({
+      Value<int> id,
+      Value<bool> enabled,
+      Value<DateTime> updatedAt,
+    });
+typedef $$ExperimentPrefsTableUpdateCompanionBuilder =
+    ExperimentPrefsCompanion Function({
+      Value<int> id,
+      Value<bool> enabled,
+      Value<DateTime> updatedAt,
+    });
+
+class $$ExperimentPrefsTableFilterComposer
+    extends Composer<_$AppDb, $ExperimentPrefsTable> {
+  $$ExperimentPrefsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get enabled => $composableBuilder(
+    column: $table.enabled,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ExperimentPrefsTableOrderingComposer
+    extends Composer<_$AppDb, $ExperimentPrefsTable> {
+  $$ExperimentPrefsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get enabled => $composableBuilder(
+    column: $table.enabled,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ExperimentPrefsTableAnnotationComposer
+    extends Composer<_$AppDb, $ExperimentPrefsTable> {
+  $$ExperimentPrefsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<bool> get enabled =>
+      $composableBuilder(column: $table.enabled, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$ExperimentPrefsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $ExperimentPrefsTable,
+          ExperimentPref,
+          $$ExperimentPrefsTableFilterComposer,
+          $$ExperimentPrefsTableOrderingComposer,
+          $$ExperimentPrefsTableAnnotationComposer,
+          $$ExperimentPrefsTableCreateCompanionBuilder,
+          $$ExperimentPrefsTableUpdateCompanionBuilder,
+          (
+            ExperimentPref,
+            BaseReferences<_$AppDb, $ExperimentPrefsTable, ExperimentPref>,
+          ),
+          ExperimentPref,
+          PrefetchHooks Function()
+        > {
+  $$ExperimentPrefsTableTableManager(_$AppDb db, $ExperimentPrefsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ExperimentPrefsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ExperimentPrefsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ExperimentPrefsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<bool> enabled = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+              }) => ExperimentPrefsCompanion(
+                id: id,
+                enabled: enabled,
+                updatedAt: updatedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<bool> enabled = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+              }) => ExperimentPrefsCompanion.insert(
+                id: id,
+                enabled: enabled,
+                updatedAt: updatedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ExperimentPrefsTable, ExperimentPref>(table),
+                  BaseReferences<
+                    _$AppDb,
+                    $ExperimentPrefsTable,
+                    ExperimentPref
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ExperimentPrefsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $ExperimentPrefsTable,
+      ExperimentPref,
+      $$ExperimentPrefsTableFilterComposer,
+      $$ExperimentPrefsTableOrderingComposer,
+      $$ExperimentPrefsTableAnnotationComposer,
+      $$ExperimentPrefsTableCreateCompanionBuilder,
+      $$ExperimentPrefsTableUpdateCompanionBuilder,
+      (
+        ExperimentPref,
+        BaseReferences<_$AppDb, $ExperimentPrefsTable, ExperimentPref>,
+      ),
+      ExperimentPref,
+      PrefetchHooks Function()
+    >;
 
 class $AppDbManager {
   final _$AppDb _db;
@@ -7568,4 +8755,8 @@ class $AppDbManager {
       $$CooloffsTableTableManager(_db, _db.cooloffs);
   $$CooloffPrefsTableTableManager get cooloffPrefs =>
       $$CooloffPrefsTableTableManager(_db, _db.cooloffPrefs);
+  $$ExperimentsTableTableManager get experiments =>
+      $$ExperimentsTableTableManager(_db, _db.experiments);
+  $$ExperimentPrefsTableTableManager get experimentPrefs =>
+      $$ExperimentPrefsTableTableManager(_db, _db.experimentPrefs);
 }

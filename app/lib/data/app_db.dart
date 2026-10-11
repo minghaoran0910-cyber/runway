@@ -8,11 +8,11 @@ import 'package:path_provider/path_provider.dart';
 import 'budget_store.dart';
 import 'cooloff_store.dart';
 import 'estimate_store.dart';
+import 'experiment_store.dart';
 import 'import_batch.dart';
 
-// schema：v1 Tx / v2 Goals(SB-007) / v3 Ach(SB-008) / v4 Grain+Weekly(SB-009)
-// v5 Pending(SB-010) / v6 ImportBatch(SB-011) / v7 Budgets(SB-015) / v8 DailyClose(SB-016) / v9 Cooloff(SB-017).
-// 禁手改 schema，迁移走 drift；真实账目永不入库，测试合成 fixtures.
+// schema：v1 Tx/v2 Goals/v3 Ach/v4 Grain+Weekly/v5 Pending/v6 ImportBatch/v7 Budgets/v8 DailyClose/v9 Cooloff/v10 Experiment(SB-018).
+// 禁手改；真实账目永不入库，测试合成 fixtures.
 
 part 'app_db.g.dart';
 
@@ -81,7 +81,7 @@ class PendingRecords extends Table {
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }
 
-/// schema v6 表见 import_batch.dart；v7 见 budget_store.dart；v8 见 estimate_store.dart；v9 见 cooloff_store.dart.
+/// schema v6 见 import_batch.dart；v7 见 budget_store.dart；v8 见 estimate_store.dart；v9 见 cooloff_store.dart；v10 见 experiment_store.dart.
 @DriftDatabase(
   tables: [
     Transactions,
@@ -96,6 +96,8 @@ class PendingRecords extends Table {
     ClosePrefs,
     Cooloffs,
     CooloffPrefs,
+    Experiments,
+    ExperimentPrefs,
   ],
 )
 class AppDb extends _$AppDb {
@@ -148,12 +150,12 @@ class AppDb extends _$AppDb {
   }
 
   @override
-  int get schemaVersion => 9;
+  int get schemaVersion => 10;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (Migrator m) => m.createAll(),
-    // v2 goals；v3 ach；v4 grain+weekly；v5 pending；v6 importbatch+列；v7 budgets；v8 dailyclose；v9 cooloff.
+    // v2 goals；v3 ach；v4 grain+weekly；v5 pending；v6 importbatch+列；v7 budgets；v8 dailyclose；v9 cooloff；v10 experiment.
     onUpgrade: (m, from, to) async {
       if (from < 2) {
         await m.createTable(goals);
@@ -183,16 +185,18 @@ class AppDb extends _$AppDb {
         await m.createTable(cooloffs);
         await m.createTable(cooloffPrefs);
       }
+      if (from < 10) {
+        await m.createTable(experiments);
+        await m.createTable(experimentPrefs);
+      }
     },
   );
 
-  /// v6 回滚见 import_batch_dao.dart；v7 见 budget_dao.dart；v8 见 estimate_dao.dart；v9 见 cooloff_dao.dart.
-  /// v5 回滚：删 pending_records 即回 v4（开发期用）.
+  /// 回滚见各 dao（v9 cooloff_dao / v10 experiment_dao）；v5 删 pending_records 即回 v4；v4 删 safety_pad+weekly_reports 即回 v3.
   Future<void> rollbackPendingToV4() async {
     await customStatement('DROP TABLE IF EXISTS pending_records');
   }
 
-  /// v4 回滚：删 safety_pad + weekly_reports 即回 v3（开发期用）.
   Future<void> rollbackSafetyWeeklyToV3() async {
     await customStatement('DROP TABLE IF EXISTS safety_pad');
     await customStatement('DROP TABLE IF EXISTS weekly_reports');
@@ -282,8 +286,6 @@ class AppDb extends _$AppDb {
     return (delete(achievements)..where((a) => a.id.equals(id))).go();
   }
 
-  // —— SafetyPad DAO（SB-009；单行约定 id=1，不存在即默认 6 个月）——
-
   Future<List<SafetyPadData>> listSafetyPad() {
     return (select(safetyPad)..orderBy([(s) => OrderingTerm.asc(s.id)])).get();
   }
@@ -312,8 +314,6 @@ class AppDb extends _$AppDb {
     return cur.id;
   }
 
-  // —— WeeklyReports DAO（SB-009；weekStart 倒序即历史序列）——
-
   Future<List<WeeklyReport>> listWeeklyReports() {
     return (select(
       weeklyReports,
@@ -340,8 +340,6 @@ class AppDb extends _$AppDb {
   Future<int> deleteWeeklyReport(int id) {
     return (delete(weeklyReports)..where((w) => w.id.equals(id))).go();
   }
-
-  // —— PendingRecords DAO（SB-010；createdAt 倒序即待确认序列）——
 
   Future<List<PendingRecord>> listPending() {
     return (select(
