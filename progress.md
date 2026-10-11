@@ -74,3 +74,4 @@
 - 2026-10-11 16:1x 网关 16:03:40 重启核验：maxTokens×4 已加载、phone-notifications 注册 1.18.1 转正在册；wake 换代为 command 定时任务（脚本含心跳保活）；SB-020 续做授权 r3（最后一轮自动）签发。[SB-020][LOOP]
 
 - 2026-10-11 17:2x 查实：SB-020 业务已由 r3 完成并 commit（6c61952），仅缺提审出口；开『收尾补票』指令（下轮复跑闸门+补提审，不计新返工）；两次巡检 timeout 死因=重启打断+模型挂死各一，施工无损。[SB-020]
+- 2026-10-11 19:0x 监工轮（巡检）：SB-020 第 1 轮审查 **REQUEST_CHANGES**——全量独立实测逮住 SB-004 存量 2 例回归（quick-add pending timers：feat 挂/main 对照绿，证据 /tmp/sb020-feat2.log+/tmp/sb020-main2.log）；worktree /private/tmp/rw-sb020 监工移除（零丢失，=6c61952）；wake command 任务缺位→本轮重建；main 无新合入无冒烟义务。[SB-020][supervisor patrol]

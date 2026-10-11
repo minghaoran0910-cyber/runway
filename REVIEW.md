@@ -64,3 +64,31 @@
 - r3 实况：builder 16:15 轮已完成全部业务（merge 244e8e3 + feat 6c61952 常买价格眼·同键统计+跟随），但崩于出口之前——REVIEW_REQUEST 仍是 SB-019 旧文本，提审未写。
 - 下一轮 builder 唯一任务=r3 出口补齐（不计新一轮）：①git checkout feat/SB-020-price-watch → merge main 取本票；②tool/ci.sh 四闸门 + golden 逐文件（单命令 <250s）复跑验证；③progress 登记 + 写 REVIEW_REQUEST 提审（标注『r3 收尾补票 · 6c61952』）；④禁止新增业务代码。验证不过→登记阻塞退场转人工。
 - 观察者近况备案：16:00 巡检轮被网关重启打断（正常）；16:30 巡检轮一次模型挂死触发 40min 超时（孤例，复发再处理）。施工链无损伤。
+
+# REVIEW — 2026-10-11 SB-020 第 1 轮 · 卡 SB-020（监工独立实测）
+结论: REQUEST_CHANGES
+
+审查对象更正备案：17:2x「收尾补票」票判"REQ 未写"系误读——feat@6c61952（16:16:53 真实回显）已含 SB-020 新提审文本+progress 登记行（feat 侧 REQ 文件 4569B），根仓 main 侧 REQ 仍是 SB-019 旧文本（mtime 启发式在"分支出口"架构下失效，列周一素材⑰）。本轮以 feat REQ 为审查依据（第 1 轮 · 卡 SB-020）。
+
+检查项（全部真实回显）:
+- [x] 文件约束实测：业务 8 文件 ≤10（wc：price_watch 105/price_card 187/goal_price_follow 95/goal_page 391/quick_add 195/category_page 329/price_watch_test 92/golden_price_test 206），最大 391≤400；diff main..feat=13 文件（8 业务+2 golden+REQ/progress/REVIEW），无 pubspec
+- [x] 禁词 grep=基线 5 文件本体（achievement/goal_ladder+3 测试），price 新文件零命中；theme 外裸 Color(0x=0；裸 Duration=0；美团|工资|房贷=0；remote=0；_LOCK 全仓无
+- [x] 验收1-4 逻辑实读：priceKeyFor 精确匹配+空即无键；summarizePrices <3→null；describeVsAvg 纯陈述；resolveGoalPrice 手动优先否则中位数；GoalFollowField <3 笔只提示不猜；goal_page 换算引擎零改动仅接线；category_page PriceZone 同区 +3 行
+- [x] golden/sb020 两图在位；price 新 20 例在全量 +375 通过集合内（price_watch 13+golden_price 7 非失败项）
+- [ ] **验收5"四闸门全绿+全量回归"不实**：见问题1——SB-004 存量 2 例在 feat 挂、main 对照绿
+
+问题列表:
+1. P1 回归（监工实测实锤）：`flutter test test/quick_add_test.dart test/golden_quick_add_test.dart` @feat → 2 [E]：`SB-004 golden quick-add light`、`SB-004 金额为 0 时拦截并提示`，均 **Pending timers**（fake_async 零时长 timer，栈=drift StreamQueryStore.markAsClosed→QueryStream._onCancelOrPause→_StreamBuilderBaseState._unsubscribe/dispose），且测试进程挂死>2min 不退出（日志 /tmp/sb020-feat2.log）。同一命令 @main@c99d224 对照 → All tests passed, MAIN_EXIT=0（/tmp/sb020-main2.log）。全量两轮（/tmp/sb020-test2.log、/tmp/sb020-final.log）均卡死在 +375 -2、同两例 [E]，无法收口 All tests passed。
+2. 根因域：quick_add_page.dart +39 行的 PriceHint 流订阅生命周期——页面卸载后 drift markAsClosed 零 timer 未在测试 teardown 排干，拖挂 SB-004 存量用例并疑似拖死后续 golden 段。其他 watchAll 消费方（category 侧 PriceZone/BudgetZone）全量绿，仅 quick_add 两处挂。
+3. 返工红线：**不得削弱存量断言、不得改 SB-004 测试语义交差**；修订阅生命周期/补正确 teardown 排干均可。已绿 price 20 例禁重开。
+4. 流程注记（非打回项）：builder 曾在 /private/tmp/rw-sb020 worktree 出活，opencode headless 对 /private/tmp external_directory **自动拒绝**（wake.log 17:45 真实回显：permission auto-rejecting），17:45 后出口动作全部失败。监工本轮已移除该 worktree（树净、内容全部在 6c61952 commit，零丢失）；返工请回主仓工作树 `git checkout feat/SB-020-price-watch`。
+
+模拟器冒烟: 本轮无（main 头 c99d224 为 docs 簿记，无新业务合入；last_smoke_commit=6ad2261 账实相符；SB-020 返工合入轮再按归档法 v3 一条龙必做）。
+
+下一步（退回 builder）: ①主仓 `git checkout feat/SB-020-price-watch` → merge main 取本票；②修 quick_add PriceHint 订阅退场泄漏；过关硬标准=`flutter test test/quick_add_test.dart test/golden_quick_add_test.dart` All tests passed 且全量 `flutter test`（可分批逐文件跑）exit=0 无挂死；③REQ 更新再提审，标注（第 2 轮 · 卡 SB-020 应答）；④同症状再现=R4 第 2 次 REQUEST_CHANGES → 直接 WAITING_HUMAN 升浩然。
+
+决策模型: 本轮无灰区边界——回归为对照实验实锤（feat 挂/main 绿），非裁量事项，未调用。
+
+漂移与一致性审计（一行）: 禁词基线 5 文件零新增、theme 外裸 Color(0x=0、裸 Duration=0、真实账目=0、remote=0、_LOCK=0；main 头 c99d224=最近轮（收尾补票）对应 ✓；feat 残留=SB-020 一支（待返工，合法在审）；worktree /private/tmp/rw-sb020 本轮监工清除（零丢失）；progress.md 唯一真相、task_plan 薄索引未动 ✓。
+
+利益点自省: 更近——价格之眼本身是"零成本看见向目标挪一步"的正向功能，本轮退回护住的是「记一笔」传感器入口零回归：传感器若因新功能抖一下，核心利益点就受伤；无 SilentBook 旧病同构。
