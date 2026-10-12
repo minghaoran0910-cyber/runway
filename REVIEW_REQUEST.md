@@ -1,25 +1,26 @@
-# REVIEW_REQUEST — SB-025 时钟卫生收尾（首轮提审）
+# REVIEW_REQUEST — SB-026 三端构建装机验收（首轮提审）
 
-仓库：`/Users/dada561/Documents/runway`，分支：`feat/SB-025-clock-hygiene`（未 merge、未 push、无 remote，合规）
-任务卡：`docs/tasks/SB-025.md`（状态：待办；2026-10-12 15:22 浩然批准下发）
-基座：`main@6c2f67b` 起步（20:1x 巡检簿记头，无需 merge main，基线干净）
-S0 守卫说明：S0.1~S0.5 全过（main 单分支/无 _LOCK/工作树净/REQ 19:00:14 < REVIEW 20:13:50 无新提审）；S0.6 按监工 REVIEW.md 20:0x 段误报裁定（decision p=0.85）放行——现行 REQ 第 6 行「未达 WAITING_HUMAN 线」系 SB-024 已审结旧文（squash@5cf4ff2·done/=22）元叙述，非显式标记行，新规则（^状态 WAITING_HUMAN/整行）匹配=0。
+仓库：`/Users/dada561/Documents/runway`，分支：`feat/SB-026-tri-build`（未 merge、未 push、无 remote，合规）
+任务卡：`docs/tasks/SB-026.md`（状态：待办；2026-10-12 21:2x 监工纠正拆卡）
+基座：`main@403ccf8` 起步（21:3x 巡检簿记头，纯 docs，无需 merge main，基线干净）
+S0 守卫说明：S0.1 无续做授权不命中；S0.2 main 在；S0.3 无 _LOCK；S0.4 工作树净；S0.5 REQ(20:18:51)<REVIEW(21:34:18) 无新提审不重审；S0.6 显式标记行 `^状态.*WAITING_HUMAN|^WAITING_HUMAN` 匹配=0（第 6 行旧文元叙述 1 命中沿 20:0x p=0.85 豁免口径放行，21:3x 审计线同口径）。
 
-施工改动（业务 9 文件≤10，单文件 +1~+4 行≤400；生产 lib/ 零改动；夹具零改动；无 pubspec；无 remote）：
-- 9 测试文件：`dashboard_page_test` / `golden_home_budget_test` / `perf_budget_test`（3 处）/ `cooloff_test` / `golden_cooloff_test`（3 处）/ `golden_dashboard_test` / `golden_achievement_test` / `golden_role_test` / `golden_price_test`——各加 `import 'fixed_clock.dart';`（SB-023 既定样式），直调 `DateTime.now()` 全改 `FixedClock.today()`（相对种子，行为与直调一致；golden 用相对种子故渲染不变）。
-- 文件数偏差声明：卡预估 8，实测 9（`perf_budget_test` 3 处与 `golden_home_budget_test` 各计 1 文件；SB-023「三族外延期」时 grep 口径差异所致）。仍≤10 上限，未扩 scope，未新开工作面。
+施工结论：零业务文件改动（构建配置/小修 0，三端一次绿无需修；生产 lib/ 零改动；夹具零改动；无 pubspec；无 remote）。
 
-验收对照（卡 SB-025 两项）：
-1. grep 除夹具封装外=0 ——达标。实测 `grep -rn "DateTime.now()\|new Date()" app/test/` 仅剩 `fixed_clock.dart` 内 3 处（第 3 行注释口径/第 9 行注释/第 10 行 `today()` 本体，卡验收「夹具封装除外」口径），测试文件命中=0。
-2. `tool/ci.sh` 四闸门绿 + golden 零 diff 零重生成——达标。format 97 文件 0 改动 / analyze No issues / test 全量 414/414（含本轮 9 文件全部用例与 golden 像素断言）/ build macos+apk 双成功 ALL GREEN；`tool/check-repo-hygiene.sh` OK；`git status` 仅 9 测试文件（golden/*.png 零改动，lib/ 零改动）。
+验收对照（卡 SB-026 四项）：
+1. 三端构建命令全绿贴单（Mac/iOS 先交，Windows 补票制）——达标。Mac `flutter build macos --debug` → `✓ Built build/macos/Build/Products/Debug/runway.app` EXIT=0；iOS device `flutter build ios --no-codesign --debug` → `Xcode build done. 43.7s / ✓ Built build/ios/iphoneos/Runner.app` EXIT=0；iOS simulator `flutter build ios --simulator --no-codesign --debug` → `Xcode build done. 39.0s / ✓ Built build/ios/iphonesimulator/Runner.app` EXIT=0。装机冒烟：Mac `open runway.app` 后 pgrep=runway 存活 + `screencapture /tmp/sb026-mac-first.png` 773K；iPhone17 模拟器（8BB33A51，iOS 26.5）`simctl install` EXIT=0 + `simctl launch com.zangou.runway` PID=68757 + `simctl io screenshot /tmp/sb026-ios-first.png` 853K。截图在 /tmp 未入库（二进制禁区，GIT_WORKFLOW §7）。
+2. Mac 端六类动效走查清单逐项过（对照 SB-012 验收1 安卓端同口径）——达标（代码走查+构建实证，纸面项）。MotionSpec 六类全映射实测：①按压 140ms/scale.96 ②状态 260ms/scroll≤600ms + Cubic(.2,0,.1,1) ③转场 360ms ④Sheet 进280/出220 + damping.8/response.3 ⑤列表 stagger 80ms/上浮15px仅首屏 ⑥FAB easeOutBack c1=1.70158/成就1000ms/粒子≤12；全局临界阻尼1.0/可打断，reduce-motion 80ms fade，shimmer≤300ms。散落检查：UI 侧裸 `milliseconds:/microseconds:` 除 motion_spec=0；裸 `Color(0x` 除 tokens.dart=0（grep 实测）；引用侧 achievement_card/quick_add_page/amount_keyboard 均走 MotionSpec。
+3. 构建失败修到绿或写明根因另立卡；禁词/hygiene/ci 四闸门维持绿——达标（零失败无需修）。`tool/ci.sh` ALL GREEN（format 97文件0改动/analyze No issues/smoke 1/1/macos+apk双成功，apk-debug 173631525B，基线 173631103 +20%限内）；`tool/check-repo-hygiene.sh` OK；禁词/裸值/真实账目沿 21:3x 全绿口径（本轮零代码变更）。
+4. 性能实测留数（冷启动合成1万条 ≤1.5s，Mac 端）→喂 SB-012 验收2——达标。`flutter test test/perf_budget_test.dart` 2/2 绿（1万条聚合<1500ms断言过 + 其他占比<5%过）；apk 包体 173631525B vs 基线 173631103（+422B，远低于+20%限）。
 
-测试：全量 `flutter test` 414/414 绿（SB-023 基线 414，纯迁移无增删）；纸面行为不变，无新增单测（迁移卡，断言语义零改）。
+测试：perf 2/2 绿 + ci 内 smoke 1/1 绿；全量未重跑（零代码变更，21:1x 全量 414/414 基线延续；golden 零 diff 零重生成，git status 净）。
 
 偏差声明（如实申报）：
-① 文件数 9≠卡预估 8（见上，grep 全量实测为准，接受①的反向是验收①失败，故全迁）。
-② 全部用 `today()` 相对种子，未用 `fixedMonday` 绝对钉——因本轮 9 文件种子语义均为"今天/当月相对"，绝对钉会改变 golden 渲染日期，违反验收②；三族（grain/goal/daily_close）绝对钉口径系 SB-023 专属，本轮不碰。
-③ `cooloff_test.dart:216` 的 `proposedAt` 系状态值域锁定种子（非 24h 窗口断言），改走夹具后行为一致，全量绿实证。
+① iOS 模拟器用 iPhone 17（iOS 26.5，UDID 8BB33A51）非卡面“iPhone 15 系”——因本机 `simctl list` 可用仅 17 系列（17/17Pro/17ProMax/Air，无 15 运行时），等价新机型，构建+装机口径一致，方向不变。
+② Windows 未在本轮交付，补票制不算卡死——VM 文件在位（~/UTM Docs: Win11ARM.utm + Win11ARM64-EVAL-26100-en-us.iso + virtio-win.iso，UTM 进程运行中），但 mac 宿主无法 `flutter build windows`（须 Windows guest 内执行），按卡面“若 VM 未到留待补票”口径留待补票。
+③ 首屏截图留 /tmp 未入库——按仓库卫生二进制禁区，路径+字节数留证，监工可复看。
+④ 零业务文件改动——卡预估“构建配置/小修 ≤10”，实测三端一次绿无需修，文件数 0≤10，未扩 scope，未新开工作面。
 
-文件约束：业务 9 文件≤10；单文件增量≤4 行；无 pubspec；无 remote；真实账目 0；禁词零新增；_LOCK 本轮退场即删。
+文件约束：业务 0 文件≤10；无 pubspec；无 remote；真实账目 0；禁词零新增；_LOCK 本轮退场即删。
 
-状态：待审查（2026-10-12 20:2x builder 提审·SB-025 首轮；feat 分支未合入；合入轮需冒烟，锚点 cd5d73a）
+状态：待审查（2026-10-12 21:5x builder 提审·SB-026 首轮；feat 分支未合入；合入轮：本轮已含 macos+apk 双构建绿，冒烟锚点 44575fc→本轮 mac 起窗存活+iOS 模拟器启动双实证，squash 后监工按 SB-025 口径重跑一条龙即可）
