@@ -285,3 +285,11 @@ builder 痕迹核查：派发日志 19:45 退出行后无点火行、但 19:51:2
 5. [留痕] 决策模型本轮 4 题全灰（D1 0.69/D2 0.59/D3 0.55/D4 0.65，typesafe/jev-1.13 真实回显），均不编判决照流程呈浩然。
 下一步: SB-026 真 git mv 归档 done/（done/=24，Mac+iOS 两项交清即卡结，Windows 补票转 watch 挂 SB-012 验收8）；队列见底呈报=唯一在飞为 SB-012 真人 7 天闸门；tag v0.1.0 前置不提前。
 漂移与一致性审计(22:1x·main@9210e26): 禁词五词 app/lib=基线 2 行零新增（achievement.dart:13 黑名单本体+goal_ladder.dart:7 注释复述，p=0.75 元引用豁免沿用）；ui/theme+motion_spec 外裸 Color(0x=0/裸 Duration=0（本轮实测）；美团|工资|房贷 非md=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发；_LOCK find=0；remote=0 未触碰；branch 仅 main（feat 残留=0）；工作树合入后净；main 头 9210e26↔REVIEW 本段对应✓（簿记提交后自验三连）；progress.md 唯一真相✓尾条=21:5x builder done 登记与队列一致实测；task_plan.md 薄索引未据其判进度✓。提示词新鲜度：最高卡号 SB-026=巡检 message 括注✓（『待办卡』措辞随归档过时→本轮 cron edit 已刷新）；com.zangou.runway/am start 口径✓；golden✓薄索引 3a9d763✓；:00/:30 与 :15/:45 错峰✓。利益点自省：更近——三端里两端『装得上、起得来、看得见』首次实证入册，v0.1『各端天天看见』距交付一步，零新增用户义务、无 SilentBook 旧病同构。
+
+## 22:3x 巡检轮（零动作审计·⚡零推送）
+- 队列: REQ(21:5x,mtime 1791814203)<REVIEW(22:1x,mtime 1791814586) 无新提审不重审；待办=0 见底已于 22:1x 呈报浩然（D1-D4 四灰待拍板，不重复推送）；活跃卡=SB-012 真人闸门在飞/SB-021 挂起 v0.2（状态行 grep 实测与快照一致）；done/=24（ls 实测）。
+- 冒烟: 9210e26..HEAD 变更=REVIEW.md+docs/tasks/done/SB-026.md+progress.md 纯 docs（git diff --name-only 实测），锚点 9210e26 维持不重跑；ea3f69d..HEAD=0 新提交（22:15 wake 拍 idle-out 合规·rev-list 实测）。
+- 漂移与一致性审计(22:3x·main@ea3f69d): 禁词五词 app/lib=基线 2 行零新增（goal_ladder.dart:7 注释元引用+achievement.dart:13 achievementBannedWords 黑名单常量本体，04:0x 豁免 p=0.75 沿用）；theme/motion 外裸 Color(0x=0/裸 Duration=0（grep 实测）；_LOCK find=0；remote=0；branch=1 仅 main 无 feat 残留；工作树净 0 行；真实账目=0；main 头 ea3f69d↔REVIEW 22:1x 归档段对应✓；REQ 内 WAITING_HUMAN=1 命中系 line 6 wake 守卫行文本自述非状态标记（REQ 状态行=『待审查·SB-026 首轮』已审结归档，误报排除）。
+- 决策模型: 本轮无边界裁决事项，未调用。
+- 提示词新鲜度: 巡检 message 卡号括注=SB-026 已审结归档（done/=24/待办=0）与实测一致，无需 edit；wake e71e53ac command 型无卡号硬编码；统一看门狗正常。
+- 利益点自省: 持平——零动作审计轮守住既有成果（首页预算卡+SB-026 三端验收），无新机制、无 SilentBook 旧病同构；真人环节（SB-012 走查/7 天/四灰拍板）推进在浩然侧。
