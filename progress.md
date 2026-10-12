@@ -108,3 +108,5 @@
 - 2026-10-12 14:2x v0.2 排期提案出案（浩然令）：docs/ROADMAP-v0.2.md，主线『让账真』三波（Wave0 体验期零运行时并行/Wave1 tag 后/Wave2 复审池），等浩然批主线+Wave0+Windows 路线三点头。[v0.2]
 
 - 2026-10-12 14:1x 浩然拍板 Windows 路线 B（本机 UTM VM），V2-W1 即时动工（子代理执行：装UTM→下Win11 ARM评估版ISO→建VM→VM内Flutter build windows）。环境核验：磁盘剩107G/内存16G/brew在。[v0.2][W1]
+
+- 2026-10-12 14:3x 监工巡检轮：有事审计轮（浩然 14:1x 亲落两笔纯 docs 上 main：v0.2 排期提案出案+Windows 路线拍板 B=本机 UTM VM·V2-W1 开工）——REQ<REVIEW 无新提审；队列零漂移=活跃卡2/done 20/最高卡号 SB-022（ROADMAP 非卡不派活实测）；b218a21..HEAD 非docs=0 冒烟锚点维持不重跑；漂移审计全绿（禁词 7 文件基线零新增/裸Color·Duration=0/手机号·open_id·真实账目=0/仅 main/树净）；wake 14:15 拍合规 idle-out；P4 已随浩然出案推进，余 P1 7天真人/P2 双宿主/P3 grain hotfix 待答；决策模型未调用；零推送——详见 REVIEW.md 14:3x 段 [supervisor patrol][v0.2]
