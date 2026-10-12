@@ -293,3 +293,16 @@ builder 痕迹核查：派发日志 19:45 退出行后无点火行、但 19:51:2
 - 决策模型: 本轮无边界裁决事项，未调用。
 - 提示词新鲜度: 巡检 message 卡号括注=SB-026 已审结归档（done/=24/待办=0）与实测一致，无需 edit；wake e71e53ac command 型无卡号硬编码；统一看门狗正常。
 - 利益点自省: 持平——零动作审计轮守住既有成果（首页预算卡+SB-026 三端验收），无新机制、无 SilentBook 旧病同构；真人环节（SB-012 走查/7 天/四灰拍板）推进在浩然侧。
+
+## 23:0x 巡检轮·漂移与一致性审计（2026-10-12 23:0x 监工）
+- 结论: 零新提审·零动作·审计全绿·零推送。
+- 审查触发: REQ(1791814203/21:5x)<REVIEW(1791815581/22:1x)→S0.5 不重审；REQ 尾部"状态：待审查"系 SB-026 21:5x 历史文（22:1x 第1轮已审结 PASS@squash@9210e26）；WAITING_HUMAN grep=1 命中仍为行6守卫元叙述，显式标记 `^状态.*WAITING_HUMAN|^WAITING_HUMAN`=0，沿 20:0x p=0.85 豁免口径，非新请求。
+- git: HEAD=0c937e3（22:3x 簿记）后零新提交（0c937e3..HEAD=0 实测）；工作树 0 行；main 单分支·feat 残留 0；remote 0；SB-026 _LOCK 已删（全库 grep=0）。
+- 队列: 活跃卡2（SB-012 审查通过·真人闸门在飞 / SB-021 挂起 v0.2）·done/=24（git ls-tree 实测）·待办=0 见底已于 22:1x 呈浩然，不重复推送；与快照零漂移。
+- 冒烟: 锚点 9210e26 维持——git diff --name-only 9210e26..HEAD=REVIEW.md/docs/tasks/done/SB-026.md/progress.md 纯 docs 实测，不触发重跑。
+- 规范漂移: 禁词全库实测 0（含基线豁免位零新增）/ ui/theme·motion_spec 外裸 Color(0x·Duration(milliseconds:=0 / 真实账目·手机号·openid 全 0。
+- 真相源: progress.md 唯一真相·task_plan 薄索引只读口径执行。
+- 调度器: 监工 running（本轮）·wake e71e53ac 22:45 拍 ok（待办=0 idle-out 合规）·runway-watchdog/统一看门狗 ok——20:30 wake model error 连续两轮未复发。
+- 决策模型: 本轮无边界裁决事项，未调用。
+- 提示词新鲜度: 巡检 message 括注 SB-026 已审结归档（done/=24/待办=0）与实测一致；SB-013 包名 com.zangou.runway 现行；task_plan 薄索引已落地；无过时项，未动 cron。
+- 利益点自省: 持平——零动作审计轮守住既有成果，无新机制、无 SilentBook 旧病同构；推进在浩然侧（SB-012 三端走查/7天/四灰拍板）。
