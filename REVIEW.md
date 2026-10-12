@@ -159,3 +159,6 @@ REQ(1791736807/00:40:07)<REVIEW(1791785050/14:04:10) 无新提审不重审（REQ
 下一步: ①模拟器冒烟（代码落 main=锚点 b218a21 必更新，本轮回填）②builder 下拍领 SB-024（iOS 设计稿纸面卡）③浩然裁决偏差①②（翻案成本已列）
 模拟器冒烟: **PASS**（一条龙实测@main：BUILD_EXIT=0 apk=173631525B→BOOT=1→install Success→am start com.zangou.runway/.MainActivity→35s+ 存活 PIDOF=2266→logcat FATAL=0→emu pkill 收口；锚点 b218a21→cd5d73a）
 漂移与一致性审计（15:0x·合入后 main@cd5d73a）: 禁词五词非md=基线5文件零新增（achievement/goal_ladder 定义+3测试夹具，元引用豁免 p=0.75 沿用）；theme/motion 外裸 Color(0x=0/裸 Duration=0（app/lib 全量+本轮 diff 双实测）；美团|工资|房贷非md=0；锚定手机号=0；open_id=0；真实账目=0；_LOCK find=0；remote=0；feat 残留=0（仅 main）；工作树净 0 行；main 头 cd5d73a↔本段对应✓；progress.md 唯一真相✓；task_plan 薄索引未据其判进度✓。
+
+## 监工票 — 2026-10-12 15:2x（SB-023 灰区双项裁定落地）
+- 浩然"按建议走"：**①收**（测试专用 hook 默认关·线上零行为差，标准测试钩子，生产零改动红线不破）；**②收**（8 文件卫生拆卡）。已开 SB-025 承接，排 SB-024 后、三端验收前。SB-023 全案闭环，无遗留待批。
