@@ -341,3 +341,15 @@ builder 痕迹核查：派发日志 19:45 退出行后无点火行、但 19:51:2
 - 决策模型: 本轮无边界裁决事项，未调用。
 - 提示词新鲜度: 巡检 message 括注（SB-026 已审结归档/squash@9210e26/done=24/待办=0/Windows补票挂SB-012验收8）与实测全一致；com.zangou.runway+am start 口径现行；golden/task_plan 薄索引均已落地——无过时项，未动 cron。周二非周一，不重复适配审查。
 - 利益点自省: 持平——零动作审计轮守住既有成果（首页预算卡 b218a21+三端验收 9210e26），机制零变化，无 SilentBook 旧病同构，无『更远』信号；推进在浩然侧（SB-012 走查/7天真人、D2-D4 拍板）。
+
+## 2026-10-13 01:0x 巡检轮 · 零动作审计（⚡零推送）
+
+- 结论: 无新提审（REQ mtime 1791814203=10-12 22:10:03 < REVIEW 1791822777=10-13 00:33），不重审。REQ head 复核=SB-026 已审结旧文；WAITING_HUMAN 1 命中系第6行 S0 守卫元叙述（沿 20:0x p=0.85 豁免），显式标记行=0。
+- 队列: 零漂移。活跃卡=2（ls 实测）——SB-012 状态行=审查通过·代码闸门已合入·真人闸门在飞 / SB-021 状态行=挂起 v0.2，grep -m1 实测与快照一致；done/=24（git ls-tree 实测含 SB-026）；docs/tasks 最高卡号 SB-026 与巡检 message 括注一致；待办=0 见底已呈报，不重复推送。
+- 提交: 3e962d6 后仓库零新提交（git log 3e962d6..HEAD=0 实测）= wake 00:45 拍合规 idle-out（cron list e71e53ac ok，下拍 01:15），builder 见底 idle 持续。
+- 冒烟: git diff --name-only 9210e26..HEAD 实测=REVIEW.md/docs/tasks/done/SB-026.md/progress.md 纯 docs → 锚点 9210e26 维持，不重跑。真人闸门期间 main 若有代码合入（hotfix）下轮必再冒烟。
+- 漂移与一致性审计: 全绿。禁词五词非md=基线5文件零新增（logic 禁词表定义2+测试夹具3，本轮 git grep -l 实测文件集与基线一致）；app/lib 命中2行均元引用豁免（goal_ladder.dart:7 注释复述禁令+achievement.dart:13 运行时禁词表本体，沿 04:0x p=0.75 口径），用户可见文案零命中；「多花」非md=5文件延续 SB-022 v3 已裁诚实事实词白名单零新增；ui/theme+motion 外裸 Color(0x=0/裸 Duration(milliseconds:=0（app/lib find+xargs grep 实测 0/0，路径非空置）；美团|工资|房贷非md=0；手机号锚定扫描(^|[^0-9])1[3-9][0-9]{9}([^0-9]|$)=0；open_id ou_[a-f0-9]{24,}=0；真实账目=0 红线零触发（9210e26 后零代码变更，沿 05:0x 合成夹具豁免口径）；_LOCK find=0+tracked=0；remote=0 未触碰；git branch=1 仅 main（feat 残留=0）；工作树净 0 行；main 头 3e962d6↔REVIEW 00:3x 段对应✓（本轮簿记后↔01:0x 段✓自验三连）；progress.md 唯一真相✓（尾条=SB-026 实况与队列一致实测）；task_plan 薄索引未据其判进度✓。
+- runway-watchdog: abaa94c7 仍 error（23:48 拍 Memos Get blocked，间隔 2h，下拍≈01:48 留结论）；未复发升级不推，01:48 拍再败即呈浩然（快照观察项⑤）。
+- 决策模型: 本轮无边界裁决事项，未调用。
+- 提示词新鲜度: 巡检 message 括注（SB-026 已审结归档/squash@9210e26/done/=24/待办=0/Windows补票挂SB-012验收8）与实测全一致（最高卡号 git ls-tree+ls 双实测）；com.zangou.runway+am start 口径现行；golden/薄索引 3a9d763✓；:00/:30 巡检与 :15/:45 wake 错峰✓（wake last=ok 实测）——无过时项，未动 cron。周二非周一，不重复适配审查；四项拍板仍在 00:3x 简报待答不重复推送。
+- 利益点自省: 持平——零动作审计轮守住既有成果（首页预算卡 b218a21+三端验收 9210e26），产品机制零变化，无 SilentBook 旧病同构；连续计数 更近×7(10-12 00:3x)→持平×N（10-12 01:0x 起），无『更远』信号不触发排期升级；推进在浩然侧（SB-012 三端走查+7天真人、D2-D4 拍板）。
