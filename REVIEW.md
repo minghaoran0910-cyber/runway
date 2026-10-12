@@ -180,3 +180,6 @@ REQ(1791736807/00:40:07)<REVIEW(1791785050/14:04:10) 无新提审不重审（REQ
 下一步: ①builder 在 feat/SB-024-ios-design 修 2 处乱码行+如实偏差申报后重提审（第2轮）；②SB-025 维持待办、排在 SB-024 闭环后；③浩然对 ADR 总推荐一票（p=0.69 灰区，拍板后 ADR Proposed→Accepted）
 模拟器冒烟: 未触发——纸面卡零代码；实测 git diff --name-only cd5d73a..main = REVIEW.md/docs/tasks/SB-025.md/docs/tasks/done/SB-023.md/progress.md 纯 docs 4 文件→锚点 cd5d73a 维持不重跑（builder 16:45 若领 SB-025 落码则触发）
 漂移与一致性审计（16:3x 轮）: 禁词五词全库 git grep -l 实测=8 文件与基线一致零新增（REVIEW.md/_inbox SPEC/achievement.dart/goal_ladder.dart/cooloff_test/experiment_test/goal_ladder_test/DESIGN_SYSTEM.md 均元引用簿记；app/lib 命中 2 行=注释复述+常量本体，沿 04:0x 豁免 p=0.75）；ui/theme 与 motion_spec 之外裸 Color(0x=0·裸 Duration(milliseconds:=0（app/lib 全量实测）；美团|工资|房贷 非md=0；锚定手机号=0；open_id=0；ADR 金额扫描唯一命中=格式口径示例 `12.34元`（合成示例非真实账目），真实账目=0 红线零触发；_LOCK find=0；git remote=0 未触碰；分支=main+feat/SB-024（在飞非残留）；main 头 214c24c↔REVIEW 15:2x 监工票段对应✓；builder REQ/progress 在飞改动监工代管未触碰（stash@SB-024 标签，审毕已还原）；progress.md 唯一真相✓；task_plan.md 薄索引未据其判进度✓。
+
+## 监工票 — 2026-10-12 16:5x（SB-024 灰区裁定落地）
+- 浩然 16:57 拍板："改，这些其他平台也得同步做哈"——p=0.69 灰区终结，且**推翻邮件主力方向**：快捷指令升正式渠道+四路导入矩阵+四平台同步，修订令已入卡（第二轮）。监工自我记账：ADR 把"偷看被锁"过度推广为"快捷指令整条只能实验"，监工审读时未举反例——教训入册：**路径被锁 ≠ 通道被锁，区分主动拉/被动推**。builder v2 交卷后再审。
