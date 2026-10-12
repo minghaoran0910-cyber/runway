@@ -329,3 +329,15 @@ builder 痕迹核查：派发日志 19:45 退出行后无点火行、但 19:51:2
 - 决策模型: 本轮无边界裁决事项，未调用。
 - 提示词新鲜度: 巡检 message 括注（SB-026 已审结归档/squash@9210e26/done=24/待办=0/Windows补票挂SB-012验收8）与实测全一致；com.zangou.runway+am start 口径现行；golden/task_plan 薄索引均已落地——无过时项，未动 cron。
 - 利益点自省: 持平——零动作审计轮守住既有成果（首页预算卡天天可见 b218a21+SB-026 三端验收@9210e26），产品机制零变化，无 SilentBook 旧病同构，无『更远』信号；推进在浩然侧（SB-012 三端走查+7天真人闸门、D2/D3/D4 拍板），监工侧无可施工增量，非『更远』。
+
+## 2026-10-13 00:3x 巡检轮 · 零动作审计（⚡零推送）
+
+- 结论: 无新提审（REQ mtime 1791814203=22:10:03 < REVIEW 1791821065），零动作审计轮。REQ 内 WAITING_HUMAN 唯一命中系第6行 S0 守卫元叙述（沿 20:0x p=0.85 豁免），显式标记行=0。
+- 队列: 零漂移。活跃卡2——SB-012 真人闸门在飞（三端走查+7天）、SB-021 挂起 v0.2，状态行 grep 实测与快照一致；done/=24、git ls-tree 实测含 SB-026；待办=0 见底已呈报，不重复推送。
+- 提交: 73f3637 后零新提交 → wake 00:15 拍 idle-out 合规（cron list e71e53ac ok，下拍 00:45）。
+- 冒烟: git diff --name-only 9210e26..HEAD 实测=REVIEW.md/docs/tasks/done/SB-026.md/progress.md 纯 docs → 锚点 9210e26 维持，不重跑。
+- 漂移与一致性审计: 全绿。禁词五词非md=基线5文件零新增（app/lib 2行均元引用豁免：achievement.dart:13 禁词表本体+goal_ladder.dart:7 注释，沿 p=0.75）；「多花」非md 5文件=logic/test 叙事白名单同源零新增；theme/motion 外裸 Color(0x=0、裸 Duration(milliseconds:=0；美团|工资|房贷非md=0；手机号严格正则=0（宽松命中13处实测均 pbxproj hex ID+测试 epoch 毫秒 1760000000000 假阳性）；open_id 非md=0；金额样式唯一命中=notification_parse.dart:16 解析格式注释示例 `12.34元`，非真实账目，红线未触；_LOCK find=0/tracked=0；remote=0；branch 仅 main、feat 残留0；工作树净0行；main 头 73f3637↔REVIEW 00:0x 段对应✓；progress 唯一真相✓、task_plan 未据此判进度✓；done/=24、活跃卡=2。
+- runway-watchdog: abaa94c7 仍 error（23:48 拍 Memos Get blocked，间隔 2h，下拍≈01:48）；未复发不升级，复发即呈浩然（快照观察项⑤）。
+- 决策模型: 本轮无边界裁决事项，未调用。
+- 提示词新鲜度: 巡检 message 括注（SB-026 已审结归档/squash@9210e26/done=24/待办=0/Windows补票挂SB-012验收8）与实测全一致；com.zangou.runway+am start 口径现行；golden/task_plan 薄索引均已落地——无过时项，未动 cron。周二非周一，不重复适配审查。
+- 利益点自省: 持平——零动作审计轮守住既有成果（首页预算卡 b218a21+三端验收 9210e26），机制零变化，无 SilentBook 旧病同构，无『更远』信号；推进在浩然侧（SB-012 走查/7天真人、D2-D4 拍板）。
