@@ -9,6 +9,8 @@ import 'package:runway/ui/quick_add_page.dart';
 import 'package:runway/ui/theme/app_theme.dart';
 import 'package:runway/ui/theme/tokens.dart';
 
+import 'fixed_clock.dart';
+
 // SB-020 widget + Golden：常买价格眼（有历史/无历史卡片）Light/Dark + 接线.
 // 基线 golden/sb020/；生成：cd app && flutter test --update-goldens test/golden_price_test.dart
 
@@ -35,7 +37,8 @@ PriceStats _demoStats() {
 
 Future<AppDb> _seedDb() async {
   final AppDb db = AppDb.memoryForTest();
-  final DateTime now = DateTime.now();
+  // SB-025 · 相对种子经夹具（行为与直调一致）.
+  final DateTime now = FixedClock.today();
   DateTime day(int d) => DateTime(now.year, now.month, d <= 28 ? d : 28, 12);
   final List<({int fen, int d})> noodles = <({int fen, int d})>[
     (fen: 2500, d: 3),

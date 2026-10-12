@@ -5,6 +5,8 @@ import 'package:runway/data/app_db.dart';
 import 'package:runway/ui/goal_page.dart';
 import 'package:runway/ui/home_page.dart';
 
+import 'fixed_clock.dart';
+
 // SB-006 · 看板 widget 测试（合成数据，内存库）.
 // drift watch 流说明见 widget_test.dart 文件头：unmount 后多 pump 消化零时长
 // Timer；本文件 widget 测试同样不调 db.close.
@@ -29,7 +31,8 @@ Future<void> _unmountAndFlush(WidgetTester tester) async {
 }
 
 Future<void> _seed(AppDb db) async {
-  final DateTime now = DateTime.now();
+  // SB-025 · 相对种子经夹具（行为与直调一致）.
+  final DateTime now = FixedClock.today();
   await db.insertOne(
     TransactionsCompanion(
       amountFen: const Value(5000),

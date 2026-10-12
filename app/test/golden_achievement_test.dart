@@ -11,6 +11,8 @@ import 'package:runway/ui/goal_page.dart';
 import 'package:runway/ui/theme/app_theme.dart';
 import 'package:runway/ui/theme/tokens.dart';
 
+import 'fixed_clock.dart';
+
 // SB-008 widget + Golden：解锁即弹/补弹一次 + 成就卡/收藏页四组.
 // 基线 golden/sb008/；生成：cd app && flutter test --update-goldens test/golden_achievement_test.dart
 // 注意：GoalPage 内 streams 测后不调 close（沿 SB-007 先例，unmount 即弃）.
@@ -51,7 +53,8 @@ class GoalWrap extends StatelessWidget {
 
 Future<AppDb> _seedDoneDb() async {
   final AppDb db = AppDb.memoryForTest();
-  final DateTime now = DateTime.now();
+  // SB-025 · 相对种子经夹具（行为与直调一致）.
+  final DateTime now = FixedClock.today();
   final DateTime lastMonth = DateTime(now.year, now.month - 1, 15, 12);
   await db.insertGoal(
     GoalsCompanion(

@@ -8,6 +8,8 @@ import 'package:runway/ui/category_page.dart';
 import 'package:runway/ui/theme/app_theme.dart';
 import 'package:runway/ui/theme/tokens.dart';
 
+import 'fixed_clock.dart';
+
 // SB-019 Golden：类目管理-角色选择（选/未选必提示）Light/Dark，基线 golden/sb019/.
 // 生成：cd app && flutter test --update-goldens test/golden_role_test.dart
 // 注意：本页用 db.watchAll()/watchCategoryRoles()，测后不调 close（见 category_page_test.dart 头注）.
@@ -30,7 +32,8 @@ class RoleBoard extends StatelessWidget {
 }
 
 DateTime _mday(int day) {
-  final DateTime now = DateTime.now();
+  // SB-025 · 相对种子经夹具（行为与直调一致）.
+  final DateTime now = FixedClock.today();
   final int d = day <= 28 ? day : 28;
   return DateTime(now.year, now.month, d, 12);
 }

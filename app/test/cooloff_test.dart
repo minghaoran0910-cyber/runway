@@ -2,6 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:runway/logic/achievement.dart';
 import 'package:runway/logic/cooloff.dart';
 
+import 'fixed_clock.dart';
+
 // SB-017 · 大额冷静期引擎单测（纯函数；合成数据，真实账目=0）.
 
 CooloffCandidate c(int fen, String source, DateTime t) =>
@@ -213,7 +215,8 @@ void main() {
       expect(
         CooloffDecision(
           amountFen: 1,
-          proposedAt: DateTime.now(),
+          // SB-025 · 状态值域种子经夹具（行为与直调一致）.
+          proposedAt: FixedClock.today(),
           status: s,
         ).status,
         s,

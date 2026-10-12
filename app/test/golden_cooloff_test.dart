@@ -11,6 +11,8 @@ import 'package:runway/ui/home_page.dart';
 import 'package:runway/ui/theme/app_theme.dart';
 import 'package:runway/ui/theme/tokens.dart';
 
+import 'fixed_clock.dart';
+
 // SB-017 widget + Golden：冷静两组（提出/忍住）× Light/Dark.
 // 基线 golden/sb017/；生成：cd app && flutter test --update-goldens test/golden_cooloff_test.dart
 
@@ -58,7 +60,8 @@ Future<void> _unmountAndFlush(WidgetTester tester) async {
 
 Future<AppDb> _seedDb() async {
   final AppDb db = AppDb.memoryForTest();
-  final DateTime now = DateTime.now();
+  // SB-025 · 相对种子经夹具（行为与直调一致）.
+  final DateTime now = FixedClock.today();
   for (int i = 1; i <= 5; i++) {
     await db.insertOne(
       TransactionsCompanion(
@@ -152,8 +155,9 @@ void main() {
     expect((await db.cooloffOfTx(7))?.status, 'held');
     expect(
       shouldExpireCooloff(
-        proposedAt: DateTime.now().subtract(const Duration(hours: 25)),
-        now: DateTime.now(),
+        // SB-025 · 相对种子经夹具（行为与直调一致）.
+        proposedAt: FixedClock.today().subtract(const Duration(hours: 25)),
+        now: FixedClock.today(),
       ),
       isTrue,
     );

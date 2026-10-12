@@ -6,6 +6,8 @@ import 'package:runway/ui/home_page.dart';
 import 'package:runway/ui/theme/app_theme.dart';
 import 'package:runway/ui/theme/tokens.dart';
 
+import 'fixed_clock.dart';
+
 // SB-006 Golden：首页看板 Light/Dark × 空态/有数据，共四组，基线 golden/sb006/.
 // 生成：cd app && flutter test --update-goldens test/golden_dashboard_test.dart
 // 注意：HomePage 用 db.watchAll()，测后不调 close（见 widget_test.dart 头注）.
@@ -29,7 +31,8 @@ class DashboardBoard extends StatelessWidget {
 
 Future<AppDb> _seedDb() async {
   final AppDb db = AppDb.memoryForTest();
-  final DateTime now = DateTime.now();
+  // SB-025 · 相对种子经夹具（行为与直调一致）.
+  final DateTime now = FixedClock.today();
   await db.insertOne(
     TransactionsCompanion(
       amountFen: const Value(5000),
