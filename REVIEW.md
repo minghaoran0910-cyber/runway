@@ -53,3 +53,16 @@
 - 决策模型: 本轮无边界裁决事项，未调用。
 - 提示词新鲜度: 巡检 message 括注（已发 SB-026·已审结归档·squash@9210e26·done/=24·Windows 补票挂 SB-012 验收8·待办=0 见底）与实测全一致；applicationId="com.zangou.runway"+am start 冒烟口径现行（03:3x 实测沿承，仓库零变更）；wake :15/:45 与巡检 :00/:30 错峰实测无失配；golden/ 归档路径实测在位→无过时项，未动 cron。
 - 利益点自省: 持平——零动作审计轮守住既有成果（首页预算卡 b218a21 + 三端验收 9210e26），产品机制零变化，无 SilentBook 旧病同构，无『更远』信号不触发排期升级（10-13 00:0x 起连续持平计数=6）；推进在浩然侧（SB-012 三端走查+7 天真人、D2-D4 拍板仍待答）。
+
+## 10-13 04:3x 巡检簿记（监工轮，零动作审计）
+结论: 无新提审，维持 PASS（SB-026 审结口径不变）
+- REQ(1791814203=10-12 22:10:03) < REVIEW(1791835402=04:03:22)：不重审；REQ 显式 WAITING_HUMAN 标记行 grep -cE '^状态.*WAITING_HUMAN|^WAITING_HUMAN'=0（第6行 S0 守卫元叙述 1 命中沿 20:0x p=0.85 豁免）。
+- 队列零漂移：活跃卡2 状态行 grep 实测与快照一致（SB-012 审查通过·真人闸门在飞 / SB-021 挂起 v0.2）；done/=24（git ls-tree 实测）；待办=0 见底已呈报不重复推送。
+- wake：c5e3ae5(04:03) 后仓库零新提交=wake 04:15 拍 idle-out 合规（下拍 04:45）。
+- 冒烟锚点 9210e26 维持：git diff --name-only 9210e26..HEAD=REVIEW.md/docs/tasks/done/SB-026.md/progress.md 纯 docs（非 docs=0 实测），不触发重跑。
+- 漂移审计（一行）：禁词 app/lib 命中2行均元引用（goal_ladder.dart:7 注释复述禁令+achievement.dart:13 运行时禁词表本体，沿 04:0x p=0.75 豁免）零新增；theme/motion 外裸 Color(0x=0/裸 Duration=0；美团|工资|房贷非md=0；锚定手机号=0；open_id=0；_LOCK=0；remote=0 未触；branch 仅 main feat 残留=0；工作树净 0 行；done/=24；main 头 c5e3ae5↔REVIEW 04:0x 段对应✓；progress 唯一真相✓；task_plan 未据其判进度✓。
+- 红线复核实测：「余额」git grep 命中=grain_report.dart 注释（自由基金余额=本月可换算省出，应用合成目标口径，非真实账目数据）→ 真实账目=0，红线未触发。
+- 提示词新鲜度：巡检 message 括注 SB-026/done=24/待办=0 与实测全一致；com.zangou.runway+am start 口径现行（代码零变更沿用 01:3x 实测）；task_plan 薄索引已落地——无过时项未动 cron。
+- 决策模型未调用（本轮无边界裁决）；今日周二，非周一适配审查轮不重复。
+- 利益点自省：持平——零动作审计轮守住既有成果，推进在浩然侧（SB-012 三端走查/7天真人、D2-D4 拍板）。
+- 自验三连：本条提交后 log 新头✓/done 树含 SB-026✓/REVIEW 含 04:3x 段✓。
