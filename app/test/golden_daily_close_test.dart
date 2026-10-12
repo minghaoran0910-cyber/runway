@@ -11,6 +11,8 @@ import 'package:runway/ui/home_page.dart';
 import 'package:runway/ui/theme/app_theme.dart';
 import 'package:runway/ui/theme/tokens.dart';
 
+import 'fixed_clock.dart';
+
 // SB-016 widget + Golden：收口三组（问句/已记/已记含今日攒出行）× Light/Dark.
 // 基线 golden/sb016/；生成：cd app && flutter test --update-goldens test/golden_daily_close_test.dart
 
@@ -70,7 +72,8 @@ Future<void> _unmountAndFlush(WidgetTester tester) async {
 
 Future<AppDb> _seedDb() async {
   final AppDb db = AppDb.memoryForTest();
-  final DateTime now = DateTime.now();
+  // SB-023 · 相对种子经夹具封装（首页集成仅断言键，行为与直调一致）.
+  final DateTime now = FixedClock.today();
   for (int i = 1; i <= 5; i++) {
     await db.insertOne(
       TransactionsCompanion(
@@ -140,7 +143,7 @@ void main() {
     await db.setCloseEnabled(false);
     expect(await db.closeEnabled(), isFalse);
     await db.setCloseEnabled(true);
-    final String key = dateKeyFor(DateTime.now());
+    final String key = dateKeyFor(FixedClock.today());
     expect(await db.closeOfDate(key), isNull);
     await db.markClosed(dateKey: key, estimateFen: 5000);
     expect((await db.closeOfDate(key))?.estimateFen, 5000);

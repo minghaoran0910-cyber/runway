@@ -6,6 +6,8 @@ import 'package:runway/ui/goal_page.dart';
 import 'package:runway/ui/theme/app_theme.dart';
 import 'package:runway/ui/theme/tokens.dart';
 
+import 'fixed_clock.dart';
+
 // SB-007 widget + Golden：目标设定页 CRUD 联动 + Light/Dark × 空/有四组.
 // 基线 golden/sb007/；生成：cd app && flutter test --update-goldens test/golden_goal_test.dart
 // 注意：GoalPage 用 db.watchGoals/watchAll，测后不调 close（见 widget_test.dart 头注）.
@@ -29,7 +31,8 @@ class GoalBoard extends StatelessWidget {
 
 Future<AppDb> _seedDb() async {
   final AppDb db = AppDb.memoryForTest();
-  final DateTime now = DateTime.now();
+  // SB-023 · 相对种子经夹具封装（保本月/上月关系，月界稳定；页渲染仅数字无日期串）.
+  final DateTime now = FixedClock.today();
   final DateTime lastMonth = DateTime(now.year, now.month - 1, 15, 12);
   await db.insertGoal(
     GoalsCompanion(
@@ -103,7 +106,7 @@ void main() {
     await tester.pumpWidget(GoalBoard(isDark: false, db: db));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('goalProgress')), findsOneWidget);
-    final DateTime now = DateTime.now();
+    final DateTime now = FixedClock.today();
     await db.insertOne(
       TransactionsCompanion(
         amountFen: const Value(2000),

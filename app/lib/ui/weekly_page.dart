@@ -60,11 +60,12 @@ Future<bool> ensureWeeklyReport(AppDb db, WeeklyReportView view) async {
 }
 
 /// SB-015 · 当月支出合计（预算口径省出用）.
-int _monthSpendOf(List<Transaction> rows) {
-  final DateTime now = DateTime.now();
+/// SB-023 · 时钟缝：now 可注（测试传固定钟），null 即生产行为（DateTime.now）.
+int _monthSpendOf(List<Transaction> rows, {DateTime? now}) {
+  final DateTime n = now ?? DateTime.now();
   int sum = 0;
   for (final Transaction r in rows) {
-    if (r.occurredAt.year == now.year && r.occurredAt.month == now.month) {
+    if (r.occurredAt.year == n.year && r.occurredAt.month == n.month) {
       sum += r.amountFen;
     }
   }
@@ -72,9 +73,10 @@ int _monthSpendOf(List<Transaction> rows) {
 }
 
 /// SB-015 · 上月支出合计（预算口径环比增量用）.
-int _lastMonthSpendOf(List<Transaction> rows) {
-  final DateTime now = DateTime.now();
-  final DateTime d1 = DateTime(now.year, now.month - 1, 1);
+/// SB-023 · 时钟缝：同上.
+int _lastMonthSpendOf(List<Transaction> rows, {DateTime? now}) {
+  final DateTime n = now ?? DateTime.now();
+  final DateTime d1 = DateTime(n.year, n.month - 1, 1);
   int sum = 0;
   for (final Transaction r in rows) {
     if (r.occurredAt.year == d1.year && r.occurredAt.month == d1.month) {
@@ -85,9 +87,12 @@ int _lastMonthSpendOf(List<Transaction> rows) {
 }
 
 class WeeklyPage extends StatefulWidget {
-  const WeeklyPage({super.key, required this.db});
+  // SB-023 · 时钟缝（测试可注固定钟，golden 全年稳定）：
+  // null=生产行为（取 DateTime.now），行为零变化.
+  const WeeklyPage({super.key, required this.db, this.nowOverride});
 
   final AppDb db;
+  final DateTime? nowOverride;
 
   @override
   State<WeeklyPage> createState() => _WeeklyPageState();
@@ -95,6 +100,9 @@ class WeeklyPage extends StatefulWidget {
 
 class _WeeklyPageState extends State<WeeklyPage> {
   bool _autoTried = false;
+
+  /// 本次渲染时钟（测试覆写优先）.
+  DateTime get _now => widget.nowOverride ?? DateTime.now();
 
   List<DashboardFlow> _flowsOf(List<Transaction> rows) {
     return rows
@@ -114,7 +122,7 @@ class _WeeklyPageState extends State<WeeklyPage> {
   ) async {
     if (_autoTried) return;
     _autoTried = true;
-    final DateTime now = DateTime.now();
+    final DateTime now = _now;
     final DateTime? last = history.isEmpty ? null : history.first.weekStart;
     if (!shouldGenerateWeekly(now: now, lastGenerated: last)) return;
     final List<DashboardFlow> flows = _flowsOf(rows);
@@ -128,7 +136,7 @@ class _WeeklyPageState extends State<WeeklyPage> {
   }
 
   Future<void> _manualGenerate(List<Transaction> rows) async {
-    final DateTime now = DateTime.now();
+    final DateTime now = _now;
     final List<DashboardFlow> flows = _flowsOf(rows);
     final int prev = sumPrevWeekSpend(flows: flows, now: now);
     final WeeklyReportView view = computeWeekly(
@@ -168,7 +176,7 @@ class _WeeklyPageState extends State<WeeklyPage> {
                     _maybeAutoGenerate(rows, history);
                   });
                 }
-                final DateTime now = DateTime.now();
+                final DateTime now = _now;
                 final List<DashboardFlow> flows = _flowsOf(rows);
                 final int prev = sumPrevWeekSpend(flows: flows, now: now);
                 final WeeklyReportView cur = computeWeekly(
@@ -209,7 +217,7 @@ class _WeeklyPageState extends State<WeeklyPage> {
                             // SB-015 · 周报换算改接预算基线（预算周折算对照 + 环比增量）.
                             StreamBuilder<List<Budget>>(
                               stream: widget.db.watchBudgetHistory(
-                                monthKeyFor(DateTime.now()),
+                                monthKeyFor(_now),
                               ),
                               builder: (bctx, bsnap) {
                                 final List<Budget> hist =
@@ -217,8 +225,14 @@ class _WeeklyPageState extends State<WeeklyPage> {
                                 if (hist.isEmpty) {
                                   return const SizedBox.shrink();
                                 }
-                                final int mSpend = _monthSpendOf(rows);
-                                final int mLast = _lastMonthSpendOf(rows);
+                                final int mSpend = _monthSpendOf(
+                                  rows,
+                                  now: _now,
+                                );
+                                final int mLast = _lastMonthSpendOf(
+                                  rows,
+                                  now: _now,
+                                );
                                 final BudgetSaved bs = computeBudgetSaved(
                                   budgetFen: hist.first.budgetFen,
                                   monthSpendFen: mSpend,

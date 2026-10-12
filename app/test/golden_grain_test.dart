@@ -11,6 +11,8 @@ import 'package:runway/ui/theme/app_theme.dart';
 import 'package:runway/ui/theme/tokens.dart';
 import 'package:runway/ui/weekly_page.dart';
 
+import 'fixed_clock.dart';
+
 // SB-014 widget + Golden：余粮卡/周报页四组 + 同区集成.
 // 基线 golden/sb014/；生成：cd app && flutter test --update-goldens test/golden_grain_test.dart
 
@@ -49,8 +51,9 @@ GrainReserveView _emptyView() {
 
 Future<AppDb> _seedWeeklyDb() async {
   final AppDb db = AppDb.memoryForTest();
-  final DateTime now = DateTime.now();
-  final DateTime monday = weekStartFor(now);
+  // SB-023 · 绝对钉：种子与页时钟同源（FixedClock.fixedMonday），渲染全年确定.
+  // 本周历史预置一条（周一 auto-generate 被幂等抑止，任意真实日期结构恒定 2 期）.
+  final DateTime monday = weekStartFor(FixedClock.fixedMonday);
   await db.insertOne(
     TransactionsCompanion(
       amountFen: const Value(5000),
@@ -76,6 +79,15 @@ Future<AppDb> _seedWeeklyDb() async {
       savedFen: const Value(2000),
       topJson: const Value('食:8000,行:4000'),
       momDeltaFen: const Value(2000),
+    ),
+  );
+  await db.insertWeeklyReport(
+    WeeklyReportsCompanion(
+      weekStart: Value(monday),
+      spendFen: const Value(8000),
+      savedFen: const Value(0),
+      topJson: const Value('食:5000,交通:3000'),
+      momDeltaFen: const Value(-8000),
     ),
   );
   return db;
@@ -130,7 +142,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         theme: AppTheme.light(),
-        home: WeeklyPage(db: db),
+        home: WeeklyPage(db: db, nowOverride: FixedClock.fixedMonday),
       ),
     );
     await tester.pumpAndSettle();
@@ -154,7 +166,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         theme: AppTheme.light(),
-        home: WeeklyPage(db: db),
+        home: WeeklyPage(db: db, nowOverride: FixedClock.fixedMonday),
       ),
     );
     await tester.pumpAndSettle();
@@ -218,7 +230,7 @@ void main() {
         theme: AppTheme.light(),
         darkTheme: AppTheme.dark(),
         themeMode: ThemeMode.light,
-        home: WeeklyPage(db: db),
+        home: WeeklyPage(db: db, nowOverride: FixedClock.fixedMonday),
       ),
     );
     await tester.pumpAndSettle();
@@ -239,7 +251,7 @@ void main() {
         theme: AppTheme.light(),
         darkTheme: AppTheme.dark(),
         themeMode: ThemeMode.dark,
-        home: WeeklyPage(db: db),
+        home: WeeklyPage(db: db, nowOverride: FixedClock.fixedMonday),
       ),
     );
     await tester.pumpAndSettle();
