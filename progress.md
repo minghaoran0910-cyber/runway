@@ -104,3 +104,5 @@
 - 2026-10-12 01:1x 监工冒烟回填：SB-012 合入轮一条龙 **PASS**（archive 独立构建 /tmp/runway-smoke-55b04ae：BOOT=1@28s、BUILD_EXIT=0 apk 155482848B、install Success、am start 后 35s 存活 PIDOF=3448、FATAL=0、emu 收口进程清零）。last_smoke_commit c581f7d→b218a21。周一首轮已拍：当周卡计划+适配审查提案+7天真人体验启动请示→简报浩然；builder 队列见底，wake 空转待派。[SB-012][supervisor patrol]
 - 2026-10-12 13:0x 监工巡检轮：零动作审计轮（REQ<REVIEW 无新提审；队列与快照零漂移=活跃卡2/done 20；禁词/裸Color/裸Duration/手机号/open_id/_LOCK/remote 全绿；b218a21..HEAD 纯 docs→冒烟锚点维持不重跑；wake 12:43 拍 ok；决策模型未调用；零推送）——详见 REVIEW.md 13:0x 段
 - 2026-10-12 13:3x 监工巡检轮：零动作审计轮（REQ<REVIEW 无新提审；队列与快照零漂移=活跃卡2/done 20；1b837e0 后零新提交=13:15 wake 拍合规 idle-out；禁词/裸Color/裸Duration/手机号/open_id/_LOCK/remote 全绿；b218a21..HEAD 非docs=0→冒烟锚点维持 b218a21 不重跑；main头1b837e0↔REVIEW 13:0x段对应✓；决策模型未调用；零推送）——详见 REVIEW.md 13:3x 段
+
+- 2026-10-12 14:2x v0.2 排期提案出案（浩然令）：docs/ROADMAP-v0.2.md，主线『让账真』三波（Wave0 体验期零运行时并行/Wave1 tag 后/Wave2 复审池），等浩然批主线+Wave0+Windows 路线三点头。[v0.2]
