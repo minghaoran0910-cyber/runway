@@ -52,3 +52,5 @@ openclaw cron add --every 30m --agent main --session isolated --name "攒够-监
 6. REVIEW 写作要求（配合 LOOP.md R4 计数）：每次 REQUEST_CHANGES 必须写轮次编号（"第 x 轮 · 卡 SB-nnn"），同一卡累计出现 2 次后开发方将直接 WAITING_HUMAN，不再动手。
 7. 唤醒语措辞（R6）：cron 里"禁止碰 main"指禁止写入 main（commit/merge 到 main），允许读 main 和从 main 切出 feat 分支。请按此理解执行，改一词亦可但含义不变。
 8. 你写 `REVIEW.md` 也请原子化（先写 tmp 再 mv），开发方同理（LOOP.md R7），避免双方读写半截。
+
+**开卡前提实证（2026-10-12 浩然批准转正）**：监工下发新卡前，卡文中引用的文件路径/机制前提须先 grep 代码实证；实证记录写入卡"引用条款"，防纸上条款建在不存在的地基上。
