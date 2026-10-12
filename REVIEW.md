@@ -162,3 +162,21 @@ REQ(1791736807/00:40:07)<REVIEW(1791785050/14:04:10) 无新提审不重审（REQ
 
 ## 监工票 — 2026-10-12 15:2x（SB-023 灰区双项裁定落地）
 - 浩然"按建议走"：**①收**（测试专用 hook 默认关·线上零行为差，标准测试钩子，生产零改动红线不破）；**②收**（8 文件卫生拆卡）。已开 SB-025 承接，排 SB-024 后、三端验收前。SB-023 全案闭环，无遗留待批。
+
+# REVIEW — 2026-10-12 SB-024（第1轮 · 卡 SB-024）
+结论: REQUEST_CHANGES（R4 计数 1/2；同卡再 R-C 一次即 WAITING_HUMAN）
+检查项:
+- [x] REQ(1791789441/15:17:2x)>REVIEW(1791789352) 真新提审；基座 main@c65547a→feat@e5904c0 直切（main 其后新增纯 docs 提交 214c24c，与纸面卡无碰撞，squash 时自然叠加）✓
+- [x] 文件约束：业务代码 0 改动；docs/ 仅新增 ADR 1 文件 79 行≤400；无 pubspec；git diff main...HEAD 实测 app/=0 行 ✓
+- [x] 验收1（内容）：三方案各含原理/限制/工程量/失败模式；推荐=B 主力+C 兜底、A 附录不进 Wave1；SB-010 引用面监工 grep 实证全部在位——makeNotifyKey（notification_parse.dart:72）/pending_records v5（app_db.dart:73）/sourcePkg 列（app_db.dart:80）/insertPendingDedup（:358）/notifyContentHash（:50）/channel runway/notify_collector（MainActivity.kt:19）/去重键定稿锚 d6ae1ab（git log 实测）；schema 零迁移+两套键各管一行禁第三套 ✓
+- [x] 验收2（零代码）：不改 app/、不引依赖、docs/ 仅新增该 ADR ✓（实测）
+- [~] 验收3（决策打分留档）：builder 自评已留档 ADR §5；监工本轮正式 decision_evaluate 复核（typesafe/jev-1.13）：A 附录采纳 **决策p=0.87→按判采纳**；IMAP 立即施工 **决策p=0.14→按判缓做，Wave2 与多账户并案**；总推荐 B+C 接受 **决策p=0.69 灰区→不编判决，留浩然拍板**（已随本轮简报推送）✓（builder 两处灰区申报，一处由复核直接判清）
+- [ ] 交付文档质量：正文含 2 处**未申报**外语乱码残片（与 REQ"偏差声明：无"矛盾）
+问题列表:
+1. §2 方案A 工程量行（正文第 30 行）：`Swift/Kotlin 对称 realiza tion 写原生侧`——外语乱码插在词中，应为「对称实现写原生侧」
+2. §2 方案C 失败模式行（正文第 48 行）：`产品侧接受， Niederschlag 在周报…`——外语乱码乱入，应为「沉淀在周报」
+   （仅此 2 处；扩大扫描 extended-latin/日文假名=0。ADR 结论、三方案内容、打分、schema 面均不受影响。返工=同分支就地修 2 行再提审，预计 5 分钟）
+3. 申报不实记录：REQ 偏差声明写"无偏差"但正文自带缺陷（2026-10-10 反虚构条款精神延伸——交付物缺陷须自申报）；下一轮 REQ 如实填写
+下一步: ①builder 在 feat/SB-024-ios-design 修 2 处乱码行+如实偏差申报后重提审（第2轮）；②SB-025 维持待办、排在 SB-024 闭环后；③浩然对 ADR 总推荐一票（p=0.69 灰区，拍板后 ADR Proposed→Accepted）
+模拟器冒烟: 未触发——纸面卡零代码；实测 git diff --name-only cd5d73a..main = REVIEW.md/docs/tasks/SB-025.md/docs/tasks/done/SB-023.md/progress.md 纯 docs 4 文件→锚点 cd5d73a 维持不重跑（builder 16:45 若领 SB-025 落码则触发）
+漂移与一致性审计（16:3x 轮）: 禁词五词全库 git grep -l 实测=8 文件与基线一致零新增（REVIEW.md/_inbox SPEC/achievement.dart/goal_ladder.dart/cooloff_test/experiment_test/goal_ladder_test/DESIGN_SYSTEM.md 均元引用簿记；app/lib 命中 2 行=注释复述+常量本体，沿 04:0x 豁免 p=0.75）；ui/theme 与 motion_spec 之外裸 Color(0x=0·裸 Duration(milliseconds:=0（app/lib 全量实测）；美团|工资|房贷 非md=0；锚定手机号=0；open_id=0；ADR 金额扫描唯一命中=格式口径示例 `12.34元`（合成示例非真实账目），真实账目=0 红线零触发；_LOCK find=0；git remote=0 未触碰；分支=main+feat/SB-024（在飞非残留）；main 头 214c24c↔REVIEW 15:2x 监工票段对应✓；builder REQ/progress 在飞改动监工代管未触碰（stash@SB-024 标签，审毕已还原）；progress.md 唯一真相✓；task_plan.md 薄索引未据其判进度✓。

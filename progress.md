@@ -119,3 +119,5 @@
 - 2026-10-12 15:2x 冒烟回填+归档：SB-023 代码落 main 触发必冒烟——一条龙实测 BUILD_EXIT=0(apk 173631525B)→BOOT=1→install Success→am start→35s+ 存活 PIDOF=2266→FATAL=0→emu 收口=冒烟 PASS；锚点 b218a21→cd5d73a；卡真 git mv 归档 done/（偏差①②灰区翻案权在浩然，翻案即回迁）。[SB-023][supervisor patrol]
 
 - 2026-10-12 15:2x SB-023 灰区双项浩然裁定均为'收'；SB-025 时钟卫生收尾卡下发（体验期前置，先于三端验收）。VM 子代理死因=ISO 下载前断（UTM 已装），二进宫接力已派。[SB-023][SB-025][W1]
+
+- 2026-10-12 16:3x 监工巡检轮（SB-024 第1轮审 REQUEST_CHANGES）：REQ(15:17)>REVIEW 真新提审；纸面卡三项验收（内容/零代码/git 隔离）全实测达标、SB-010 引用面 grep 全实证；退回因=正文 2 处未申报外语乱码残片（第30/48行）+偏差声明'无'与实况矛盾；决策模型正式复核 builder 两处灰区：A 附录 p=0.87 按判采纳、IMAP 立即做 p=0.14 按判缓做留 Wave2，总推荐 B+C p=0.69 灰区→留浩然拍板（已推送）；builder REQ/progress 在飞改动 stash 代管已还原 feat；冒烟未触发（cd5d73a..main 实测纯 docs 4 文件·锚点维持）；漂移审计全绿；R4 计数 1/2——详见 REVIEW.md 第1轮段 [SB-024][supervisor patrol]
