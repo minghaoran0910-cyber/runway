@@ -1,3 +1,35 @@
+## 21:1x 巡检轮 — SB-025 第 1 轮审查（2026-10-12 · 监工独立实测）
+结论: PASS（第 1 轮 · 卡 SB-025；R4 累计=0，本轮无打回）
+
+触发核查（真实回显）: REQ mtime 1791807531（20:18:51）> REVIEW 1791807230（20:13:50）→真新提审；⚠️20:30 巡检拍 model 层失败一轮（automations 实测 lastRunStatus=error "Agent run failed (model: litellm/qwen3.8-flash)"，单发非连败），提审积压 40 分钟本轮 21:00 拍接上；feat@72318bf 直接落在 main@6c2f67b 上（git log 线性实测）；REQ 显式 WAITING_HUMAN 标记（^状态…/整行）实测=0——第 6 行「未达 WAITING_HUMAN 线」系元叙述非标记行，二代派发器不误报（20:1x S0.6 自愈复验通过）。
+
+检查项（监工在 feat 工作树独立实测，非转述 builder 声明）:
+- [x] 提审面：diff main..feat=恰好 9 个测试文件（+40/-13 行、单文件最大 +7）；lib/=0、golden/=0、pubspec=0 改动（git diff --stat 逐项实测）
+- [x] 验收①：git grep "DateTime.now()\|new Date()" -- app/test/ = 仅 fixed_clock.dart 3 处（注释 2+today() 本体 1，夹具豁免口径），测试文件直调=0 ✓
+- [x] 验收②：监工重跑前三闸门 hygiene OK / format 97 文件 0 改动 / analyze No issues；全量 flutter test **414/414 All tests passed**（监工独立跑两遍均绿，00:19/00:21 真实回显）；golden 零 diff 零重生成（diff golden/=0 行实测）✓
+- [x] 迁移质量：diff 逐行读——9 处 `import 'fixed_clock.dart';` + 全部 DateTime.now()→FixedClock.today()；夹具 today() 本体=DateTime.now()（fixture 第 10 行实读），行为语义等价、断言语义零改，符合"纯迁移"卡承诺；偏差③ cooloff_test:216 状态值域种子同口径实证
+- [x] 文件约束：9≤10 硬上限；无 pubspec/依赖变更；_LOCK find=0；remote=0（git remote 实测）；未 push（无 remote 物理不可 push）
+- [x] 红线：真实账目=0（hygiene OK+diff 面全为测试迁移）
+- [x] 簿记代：builder 未提交的 REQ/progress 改动随 squash 入头（历轮代簿惯例）；删支前 main..72318bf 树差实测非簿记文件=0（61 行差异全部系 REQ/progress 簿记文本本身）
+
+偏差裁决（规则10，decision_evaluate typesafe/jev-1.13 status=ok）:
+- D1 偏差①文件数 9≠卡预估 8（根因=SB-023 延期轮 grep 口径差异；如实申报、≤10 上限内、未扩 scope、监工全闸门独立绿）：p=0.81 → **按判照受**，不打回不推浩然。**决策p=0.81**
+- D2 卡状态行未随提审改「待审查」（REQ/progress 均已申报待审查，唯卡文件滞留待办）：p=0.71 灰区 → 监工判定=不构成打回项（审结已代更新状态行），灰区随简报留浩然知悉。**决策p=0.71**
+- 偏差②全用 today() 相对种子非 fixedMonday 绝对钉：非灰区——绝对钉会改 golden 渲染日期违反验收②，三族绝对钉系 SB-023 专属口径，本轮处置正确，监工直接照受。
+- 偏差③ cooloff_test:216 值域种子走夹具：diff 实读+全量绿实证，照受。
+
+合入舞步: squash 落 main@**44575fc**（REQ/progress 代簿入头，11 文件提交实测）→删支前树差非簿记=0 实测后 -D（was 72318bf）→分支实测仅剩 main→卡真 git mv 归档 docs/tasks/done/（git mv 执行非谎报，commit 后 done/=23）→卡状态行=验收通过+审计结论监工填写。
+
+模拟器冒烟: **PASS（本轮实做·一条龙真实回显）**——落码卡合入（44575fc vs last_smoke_commit=cd5d73a）触发条款4。实测：树差核验 app/ 工作树 vs HEAD=0 行→emulator runway_api36 -no-window -no-snapshot-load -no-audio -no-boot-anim→BOOT=6 拍（×5s≈30s boot_completed=1）→flutter build apk --debug BUILD_EXIT=0（apk 173631525B·Gradle 9.0s 增量）→adb install -r Success→am start -n com.zangou.runway/.MainActivity "Starting: Intent { cmp=com.zangou.runway/.MainActivity }"→35s pidof 存活 PID=非空（SMOKE_DONE ALIVE=1）→logcat FATAL EXCEPTION=0·Force finishing=0→kill+pkill 收口（脚本 SMOKE_DONE 回显·SCRIPT_EXIT=0·复扫 pgrep emulator=0）。last_smoke_commit→44575fc。
+
+漂移与一致性审计（一行·真实回显）: 禁词五词=基线本体零新增（app/lib 命中仅 goal_ladder.dart:7 注释+achievement.dart:13 禁词表定义，元引用豁免·04:0x 口径 p=0.75 沿用，用户可见=0；本轮 diff 面零禁词行实读）；theme/motion 外裸 Color(0x=0·裸 Duration(milliseconds:=0（app/lib 全量 grep 实测）；美团|工资|房贷 非md=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发；_LOCK find+tracked=0；remote=0；合入后 feat 残留=0（仅 main）；done/=23（真 git mv 后）；合入前 main 头 6c2f67b↔REVIEW 20:1x 段对应✓（本轮簿记头后=新头↔本段✓）；progress.md 唯一真相✓·task_plan 薄索引（3a9d763）未据其判进度✓。
+
+提示词新鲜度自审（规则8）: docs/tasks 最高卡号=SB-025 与巡检 message「已发到 SB-025」口径一致✓最新；applicationId com.zangou.runway 现行✓（本段 am start 命令即用此）；golden/sb0XX 归档路径+done/ 真 mv 口径现行✓；task_plan 薄索引已落地✓；错峰巡检 :00/:30 vs wake :15/:45 无失配✓；巡检 19b5f29f */30 在册（automations 实测本拍 runningAt=13:00 UTC✓·20:30 拍 model error 单发→未达"连败 6x 要改就改"线，参数不动）；wake e71e53ac/看门狗×2/需求反思：automations 工具仅暴露当前 job，wake 下拍 21:15 以仓库痕迹观测（合入已毕、队列见底=预期 idle-out 正常）——**无需 cron edit**。
+
+利益点自省: **更近**——测试时钟去腐完成（"跨周一必红"根除），体验版地基更净（卡排期注"必须先于三端装机验收与体验版交付"兑现）；用户输入成本零增，无 SilentBook 旧病同构；连续计数：20:1x 更近（流水线自愈）→本轮更近。
+
+下一步: ①冒烟一条龙实测+回填本段；②builder 21:15 拍=合入后空拍（待办卡=0）应 idle-out，下轮巡检核验；③队列见底→下批次排期呈浩然（Wave1 拆卡前置=tag v0.1.0，SB-012 真人 7 天闸门未过严禁提前）；④20:30 拍 model error 观察，再发则查 LiteLLM 路由。
+
 ## 13:3x 常规巡检轮（2026-10-12 · 零动作审计轮）
 
 漂移审计: REQ(1791736807/00:40:07)<REVIEW(1791782627/13:23:47) 无新提审不重审（REQ tail 复核=SB-012 已审结旧文·WAITING_HUMAN grep -c=0 实测）；队列与快照零漂移（活跃卡实测=2：SB-012 状态行=审查通过·代码闸门已合入·真人闸门在飞 / SB-021=挂起 v0.2，与快照一致；done/ git ls-files 实测=20；最高卡号 SB-022 现行口径）；1b837e0..HEAD=0 新提交（git rev-list 实测；1b837e0 系监工 13:0x 簿记非 builder）=13:15 wake 拍合规 idle-out（cron list 实测 e71e53ac ok·下拍 13:45）；b218a21..HEAD 非 docs 文件数=0（git diff --name-only 过滤实测）→冒烟锚点维持 b218a21 不重跑（SB-012 真人闸门期间 main 若落码下轮必再冒烟）；漂移审计全绿（禁词五词 git grep -l 实测=基线 7 文件零新增：_inbox 规范+achievement.dart 禁词表本体+goal_ladder.dart 注释+3 测试夹具+DESIGN_SYSTEM；app/lib 命中 2 行均元引用豁免——goal_ladder.dart:7 复述禁令注释+achievement.dart:13 achievementBannedWords 常量本体，沿用 04:0x 裁决 p=0.75，用户可见命中=0；「多花」延续 SB-022 v3 已裁诚实事实词白名单零新增；theme/motion 外裸 Color(0x=0·裸 Duration(milliseconds:=0（app/lib 全量 grep 实测）；美团|工资|房贷 非 md=0·锚定式手机号(^|[^0-9])1[3-9][0-9]{9}([^0-9]|$)=0·open_id ou_[a-f0-9]{24,}=0·真实账目=0 红线零触发；_LOCK find=0·tracked 代码泄漏=0；git remote 实测=0·git branch 实测=仅 main 无 feat 残留·工作树净 0 行）；main 头 1b837e0↔REVIEW 13:0x 段对应✓（本轮簿记后=新头↔13:3x 段✓）；提示词新鲜度（规则8）：1b837e0 后仓库零变更，13:0x/07:0x 全实测结论延续——卡号 SB-022/包名 com.zangou.runway/golden 归档路径/task_plan 薄索引（3a9d763）/:00-:30 与 :15-:45 错峰/派发器无卡号硬编码 均现行——无需 cron edit；runway-watchdog abaa94c7 ok·统一看门狗 169be936 ok·需求反思 6f3e81c0 ok（cron list 实测）；progress.md 唯一真相✓·task_plan.md 只读缓存未据其判进度✓；周一首轮规范适配审查+周卡简报已于 00:3x 交付不重复；本轮无边界裁决事项，决策模型未调用；利益点自省=持平×25（零动作审计轮守住 b218a21『首页预算卡天天可见』成果，产品机制零变化，无 SilentBook 旧病同构，无『更远』信号不触发排期升级；SB-012 真人环节+四项拍板仍待 00:3x 简报回音，不重复推送）。零推送（⚡条款）。
