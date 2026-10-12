@@ -117,6 +117,7 @@
 
 - 2026-10-12 15:1x 监工巡检轮（SB-023 第1轮审查 PASS）：REQ(15:01)>REVIEW 真新提审；监工独立复跑 414/414 绿+TZ±14/-11 多日期仿真三族与全量绿+golden 像素 diff 单带目审零漂移；偏差①生产时钟缝/②三族外延期=决策 p=0.61/0.66 灰区默认照受留浩然一票翻案（已推送）；squash@cd5d73a·REQ/progress 代簿入头·删支前代码 diff=0 实测；卡状态已改暂不归档（冒烟回填后才进 done/）；漂移审计全绿——详见 REVIEW.md 15:0x 段 [SB-023][supervisor patrol]
 - 2026-10-12 15:2x 冒烟回填+归档：SB-023 代码落 main 触发必冒烟——一条龙实测 BUILD_EXIT=0(apk 173631525B)→BOOT=1→install Success→am start→35s+ 存活 PIDOF=2266→FATAL=0→emu 收口=冒烟 PASS；锚点 b218a21→cd5d73a；卡真 git mv 归档 done/（偏差①②灰区翻案权在浩然，翻案即回迁）。[SB-023][supervisor patrol]
+- 2026-10-12 15:2x builder SB-024 done（分支 `feat/SB-024-ios-design`）：纸面卡，新增 `docs/adr/ADR-iOS-通知采集路径.md`（79 行）——三方案对比（A 快捷自动化写共享容器/B 邮件转导/C 手动兜底，各含原理/限制/工程量/失败模式），推荐 B 主力+C 兜底、A 实验性附录不进 Wave1；复用 SB-010 身份去重键 `makeNotifyKey` + `pending_records`(v5) 零迁移，`sourcePkg` 三值约定 + 两套键各管一行（实时流 vs 批量流禁第三套）；决策自评 B+C p=0.82 接受/A 主力 p=0.25 拒绝/A 附录 p=0.68 灰区/IMAP 增强 p=0.55 灰区（workspace 无决策模型工具，留监工复核）；零 app/ 改动、零依赖；`tool/ci.sh` ALL GREEN + hygiene OK；commit e5904c0。待监工审查。[SB-024]
 
 - 2026-10-12 15:2x SB-023 灰区双项浩然裁定均为'收'；SB-025 时钟卫生收尾卡下发（体验期前置，先于三端验收）。VM 子代理死因=ISO 下载前断（UTM 已装），二进宫接力已派。[SB-023][SB-025][W1]
 
@@ -125,3 +126,4 @@
 - 2026-10-12 16:5x SB-024 灰区裁定=改：快捷指令升正式渠道+导入矩阵四平台同步；修订令入卡，builder v2 含第1轮乱码一并修。v0.1 冻结线不变。[SB-024]
 - 2026-10-12 17:0x 监工巡检轮（零动作审计）：REQ<REVIEW 无新提审；SB-024 第2轮 builder 未交卷（feat 123ca22 后零新提交，16:57 修订令已入卡待 v2）；cd5d73a..main 实测纯 docs→冒烟锚点维持；漂移审计全绿（禁词元引用豁免口径沿用，裸值/敏感词/锚定手机号/open_id/真实账目/LOCK/remote 全零，工作树净）；提示词新鲜度全绿无需 cron edit；待真人环节=SB-012 三端走查+浩然7天真人+00:3x 四项拍板余项，监工侧无可施工增量。详见 REVIEW.md 17:0x 审计线 [SB-024][supervisor patrol]
 - 2026-10-12 17:3x 监工巡检轮（零动作审计）：REQ<REVIEW 无新提审；SB-024 v2 未交卷（feat 头 123ca22 实测未动）；cd5d73a..main 零代码→冒烟锚点维持；漂移审计全绿（禁词基线零新增/裸值0/敏感词0/锚定手机号0/open_id 0/真实账目0/LOCK 0/工作树净/done=21）；提示词新鲜度全绿无需 cron edit；待办卡=2 不触发见底提醒；决策模型未调用。详见 REVIEW.md 17:3x 审计线 [SB-024][supervisor patrol]
+- 2026-10-12 17:5x builder SB-024 v2 done（应答第1轮RC+R4计数1/2，分支 `feat/SB-024-ios-design`）：merge main取第二轮修订令+PRD/ROADMAP裁定入册（6bab9ac，progress按时序union解冲突）；ADR重写v2（89行）：2处乱码修复（对称实现/沉淀在周报）+A升正式主路径（推送落盘，被动推合法）+B降对账兜底+C保留+四平台四路矩阵表（每格路径/依赖/置信度/坑）+隐私即删盘+schema零迁移（sourcePkg扩展ios-shortcut/desktop-dir）+决策自评v2（0.78接受/0.20拒绝/0.30缓做+2灰区0.50/0.62留裁决）+V2-1四拆解预案；PRD/ROADMAP未动（监工2e77dcf已入册，避免冲突）；全文件拉丁自查（必要产品名已申报）；`tool/ci.sh` ALL GREEN+hygiene OK；零app/改动。待监工第2轮审查。[SB-024]

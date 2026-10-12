@@ -1,29 +1,30 @@
-# REVIEW_REQUEST — SB-023 测试时钟腐坏根治（首轮）
+# REVIEW_REQUEST — SB-024 iOS采集设计稿 v2（第2轮·应答第1轮RC）
 
-仓库：`/Users/dada561/Documents/runway`，分支：`feat/SB-023-clock-fix`（未 merge、未 push、无 remote，合规）
-任务卡：`docs/tasks/SB-023.md`（2026-10-12 14:36 浩然批准下发；排期注插队最前）
-基座：`main@154a9a1`（零差异起步，`git checkout -b` 直切）
-提交：`3714605 test(golden)`（4 改＋1 新＋golden 1 图重生成）
+仓库：`/Users/dada561/Documents/runway`，分支：`feat/SB-024-ios-design`（未 merge、未 push、无 remote，合规）
+任务卡：`docs/tasks/SB-024.md`（含第二轮浩然 16:57 修订令：快捷指令升正式渠道 + 四平台导入矩阵）
+基座：`main@c65547a` 起步 → 本轮 `merge main` 取修订令 + PRD/ROADMAP 裁定入册（`6bab9ac`，progress 按时序 union 解冲突）
+R4 计数：1/2（第1轮 RC，非规范变更计轮；本轮为第 2 轮，未达 WAITING_HUMAN 线）
 
-施工改动（业务文件 5≤10，单文件最大 347 行；golden png 按 DEV §2.2 不计）：
-- `app/test/fixed_clock.dart`（新，18 行）：FixedClock 双模夹具——`today()` 动态封装（相对种子，保月份/周关系）＋`fixedMonday` 绝对钉（2026-10-12 周一，页时钟与绝对种子）＋`lastWeekMonday`；测试目录唯一允许直调 `DateTime.now` 之处（卡验收"固定夹具封装除外"口径）。
-- `app/lib/ui/weekly_page.dart`（改，+27-13）：nowOverride 可选时钟缝——`_now` getter（override ?? DateTime.now），build/手动生成/自动生成/月-Key/月合计/上月合计 6 处经 `_now`；null 默认＝生产行为一字不改（见偏差①）。
-- `app/test/golden_grain_test.dart`（改）：种子改绝对钉＋本周历史预置一条（周一 auto-generate 被幂等抑止，任意真实日期结构恒定 2 期）＋4 处 WeeklyPage 传 `nowOverride`。
-- `app/test/golden_goal_test.dart`（改，2 处）：`DateTime.now()`→`FixedClock.today()`（相对种子保本月/上月关系，页只渲染数字无日期串，基线零触碰）。
-- `app/test/golden_daily_close_test.dart`（改，2 处）：同上封装（收口卡 golden 本就字面量，基线零触碰）。
-- `golden/sb014/weekly_light_data.png`（重生成唯一）：目审对照旧基线＝仅＋1 本周历史卡＋标题/历史日期串冻结为 10-12/10-05，其余卡位/字体/布局零漂移；其余 3 张 grain golden 字节零差未动，goal/daily_close golden 零触碰。
+施工改动（业务文件 1≤10，单文件 89 行≤400）：
+- `docs/adr/ADR-iOS-通知采集路径.md`（重写 v1 79 行→v2 89 行）：v1 作废声明 + 前提修正（路径被锁≠通道被锁，主动拉被锁/被动推允许）+ SB-010 基座引用面全保留（makeNotifyKey/pending_records v5/sourcePkg/insertPendingDedup/notifyContentHash/channel d6ae1ab）+ A 升正式主路径（推送落盘）+ B 降对账兜底 + C 保留 + 四平台×四路矩阵表（每格路径/依赖/置信度/坑）+ 隐私即删盘 + schema 零迁移（sourcePkg 扩展 ios-shortcut/desktop-dir，两套键禁第三套）+ 决策自评 v2 + V2-1 四拆解预案（a/b/c/d，tag 后第一批）+ §7 偏差如实申报。
+- PRD/ROADMAP 未动：采集裁定已由监工 `2e77dcf` 入册，builder 未重复改，避免冲突。
+- `app/` 零改动（`git diff --name-only main...HEAD -- app/` 实测空）；无 pubspec；无 remote。
 
-验收对照（卡 SB-023）：
-1. 三族任意日期全绿：证ａ实测复现——周一全量 413/414，唯一红即本卡目标（grain 周报 light）；证ｂ腐坏解剖（scratch 实测，已删）：结构差（周一 auto-gen 多一张历史卡）6.57%，纯日期串差（同结构跨周）0.07% 照样红＝容差≈0，遂零生产改动无解（偏差①依据）；证ｃ修复后全量 **414/414**＋grain 文件连跑 2 遍全绿（渲染路径无 DateTime.now 可达：页经 override、种子绝对，grep 实证）；OS 级改日期仿真未做（无 faketime 依赖可加，禁令所限），等价性由"渲染输入全冻结"构造保证＋留监工多日期复核。
-2. grep 直调清零：三族内 `DateTime.now()` 直调＝0（`grep -n` 实证，仅剩 `FixedClock.today()` 调用＋夹具内唯一封装＋注释）；三族外 8 文件未动（见偏差②）。
-3. 四闸门＋hygiene＋生产 diff：`tool/ci.sh` ALL GREEN（format/analyze/test-smoke/双构建）＋`flutter analyze` No issues＋全量 414/414＋hygiene OK；生产 lib/ diff＝weekly_page.dart 1 文件加法缝（零行为变化），余零 diff。
+验收对照（卡 SB-024 原三项 + 修订令五条）：
+1. ADR 内容：三路各含原理/限制/工程量/失败模式，给出推荐 + 理由；结论引用 SB-010 去重键与 schema 兼容面（零迁移、两套键分工）——达标（§1/§2/§4）。
+2. 零代码：不改 app/、不引依赖；本轮 docs 仅改该 ADR 1 文件（PRD/ROADMAP 系监工已入册，非本轮改动）——达标。
+3. 决策打分留档：§5 自评 v2（总推荐 0.78 接受/v1 原推荐 0.20 拒绝/在线拉取 0.30 缓做 + 识别选型 0.50、目录监听 0.62 两灰区留裁决），请监工复核——达标。
+4. 第1轮 RC 两处乱码已修：A 工程量行"对称实现"、C 失败模式行"沉淀在周报"，全文件拉丁残片自查通过——达标。
+5. 修订令：A 主路径 + B 兜底 + C 保留 + 矩阵表 + 即删盘 + 拆解预案 + v0.1 冻结线不变（零运行时代码）——达标。
 
-测试：`flutter test` 全量 **414/414**（约 20s，含新增夹具 0 例——纯 helper 无断言）；`dart format` 0 改动；`flutter analyze` No issues；`tool/ci.sh` ALL GREEN＋hygiene OK；双构建 ✓Built（macOS＋APK）。
+测试：`tool/ci.sh` ALL GREEN（format 0 改动/analyze No issues/smoke 通过/双构建成功）+ `tool/check-repo-hygiene.sh` OK；纸面卡零代码，冒烟锚点 cd5d73a 维持（cd5d73a..HEAD 非 docs 实测零代码，复用监工口径）。
 
-偏差声明（请监工裁决，不阻塞审）：
-① 生产 1 文件加法缝 vs 验收"生产 lib/ 零 diff"——零改动下周报整页 golden 跨周必红已成实证（0.07% 串差即红），手段与目的冲突时保目的（根治）；缝为纯加法可选参数，默认 null＝旧行为逐行等价，无 token/动效/数据/依赖触碰；翻案成本＝revert 1 文件＋基线回 HEAD（单 commit 可逆）。
-② grep 三族外 8 文件延期（dashboard_page/golden_dashboard/golden_home_budget/golden_price/golden_role/golden_achievement/golden_cooloff/cooloff_test＋perf_budget 共 9 处直调，均为相对种子、渲染数字或固定文案、当轮全绿稳定）：全改＝13 文件超 DEV 10 件硬约束，遂本轮只收三族；建议后续微卡统一收（纯 `FixedClock.today()` 机械替换，零行为变化）。
+偏差声明（如实申报）：
+① v1 首轮偏差声明误写"无偏差"（正文自带 2 缺陷），本轮承认并已修复，§7 留档。
+② 英文残留均为必要产品/代码名（App Groups/Vision/PaddleOCR/Tesseract/makeNotifyKey/sourcePkg 等），已在 §7 申报，非乱码。
+③ 灰区两项（Windows 识别二选一 0.50、目录监听进首批 0.62）留监工/浩然裁决，不阻塞审。
+④ 在线拉取命名由"IMAP"改为通用"在线拉取"（方向不变，SB-011 原文如此），请监工确认口径。
 
-文件约束：业务 5 文件（4 改＋1 新）≤10；单文件最大 347≤400；无 pubspec；无 remote；真实账目＝0；禁词产品文案零新增；_LOCK 本轮退场即删。
+文件约束：业务 1 文件≤10；单文件 89≤400；无 pubspec；无 remote；真实账目 0；禁词零新增；_LOCK 本轮退场即删。
 
-状态：待审查（2026-10-12 15:0x builder 提审·SB-023 首轮；feat 分支未合入；progress/REQ 未提交改动留工作树，监工可代簿随 squash 入头，循 SB-012 例）
+状态：待审查（2026-10-12 17:5x builder 提审·SB-024 第2轮；feat 分支未合入）
