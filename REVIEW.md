@@ -157,5 +157,5 @@ REQ(1791736807/00:40:07)<REVIEW(1791785050/14:04:10) 无新提审不重审（REQ
 1. 偏差①（生产 1 文件纯加法时钟缝 vs 卡面"生产零 diff"）：decision_evaluate p=0.61 灰区=不编判决；监工循 SB-022 先例证据默认照受（null 默认逐行等价/无 token 动效数据依赖触碰/无缝则周报 golden 跨周一必红 0.07% 串差实证/翻案=revert 单 commit），**留浩然拍板**
 2. 偏差②（grep 清零收缩三族，外 8 文件 9 处延期微卡）：p=0.66 灰区，同口径默认照受（全改 13 文件超 DEV 10 件硬约束；外 8 文件相对种子当轮全绿稳定），**微卡归集挂账待浩然确认**
 下一步: ①模拟器冒烟（代码落 main=锚点 b218a21 必更新，本轮回填）②builder 下拍领 SB-024（iOS 设计稿纸面卡）③浩然裁决偏差①②（翻案成本已列）
-模拟器冒烟: （进行中，本轮回填）
+模拟器冒烟: **PASS**（一条龙实测@main：BUILD_EXIT=0 apk=173631525B→BOOT=1→install Success→am start com.zangou.runway/.MainActivity→35s+ 存活 PIDOF=2266→logcat FATAL=0→emu pkill 收口；锚点 b218a21→cd5d73a）
 漂移与一致性审计（15:0x·合入后 main@cd5d73a）: 禁词五词非md=基线5文件零新增（achievement/goal_ladder 定义+3测试夹具，元引用豁免 p=0.75 沿用）；theme/motion 外裸 Color(0x=0/裸 Duration=0（app/lib 全量+本轮 diff 双实测）；美团|工资|房贷非md=0；锚定手机号=0；open_id=0；真实账目=0；_LOCK find=0；remote=0；feat 残留=0（仅 main）；工作树净 0 行；main 头 cd5d73a↔本段对应✓；progress.md 唯一真相✓；task_plan 薄索引未据其判进度✓。
