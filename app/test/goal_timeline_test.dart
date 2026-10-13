@@ -76,6 +76,56 @@ void main() {
     expect(find.byKey(const Key('goalTimelineDone-2')), findsOneWidget);
     expect(find.textContaining('已攒够'), findsOneWidget);
     expect(find.textContaining('周'), findsOneWidget);
+    // SB-031 ①：文案去 ✓（瓦片图标保留唯一 ✓），防双 ✓ 冗余回归.
+    expect(find.textContaining('✓'), findsNothing);
+  });
+
+  testWidgets('SB-031 编辑/删除键并入状态行右侧 trailing', (WidgetTester tester) async {
+    final DateTime now = DateTime(2026, 10, 14, 12);
+    final List<Goal> goals = <Goal>[
+      Goal(
+        id: 3,
+        name: '攒手机',
+        targetFen: 399900,
+        priceName: '奶茶',
+        priceFen: 1800,
+        createdAt: DateTime(2026, 10, 1, 12),
+      ),
+    ];
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: GoalTimeline(
+            goals: goals,
+            convertibleFen: 14000,
+            now: now,
+            onEdit: (_) {},
+            onDelete: (_) {},
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final Finder edit = find.byKey(const Key('goalEdit-3'));
+    final Finder del = find.byKey(const Key('goalDelete-3'));
+    final Finder status = find.byKey(const Key('goalTimelineProgress-3'));
+    expect(edit, findsOneWidget);
+    expect(del, findsOneWidget);
+    // 三者同属一行 Row：状态文本 Expanded + 双键 trailing（非悬于下方左置）.
+    Finder rowOf(Finder f) => find.ancestor(of: f, matching: find.byType(Row));
+    final Set<Element> editRows = rowOf(edit).evaluate().toSet();
+    final Set<Element> statusRows = rowOf(status).evaluate().toSet();
+    final Set<Element> delRows = rowOf(del).evaluate().toSet();
+    expect(
+      editRows.intersection(statusRows).isNotEmpty,
+      isTrue,
+      reason: '编辑键须与状态行同 Row',
+    );
+    expect(
+      delRows.intersection(statusRows).isNotEmpty,
+      isTrue,
+      reason: '删除键须与状态行同 Row',
+    );
   });
 
   testWidgets('SB-030 折线空数据不断言崩', (WidgetTester tester) async {

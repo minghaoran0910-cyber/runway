@@ -63,6 +63,32 @@ Future<AppDb> _seedDb() async {
   return db;
 }
 
+Future<AppDb> _seedDoneDb() async {
+  // SB-031 · 达成态合成夹具：目标 100 元（10000 分），上月支出 6000 分、
+  // 本月 0 → convertible=12000 ≥ 目标，达成态（禁真实账目）.
+  final AppDb db = AppDb.memoryForTest();
+  final DateTime now = FixedClock.today();
+  final DateTime lastMonth = DateTime(now.year, now.month - 1, 15, 12);
+  await db.insertGoal(
+    GoalsCompanion(
+      name: const Value('攒键盘'),
+      targetFen: const Value(10000),
+      priceName: const Value('奶茶'),
+      priceFen: const Value(1800),
+    ),
+  );
+  await db.insertOne(
+    TransactionsCompanion(
+      amountFen: const Value(6000),
+      occurredAt: Value(lastMonth),
+      category: const Value('食'),
+      note: const Value('合成上月'),
+      source: const Value('manual'),
+    ),
+  );
+  return db;
+}
+
 Future<void> _unmountAndFlush(WidgetTester tester) async {
   await tester.pumpWidget(Container());
   await tester.pump();
@@ -175,6 +201,43 @@ void main() {
     await expectLater(
       find.byType(GoalBoard),
       matchesGoldenFile('../../golden/sb007/goal_dark_empty.png'),
+    );
+    await _unmountAndFlush(tester);
+  });
+
+  testWidgets('SB-031 golden 目标页达成态 light', (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    final AppDb db = await _seedDoneDb();
+    await tester.pumpWidget(GoalBoard(isDark: false, db: db));
+    await tester.pumpAndSettle();
+    // 达成态像素证据：时间线达成行在位（文案去 ✓，瓦片图标唯一 ✓）.
+    expect(find.byKey(const Key('goalTimeline')), findsOneWidget);
+    expect(find.byKey(const Key('goalTimelineDone-1')), findsOneWidget);
+    expect(find.textContaining('已攒够'), findsWidgets);
+    expect(find.textContaining('✓'), findsNothing);
+    await expectLater(
+      find.byType(GoalBoard),
+      matchesGoldenFile('../../golden/sb007/goal_light_done.png'),
+    );
+    await _unmountAndFlush(tester);
+  });
+
+  testWidgets('SB-031 golden 目标页达成态 dark', (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    final AppDb db = await _seedDoneDb();
+    await tester.pumpWidget(GoalBoard(isDark: true, db: db));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('goalTimeline')), findsOneWidget);
+    expect(find.byKey(const Key('goalTimelineDone-1')), findsOneWidget);
+    expect(find.textContaining('已攒够'), findsWidgets);
+    expect(find.textContaining('✓'), findsNothing);
+    await expectLater(
+      find.byType(GoalBoard),
+      matchesGoldenFile('../../golden/sb007/goal_dark_done.png'),
     );
     await _unmountAndFlush(tester);
   });

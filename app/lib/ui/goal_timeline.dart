@@ -5,7 +5,8 @@ import '../logic/entry.dart';
 import 'theme/tokens.dart';
 
 // SB-030 · 目标纵向时间线（demo 清单④：图标方块竖线串联；
-// 达成态琥珀"✓ 已攒够 · N 周"，未达成"¥现攒 / ¥目标" tabular 对齐 §1.4；
+// SB-031 · 达成态去重：瓦片 check 图标保留，文案去 ✓ 留「已攒够 · N 周」；
+// 未达成"¥现攒 / ¥目标" tabular 对齐 §1.4；编辑/删除键并入状态行右侧 trailing；
 // 形状只用 r16 外卡 / r10 图标瓦片 §1.2；图标 34px 瓦片+19px 图标 §4；
 // 达标瓦片 gold，未达标中性瓦片；分隔竖线仅 hairline §1.3；
 // N 周=自建目标起整周数（(now-createdAt)/7+1，最小 1），如实口径不编造）.
@@ -84,7 +85,7 @@ class GoalTimeline extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(width: 12),
-                  // 右侧：标题 + 状态行 + 编辑/删除.
+                  // 右侧：标题 + 状态行（编辑/删除并入状态行右侧 trailing）.
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,29 +100,31 @@ class GoalTimeline extends StatelessWidget {
                           key: Key('goalItem-${g.id}'),
                         ),
                         const SizedBox(height: 4),
-                        Text(
-                          done
-                              ? '✓ 已攒够 · $weeks 周'
-                              : '${formatFen(convertibleFen)} / ${formatFen(g.targetFen)}',
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: done
-                                ? (isDark
-                                      ? RunwayDark.goldHi
-                                      : RunwayLight.gold)
-                                : theme.textTheme.bodySmall?.color,
-                            fontFeatures: const <FontFeature>[
-                              FontFeature.tabularFigures(),
-                            ],
-                          ),
-                          key: Key(
-                            done
-                                ? 'goalTimelineDone-${g.id}'
-                                : 'goalTimelineProgress-${g.id}',
-                          ),
-                        ),
                         Row(
-                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
+                            Expanded(
+                              child: Text(
+                                done
+                                    ? '已攒够 · $weeks 周'
+                                    : '${formatFen(convertibleFen)} / ${formatFen(g.targetFen)}',
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: done
+                                      ? (isDark
+                                            ? RunwayDark.goldHi
+                                            : RunwayLight.gold)
+                                      : theme.textTheme.bodySmall?.color,
+                                  fontFeatures: const <FontFeature>[
+                                    FontFeature.tabularFigures(),
+                                  ],
+                                ),
+                                key: Key(
+                                  done
+                                      ? 'goalTimelineDone-${g.id}'
+                                      : 'goalTimelineProgress-${g.id}',
+                                ),
+                              ),
+                            ),
                             IconButton(
                               icon: const Icon(Icons.edit),
                               tooltip: '编辑',
