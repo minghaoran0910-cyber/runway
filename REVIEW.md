@@ -347,3 +347,36 @@ main@7de4223 落 app 代码 → 本轮实测：apk 构建 ✓（assembleDebug 19
 ### 下一步
 合入舞步：squash@7de4223→真 git mv done/（SB-027 归档，done/=25）→v3 一条龙安卓冒烟（main 落 app 代码必做）→锚点更新→快照同步。SB-028 待办为唯一待派卡（真人闸门在飞不提前开卡）。R4：SB-027 计数停 1/2。
 - 利益点自省：更近——三 tab 首次真实存在，『天天看见向想要的东西挪一步』的目标页/账本页从『找不到入口』变为一按即达；机制无 SilentBook 旧病同构；计数：22:0x 更近→22:3x 持平（勘误）→本轮更近。
+
+## 监工票 — 2026-10-13 23:5x 审查轮（SB-028 第 1 轮 · 卡 SB-028）
+
+结论: PASS
+
+### 看图闸门（视觉保真·监工亲验）
+- 提审缺 builder 实拍（live_shots 驱动系三连裁①已删，如实申报）→ 监工亲起亲装：golden/sb004 浅/深目审 + 模拟器实拍首页（23:39，三 tab/深青 hero/FAB 正常，CJK 渲染正常）+ 启动冒烟两轮（ALIVE=1/FATAL=0/install Success）。记一笔页本体实拍两轮撞冷启动闪屏时序未取到，挂账下轮补拍。
+- 证据口径：golden=真实 widget 树像素渲染，三处修复逐一可见（短名 chips×6 首项选中/¥0.00 占位/备注框细圆描边）；机制缺口（驱动被删）不归 builder，不打回。
+- 决策模型：status=unavailable（transport）→ 监工自裁：证据默认照受（循 SB-022/SB-025 先例）；看图闸门证据口径制度化留浩然拍板（A=『监工实拍代 builder 实拍』转正 / B=builder 重建驱动 feat 拍完删）。
+
+### 审美审计（逐维度）
+- 层级：金额 headlineMedium 28 主数 + bodySmall 12 标签，差 16pt≥12pt 规；无 ladder 字号滥用 ✓
+- 间距节奏：section 24  inter-section + 卡内 padding 一致 ✓
+- 圆角阴影：备注框 r10（RunwayRadius.control）控件系统一，卡 r16 沿用，零新增阴影 token ✓
+- 对比度：占位 inkSecondaryText（#647576 浅/#A6B2B4 深）≥4.5:1 闸门在册；选中 chip 深青底白勾可读 ✓
+- 动效：本轮零新增参数，MotionSpec.press 沿用 ✓
+- AI 味：无紫渐变/无 emoji 图标/无居中大堆叠 ✓
+- 一致性：类目双命名清零（defaultCategories=ruleCategories 同值同序，存量 canonicalCategory 归一）；微瑕：role_resolver.dart:130 引导文案仍用"餐饮"散文长名（vs chip 短名，非阻断，挂账）；demo record-sheet 图标 chips+长名系系 16:52 监工拍板口径差异，非缺陷
+
+### 代码审查（55da435，6 文件，逐行）
+- entry.dart：defaultCategories→短名系 ✓（category_rules.dart:6 实测同值同序；pending/category/bill_import/grain_report 归一调用点实测 ✓）
+- quick_add_page.dart：'—'→'¥ 0.00'（bodySmall 次色+tabularFigures，输入即替换）；备注框默认黑边→r10+dividerColor 细线+focused primary 1.5，全 theme token，零裸 Color/裸 Duration ✓
+- 测试：4 断言同步短名+¥占位；监工独立全量 flutter test 417/417 绿（TEST_EXIT=0 亲跑）；apk BUILD_EXIT=0
+- 文件约束：业务 4+golden 2 豁免 ✓；单文件≤400 ✓；无 pubspec/无 schema 迁移 ✓；未推送 ✓（origin 零触碰）
+- 偏差登记：①申报"quick_add_page 203 行"实测 228 行（限内，数字失实，caution）；②hero 环形图/目标时间线/战报折线/页底水印+审美挂账 4 项不在本卡验收标准三项内，移下一批卡——队列见底已呈浩然
+- 模拟器冒烟：PASS（树 diff main@10c61f3 vs feat=0 实测；锚点 7de4223→10c61f3）
+
+### 漂移与一致性审计（23:5x 实测）
+禁词五词非 md=基线零新增（app/lib 2 行=achievement.dart:13 本体+goal_ladder.dart:7 注释元引用豁免沿用）；theme/motion_spec 外裸 Color(0x=0/裸 Duration=0；美团|工资|房贷非 md=0；手机号=0；open_id=0；真实账目=0 红线零触发；_LOCK=0；main 头 68e637e↔REVIEW 23:1x 补记段 ✓；progress 唯一真相 ✓；task_plan 未据其判进度 ✓
+
+下一步：①下轮补拍记一笔页本体实拍（挂账）；②队列见底，下一批卡（视觉超越迭代+挂账 4 项）等浩然拍板；③SB-012 真人闸门在飞。
+
+[SB-028][supervisor patrol]
