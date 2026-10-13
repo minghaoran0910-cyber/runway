@@ -540,3 +540,46 @@ R4 计数：SB-030 第 1 轮（同卡再 1 次 REQUEST_CHANGES 即 WAITING_HUMAN
 - 利益点自省：更近——图文一致（图随账动）修复后核心体验回轨，达成态三项审美挂账已排卡，零新增自律要求、无 SilentBook 旧病同构。
 
 [SB-030][SB-031][supervisor patrol]
+## 审查轮 — 2026-10-14 03:0x · SB-031 达成态打磨三项收口（第 1 轮 · 卡 SB-031）
+结论: PASS（第 1 轮 · 卡 SB-031；R4 计数=0/2 未触发；squash 合入见下）
+
+检查项（全部本轮实测）:
+- [x] 提审判定：REQ mtime=1791917384(02:49:44) > REVIEW mtime=1791917194(02:46:34) → 新审查成立（builder 02:5x 提审 feat@7d79b63，基座 main@2e29f9f，7 文件，显式 WAITING_HUMAN=0）。
+- [x] 项①双✓去重：达成文案「✓ 已攒够 · N 周」→「已攒够 · N 周」（diff 实测 :104→Row 内 Text），瓦片 Icons.check 保留唯一✓；反向选择未采用无需裁决；新增回归断言 find.textContaining('✓') findsNothing（goal_timeline_test + golden 双测在位）。
+- [x] 项②达成态 golden：goal_light_done.png 211009B / goal_dark_done.png 115218B 与申报逐字节一致；合成夹具（目标 10000 分/上月支出 6000 分→convertible 12000 达成，禁真实账目✓）；sb007 data 两帧随布局再生（243143B/114298B 实测一致），empty 两帧未动（diff stat 仅 4 golden）✓。
+- [x] 项③编辑/删除键右置：双 IconButton 并入状态行同 Row trailing（状态文本 Expanded），goalEdit-/goalDelete-/goalTimelineDone-/goalItem- 键名全保留；新增同 Row 交集断言测试 1 条；未达成行 tabular fontFeatures 零回退（diff 实测）；goal_timeline.dart 152 行≤400。
+- [x] trend_line P1 零回退：app/lib/ui/widgets/trend_line.dart:147 `!listEquals(old.values, values)` 实测在位（卡文路径 trend_line.dart 实位于 widgets/ 子目录，内容即 SB-030 第 2 轮修复本体）；本 diff 未触碰该文件✓。
+- [x] 监工独立亲跑：flutter test **442/442 绿**（"All tests passed!" 亲回显，基线 439+新 3 与申报一致）；dart format 107 文件 0 changed；flutter analyze No issues；check-repo-hygiene OK；**tool/ci.sh ALL GREEN EXIT=0**（format/analyze/smoke/macos debug+apk debug 双构建全过，本轮亲跑非采信申报）。
+- [x] 文件约束：代码 3+golden 4=7≤10；无 pubspec/tokens/schema 迁移；未推送（监工零触碰 remote）；真实账目=0（全 diff 合成夹具）；禁词新码 0 命中。
+- [x] 目审 6 帧（监工看图）：data 改前/改后浅深 4 帧对比=变化仅限时间线行区（双键从下行左置→状态文本同行右端），hero 环/预算卡/进度条/tabbar 零像素变化✓；done 两帧达成行=gold 文案+瓦片 check+右置双键，两帧版式一致✓。
+
+审美审计（视觉保真闸门·七维，DESIGN_SYSTEM v2.1 §1/§2/§4/§8 逐维对照；hallmark SKILL.md 67KB 超读取预算被工具拦截如实注（沿 01:2x 先例）；taste-skill 已加载（反默认纪律/AI 味清单）；本卡零动效变更 gpt-taste 豁免）:
+- 层级：达成行 bodySmall gold+标题 titleMedium 无新增字号，无 ladder 滥用——过。
+- 间距节奏：标题-状态行距 4px 不变，双键内联同行消除悬行，瓦片 12/行间 token 一致——过。
+- 圆角阴影：零新形状（r10 瓦片/r16 外卡三档不变）——过。
+- 对比度：dark 达成行 goldHi #EAD9B4 压 #1C1F1F 清晰；light 达成行 gold #D8B27E 压白卡属低位（SB-030 沿册既有口径，CI 对比度闸门测试绿，收紧与否归 DESIGN 收敛批不重复开项）；庆祝卡白字压深 hero 蓝渐变合规——过（带观察）。
+- 动效节奏：本卡零动效参数变更，无裸时长——过。
+- AI 味：无紫渐变（庆祝卡=注册 token 品牌蓝）/无 emoji 图标/无居中大堆叠——过。
+- 一致性：✓ 全页唯一（瓦片图标）、双键右置与旧 ListTile trailing 密度一致、键名零改名、类目单命名维持——过。
+- 总评：0 致命审美项；新观察 1 项=light_done 帧含庆祝弹层（scrim 压暗+hero 蓝卡+胶囊按钮）而 dark_done 帧无弹层（页面全亮）；未带 --update-goldens 全量重跑绿=系确定性行为（疑 AchievementSession 一次性标志跨测试抑制弹层，achievement.dart:69-84 _shown/global/resetForTest 实测在册），非本卡引入、达成行版式两帧一致，记 m 级测试卫生观察。
+
+模拟器实拍（看图闸门 A 口径·监工补拍 @main 合入后树 c61c125）：一条龙 BOOT=1（26s）→install Success→am start→35s PID=2410 存活→logcat FATAL=0/FINAL=0→首页实拍 225994B 渲染正常→目标页（目标阶梯）实拍 206627B：时间线瓦片+竖线+状态行「0 / 2500」tabular+编辑/删除键同行右端全渲染✓、达成行文案无✓前缀口径（本机无达成数据，达成态像素证据=golden 目审口径，live 达成态造数补拍留观察）。
+
+模拟器冒烟: **PASS**（合入后锚点 c61c125 实测）：apk=ci.sh 闸门 ✓Built；runway_api36 固定参数（-no-window -no-snapshot-load -no-audio -no-boot-anim）BOOT=1 26s；install -r Success；am start com.zangou.runway/.MainActivity 正常；35s 存活；FATAL=0；双实拍非白屏；pkill 收口。冒烟锚点 7cbc946→c61c125。
+
+决策模型第二意见（status=ok，typesafe/jev-1.13）:
+- q1 light/dark done 帧庆祝弹层差异可否作 m 级观察接受（不阻塞 PASS，基线统一留后）=**p=0.66 灰区**→不编判决，挂浩然沿 02:4x 未答灰区同批呈报（⚡夜静默，不单独推送；本卡 PASS 不依赖该裁决——四项验收标准均客观达成，差异非 builder 申报偏差）。
+- q2 队列见底是否即刻下发 SB-032（golden 达成帧弹层基线统一·纯测试卫生≤4 文件）=**p=0.63 灰区**→不下发，提案挂浩然拍板（见下一步）。
+
+R4 计数：SB-031 第 1 轮 PASS，计数清零。
+
+合入执行（R5 授权）：squash 合入 main@**c61c125**（feat 内容 diff=0 验证后 branch -D，仅 main 无残留）；docs/tasks/SB-031.md 状态行更新后**真 git mv** 归档 done/（done/=29）；REVIEW_REQUEST.md/progress.md builder 未提交段随本簿记票入库。
+
+漂移与一致性审计（03:0x 实测）: 禁词五词 app/lib 命中 2 行均元引用豁免（goal_ladder.dart:7 注释+achievement.dart:13 禁词表本体，沿 p=0.75）且本轮新码 git grep 0 命中；theme/motion_spec 外裸 Color(0x=0/裸 Duration=0（含新码实测）；美团|工资|房贷非 md=0；手机号锚定=0；open_id=0；真实账目=0 红线零触发（全 diff 合成夹具）；_LOCK find+tracked 双扫=0；remote=origin 在册监工零触碰（本轮无 push/fetch/ls-remote）；branch 实测仅 main；main 头 2e29f9f→c61c125↔本票对应（簿记 commit 后新头↔本段自验三连）；progress.md 唯一真相✓；task_plan 薄索引未据此判进度✓；done/=29 真 git mv✓。
+
+利益点自省：更近——达成时刻是用户「我得到了」的高光帧：去双✓冗余+双键右置让达成行更干净紧凑，达成态首次有浅/深像素证据（零成本天天看见向想要的东西挪一步的高光帧不再盲飞）；传感器口径零新增自律要求，无 SilentBook 旧病同构。
+
+下一步: 队列待办=0（SB-012 真人闸门在飞/SB-021 挂起 v0.2 非施工卡），builder wake 空转 idle-out 属正常。**SB-032 提案（挂浩然拍板，决策 p=0.63 灰区）**：golden 达成帧庆祝弹层基线统一——达成态两帧弹层状态一致化（测试 setup 显式 reset AchievementSession 或统一弹层呈现），纯测试卫生≤4 文件不动产品行为；与 02:4x q1（监工下发授权 p=0.64）同批待答，晨间一并呈报。
+
+[SB-031][supervisor patrol]
+
