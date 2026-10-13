@@ -1,0 +1,378 @@
+From 69a776a6889c8f48cae186d6ea22bc1b317b4e85 Mon Sep 17 00:00:00 2001
+From: User <user@example.com>
+Date: Tue, 13 Oct 2026 17:24:03 +0800
+Subject: [PATCH] =?UTF-8?q?wip(SB-027):=20=E6=A0=B9=E5=A3=B3=E4=B8=89tab+t?=
+ =?UTF-8?q?extScaler=E9=92=B3=E5=88=B6+=E7=B1=BB=E7=9B=AE=E5=AD=97?=
+ =?UTF-8?q?=E5=8F=B7=E4=BF=AE=E5=A4=8D=E2=80=94=E2=80=94builder=20?=
+ =?UTF-8?q?=E6=96=AD=E7=82=B9=E6=8A=A2=E6=95=91=EF=BC=88=E6=9C=AA=E8=87=AA?=
+ =?UTF-8?q?=E9=AA=8C=EF=BC=8C=E7=9B=91=E5=B7=A5=E4=BB=A3=E7=AE=A1=E7=8E=B0?=
+ =?UTF-8?q?=E5=9C=BA=EF=BC=89[SB-027]?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ app/lib/main.dart              | 23 +++++++++--
+ app/lib/ui/category_page.dart  | 10 ++---
+ app/lib/ui/goal_page.dart      | 17 ++++----
+ app/lib/ui/home_page.dart      | 17 +++++---
+ app/lib/ui/root_shell.dart     | 73 ++++++++++++++++++++++++++++++++++
+ app/test/root_shell_test.dart  | 64 +++++++++++++++++++++++++++++
+ app/test/text_scaler_test.dart | 48 ++++++++++++++++++++++
+ 7 files changed, 231 insertions(+), 21 deletions(-)
+ create mode 100644 app/lib/ui/root_shell.dart
+ create mode 100644 app/test/root_shell_test.dart
+ create mode 100644 app/test/text_scaler_test.dart
+
+diff --git a/app/lib/main.dart b/app/lib/main.dart
+index d81f7b3..32b9abc 100644
+--- a/app/lib/main.dart
++++ b/app/lib/main.dart
+@@ -1,11 +1,27 @@
+ import 'package:flutter/material.dart';
+ 
+ import 'data/app_db.dart';
+-import 'ui/home_page.dart';
++import 'ui/root_shell.dart';
+ import 'ui/theme/app_theme.dart';
+ 
+-// SB-004 · 入口挂接 AppDb 文件库（SQLCipher）+ HomePage 记账闭环.
++// SB-004 · 入口挂接 AppDb 文件库（SQLCipher）+ RootShell 三 tab 导航.
+ // 占位计数器页已退役（REVIEW SB-003 观察项 1 落定：换真实页面）.
++// SB-027 · 全工程系统字体放大钳制 ≤1.3（大字体手机布局防爆，回归见
++// text_scaler_test.dart）；下限不抬，保证小字体用户原样.
++
++/// 系统字体缩放钳制（纯函数，可单测）：>1.3 一律压到 1.3，其余原样.
++TextScaler clampTextScaler(TextScaler input) {
++  return input.clamp(maxScaleFactor: 1.3);
++}
++
++/// MaterialApp.builder 具名封装（供回归测试直测同一函数）.
++Widget textClampBuilder(BuildContext ctx, Widget? child) {
++  final MediaQueryData mq = MediaQuery.of(ctx);
++  return MediaQuery(
++    data: mq.copyWith(textScaler: clampTextScaler(mq.textScaler)),
++    child: child ?? const SizedBox.shrink(),
++  );
++}
+ 
+ void main() {
+   runApp(const MyApp());
+@@ -20,6 +36,7 @@ class MyApp extends StatelessWidget {
+       title: 'Runway',
+       theme: AppTheme.light(),
+       darkTheme: AppTheme.dark(),
++      builder: textClampBuilder,
+       home: FutureBuilder<AppDb>(
+         future: AppDb.openDefault(),
+         builder: (BuildContext ctx, AsyncSnapshot<AppDb> snap) {
+@@ -28,7 +45,7 @@ class MyApp extends StatelessWidget {
+               body: Center(child: CircularProgressIndicator()),
+             );
+           }
+-          return HomePage(db: snap.data!);
++          return RootShell(db: snap.data!);
+         },
+       ),
+     );
+diff --git a/app/lib/ui/category_page.dart b/app/lib/ui/category_page.dart
+index c899cc0..cfdd846 100644
+--- a/app/lib/ui/category_page.dart
++++ b/app/lib/ui/category_page.dart
+@@ -114,11 +114,11 @@ class CategoryPage extends StatelessWidget {
+                               share: month.elasticShare,
+                               elasticFen: month.elasticFen,
+                             ),
+-                            style: const TextStyle(
+-                              fontSize: RunwayHero.numberSize,
+-                              color: RunwayHero.number,
+-                              fontWeight: FontWeight.w700,
+-                              fontFeatures: <FontFeature>[
++                            // SB-027 · 弹性占比句是说明性长句，禁套跑道大数字
++                            // 字号（RunwayHero.numberSize=28）：降至标题档，
++                            // 溢出与"一句话顶标题大"实锤即此修.
++                            style: theme.textTheme.titleLarge?.copyWith(
++                              fontFeatures: const <FontFeature>[
+                                 FontFeature.tabularFigures(),
+                               ],
+                             ),
+diff --git a/app/lib/ui/goal_page.dart b/app/lib/ui/goal_page.dart
+index 8091cbc..9770d59 100644
+--- a/app/lib/ui/goal_page.dart
++++ b/app/lib/ui/goal_page.dart
+@@ -23,9 +23,10 @@ import 'theme/tokens.dart';
+ // SB-006 看板叠加：顶部复用 DashboardGoalCard（传真实 goalFen，闭环 SB-006 D1）.
+ 
+ class GoalPage extends StatelessWidget {
+-  const GoalPage({super.key, required this.db});
++  const GoalPage({super.key, required this.db, this.showFab = true});
+ 
+   final AppDb db;
++  final bool showFab;
+ 
+   Future<void> _openEditor(BuildContext context, {Goal? goal}) async {
+     final bool? saved = await showDialog<bool>(
+@@ -235,12 +236,14 @@ class GoalPage extends StatelessWidget {
+           },
+         ),
+       ),
+-      floatingActionButton: FloatingActionButton(
+-        onPressed: () => _openEditor(context),
+-        tooltip: '定目标',
+-        key: const Key('goalAdd'),
+-        child: const Icon(Icons.add),
+-      ),
++      floatingActionButton: showFab
++          ? FloatingActionButton(
++              onPressed: () => _openEditor(context),
++              tooltip: '定目标',
++              key: const Key('goalAdd'),
++              child: const Icon(Icons.add),
++            )
++          : null,
+     );
+   }
+ }
+diff --git a/app/lib/ui/home_page.dart b/app/lib/ui/home_page.dart
+index ab7eef7..5eb6a33 100644
+--- a/app/lib/ui/home_page.dart
++++ b/app/lib/ui/home_page.dart
+@@ -23,9 +23,12 @@ import 'theme/tokens.dart';
+ // Hero 主卡沿 §3（AppTheme.heroCard）；列表行分隔仅用 hairline（§1.3）.
+ 
+ class HomePage extends StatelessWidget {
+-  const HomePage({super.key, required this.db});
++  // SB-027 · showFab=false 供 RootShell 嵌入时隐藏内层记一笔 FAB
++  //（外层统一 FAB，避免双 FAB 重叠；独立泵测默认 true，golden 零影响）.
++  const HomePage({super.key, required this.db, this.showFab = true});
+ 
+   final AppDb db;
++  final bool showFab;
+ 
+   Future<void> _openAdd(BuildContext context) async {
+     await Navigator.of(
+@@ -227,11 +230,13 @@ class HomePage extends StatelessWidget {
+           },
+         ),
+       ),
+-      floatingActionButton: FloatingActionButton(
+-        onPressed: () => _openAdd(context),
+-        tooltip: '记一笔',
+-        child: const Icon(Icons.add),
+-      ),
++      floatingActionButton: showFab
++          ? FloatingActionButton(
++              onPressed: () => _openAdd(context),
++              tooltip: '记一笔',
++              child: const Icon(Icons.add),
++            )
++          : null,
+     );
+   }
+ }
+diff --git a/app/lib/ui/root_shell.dart b/app/lib/ui/root_shell.dart
+new file mode 100644
+index 0000000..b540a75
+--- /dev/null
++++ b/app/lib/ui/root_shell.dart
+@@ -0,0 +1,73 @@
++import 'package:flutter/material.dart';
++
++import '../data/app_db.dart';
++import 'category_page.dart';
++import 'goal_page.dart';
++import 'home_page.dart';
++import 'quick_add_page.dart';
++
++// SB-027 · 底部导航壳（P0 急救）：三 tab（首页/账本/我的），现有页面全挂进去.
++// 首页=HomePage（内层记一笔 FAB 让位外层统一 FAB）；账本=CategoryPage；
++// 我的=GoalPage（保留其定目标 FAB，该页外层记一笔 FAB 隐藏，偏差见提审单）.
++
++class RootShell extends StatefulWidget {
++  const RootShell({super.key, required this.db});
++
++  final AppDb db;
++
++  @override
++  State<RootShell> createState() => RootShellState();
++}
++
++class RootShellState extends State<RootShell> {
++  int index = 0;
++
++  Future<void> _openAdd() async {
++    await Navigator.of(context).push<bool>(
++      MaterialPageRoute<bool>(builder: (_) => QuickAddPage(db: widget.db)),
++    );
++  }
++
++  @override
++  Widget build(BuildContext context) {
++    return Scaffold(
++      body: IndexedStack(
++        index: index,
++        children: <Widget>[
++          HomePage(db: widget.db, showFab: false),
++          CategoryPage(db: widget.db),
++          GoalPage(db: widget.db),
++        ],
++      ),
++      floatingActionButton: index == 2
++          ? null
++          : FloatingActionButton(
++              onPressed: _openAdd,
++              tooltip: '记一笔',
++              key: const Key('shellAdd'),
++              child: const Icon(Icons.add),
++            ),
++      bottomNavigationBar: NavigationBar(
++        selectedIndex: index,
++        onDestinationSelected: (int i) => setState(() => index = i),
++        destinations: const <Widget>[
++          NavigationDestination(
++            icon: Icon(Icons.home_outlined),
++            selectedIcon: Icon(Icons.home),
++            label: '首页',
++          ),
++          NavigationDestination(
++            icon: Icon(Icons.book_outlined),
++            selectedIcon: Icon(Icons.book),
++            label: '账本',
++          ),
++          NavigationDestination(
++            icon: Icon(Icons.person_outlined),
++            selectedIcon: Icon(Icons.person),
++            label: '我的',
++          ),
++        ],
++      ),
++    );
++  }
++}
+diff --git a/app/test/root_shell_test.dart b/app/test/root_shell_test.dart
+new file mode 100644
+index 0000000..c389485
+--- /dev/null
++++ b/app/test/root_shell_test.dart
+@@ -0,0 +1,64 @@
++import 'package:flutter/material.dart';
++import 'package:flutter_test/flutter_test.dart';
++import 'package:runway/data/app_db.dart';
++import 'package:runway/ui/root_shell.dart';
++
++// SB-027 · 底部导航三 tab 可达性：首页/账本/我的均可达，FAB 口径如卡.
++
++Widget _wrap(AppDb db) {
++  return MaterialApp(home: RootShell(db: db));
++}
++
++void _largeViewport(WidgetTester tester) {
++  tester.view.physicalSize = const Size(1080, 2400);
++  tester.view.devicePixelRatio = 1.0;
++  addTearDown(tester.view.resetPhysicalSize);
++}
++
++Future<void> _unmountAndFlush(WidgetTester tester) async {
++  await tester.pumpWidget(Container());
++  await tester.pump();
++  await tester.pump(const Duration(milliseconds: 100));
++  await tester.pump();
++  await tester.pump(const Duration(milliseconds: 100));
++  await tester.pump();
++}
++
++void main() {
++  testWidgets('SB-027 三 tab 可达 + FAB 口径', (WidgetTester tester) async {
++    _largeViewport(tester);
++    final AppDb db = AppDb.memoryForTest();
++
++    await tester.pumpWidget(_wrap(db));
++    await tester.pump(const Duration(milliseconds: 300));
++    await tester.pump();
++
++    // 首页（默认）：攒够标题 + 统一记一笔 FAB.
++    expect(find.text('攒够'), findsOneWidget);
++    expect(find.byKey(const Key('shellAdd')), findsOneWidget);
++
++    // 账本：类目管理页可达 + 统一 FAB 仍在.
++    await tester.tap(find.text('账本'));
++    await tester.pump(const Duration(milliseconds: 300));
++    await tester.pump();
++    expect(find.text('类目管理'), findsOneWidget);
++    expect(find.byKey(const Key('shellAdd')), findsOneWidget);
++
++    // 我的：目标阶梯页可达；该页保留定目标 FAB，外层记一笔隐藏.
++    await tester.tap(find.text('我的'));
++    await tester.pump(const Duration(milliseconds: 300));
++    await tester.pump();
++    expect(find.text('目标阶梯'), findsOneWidget);
++    expect(find.byKey(const Key('goalAdd')), findsOneWidget);
++    expect(find.byKey(const Key('shellAdd')), findsNothing);
++
++    // 回首页：统一 FAB 恢复.
++    await tester.tap(find.text('首页'));
++    await tester.pump(const Duration(milliseconds: 300));
++    await tester.pump();
++    expect(find.text('攒够'), findsOneWidget);
++    expect(find.byKey(const Key('shellAdd')), findsOneWidget);
++
++    await _unmountAndFlush(tester);
++  });
++}
+diff --git a/app/test/text_scaler_test.dart b/app/test/text_scaler_test.dart
+new file mode 100644
+index 0000000..1318b97
+--- /dev/null
++++ b/app/test/text_scaler_test.dart
+@@ -0,0 +1,48 @@
++import 'package:flutter/material.dart';
++import 'package:flutter_test/flutter_test.dart';
++import 'package:runway/main.dart';
++
++// SB-027 · 系统字体放大钳制回归：1.5 倍缩放不破版（统一压到 ≤1.3）.
++
++void main() {
++  test('SB-027 clampTextScaler：超 1.3 压平，不超原样', () {
++    expect(
++      clampTextScaler(const TextScaler.linear(2.0)).scale(10.0),
++      equals(13.0),
++    );
++    expect(
++      clampTextScaler(const TextScaler.linear(1.5)).scale(10.0),
++      equals(13.0),
++    );
++    expect(
++      clampTextScaler(const TextScaler.linear(1.3)).scale(10.0),
++      equals(13.0),
++    );
++    expect(
++      clampTextScaler(const TextScaler.linear(1.0)).scale(10.0),
++      equals(10.0),
++    );
++    expect(clampTextScaler(TextScaler.noScaling).scale(10.0), equals(10.0));
++  });
++
++  testWidgets('SB-027 builder：1.5 缩放进入后 ≤1.3', (WidgetTester tester) async {
++    TextScaler? seen;
++    await tester.pumpWidget(
++      MediaQuery(
++        data: const MediaQueryData(textScaler: TextScaler.linear(1.5)),
++        child: MaterialApp(
++          builder: textClampBuilder,
++          home: Builder(
++            builder: (BuildContext ctx) {
++              seen = MediaQuery.textScalerOf(ctx);
++              return const SizedBox.shrink();
++            },
++          ),
++        ),
++      ),
++    );
++    await tester.pump();
++    expect(seen, isNotNull);
++    expect(seen!.scale(10.0), lessThanOrEqualTo(13.0));
++  });
++}
+-- 
+2.50.1 (Apple Git-155)
+
