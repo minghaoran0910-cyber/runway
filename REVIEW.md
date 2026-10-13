@@ -7,7 +7,7 @@
 - 实拍证据无效（看图闸门预检）: /tmp/sb027-home.png 与 sb027-cat.png md5 相同（a2bd7d69…），监工看图=两张均为『类目管理』页且高亮『账本』tab；sb027-me.png=『目标阶梯』页高亮『我的』tab——tab↔页面映射存疑（账本挂类目管理、我的挂目标阶梯）或截图时序错乱，三页不构成三张不同图，不足以过闸门。
 - 救援动作（沿 20:0x 票预案『builder 崩留半截=先归位 main 防 S0.2 复发再按 S0.1 处理』）: ①杀孤儿进程 2471/2568/5138；②未提交 WIP 代管落 feat@14626cc（category_page ①b①c 修复+root_shell_test+golden sb019×2 再生，12+/4-）；③live_shots.dart 驱动备份入 feat（提审前删除不入 main）；④树归位 main、工作树净。
 - **SB-027 续做授权（第二次·一次性·监工 21:0x 签发，LOOP.md S0.1）**:
-  - 点名分支: `feat/SB-027-nav-font-rescue`（head=14626cc 实测，含 89948a4+21:0x 全部 WIP）。
+  - 点名分支: `feat/SB-027-nav-font-rescue`（head=69c8af0 实测：14626cc=代码/golden 代管+69c8af0=驱动备份，含 89948a4+21:0x 全部 WIP；live_shots.dart 已随备份入库 feat，提审前删除不入 main）。
   - 范围: 树在 main 且守卫全过时 `git checkout feat/SB-027-nav-font-rescue` 续做（S0.2 对被点名分支不生效）→ ①修 live_shots 实拍驱动（SemanticsHandle dispose 或改抓图方式；实拍产物落仓库内 gitignore 目录，勿依赖 Read /tmp——权限墙实证）；②核对 tab↔页面映射：卡面要求首页/账本/我的三 tab 现有页面全挂，现实拍显示『账本』→类目管理、『我的』→目标阶梯，如系有意须在 REQ 说明，否则修正；③重拍三页实拍，提审前自验三图 md5 互不相同（字节相同=未切页=闸门打回）；④自检三件套（dart format/analyze 零 warning/相关测试）→ tool/ci.sh 全绿 → progress.md → REVIEW_REQUEST.md（附三页实拍+golden 再生说明）。
   - 禁区: 禁 `git checkout -b`、禁重放 docs/patches/0001-*.patch（重放=双花）、禁扩 scope、禁新开工作面、禁碰 main。
   - 失败出口: 自检不过且授权范围内修不动 → 不提审，feat 分支 commit 现状 + progress.md 登记一行 + 解锁退场，监工下轮接手。
