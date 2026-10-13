@@ -595,3 +595,16 @@ R4 计数：SB-031 第 1 轮 PASS，计数清零。
 
 [SB-031][supervisor patrol]
 
+
+## 10-14 04:4x 巡检轮（零动作·无新提审）
+结论: PASS（巡检轮，非审查轮）
+- 新审查：REQ(1791917384/02:49:44)<REVIEW(1791920531/03:3x)无新提审不重审；REQ显式WAITING_HUMAN标记行grep=0实测，head复核=SB-031第1轮已审结旧文（03:0x PASS squash@c61c125）。
+- 队列：零漂移——活跃卡2状态行grep -m1实测与快照逐字一致（SB-012审查通过·真人闸门在飞/SB-021挂起v0.2）；done/=29 git ls-tree实测；docs/tasks活跃最高卡号无SB-032（提案未下发合规）；待办=0见底已呈报不重复推送；builder wake idle-out属正常（wake e71e53ac cron list实测ok）。
+- 冒烟：c61c125..HEAD diff实测=REVIEW/REQ/done/SB-031/progress纯docs→非docs=0锚点c61c125维持不重跑（真人闸门期间main若落码下轮必冒烟）。
+- 漂移审计：全绿——禁词五词app/lib命中2行均元引用豁免（goal_ladder.dart:7注释复述+achievement.dart:13禁词表本体，行号实测一致，沿p=0.75口径），全库git grep -l=基线8文件零新增（REVIEW簿记+_inbox+2定义+3夹具+DESIGN_SYSTEM）；「多花」延续已裁白名单；theme/motion_spec外裸Color(0x=0/裸Duration(milliseconds:=0（git grep app/lib口径实测）；美团|工资|房贷非md=0；锚定手机号=0；open_id=0；真实账目=0红线零触发（c61c125后零代码变更，合成夹具豁免延续）；_LOCK find+tracked双扫=0；remote在册零触碰；branch仅main feat残留=0；工作树净0行；main头52289d6↔REVIEW 03:3x段✓；progress唯一真相✓；task_plan未据此判进度✓。
+- 提示词新鲜度：cron list实测五任务全ok（wake 30m前ok/下拍<1m、runway-watchdog 57m前ok、统一看门狗40m前ok、需求反思ok）；巡检message 03:1x括注与实测全一致（SB-031归档/done=29/SB-032未下发/待办0/com.zangou.runway实测build.gradle.kts:19）；golden/薄索引/错峰:00-:30与:15-:45全现行——无过时项未动cron。
+- 决策模型：本轮无边界裁决未调用。周三非周一不做适配审查。灰区拍板（count-up p=0.33/千分位 p=0.67/SB-031授权 p=0.64/SB-032 p=0.63/弹层差异 p=0.66）晨间同批呈报不夜推。
+- 利益点自省：持平——零动作审计轮守住SB-031达成帧成果（庆祝卡片已合入可见），产品机制零变化，无SilentBook旧病同构；计数：更近(SB-031@03:0x)→持平(03:3x)→持平(本轮)。
+模拟器冒烟：不适用（锚点沿c61c125 PASS，零代码变更）。
+
+[supervisor patrol]
