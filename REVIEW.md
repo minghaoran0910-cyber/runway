@@ -455,3 +455,48 @@ R4 计数：SB-029 停 0（首轮 PASS 未触发）。
 禁词五词 app/lib 命中 2 行均元引用豁免（goal_ladder.dart:7 注释+achievement.dart:13 禁词表本体，沿 p=0.75 零新增）；「多花」白名单延续；theme/motion_spec 外裸 Color(0x=0/裸 Duration=0（app/lib 固化口径实测，test pump 豁免注见检查项）；美团|工资|房贷非 md=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（本轮 diff 全合成夹具）；_LOCK find+tracked 双扫=0；remote=origin 在册监工零触碰（ahead 4 未推合规）；branch 仅 main feat 残留=0（合入舞步全套已执行）；工作树净（簿记提交前复测）；done/=27；活跃卡=3（SB-012 真人闸门/SB-021 挂起/SB-030 待办）；main 头 18a80a9↔本轮审查段✓（簿记后新头↔00:4x 段✓自验三连实测）；progress 唯一真相✓；task_plan 未据此判进度✓。
 
 [SB-029][supervisor patrol]
+
+# REVIEW — 2026-10-14 01:2x SB-030 首轮审查
+结论: REQUEST_CHANGES（第 1 轮 · 卡 SB-030）
+
+检查项（全部本轮实测）:
+- [x] 监工独立跑测：flutter test 438/438 绿（"All tests passed!" +438 亲回显，与申报一致）；dart format 0 changed；flutter analyze No issues；flutter build apk --debug EXIT=0（173656894B@01:05）。
+- [x] 文件约束：业务 2 改+5 新=7≤10；goal_page 382/weekly_page 375≤400；golden×6 字节与申报一致（goal_light_data 241289B/weekly_light_data 240151B 实测）；无 pubspec/tokens/schema 迁移；未推送。
+- [x] 规范：新代码零裸 Color(0x（全 token+withValues）/零裸 Duration；禁词零新增；周界复用 weekStartFor 无第二套；convertibleFen 复用 computeGoal 全局口径；goalItem-/goalEdit-/goalDelete-/goalToWeekly/goalCount/weeklyConvert 键全保留；§5 端点距边 pad=12、r=4→marker 边缘距界 8px、path 起点 12≥2 终点 宽-12≤宽-r-4 ✓。
+- [x] 模拟器实拍（看图闸门 A 口径·监工补拍）：runway_api36 BOOT=1→install Success→am start→UI 造数（2 目标+2 笔支出）→目标页时间线（瓦片+hairline 竖线+tabular 状态行+编辑删除键全渲染）→周报页折线（平滑曲线+端点圆点+渐变填充+末端 halo+行内咖啡图标金句全渲染）→FINAL_FATAL=0 全程零崩溃→pkill 收口。深色实拍 4 帧+浅色 golden 2 帧目审在案。
+- [ ] 缺陷 1 项未过（见问题列表）。
+
+问题列表:
+1. 🔴 P1 功能缺陷 trend_line.dart `_TrendPainter.shouldRepaint`（文件末两行）：`old.line != line || old.values.length != values.length`——values 恒为 7 元素列表，周报页在挂载期间若事务流推送新数据（自动账单导入/他源写库触发 StreamBuilder rebuild），长度不变→shouldRepaint=false→CustomPaint 复用旧 picture，折线冻结不更新，而同卡文字（本周支出/环比）正常刷新=同卡图文不一致。修法一行：`!listEquals(old.values, values)`（import 'package:flutter/foundation.dart'）；并补一条更新场景 widget 测试（同长度不同 values pump 两次断言重绘）——现有测试仅单次 pump 未覆盖。
+2. (m 非阻塞) 达成态「✓ 已攒够 · N 周」文案 ✓ 与瓦片 check 图标双 ✓ 冗余，后续打磨卡二选一。
+3. (m 非阻塞) 达成态无像素证据：golden 夹具与实拍均只有未达成态，达成态仅 widget test 断 key/文案——后续卡补达成态 golden 或实拍。
+4. (m 非阻塞) 编辑/删除图标行左置悬在状态行下方（旧 ListTile trailing 右置更紧凑），后续并入瓦片行右侧。
+
+偏差裁决（决策模型第二意见，2026-10-10 浩然接入条款）:
+- 偏差①（N 周=自建起整周数非攒够用时）：p=0.80 按判受，后续卡精确化（firstAchievedAt 落库），本卡不返工。
+- 偏差②（折线=本周每日支出非省出额）：p=0.77 按判受，口径与卡标题「本周支出」一致。
+- 偏差④（实拍缺）：监工 A 口径补拍完成，销账。
+- 偏差⑤（count-up/千分位）：沿 00:4x 灰区挂浩然，本卡未动不重复推送。
+
+审美审计（视觉保真闸门·七维，依据 SUPERVISOR 闸门清单+DESIGN_SYSTEM §1 六原则；hallmark SKILL.md 超读取预算被工具拦截如实注）:
+- 层级：titleMedium 标题+bodySmall 状态行差 ≥2 档、数字全 tabular，无 ladder 滥用——过。
+- 间距节奏：瓦片-文 12/行间 8/cardInner token 一致，折线区上下 8/8——过。
+- 圆角阴影：仅 r10 瓦片+r16 外卡三档内，竖线 2px 非形状，无第四种——过。
+- 对比度：深色实拍浅字压深底清晰、gold 强调仅达成态一处，无白字压浅底——过。
+- 动效节奏：静态展示型 sparkline 零裸时长/曲线，无因果缺失动画——过。
+- AI 味：无紫渐变/无 emoji 图标（local_cafe 线性图标合规 §4）/无居中大堆叠——过。
+- 一致性：hero 环/预算卡 token 复用、类目单命名维持；扣分=问题 2/4（m 级）。
+- 总评：0 致命审美项/1 功能缺陷（问题 1）/4 挂账观察。
+
+模拟器冒烟（feat 树，非合入锚点）: PASS——v3 一条龙 BOOT=1/install Success/am start/35s+ 存活/FATAL=0/pkill 收口；main 锚点维持 18a80a9（本轮未合入）。环境事故注：首轮模拟器被会话回收强杀后应用 DB 损坏、二起卡 splash（PID 存活 FATAL=0 静默挂），pm clear 恢复——环境问题非本卡代码问题，入快照观察项。
+
+R4 计数：SB-030 第 1 轮（同卡再 1 次 REQUEST_CHANGES 即 WAITING_HUMAN）。
+
+下一步: builder 修问题 1（一行+更新测试）重提审；问题 2/3/4 不阻塞、随重提顺手改或留打磨卡；偏差①②已按判受勿再动。
+
+### 漂移与一致性审计（01:2x 实测）
+禁词五词 app/lib 命中 2 行均元引用豁免（goal_ladder.dart:7 注释+achievement.dart:13 禁词表本体，沿 p=0.75 零新增）；「多花」白名单延续；theme/motion_spec 外裸 Color(0x=0/裸 Duration=0（git grep app/lib 固化口径实测）；美团|工资|房贷非 md=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（本轮 diff 全合成夹具）；_LOCK find+tracked 双扫=0；remote=origin 在册监工零触碰；branch=main+feat/SB-030-timeline-trend（在飞非残留）；工作树净（审查全程未触碰 feat 代码）；done/=27；活跃卡=3（SB-012 真人闸门/SB-021 挂起/SB-030 在飞）；main 头 4ebf224↔REVIEW 00:4x 段✓（簿记后新头↔本段✓自验三连）；progress 唯一真相✓；task_plan 未据此判进度✓。
+
+利益点自省：更近——目标时间线+周报趋势让「向想要的东西挪一步」从单点数字变成连续叙事（用户视角零成本看见轨迹），传感器口径无新增自律要求，无 SilentBook 旧病同构；退回项系一行重绘缺陷，修完即合。
+
+[SB-030][supervisor patrol]
