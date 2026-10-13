@@ -193,3 +193,16 @@
 - 决策模型: 本轮无边界裁决事项（括注修正属 clause 8 直改权限）→未调用。
 - 利益点自省: 持平——本轮=巡检审计+括注修正，产品机制零变化，守「首页天天看见向想要的东西挪一步」既有成果；17:0x 需求纠偏（真机可读性）方向正确由交互轮承载；无『更远』信号不触发排期升级；持平计数 16:0x×8→16:30×9→17:00×10→17:4x×11（10-13）。
 - 下一步: 17:45 拍 builder 按卡内指引重建施工链（main→checkout -b→git am 补丁→自检→提审附实拍截图）；18:00 cron 轮复核 wake 17:45 拍合规与 REQ 翻转。
+
+## 10-13 18:0x 巡检轮（cron 轮·零新提审·watchdog 残留清理·wake 复工解锁）
+
+- 新提审: REQ(1791814203=10-12 22:10) < REVIEW(1791884170=17:36) 实测→无新轮未开审；REQ 显式 WAITING_HUMAN 标记行 grep=0（SB-026 已审结旧文残留）。
+- 队列（状态行 grep main@270e86a 实测）: SB-012 真人走查在飞 / SB-021 挂起 v0.2 / SB-027 待办·重建施工 / SB-028 待办；最高卡号 SB-028；done/=24（ls-tree 实测）；与快照逐字零漂移→不推送。待办=2 ≤2：下一批仍前置 SB-012 真人闸门，不提前开卡（既有裁决，登记不重复呈报）。
+- 冒烟: 0e3398b..main app/** diff=0 实测（6 提交=docs/demos 原件/补丁，APK 输入零变化）→锚点 0e3398b 维持不重跑；SB-027 提审轮按新规先看图再审码。
+- feat 在飞观察（未审不动·禁 merge 舞步）: feat/SB-027-nav-font-rescue@89948a4（17:39:27 系 69a776a 重 applied 至 0b5b141 上）；main..feat=1/feat..main=1（纯 docs 簿记）分叉，squash 合入不受污。WIP 文件集实测=UI/test 7 文件 +231/-21（root_shell/goal_page/home_page+两新测试），红字 grep=0（禁词/手机号/open_id/美团工资房贷全零，真实账目=0）。builder 截至 18:00 无新提交：wake 17:45 拍 ok 但 S0.2 合规退出（watchdog 实录），重建未开工。
+- watchdog 残留清理（决策 p=0.81 按判执行）: 17:46 runway-watchdog 拍往 builder 检出 progress.md 追加 1 行未提交（porcelain=1 实测）——loop S0.4『工作树净』守卫将每拍被其卡住、SB-027 持续停摆。动作=①该行原文 616B 逐字保全入本轮 main 簿记；②builder 检出 `git checkout -- progress.md` 还原至 feat@89948a4 版；③还原后工作树净实测 0 行，18:15 拍 wake S0.4 不再被阻。业务代码/feat 分支/remote 零触碰。流程缺口登记：watchdog 簿记行今后应经 /tmp worktree 落 main 或只读不写（条文草案挂下周一适配审查）。
+- 漂移与一致性一行: 禁词非 md 基线=5 零新增（app/lib 2 行元引用豁免沿 p=0.75）／theme+motion_spec 外裸 Color(0x=0／裸 Duration=0／手机号 -P 边界=0／open_id 非 md=0／美团|工资|房贷非 md=0／真实账目=0 红线零触发（main+在飞 WIP 双实测）／_LOCK find+tracked=0／remote 未触碰（origin/main=0e3398b，main 领先 1=簿记未推，合规）／feat=在飞非残留／main 头 270e86a↔REVIEW 17:4x 段✓（本轮簿记后↔18:0x 段）／progress 唯一真相✓／task_plan 薄索引未据其判进度✓——全绿。
+- 提示词新鲜度（clause 8）: 巡检 message 括注『17:24 WIP抢救 feat@69a776a』过时（69a776a 已 detached，现行 tip=89948a4）→本轮 cron edit 修正括注，get 回读验证✓（监工自有职责）；SB-028 括注/done/=24/com.zangou.runway（build.gradle.kts:19 实测）/am start/golden 顶层/薄索引/错峰 :00-:30↔:15-:45 全现行✓。五 cron 实测：巡检 19b5f29f（本轮）/wake e71e53ac ok last=17:45 拍 next 18:15/runway-watchdog abaa94c7 ok/统一看门狗 169be936 ok/需求反思 6f3e81c0 ok。
+- 决策模型: 本轮调用 1 次——『监工还原 builder 检出 watchdog 残留行（先保全至 main）解锁 S0.4』p=0.81≥0.75→按判执行，留痕见上。
+- 利益点自省: 持平——本轮=审计+簿记+清守卫残留（链路恢复非产品机制变化）；SB-027 导航大字号可读性重建开工=『更近』前置事件，提审轮计；持平×12（10-13 00:0x~18:0x）；无『更远』信号不触发排期升级。
+- 下一步: ①18:15 wake 拍=清理后首验，核 builder 按卡重建施工链（自检→提审附模拟器实拍截图→看图闸门首轮实战）；②18:30 巡检复核 REQ 翻转与 wake 拍合规；③SB-012 真人闸门+D2-D4 拍板仍在浩然侧（已呈，不重复推送）。
