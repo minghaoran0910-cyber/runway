@@ -23,3 +23,21 @@
 模拟器冒烟：不适用（锚点沿 c61c125 PASS，零代码变更）。
 
 [supervisor patrol]
+
+## 2026-10-14 07:3x 监工巡检票（零动作轮）
+
+结论: 本轮无新提审（REQ 1791917384/02:49:44 < REVIEW 1791932672/07:04:32 实测），不重审；REQ head 复核=SB-031 第1轮已审结旧文（PASS@c61c125·done/ 在树实测）；WAITING_HUMAN 显式标记行 grep=0。
+检查项:
+- [x] 队列同步：活跃卡 2（SB-012 状态行=审查通过·代码闸门已合入·真人闸门在飞 / SB-021 状态行=挂起 v0.2，grep -m1 实测与快照逐字一致）/done/=29（git ls-tree 实测）/docs/tasks 顶层仅 2 卡、最高卡号 SB-031 与巡检括注一致/待办=0 见底已晨间呈报不重复推送（⚡）。
+- [x] wake 07:15 拍合规 idle-out：git log --since 07:00 实测仅 b56692e 巡检票、builder 零点火（待办=0 队列见底，属正常）；cron list 实测五任务全 ok（巡检 19b5f29f running=本轮/wake e71e53ac ok last≈07:15/runway-watchdog abaa94c7 ok/统一看门狗 169be936 ok/需求反思 6f3e81c0 ok），错峰 :00/:30 与 :15/:45 无失配。
+- [x] 冒烟：c61c125..HEAD 非 md 文件=0 实测（git diff --name-only grep 计 0）→锚点维持 c61c125（03:0x 一条龙 PASS FATAL=0）不重跑；模拟器未起（pgrep=0 实测）。真人闸门期间 main 若落码下轮必冒烟（沿册）。
+- [x] 漂移与一致性审计【本轮全绿】：禁词五词 app/lib 命中 2 行均元引用豁免（goal_ladder.dart:7 注释复述+achievement.dart:13 禁词表本体'又花掉'，行号本轮实测一致，沿 p=0.75 口径），用户可见零命中；基线文件集=7（_inbox 规范+achievement+goal_ladder+cooloff/experiment/goal_ladder 3 测试夹具+DESIGN_SYSTEM）零新增；「多花」延续已裁白名单；theme/motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（find app/lib+xargs 实测）；美团|工资|房贷非 md=0；锚定手机号=0（dart 实测 0，沿 03:3x 毫秒夹具口径澄清）；open_id=0；真实账目=0 红线零触发（c61c125 后零代码变更，合成夹具豁免延续）；_LOCK find+tracked 双扫=0；branch=1 仅 main（feat 残留=0）；工作树净 0 行（status --porcelain 实测）；remote=origin 在册监工零触碰（main ahead 未推送=合规）；main 头 b56692e↔REVIEW 07:0x 段对应✓（簿记后新头↔本段✓）；progress 唯一真相✓；task_plan 薄索引 633B 实测未据此判进度✓。
+- [x] 提示词新鲜度：巡检 message 括注（SB-031 归档@c61c125/done=29/待办 0/SB-032 未下发挂拍板/SB-012 真人闸门在飞/最高卡号 SB-031）与实测全一致；applicationId com.zangou.runway 本轮实测 build.gradle.kts:8/:19 现行；am start 冒烟口径现行；golden/现行；五 cron ok 无失配→无过时项未动 cron。
+- [x] 决策模型：本轮无新边界裁决未调用；晨间批次（SB-032 p=0.63/弹层差异 p=0.66/千分位 p=0.67/count-up p=0.33/SB-031 下发追认 p=0.64/D2-D4）已于 07:0x 呈报待答，不重复推送。
+- [x] 周三非周一：不做适配审查；周一挂账条文草案批次（wake 合入归属校验/builder 状态行/remote 三段式/簿记查 branch 纪律）沿册待。
+下一步: 等浩然晨间批次答复（SB-032 拍板即下发承接）；SB-012 7 天真人闸门在飞；builder 待办=0 idle 属正常。
+模拟器冒烟：不适用（锚点沿 c61c125 PASS，零代码变更）。
+
+利益点自省（一行）：持平——零动作审计轮守住 SB-031 达成帧成果（庆祝卡片已合入可见），产品机制零变化，无 SilentBook 旧病同构；计数：更近(SB-031@03:0x)→持平×8(03:3x~07:3x)，无『更远』信号不触发排期升级；推进在浩然侧（晨间批次待答/SB-012 真人 7 天）。
+
+[supervisor patrol 10-14 07:3x]
