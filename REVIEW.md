@@ -508,3 +508,25 @@ R4 计数：SB-030 第 1 轮（同卡再 1 次 REQUEST_CHANGES 即 WAITING_HUMAN
 冒烟: main 无新合入（18a80a9 锚点维持，ffdffc6/4ebf224 等纯 docs），跳过。
 利益点自省: 持平——零动作审计轮守住既有成果（SB-029 hero 合入+SB-030 返工在飞），产品机制零变化；唯一动作系审计口径修正（过程卫生），不构成排期升级；无 SilentBook 旧病同构。
 [SB-030][supervisor patrol]
+
+## 审查轮 — 2026-10-14 02:2x · SB-030 目标时间线+周报折线（第2轮 · 卡 SB-030）
+结论: PASS（第 2 轮 · 卡 SB-030；R4 计数=1/2，未触发 WAITING_HUMAN）
+
+检查项（全部本轮实测）:
+- [x] 提审判定：REQ/REVIEW mtime 同为 1791914789（被 02:06:29 半截 squash 拉平）→ 按内容对比：REQ=第2轮返工提审（builder 01:4x，feat@2a3b1da），REVIEW 末段=01:3x 巡检票明记"第2轮未交卷"→ 判定新审查成立。
+- [x] 半截现场处置（P2 过程观察）：reflog 实测 02:06:29 feat→main checkout + merge --squash 残留（progress.md UU + SQUASH_MSG + 14 文件 staged）；builder 提交在 01:48:09 已止，此 squash 归因不明（疑 opencode 越序动作或遗留实例）；wake 02:15 拍 S0.4 脏守卫直接退出零写入零损伤。监工按轮次收尾铁律干净回滚（reset --hard，feat 全提交在册零丢失），随后按 R5 授权亲合。建议条款：wake 增加"合入归属校验"（builder 禁 merge 铁律的机器化守卫）——草案挂周一适配审查。
+- [x] P1 修复验证：git show 5bf6db2 实测 trend_line.dart `shouldRepaint` 由长度代理判等改 `!listEquals(old.values, values)` + `package:flutter/foundation.dart` import，与 01:2x 票点名修法逐字一致；新增回归测试「SB-030 折线同长度新数据触发重绘」（同长异值 pump 断言 true / 同值重泵断言 false）直覆冻结缺陷 ✓。
+- [x] 监工独立亲跑（squash 候选树=合入后内容）：flutter test **439/439 绿**（"All tests passed!" 亲回显，基线438+本轮1，与申报一致）；dart format 107 文件 0 changed；flutter analyze No issues ✓。
+- [x] 文件约束：业务 2 改+5 新=7≤10；单文件 ≤400（goal_timeline 149/trend_line 148/weekly_trend 43/goal_page 382/weekly_page 375 实测）；无 pubspec/tokens/schema；未推送（外部 push=0 本轮实测，监工零触碰 remote）。
+- [x] m 级 2/3/4（达成态双✓冗余/达成态无像素证据/图标行左置）沿 01:2x"留后续打磨卡"裁决未动 ✓——打磨卡提案挂队列见底排期（SB-031 候选）。
+- [x] 偏差裁决：①N周代理 p=0.80 / ②折线=支出口径 p=0.77 按判受沿册；④实拍已补销账；⑤count-up p=0.33/千分位 p=0.67 灰区沿册挂浩然不重复推送。
+
+审美审计（视觉保真闸门 · 第2轮口径）：本轮 diff=trend_line 2 行+测试 37 行，UI 像素零变更；golden×6 字节与 01:2x 审查时一致（goal_light_data 241289B/weekly_light_data 240151B 实测沿册）；01:2x 第1轮七维审计（层级/间距/圆角阴影/对比度/动效/AI味/一致性全过，0 致命，扣分=m×2）结论延续有效，闸门通过；合入后冒烟实拍证据附下段。
+
+模拟器冒烟: （本轮执行中，结果见下条补录）
+
+漂移与一致性审计: 禁词 app/lib 命中 2 行均元引用豁免（goal_ladder.dart:7 注释+achievement.dart:13 禁词表本体，沿 p=0.75）且本轮新码 git grep 实测 0 命中；theme/motion_spec 外裸 Color(0x=0 / 裸 Duration=0（含新码实测）；美团|工资|房贷非md=0；手机号锚定=0；open_id=0；真实账目=0 红线零触发（全 diff 合成夹具实测）；_LOCK find+tracked 双扫=0；branch 实测仅 main（feat 残留=0——feat/SB-030 经 diff 验证内容=main 除纯 docs 簿记后方 -D）；main 头 f2d960d→7cbc946 与本轮票对应（簿记 commit 后新头↔本段自验三连）；progress.md 唯一真相✓（builder 00:5x/01:4x 两行冲突消解按时序合入）；task_plan 薄索引未据此判进度✓。
+
+利益点自省: 更近——折线冻结缺陷修复后，「向想要的东西挪一步」随新账目实时可见（图随数据动、图文一致=零成本天天看见轨迹的核心体验）；传感器口径零新增自律要求，无 SilentBook 旧病同构。
+
+[SB-030][supervisor patrol]
