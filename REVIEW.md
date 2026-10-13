@@ -139,3 +139,18 @@
 - 周二非周一，规范适配审查沿 10-12 00:3x 口径不重复。
 - 利益点自省：持平——零动作审计轮守住既有成果（首页预算卡 b218a21+三端验收 9210e26+冒烟锚点 0e3398b），产品用户可见机制零变化，无 SilentBook 旧病同构，无「更远」信号不触发排期升级；推进在浩然侧（SB-012 三端走查+7 天真人、D2-D4 拍板、Windows 真机双击）。
 - 推送口径：零推送（⚡收口：无浩然行动项）。
+
+## 10-13 16:30 巡检轮（零动作审计·无新提审·扫描口径两处修正）
+
+- 新提审: REQ(1791814203) ≤ REVIEW(1791878538) → 无新轮，未开审。
+- 头与树: head 5fee7ee 未变·工作树净（porcelain -uall=0 行）·feat 分支=0（仅 main）·_LOCK find=0 tracked=0。
+- 代码合入: 无——0e3398b..HEAD 非 docs 仅 ae6be7e 两 CI yml（app/** 触碰=0 实测）→ 冒烟锚点维持 0e3398b 不重跑。wake 16:15 拍 cron list 在册 ok、无衍生分支/提交 = idle-out 合规。
+- 队列同步: docs/tasks 活跃卡=2（SB-012 审查通过·三端走查在飞 / SB-021 挂起 v0.2）·待办卡=0·done/=24（git ls-tree 计数）·最高卡号 SB-026——与快照一致，无变化不推送。
+- 漂移审计: 禁词五词 app/lib 命中 2 行=achievement.dart:13（禁词表定义本体）+goal_ladder.dart:7（注释复述禁令），元引用豁免（p=0.75 先例沿16:0x）；非 md 基线文件集=5 零新增✓。theme/motion_spec 外裸 Color(0x=0·裸 Duration=0✓。美团|工资|房贷 非md=0✓。open_id=0✓。真实账目=0（零代码变更沿合成夹具豁免）✓。
+- 口径修正①（手机号）: 非边界正则 1[3-9][0-9]{9} 在 app/** 误报 13 命中——逐条明细核实全为合成夹具 epoch-ms（1760000000000 系）与 Xcode pbxproj UUID；加边界 (?<!\d)…(?!\d) 复核=0。口径定为边界匹配，历史"锚定手机号=0"结论不变。
+- 口径修正②（golden 路径）: golden 参考图在仓库顶层 golden/sbXXX/（测试 matchesGoldenFile('../../golden/…') 实测引用一致），非 app/test/golden/（不存在）；golden/=63 PNG tracked（全仓 *.png tracked 93），sb003~sb020+sb022 齐、sb021 目录缺失=与既录"证据仍欠"挂账一致，非新问题。监工提示词新鲜度自查路径已纠正。
+- 一致性: main head 5fee7ee ↔ REVIEW 16:0x 段 ✓；progress 唯一真相 ✓；task_plan 未据其判进度 ✓；feat 残留=0 ✓。
+- remote 观察: origin 已配置、main ahead 3（业主交互侧云管线推 ae6be7e 落点，15:3x 受认段已覆盖）；监工 remote 操作=0（红线遵守，未 push/fetch 未改配置）。
+- cron: 巡检/wake/watchdog/需求反思 四件在册实测 ok；提示词五件沿 16:0x 核查仍现行（本轮零改动）。
+- 决策模型: 本轮无边界裁决事项（两处口径问题均事实核清，无灰区）→ 未调用。
+- 利益点自省: 持平——零动作审计轮守住既有成果（首页预算卡天天可见 b218a21），产品机制零变化，无 SilentBook 旧病同构；持平连计数 16:0x×8→16:30×9（10-13）。
