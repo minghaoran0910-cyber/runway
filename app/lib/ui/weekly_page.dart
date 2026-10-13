@@ -7,7 +7,9 @@ import '../data/experiment_dao.dart';
 import '../logic/budget.dart';
 import '../logic/dashboard_stats.dart';
 import '../logic/experiment.dart';
+import '../logic/weekly_trend.dart';
 import 'budget_card.dart';
+import 'widgets/trend_line.dart';
 import '../logic/entry.dart';
 import '../logic/grain_report.dart';
 import 'theme/app_theme.dart';
@@ -208,11 +210,30 @@ class _WeeklyPageState extends State<WeeklyPage> {
                               key: const Key('weeklyBody'),
                             ),
                             const SizedBox(height: 4),
-                            Text(
-                              // SB-014 · 本周攒出物理换算（复用 SB-007 价格表，禁止编造）.
-                              weeklySavingConvert(savedFen: cur.savedFen),
-                              style: theme.textTheme.bodySmall,
+                            // SB-030 · 行内图标金句（§4：emoji 仅正文趣味单位，
+                            // 图标须 inline-block 基线对齐；文案复用得到框架，
+                            // 零新口径）.
+                            RichText(
                               key: const Key('weeklyConvert'),
+                              text: TextSpan(
+                                children: <InlineSpan>[
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Icon(
+                                      Icons.local_cafe_outlined,
+                                      size: 14,
+                                      color: theme.textTheme.bodySmall?.color,
+                                    ),
+                                  ),
+                                  const TextSpan(text: ' '),
+                                  TextSpan(
+                                    text: weeklySavingConvert(
+                                      savedFen: cur.savedFen,
+                                    ),
+                                    style: theme.textTheme.bodySmall,
+                                  ),
+                                ],
+                              ),
                             ),
                             // SB-015 · 周报换算改接预算基线（预算周折算对照 + 环比增量）.
                             StreamBuilder<List<Budget>>(
@@ -255,6 +276,13 @@ class _WeeklyPageState extends State<WeeklyPage> {
                               weeklyTopText(cur.top3),
                               style: theme.textTheme.bodySmall,
                               key: const Key('weeklyTop'),
+                            ),
+                            const SizedBox(height: 8),
+                            // SB-030 · 本周战报折线趋势（§5：7 天每日支出，
+                            // 端点 ≥8px/平滑/渐变/末端 halo 见 TrendLine）.
+                            TrendLine(
+                              key: const Key('weeklyTrend'),
+                              values: weekDailySpend(flows: flows, now: now),
                             ),
                             const SizedBox(height: 8),
                             TextButton(

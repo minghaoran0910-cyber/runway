@@ -10,6 +10,7 @@ import 'achievements_page.dart';
 import 'dashboard_cards.dart';
 import 'goal_card.dart';
 import 'goal_price_follow.dart';
+import 'goal_timeline.dart';
 import 'grain_card.dart';
 import 'weekly_page.dart';
 import 'theme/app_theme.dart';
@@ -197,38 +198,25 @@ class GoalPage extends StatelessWidget {
                           key: const Key('goalCount'),
                         ),
                         const SizedBox(height: 8),
-                        for (final Goal g in goals)
-                          Card(
-                            child: ListTile(
-                              title: Text(
-                                '${g.name} · ${formatFen(g.targetFen)}',
-                                style: theme.textTheme.titleMedium,
-                                key: Key('goalItem-${g.id}'),
-                              ),
-                              subtitle: Text(
-                                '单价 ${g.priceName} ${formatFen(g.priceFen)}',
-                                style: theme.textTheme.bodySmall,
-                              ),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  IconButton(
-                                    icon: const Icon(Icons.edit),
-                                    tooltip: '编辑',
-                                    key: Key('goalEdit-${g.id}'),
-                                    onPressed: () =>
-                                        _openEditor(context, goal: g),
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    tooltip: '删除',
-                                    key: Key('goalDelete-${g.id}'),
-                                    onPressed: () => db.deleteGoal(g.id),
-                                  ),
-                                ],
-                              ),
+                        // SB-030 · 目标纵向时间线（demo 清单④；未达成 tabular
+                        // "¥现攒/¥目标"，达成琥珀"✓ 已攒够·N周"；N=自建起整周）.
+                        Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(
+                              RunwaySpacing.cardInner,
+                            ),
+                            child: GoalTimeline(
+                              goals: goals,
+                              convertibleFen: computeGoal(
+                                monthSpendFen: sums.monthSpendFen,
+                                lastMonthSpendFen: sums.lastMonthSpendFen,
+                              ).convertibleFen,
+                              now: now,
+                              onEdit: (Goal g) => _openEditor(context, goal: g),
+                              onDelete: (Goal g) => db.deleteGoal(g.id),
                             ),
                           ),
+                        ),
                       ],
                     );
                   },
