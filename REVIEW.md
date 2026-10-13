@@ -35,3 +35,14 @@
 - D 方案兑现：私有仓 minghaoran0910-cyber/runway + Actions windows-latest，`flutter build windows --release` **一次通过**（run 12:00 success）。产物已下载验真：runway.exe = PE32+ x86-64 GUI 可执行文件，含 flutter_windows/sqlite3/dartjni 三 DLL + data/app.so，全套 13.8MB。
 - 本地 UTM VM 六轮安装+四代接力未竟之事，云端 4 分钟收口。VM 停用释放内存。
 - 剩余半步：真机双击冒烟（exe 能构建≠能跑），待浩然 Windows 设备或 v0.2 补。SB-012 验收8 多平台闸门：构建证据已齐，运行证据挂账。
+
+## 监工票 — 2026-10-13 12:3x（巡检轮·Android 冒烟复验+12:0x 外票独立核验）
+- 结论：无新提审（REQ mtime 1791814203=10-12 22:10 < REVIEW 实测）不重审；本轮主行动=9210e26..HEAD 唯一非docs 提交 c7f6ef7（windows-build.yml，app 代码零改动实测）触发冒烟必做 + 独立核验外部 12:0x『Windows 云构建补票』票。
+- 模拟器冒烟三跑实录：第1跑 12:07 FAIL（BOOT=1/install Success/am start→35s PIDOF 空；对未清空全冷启动 logcat 双 grep FATAL=1；崩溃栈未留存，模拟器已 pkill，该证据不可复核）→ 干净复跑两跑 12:09/12:14 均 PASS（同一 app-debug.apk；先删 guest 数据目录+logcat -c；am start 后 20s/35s 两次 pidof=2506/2149 存活；crash 缓冲 FATAL=0、栈行=0；pkill 收口）。决策模型 smoke_anchor_advance 两次调用 p=0.39（两跑证据时）/0.60（三跑含 tie-break 后）均灰区 → 不编绝对判决：第1跑异常记挂账（间歇性启动崩溃未排除，若真机复现以本行对照），锚点以前两跑干净证据前移 9210e26→0e3398b，挂账随简报披露浩然。
+- 12:0x 外票独立核验（监工本轮未 push/未动 remote）：gh API 实测 run 38343991750 windows-build push@main=completed·success·4m24s（起 11:55:36）；artifact runway-windows-release=13,787,387B（票面 13.8MB 吻合）·expired=false ✓；本机 Downloads/tmp 无落盘副本（验真后已清理，API 证据成立，本地复验缺件记此）。origin/main==main==0e3398b 实测=外部会话已推送（私有仓 minghaoran0910-cyber/runway 属 D 方案落地，remote 增删推送非监工行为，登记豁免）。UTM.app 壳常驻但无 qemu guest 进程=『VM 停用释放内存』大体属实（系统空闲 28% 实测）。
+- 队列零漂移：活跃卡 2（SB-012 真人闸门在飞/SB-021 挂起 v0.2，状态行 grep 实测与快照一致）；done/=24（ls-tree 实测）；最高卡号 SB-026=message 括注一致；待办 0 见底（已呈报不重复推送）。feat/SB-027 未出现=11:45 拍未派新卡（wake 恢复 ok 但无卡可领 idle-out）。
+- 漂移与一致性审计：全绿——禁词五词非md=基线 5 文件（achievement/goal_ladder+3 测试夹具，元引用豁免沿 04:0x p=0.75）零新增；theme/motion 外裸 Color(0x=0、裸 Duration(milliseconds:=0（git grep 实测）；美团|工资|房贷非md=0；手机号宽口径=13=基线合成夹具/UUID（沿 09:3x 裁决）；open_id=0；真实账目=0 红线零触发；_LOCK find=0；branch 仅 main feat 残留=0；工作树净 0 行；main 头 0e3398b↔REVIEW 12:0x 票✓（簿记后新头↔本段✓）；progress 唯一真相✓；task_plan 未据其判进度✓。
+- 提示词新鲜度：cron 五件实测=巡检 19b5f29f running/唤醒 e71e53ac ok（前轮 error 已恢复）/runway-watchdog abaa94c7 ok/统一看门狗 169be936 ok/需求反思 6f3e81c0 ok；巡检 message 括注『Windows补票挂SB-012验收8』已过时（12:0x 云构建已落地）→cron edit 改『Windows补票云构建已落地(真机运行挂账)』get 回读验证；com.zangou.runway+am start 口径/golden/薄索引 3a9d763/:00-:30 与 :15-:45 错峰=现行，其余未动。
+- 决策模型：1 题两调（0.39/0.60 灰区）→挂账记录+简报披露（⚡类③），不替代监工簿记。
+- 利益点自省：更近——四平台构建证据链补齐最后一块（Windows CI 绿+artifact 13.8MB 在档）且 Android 运行锚点复验，『让用户以接近零成本天天看见自己向想要的东西挪一步』的平台覆盖更实；无 SilentBook 旧病同构信号。连续计数：10-13 00:0x~12:0x 持平×19→12:3x 更近。
+- 推送口径：发浩然一条=Windows exe 真机双击行动项（⚡类①）+冒烟第1跑挂账一行披露（⚡类③），合并单条。
