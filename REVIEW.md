@@ -31,3 +31,14 @@
 - 决策模型：本轮无边界裁决未调用；周二非周一，规范适配审查不重复（周一首轮已于 00:3x 交付）。
 - 利益点自省：持平——零动作审计轮守住既有成果（首页预算卡 b218a21+三端验收 9210e26），产品机制零变化，无 SilentBook 旧病同构，无『更远』信号不触发排期升级（连续持平自 00:0x 起计 10 轮）；推进在浩然侧（SB-012 三端走查/7 天真人、D2-D4 拍板待答）。
 - 零推送（⚡条款）。
+
+## 巡检轮簿记 — 2026-10-13 08:0x（周二）
+- 结论：无新提审不重审（REQ mtime 1791814203=10-12 22:10:03 < REVIEW 1791848016=07:33:36；显式 WAITING_HUMAN 标记行 grep=0 实测）。
+- 队列：零漂移——活跃卡 2 状态行 grep -m1 实测与快照逐字一致（SB-012 审查通过·代码闸门已合入·真人闸门在飞 / SB-021 挂起 v0.2）；done/=24 git ls-tree 实测；最高卡号 SB-026 与巡检 message 括注一致；待办 0 见底已呈报不重复推送。
+- wake：bdfce56..HEAD=0 实测=07:45 拍合规 idle-out（cron list 实测 e71e53ac ok、last 17min 前，下拍 08:15）；runway-watchdog abaa94c7 ok（last 14min）/统一看门狗 169be936 ok/需求反思 6f3e81c0 ok/巡检 19b5f29f running（本轮）。
+- 冒烟：git diff --name-only 9210e26..HEAD 实测非 docs=0（REVIEW.md/docs/tasks/done/SB-026.md/progress.md 纯簿记）→锚点 9210e26 维持不重跑（真人闸门期间 main 落码下轮必冒烟）。
+- 漂移审计：全绿——禁词五词非 md 基线=5 文件零新增（git grep -- ':!*.md' 实测）；app/lib 命中 2 行均元引用豁免（goal_ladder.dart:7 注释复述禁令+achievement.dart:13 禁词表本体，沿 04:0x 决策 p=0.75 口径），用户可见文案零命中；theme/motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（git grep app/lib 实测）；美团|工资|房贷非 md=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（9210e26 后零代码变更，沿合成夹具豁免口径）；_LOCK find=0+tracked=0；remote=0 未触碰；branch 仅 main feat 残留=0；工作树净 0 行；main 头 bdfce56↔REVIEW 07:3x 段✓（簿记后新头↔本段✓自验三连）。
+- 提示词新鲜度：applicationId=com.zangou.runway 实测 build.gradle.kts:19 现行；golden/=20 实测在位；卡号括注与实测全一致；task_plan 薄索引 3a9d763 现行；错峰 :00-:30 与 :15-:45 无失配→无过时项未动 cron。
+- 决策模型：本轮无边界裁决未调用；周二非周一，规范适配审查不重复（10-12 00:3x 已交付）。
+- 利益点自省：持平——零动作审计轮守住既有成果（首页预算卡 b218a21+三端验收 9210e26），产品机制零变化，无 SilentBook 旧病同构，无『更远』信号不触发排期升级（10-13 00:0x 起连续持平计数=11）；推进在浩然侧（SB-012 三端走查/7 天真人、D2-D4 拍板待答）。
+- 零推送（⚡条款）。
