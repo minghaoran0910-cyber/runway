@@ -1,4 +1,25 @@
+## 监工票 — 2026-10-13 21:0x 巡检轮（SB-027 builder 崩溃救援 + 第二次续做授权）
 
+结论: PASS（轮次簿记+救援+授权补录，非提审轮）——零新提审；builder 会话死亡实证，按 20:0x 票预案机械救援，树已归位 main。
+
+- 审查闸门: REQ mtime=1791814203(10-12 22:10:03) < REVIEW(20:3x 簿记) 实测→无新提审不重审；REQ 显式 WAITING_HUMAN 标记行 grep=0。
+- 崩溃证据链（21:0x 实测）: ①无 builder CLI 进程（pgrep 空）；②flutter run PID 2471 ppid=1 挂 launchd，ELAPSED 1:15:02 仅 CPU 1.49s/0%——失去驱动方；③live_shots.log 尾 `00:48 +0 -1: Some tests failed`（SemanticsHandle 未 dispose 断言，驱动自带 bug）；④wake log 尾 builder 最后动作=md5 比对发现 home/cat 字节相同，随后两次 `Read /tmp/*` auto-reject（会话工具权限墙）无下文——死因=权限墙，非仓库病（禁词/裸值/真实账目实测全绿）。
+- 实拍证据无效（看图闸门预检）: /tmp/sb027-home.png 与 sb027-cat.png md5 相同（a2bd7d69…），监工看图=两张均为『类目管理』页且高亮『账本』tab；sb027-me.png=『目标阶梯』页高亮『我的』tab——tab↔页面映射存疑（账本挂类目管理、我的挂目标阶梯）或截图时序错乱，三页不构成三张不同图，不足以过闸门。
+- 救援动作（沿 20:0x 票预案『builder 崩留半截=先归位 main 防 S0.2 复发再按 S0.1 处理』）: ①杀孤儿进程 2471/2568/5138；②未提交 WIP 代管落 feat@14626cc（category_page ①b①c 修复+root_shell_test+golden sb019×2 再生，12+/4-）；③live_shots.dart 驱动备份入 feat（提审前删除不入 main）；④树归位 main、工作树净。
+- **SB-027 续做授权（第二次·一次性·监工 21:0x 签发，LOOP.md S0.1）**:
+  - 点名分支: `feat/SB-027-nav-font-rescue`（head=14626cc 实测，含 89948a4+21:0x 全部 WIP）。
+  - 范围: 树在 main 且守卫全过时 `git checkout feat/SB-027-nav-font-rescue` 续做（S0.2 对被点名分支不生效）→ ①修 live_shots 实拍驱动（SemanticsHandle dispose 或改抓图方式；实拍产物落仓库内 gitignore 目录，勿依赖 Read /tmp——权限墙实证）；②核对 tab↔页面映射：卡面要求首页/账本/我的三 tab 现有页面全挂，现实拍显示『账本』→类目管理、『我的』→目标阶梯，如系有意须在 REQ 说明，否则修正；③重拍三页实拍，提审前自验三图 md5 互不相同（字节相同=未切页=闸门打回）；④自检三件套（dart format/analyze 零 warning/相关测试）→ tool/ci.sh 全绿 → progress.md → REVIEW_REQUEST.md（附三页实拍+golden 再生说明）。
+  - 禁区: 禁 `git checkout -b`、禁重放 docs/patches/0001-*.patch（重放=双花）、禁扩 scope、禁新开工作面、禁碰 main。
+  - 失败出口: 自检不过且授权范围内修不动 → 不提审，feat 分支 commit 现状 + progress.md 登记一行 + 解锁退场，监工下轮接手。
+- 队列同步: SB-012 真人闸门在飞（暂停待浩然）/SB-021 挂起 v0.2/SB-027 在飞（已抢救待续做）/SB-028 待办——main 状态行与快照零漂移；done/=24 实测；待办=1≤2 仍前置真人闸门，不提前开新卡。
+- 冒烟: `git diff --name-only 0e3398b..main -- app/` 实测=0 →锚点 0e3398b 维持不重跑；本轮无 G 卡 PASS；SB-027 合入轮=main 落 app 代码，审查轮必 v3 一条龙安卓冒烟并更新锚点。
+- 漂移与一致性审计（clause 6）: 禁词 app/lib 命中 2 行=元引用豁免（goal_ladder.dart:7 注释复述+achievement.dart:13 禁词表本体，沿 p=0.75），救援 commit 14626cc diff 实测零新增；theme/motion 外裸 Color(0x=0/裸 Duration=0（工作树+feat@14626cc 双实测）；美团|工资|房贷非 md=0；锚定手机号=0；open_id=0；真实账目=0（live_shots 全合成夹具 1200/3000 分）红线零触发；_LOCK find=0；feat/SB-027=在飞非残留；main 头 7bcb6eb↔REVIEW 20:3x 段✓（本轮簿记后→21:0x 段✓）；progress 唯一真相✓；task_plan 薄索引未据其判进度✓；remote=监工操作 0（origin/main=0b5b141 外部 push 观察延续，只读不触碰）。
+- cron 体检: 巡检 19b5f29f running（本拍）/wake e71e53ac ok 下拍 21:15（授权已提前落 main，点火应成功；若仍 idle 退=按本节授权文核对）/统一看门狗 169be936 ok/runway-watchdog abaa94c7 status=error（19:47 首错『Memos Search blocked』未复元，实测 next in 41m=21:47 拍）——21:47 拍仍错则 22:0x 轮监工修其提示词绕开 memos 依赖（监工自有职责免请示）；需求反思 6f3e81c0 ok 下拍 21:30。
+- 提示词新鲜度（clause 8）: 最高卡号 SB-028=括注一致✓；com.zangou.runway（build.gradle.kts:19 沿 20:3x 实测）✓；am start 冒烟口径现行✓；golden/sb019 归档在位✓；task_plan 薄索引✓；巡检 message 括注『20:0x 实测=builder 在飞实拍监护』已过时（builder 已崩已抢救）→本轮 cron edit 更新为抢救+二次授权口径，get 回读验证；wake 派发器无硬编码卡号免改。
+- 决策模型（clause 10）: 本轮 decision_evaluate 调用两次（救援正当性/授权范围）均返回 Tool not found→记『决策模型不可用』按原流程继续；救援系 20:0x 票现行预案执行非新边界裁决，无灰区挂账。
+- 利益点自省（clause 9）: 更近——①b①c 可读性修复（浩然真机控诉本体）+golden 已落 feat，救援把中断进度接回可续轨道；零新增用户义务，无 SilentBook 旧病同构。
+- 簿记方式: 本轮树已归位 main 且净，监工直接 main 正常 commit（无需 plumbing 绕行）。
+- 推送口径（⚡收口）: 零推送——崩溃救援+授权签发=预案内机械动作，无浩然行动项；下一呈报节点=SB-027 提审看图闸门轮（若打回再按①类推送）。
 
 ## 监工票 — 2026-10-13 20:0x 巡检轮（零新提审·builder 在飞监护·簿记经 plumbing 直落 main）
 - 审查闸门: REQ blob=26e1c4ec 三处一致（main/feat/工作树逐字节同=10-12 22:1x SB-026 已审结旧单）→零新提审不重审；工作树 REVIEW.md mtime 19:45 系 feat checkout 写入时刻，内容基准以 main@96c3794（含 19:3x 授权段）为准。
