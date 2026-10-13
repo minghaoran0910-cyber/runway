@@ -338,8 +338,8 @@ builder 下轮 S1 返工：问题 1（golden 再生+全量绿）+问题 2（措�
 - 一致性：食/行/居/玩单套命名；tab 高亮与页面映射（首页=攒够首页/账本=类目管理/我的=目标阶梯）与 21:3x 销案一致 ✓
 - 遗留（非本卡 blocker）：首页 hero『（示例数据）』水印、右上图标观感、目标页文案复读、类目页 FAB 安全垫——4 项审美挂账在册归 SB-028（偏差②不修=合规，决策 p=0.86 按判落）
 
-### 模拟器冒烟
-（本轮 v3 一条龙进行中，结果见下方补记/下一段）
+### 模拟器冒烟（v3 一条龙·合入轮必做·PASS）
+main@7de4223 落 app 代码 → 本轮实测：apk 构建 ✓（assembleDebug 1953ms）→ emulator runway_api36 固定四参起 → BOOT=1 → `adb install -r` Success → `am start -n com.zangou.runway/.MainActivity` Intent 正常 → 35s 存活 PID=2705 → logcat -b crash FATAL EXCEPTION=0。**冒烟 PASS**，锚点 0e3398b→7de4223，模拟器已 pkill。
 
 ### 漂移与一致性审计（本轮实测）
 禁词非 md=基线 5 处零新增（achievement.dart:13 禁词表本体+goal_ladder.dart:7 注释+3 测试断言夹具=元引用豁免，p=0.75 口径沿用）；theme/motion_spec 外裸 Color(0x=0/裸 Duration=0（git grep app/lib 实测）；美团|工资|房贷非 md=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（live_shots 驱动系 memoryForTest+Value(1200)/Value(3000) 合成夹具，沿 22:0x 实证）；_LOCK find=0；origin 零触碰；合入后 feat 残留=0（branch -D was dd53ce0）；main 头 acefa4d↔REVIEW 22:3x 勘误段✓；progress 唯一真相✓；task_plan 薄索引未据其判进度✓。
