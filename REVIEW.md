@@ -1,3 +1,20 @@
+
+
+## 监工票 — 2026-10-13 20:0x 巡检轮（零新提审·builder 在飞监护·簿记经 plumbing 直落 main）
+- 审查闸门: REQ blob=26e1c4ec 三处一致（main/feat/工作树逐字节同=10-12 22:1x SB-026 已审结旧单）→零新提审不重审；工作树 REVIEW.md mtime 19:45 系 feat checkout 写入时刻，内容基准以 main@96c3794（含 19:3x 授权段）为准。
+- builder 在飞实测: 19:45 拍点火·授权已消耗——「仍空退=第 5 拍升级呈浩然」分支关闭（不触发升级）。20:0x 实测 PID 2471 `flutter run live_shots.dart`（iPhone 17 模拟器 8BB33A51 Booted+Runner.app 容器在位），三页实拍进行中；新文件 app/live_shots.dart=一次性实拍驱动（AppDb.memoryForTest 合成夹具，头注『拍完即删不入库』，监工不删不碰）；dirty=5（category_page/root_shell_test/golden sb019 png×2/live_shots.dart）；89948a4..feat 新提交=0（施工中未提交=正常）。
+- golden sb019 png×2 脏=builder 在改 golden 图 → SB-027 提审轮必查：golden 再生须附正当性说明；提审必附三页实拍=看图闸门首战（缺实拍=REQUEST_CHANGES，缺 golden 说明=同退）。
+- 20:15 拍预期: S0.2（树=feat）+S0.4（业务脏）合规空拍，属在飞正常态，监工盯进度不干预；builder 崩留半截=监工代管先归位 main 再按 S0.1 处理（沿 18:3x 预案）。
+- 冒烟: `git diff --name-only 0e3398b..main -- app/` 实测=0（非 docs 仅 .github yml×2+demos 基线 png16+README）→锚点 0e3398b 维持不重跑；SB-027 合入轮=main 落 app 代码，审查轮必 v3 一条龙冒烟。
+- 队列同步: SB-012 真人闸门在飞（7天表暂停待浩然）/SB-021 挂起 v0.2/SB-027 在飞（实拍中）/SB-028 待办——main 状态行与快照零漂移；done/=24 实测；待办≤2 仍前置真人闸门，不提前开新卡。
+- 漂移与一致性审计（clause 6）: 禁词 app/lib 命中 2 行=元引用豁免（achievement.dart:13 禁词表本体+goal_ladder.dart:7 注释复述禁令，沿 p=0.75），全库非 md 基线 5 文件零新增；theme/motion 外裸 Color(0x=0/裸 Duration=0；美团|工资|房贷非 md=0；锚定手机号=0；open_id 非 md=0；真实账目=0（builder WIP diff+live_shots 实扫全合成夹具）红线零触发；_LOCK find=0+tracked=0；feat/SB-027=在飞非残留；main 头 96c3794↔REVIEW 19:3x 段✓（本轮簿记后→20:0x 段✓）；progress 唯一真相✓；task_plan 薄索引未据其判进度✓；remote=监工操作 0（观察：origin/main=0b5b141，16:3x 后发生外部 push、main ahead 6=监工外行为所致，继续只读观察不触碰）。
+- cron 体检: 巡检 19b5f29f running（本拍）/wake e71e53ac ok（19:45 点火拍 119ms 退出·next 20:15）/统一看门狗 169be936 ok/runway-watchdog abaa94c7 19:47 拍 ERROR 首见——lastError=『Memos Search blocked』（会话工具层拦截非仓库病，consecutiveErrors=1）；仓库副作用实测零（main 头未动·dirty 全系 builder·_LOCK=0·REQ 无 WAITING_HUMAN 显式标记）；挂账：21:4x 拍若再错则修 watchdog 提示词绕开 memos 依赖（监工自有职责）。
+- 提示词新鲜度（clause 8）: 最高卡号 SB-028=括注一致✓；applicationId com.zangou.runway（build.gradle.kts:19 实测）✓；am start 冒烟口径现行✓；golden 归档在位✓；task_plan 薄索引✓；wake=二代派发器脚本（S0.1–S0.6 机械守卫·无硬编码卡号·SB-024 仅历史注释✓）；巡检 message 括注『19:45 拍预期点火·仍空退=第 5 拍升级』已过时（点火已兑现）→本轮 cron edit 更新为在飞监护口径，get 回读验证。
+- 周节奏: 周二非周一，规范适配审查不重复（clause 7 条文草案仍挂下周一首轮）。
+- 决策模型（clause 10）: 本轮无边界裁决事项→未调用；watchdog 首错属观察项非裁决。
+- 利益点自省（clause 9）: 更近——builder 正在修『首页天天看见进度』链路的可读性（巨型字/白字压浅底=浩然真机控诉本体），产品机制零变化，无 SilentBook 旧病同构。
+- 簿记方式: 树被 builder 占用（feat·在飞），监工经 plumbing（hash-object+临时 index+commit-tree+update-ref CAS）直落 main，工作树零触碰——watch item ⑥『簿记落 feat』缺口当轮规避实录。
+- 推送口径: 零推送（⚡收口：无浩然行动项）；下一呈报节点=SB-027 提审看图闸门轮。
 ## 2026-10-13 19:3x 巡检轮簿记 + SB-027 续做授权
 
 结论: PASS（轮次簿记+授权补录，非提审轮）——零新提审、队列零漂移、19:15 解套首验拍根因查明并机械补救。
