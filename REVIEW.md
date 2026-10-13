@@ -117,3 +117,12 @@
 - 决策模型：本轮无边界裁决未调用。
 - 利益点自省：持平——零动作审计轮守住既有成果（四平台构建证据链+冒烟锚点 0e3398b+首页预算卡 b218a21），产品机制零变化，无 SilentBook 旧病同构；计数：12:00 位更近→持平×7（12:30 位/13:0x/13:3x/14:0x/14:3x/15:0x/15:3x），无『更远』信号不触发排期升级；推进在浩然侧（SB-012 三端走查+7 天真人、D2-D4 拍板、exe 真机双击——均已前轮简报呈出）。
 - 推送口径：零推送（⚡收口：本轮无浩然行动增量；挂账/见底/行动项前轮已呈，不重复推送）。
+
+## 2026-10-13 15:3x 补充段（同轮竞态留痕+新提交事后核验·决策p=0.83）
+- 竞态：15:3x 簿记段「696654e 后仓库零新提交」系 15:31 实测成立，但 ae6be7e（15:32:01）落在实测与簿记提交之间→本段更正。
+- 新提交核验 ae6be7e `docs+ci: README 全量重写 + Android 自动构建 + Apple 手动构建工作流 [云端全家桶]`：3 文件=README.md+android-build.yml+apple-builds.yml；app/** 触碰=0（git diff --name-only 0e3398b..HEAD -- app/ 实测 0 行）→APK 构建输入零变化→冒烟锚点 0e3398b 维持不重跑（严格口径非docs文件=2 个 workflow yml，均属 CI 配置非 app 代码，沿 c7f6ef7 windows-build.yml 同构先例）。
+- 内容安全审读：workflow 全文读毕=无 secret/无 token，flutter-version 3.44.6 现行口径，触发面 android=push main 且 paths app/**、apple=workflow_dispatch；README 新增行敏感复扫（手机号/open_id/美团|工资|房贷/金额）=0；真实账目=0 红线零触发。
+- 来源判定：非 wake（cron runs 实测 15:15 拍 ok 且 dispatch 无输出=idle-out，作者时间 15:32 无 wake 会话）；OpenCode 桌面 GUI 进程活跃+提交作者=User <user@example.com>=业主交互侧直落 main。『云端全家桶』线=浩然已批准（SB-026 状态行『Windows 补票云构建已落地 10-13』+先例 c7f6ef7 监工受认+3a9d763 浩然批准落地）；业主对其仓库 main 的直接提交不在监工治理范围，不打回不 revert。
+- 边界裁决：『受认保留 vs 按开发方绕闸门 P1 打回』decision_evaluate boolean p=0.83≥0.75→按判受认保留，仅记事不走审查闸门。
+- 漂移审计增量：本轮新增 3 文件裸 Color/裸 Duration/禁词命中=0（yml/md 非 app/lib 口径）；branch 仅 main feat 残留=0；工作树净 0 行。
+- 推送口径：零推送（⚡收口：决策已判清受认保留，无浩然行动项；决策p=0.83 非灰区）。
