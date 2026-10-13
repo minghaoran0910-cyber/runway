@@ -54,3 +54,17 @@ openclaw cron add --every 30m --agent main --session isolated --name "攒够-监
 8. 你写 `REVIEW.md` 也请原子化（先写 tmp 再 mv），开发方同理（LOOP.md R7），避免双方读写半截。
 
 **开卡前提实证（2026-10-12 浩然批准转正）**：监工下发新卡前，卡文中引用的文件路径/机制前提须先 grep 代码实证；实证记录写入卡"引用条款"，防纸上条款建在不存在的地基上。
+
+## 视觉保真审查闸门（2026-10-13 17:18 浩然指令生效·UI 卡强制）
+
+凡改动 `app/lib/ui/**` 的卡提审，除既有流程外必须：
+
+1. **看图前置**：提审单必附模拟器实拍截图（每改一页至少一张），缺图直接 REQUEST_CHANGES 不进入审码。
+2. **加载审美技能做审计**（按序，文档大则 offset/limit 分段读）：
+   - hallmark 质检闸门：`~/.openclaw/workspace/skills/hallmark/SKILL.md`（生成后 audit 流程）
+   - taste 方向校准：`~/.openclaw/workspace/skills/taste-skill/SKILL.md`
+   - 动效相关才加：`~/.agents/skills/gpt-taste/SKILL.md`
+   - token 对照：`~/.agents/skills/design-system/SKILL.md` + 本项目 `docs/DESIGN_SYSTEM.md`（字号阶梯/圆角/阴影/间距/六类动效规格）
+3. **审记录必含"审美审计"独立小节**，逐维度给结论：层级（字号 ladder 是否滥用）、间距节奏、圆角阴影 token 符合度、对比度（白字压浅底即不合格）、动效节奏、AI 味（默认紫渐变/emoji 图标/居中大堆叠）、一致性（同类元素命名与组件复用，如"食/行"vs"餐饮/交通"双命名即不合格）。
+4. 无该小节结论**不得判 PASS**；纯逻辑/文档卡豁免本闸门。
+5. 本闸门同样约束监工亲自动手改 UI 的场景（监工不自审）。
