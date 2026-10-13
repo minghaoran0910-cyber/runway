@@ -500,3 +500,11 @@ R4 计数：SB-030 第 1 轮（同卡再 1 次 REQUEST_CHANGES 即 WAITING_HUMAN
 利益点自省：更近——目标时间线+周报趋势让「向想要的东西挪一步」从单点数字变成连续叙事（用户视角零成本看见轨迹），传感器口径无新增自律要求，无 SilentBook 旧病同构；退回项系一行重绘缺陷，修完即合。
 
 [SB-030][supervisor patrol]
+
+## 2026-10-14 01:3x 巡检轮（零动作审计 + remote 口径修正）
+结论: 无新提审（REQ 01:25:52 < REVIEW 01:26:17，SB-030 第2轮未交卷，builder 应 01:45 wake 拍重提 shouldRepaint 一行修+更新测试）。
+漂移与一致性审计: 全绿——禁词 app/lib 命中2行均元引用豁免（goal_ladder.dart:7 注释+achievement.dart:13 禁词表本体，沿 p=0.75 零新增）；theme/motion_spec 外裸 Color(0x=0/裸 Duration=0；美团|工资|房贷非md=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发；_LOCK=0；feat/SB-030-timeline-trend 在飞非残留（main..feat=2 commits）；工作树净；done/=27；main 头 ffdffc6↔REVIEW 01:2x 段对应✓。
+口径修正（P2 簿记措辞，非新事故）: 本轮直测 origin=github.com/minghaoran0910-cyber/runway 在册，10-13 有 8 次 push（首推 11:55=Windows 云构建工作流 [D云端构建]·末推 23:51；origin/main=99dbcec 系 main 祖先，10-14 00:00 后零远端活动）——系浩然批准的 V2-W1 云端 CI 基建（12:0x gh 核验成立；12:3x 轮当时已如实记"remote外部推送监工零触碰"），后续多轮沿用"remote=0"旧措辞属簿记错误，本轮修正为"remote 在册基建+本轮外部 push 事件=0+监工零触碰（无 push/fetch/ls-remote）"；条文口径化草案挂周一适配审查。wake 派发脚本与备份 launchd（每日04:30 tar+bundle）均实测无 push 步骤。决策模型 q「该发现是否需即时推送浩然」p=0.10→按判只落账不推送。
+冒烟: main 无新合入（18a80a9 锚点维持，ffdffc6/4ebf224 等纯 docs），跳过。
+利益点自省: 持平——零动作审计轮守住既有成果（SB-029 hero 合入+SB-030 返工在飞），产品机制零变化；唯一动作系审计口径修正（过程卫生），不构成排期升级；无 SilentBook 旧病同构。
+[SB-030][supervisor patrol]
