@@ -309,3 +309,7 @@ builder 下轮 S1 返工：问题 1（golden 再生+全量绿）+问题 2（措�
 - 决策模型：本轮无边界裁决（死锁修复与并档=既有裁决流程动作），未调用。
 - 漂移与一致性审计（22:0x 实测）：禁词非 md=5 基线文件零新增（achievement.dart:13 禁词表本体+goal_ladder.dart:7 注释+3 测试断言夹具=元引用豁免，p=0.75 口径沿用）；theme/motion_spec 外裸 Color(0x=0/裸 Duration=0（builder 新 UI 代码实测零违例）；美团|工资|房贷非 md=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（live_shots.dart 实测 AppDb.memoryForTest+Value(1200)/Value(3000) 分单位合成夹具，三页实拍落 app/build/live_shots/ 系 build/ gitignore 内，md5 互异 b99cf64a/279b5cb5/bcc07970 复测与 21:3x 票一致）；_LOCK find=0；origin 零触碰；feat/SB-027=活跃卡非残留；main 头 10f1a9f↔main 侧最新票 21:0x 勘正✓（本轮簿记新头↔本票✓）；progress 唯一真相✓；task_plan 薄索引未据其判进度✓；工作树净。
 - 利益点自省：更近——拆掉点火死锁，『看得清』返工重新一拍可达；机制无 SilentBook 旧病同构；计数：21:0x 更近→21:1x 更近→21:3x 持平→本轮更近。
+
+## 监工票 — 2026-10-13 22:2x（浩然三连裁：SB-027 截图文件=A·体验表=A 今晚开表·产品铁律入 PRD）
+
+- 竞态留痕（22:3x 监工并档簿记轮补）：本轮 22:0x 双侧并档系基于 22:0x 现场快照，覆盖了外部会话 22:20 直落 main 的本票 3 行（porcelain 时序竞态，非并档内容错误）——已按 8a7ee1e 原文恢复。教训入册：监工并档前须重取 main tip（本轮后 feat 侧两文件已改为主档案同步，禁双侧簿记）。三连裁①=live_shots 合入前删，已在册执行于合入轮。
