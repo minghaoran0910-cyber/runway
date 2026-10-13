@@ -72,7 +72,6 @@ class _QuickAddPageState extends State<QuickAddPage> {
     final ThemeData theme = Theme.of(context);
     final bool isDark = theme.brightness == Brightness.dark;
     final int? fen = parseAmountToFen(_amount);
-    final String preview = fen == null ? '—' : formatFen(fen);
 
     return Scaffold(
       appBar: AppBar(title: const Text('记一笔')),
@@ -88,9 +87,19 @@ class _QuickAddPageState extends State<QuickAddPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text('金额', style: theme.textTheme.bodySmall),
+                    // SB-028 · 空态大号"¥ 0.00"占位（次要字色+tabular，输入即替换）；
+                    // 有效金额带 ¥ 前缀，主字色. 对比度：占位符走
+                    // inkSecondaryText（≥4.5:1），与正文同闸门.
                     Text(
-                      preview,
-                      style: theme.textTheme.headlineMedium,
+                      fen == null ? '¥ 0.00' : '¥ ${formatFen(fen)}',
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                        color: fen == null
+                            ? theme.textTheme.bodySmall?.color
+                            : theme.textTheme.headlineMedium?.color,
+                        fontFeatures: const <FontFeature>[
+                          FontFeature.tabularFigures(),
+                        ],
+                      ),
                       key: const Key('amountPreview'),
                     ),
                     if (_error != null)
@@ -124,11 +133,27 @@ class _QuickAddPageState extends State<QuickAddPage> {
               ],
             ),
             const SizedBox(height: RunwaySpacing.section),
+            // SB-028 · 备注框描边统一 token：r10 控件圆角+hairline 常态边框+
+            // 聚焦 accentStrong；去黑硬边框（默认 OutlineInputBorder 黑边与卡片打架）.
             TextField(
               controller: _note,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: '备注（可选）',
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(RunwayRadius.control),
+                  borderSide: BorderSide(color: theme.dividerColor),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(RunwayRadius.control),
+                  borderSide: BorderSide(color: theme.dividerColor),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(RunwayRadius.control),
+                  borderSide: BorderSide(
+                    color: theme.colorScheme.primary,
+                    width: 1.5,
+                  ),
+                ),
               ),
               maxLength: 200,
               onChanged: (_) => setState(() {}),

@@ -55,11 +55,11 @@ void main() {
     await tester.pumpWidget(_wrap(db));
     await tester.pumpAndSettle();
 
-    // 默认类目首项已选中（餐饮）.
-    expect(find.text('餐饮'), findsWidgets);
+    // 默认类目首项已选中（食，SB-028 短名统一）.
+    expect(find.text('食'), findsWidgets);
 
     await _tapKeys(tester, <String>['1', '2', '.', '3', '4']);
-    expect(find.text('12.34'), findsOneWidget);
+    expect(find.text('¥ 12.34'), findsOneWidget);
 
     await _tapSave(tester);
     await tester.pumpAndSettle();
@@ -67,7 +67,7 @@ void main() {
     final List<Transaction> rows = await db.listAll();
     expect(rows.length, 1);
     expect(rows.first.amountFen, 1234);
-    expect(rows.first.category, '餐饮');
+    expect(rows.first.category, '食');
 
     await _unmountAndFlush(tester);
   });
@@ -79,7 +79,7 @@ void main() {
     await tester.pumpWidget(_wrap(db));
     await tester.pumpAndSettle();
 
-    expect(find.text('0'), findsWidgets);
+    expect(find.text('¥ 0.00'), findsWidgets);
     await _tapSave(tester);
     await tester.pump();
 
@@ -97,7 +97,7 @@ void main() {
     await tester.pumpAndSettle();
 
     await _tapKeys(tester, <String>['5', '0']);
-    await tester.tap(find.text('交通').first);
+    await tester.tap(find.text('行').first);
     await tester.pump();
     await _tapSave(tester);
     await tester.pumpAndSettle();
@@ -105,7 +105,7 @@ void main() {
     final List<Transaction> rows = await db.listAll();
     expect(rows.length, 1);
     expect(rows.first.amountFen, 5000);
-    expect(rows.first.category, '交通');
+    expect(rows.first.category, '行');
 
     await _unmountAndFlush(tester);
   });

@@ -1,15 +1,9 @@
 // SB-004 · 记账领域模型（PRD §4：领域层不依赖 Flutter，本文件禁 import flutter）.
 // 金额以分为单位（整数 >0）；类目 1–32 字符；来源默认 manual.
 
-/// 默认类目（合成占位，6 项；中性瓦片+文字，未定色板前不引颜色）.
-const List<String> defaultCategories = <String>[
-  '餐饮',
-  '交通',
-  '购物',
-  '居住',
-  '娱乐',
-  '其他',
-];
+/// 默认类目（SB-028 统一为短名系，与规则引擎 ruleCategories 一致；
+/// 存量长名经 canonicalCategory 归一显示，新数据一律短名）.
+const List<String> defaultCategories = <String>['食', '行', '居', '玩', '用', '其他'];
 
 /// 金额字符串 → 分（null = 非法）. 支持 "12.34"/"12"/"0.5"，前后空格容忍.
 int? parseAmountToFen(String raw) {

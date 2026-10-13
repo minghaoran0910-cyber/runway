@@ -76,8 +76,8 @@ void main() {
     await tester.pump(const Duration(milliseconds: 200));
     expect(find.text('编辑记录'), findsOneWidget);
 
-    // 切换类目到交通，选中态即时回显.
-    final Finder chipJiaoTong = find.widgetWithText(ChoiceChip, '交通');
+    // 切换类目到行（SB-028 短名统一），选中态即时回显.
+    final Finder chipJiaoTong = find.widgetWithText(ChoiceChip, '行');
     expect(chipJiaoTong, findsOneWidget);
     await tester.tap(chipJiaoTong);
     await tester.pump();
@@ -92,8 +92,8 @@ void main() {
 
     final List<Transaction> rows = await db.listAll();
     expect(rows.length, 1);
-    expect(rows.first.category, '交通');
-    expect(find.textContaining('交通'), findsOneWidget);
+    expect(rows.first.category, '行');
+    expect(find.text('行 · 12.34'), findsOneWidget);
 
     await _unmountAndFlush(tester);
   });
