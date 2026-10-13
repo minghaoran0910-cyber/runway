@@ -416,3 +416,42 @@ main@7de4223 落 app 代码 → 本轮实测：apk 构建 ✓（assembleDebug 19
 [SB-028][SB-029][supervisor patrol]
 
 > 竞态留痕（00:1x）：补拍票提交瞬间 builder 恰完成 00:15 拍领卡切至 feat/SB-029-hero-ring（提交前复查时仍在 main，切出发生在毫秒级窗口）；票落 feat 头后监工 git branch -f main 7e13f2b 快进对齐（d541a74=feat 祖先实测，中间仅本票纯 docs 一笔，builder 零代码入 main，SB-029 squash diff 不受污）——沿 15:0x SB-024 同型先例。簿记前双查（branch+tip）已再犯一次在册，条文草案维持挂周一适配审查。
+
+## 审查轮 — 2026-10-14 00:4x · SB-029 首页 hero 环形进度（第1轮 · 卡 SB-029）
+结论: PASS（squash@18a80a9 合入，真 git mv 归档 done/=27，feat 分支已删）
+
+触发：REQ mtime 1791908862(00:27:42) > REVIEW 1791908299(00:18:19) 实测=真新提审。基座 main@d270bf1 起步，feat@4812d19 单笔合规。
+
+检查项（监工独立实测，非采信申报）:
+- [x] flutter analyze No issues / dart format 102 files 0 changed / **flutter test 425/425 全绿**（基线 417+新 8 例含环形四态 0%/50%/100%/溢出）
+- [x] 文件约束：业务 3 改+2 新=5≤10；dashboard_cards 377 行≤400（wc 实测）；golden×6 再生（sb006×4+sb012×2，diff stat 实测）；md5 复核 light_data=7725c45d/dark_empty=fb2a1778 与申报一致
+- [x] §5 环规格：96px/r40/线宽9/圆头/渐变描边全符合；动画 MotionSpec.state+emphasizedDecelerate 零裸时长；轨道 glow 18%≥8% 装饰下限；外沿 44.5<48 零贴边
+- [x] 跑道口径：convertible=computeGoal(m0,m1).convertible 复用 SB-007 原公式（diff grep 实测无第二套）；分母=上月刚性>0?上月:本月；runwayFraction 满环=12 月钳位
+- [x] 键位：homeTotal 保留（SB-004 回归）+heroCompare/heroVerdict/heroFormula/homeWatermark 新增；"（示例数据）"已移出 hero；今日/其他占比/故障态双键全保留
+- [x] 禁词/裸值：diff 新增行禁词=0；裸 Color(0x=0；裸 Duration 命中 2 行均在 test pump 稳态（沿 SB-022 v3 测试豁免口径）；生产码零裸值
+- [x] 红线：真实账目=0（实拍全空态 ¥0/合成夹具）；手机号/open_id/敏感词=0
+
+模拟器冒烟：PASS（A 口径·兼作视觉闸门实拍）——feat@4812d19 构建 apk BUILD_EXIT=0(173647100B)→一条龙 runway_api36(-no-window -no-snapshot-load -no-audio -no-boot-anim) BOOT=1→install Success→am start com.zangou.runway/.MainActivity→35s 存活 PIDOF=2201→logcat FATAL EXCEPTION=0→二跑滚动补拍页底 PIDOF=2250 FATAL=0→pkill 已关 pgrep=0。squash 后 main↔feat 树 diff=0 行实测→本证据对合入锚点成立，锚点 10c61f3→**18a80a9**。实拍四图：before 基准(hdr29-before 97d73c70)/after 浅(hdr29_after_light 7c4c10a3)/after 深(e3c12771)/页底 ee88f8a6+golden 整页(light_data)，监工工作区 memory/runway/shots/ 双存。
+
+审美审计（视觉保真闸门·hallmark audit 口径+taste 反默认+DESIGN §1 六原则，监工亲看）:
+- 层级：环内 28pt 大数字 vs 12pt 公式行差 16pt≥12pt 阶梯✓；标题/琥珀行/金句/公式四层递进清晰✓
+- 间距节奏：hero 内环文距 12/16 无新增线框✓；页底 80 安全垫 FAB 不压水印✓（水印可见性证据=golden 整页目审+代码 bottom:80；页底实拍滚至月度小实验区未及底，如实注）；
+- 圆角阴影 token：r22 hero 悬浮浅灰蓝地面，环为 §5 圆，无第四形状✓；全走 RunwayHero/RunwayDark token✓
+- 对比度：白字压深青✓、琥珀"首月记账中"可读✓、无白字压浅底✓；水印 inkSecondaryText 降淡 55% 系装饰文本 §2.3 不设限✓（目视可见不刺眼）
+- 动效节奏：环入场 260ms emphasized 因果扩张✓；**弱项：数字 count-up 未实现**（§5"环扫过与数字 count-up 共用同一进度函数"后半句，builder 如实申报）→decision d1 p=0.33 灰区→照受挂账+留浩然拍板
+- AI 味：无默认紫渐变/无 emoji 图标/无居中大堆叠✓（demo 原件反有 emoji 杯图标，成品此处更干净=超 demo 点之一）
+- 一致性：浅/深双模式同一套结构无 isDark 分叉✓（双实拍目检）；短名 chip/琥珀强调单点✓；相对图1 before=纯文字卡提升显著，hero 语言与 demo 同构（环+琥珀+金句+公式）；**弱项：公式行金额无千分位**（demo ¥36,120 式）→decision d2 p=0.67 灰区→照受+留浩然拍板（builder 不擅造格式函数守纪律，待 DESIGN 收敛条款）
+- hallmark 计数：0 critical · 0 major · 2 minor（count-up/千分位）。提审单缺 builder 实拍一项：卡验收 1 明文 A 口径=监工实拍，监工已亲拍补全→decision d3 p=0.22≤0.25 按判=不构成打回理由。
+
+偏差裁决（①-⑤）：①角色覆盖未接入 hero 刚性=照受（默认映射覆盖 6 短名全表，自定义角色接流挂后续卡）；②千分位=灰区照受挂拍板；③满环 12 月=照受（展示尺度非金融断言）；④实拍缺=按判合规销项；⑤急诊单价金句无真相源不编造=照受（诚实原则+得到框架现行文案）。
+
+问题列表: 无 blocker。小瑕疵记录：builder 未更新卡"状态："行为在飞（提审单自述待办），流程卫生项不打回，DEV_WORKFLOW 条文草案挂周一适配审查。
+
+R4 计数：SB-029 停 0（首轮 PASS 未触发）。
+
+下一步：SB-030 待办（wake 01:15 拍应接）；升级包 APK 待 SB-030 合入后重出交浩然过目（watch④）；两灰区（count-up/千分位）已随简报推送 ⚡②。
+
+### 漂移与一致性审计（00:4x 实测）
+禁词五词 app/lib 命中 2 行均元引用豁免（goal_ladder.dart:7 注释+achievement.dart:13 禁词表本体，沿 p=0.75 零新增）；「多花」白名单延续；theme/motion_spec 外裸 Color(0x=0/裸 Duration=0（app/lib 固化口径实测，test pump 豁免注见检查项）；美团|工资|房贷非 md=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（本轮 diff 全合成夹具）；_LOCK find+tracked 双扫=0；remote=origin 在册监工零触碰（ahead 4 未推合规）；branch 仅 main feat 残留=0（合入舞步全套已执行）；工作树净（簿记提交前复测）；done/=27；活跃卡=3（SB-012 真人闸门/SB-021 挂起/SB-030 待办）；main 头 18a80a9↔本轮审查段✓（簿记后新头↔00:4x 段✓自验三连实测）；progress 唯一真相✓；task_plan 未据此判进度✓。
+
+[SB-029][supervisor patrol]
