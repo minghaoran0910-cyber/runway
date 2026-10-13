@@ -316,3 +316,34 @@ builder 下轮 S1 返工：问题 1（golden 再生+全量绿）+问题 2（措�
 
 ## 勘误留痕 — 10-13 22:3x（监工 cron edit 自纠）
 - 本轮 cron edit 更新巡检 message 括注：第一次编辑用『替换长度差』坐标盲切致括注中段错位（S0.2 死锁句与 watchdog 句互啃），get 回读发现后二次修正——终态九项断言全过（A 修复/22:45 预期句/watchdog 句已换/旧挂账清除/三连裁括注/11 项条款齐/⚡段/闸门尾段/无孤儿串，len=4833 实测）。教训入周一适配审查累计：字符串替换必用锚点断言式 replace(old,new)，禁坐标切片；编辑共享长 prompt 后必 get 回读全项断言再说『已修正』。
+
+## 监工票 — 2026-10-13 23:0x 审查轮（SB-027 第 2 轮 · 卡 SB-027）
+结论: PASS（R4 计数停 1/2，未触发 WAITING_HUMAN；已执行合入舞步）
+检查项:
+- [x] 新提审实证：REQ mtime 22:47:15 > REVIEW 22:45:23（stat 实测）
+- [x] 第 1 轮阻塞闭环：golden/sb005 类目页两图随①b①c 再生（diff 实测 dark 217715→212482B/light 313235→308749B，已落 main）
+- [x] 监工独立全量 `flutter test` = **417/417 All tests passed**（本轮亲跑回显，非引用 builder）
+- [x] 措辞勘正：『无 remote』→『未推送』，origin 存在如实申报；feat 未推送实测（origin/main=8a7ee1e 落后本地，监工零触碰 remote）
+- [x] 三页实拍复验：文件在盘、md5 互异且与提审单逐字节一致（b99cf64a/279b5cb5/bcc07970）、落仓库内 gitignore 目录（app/build/live_shots/）
+- [x] 卡面验收 1/2/3 全达标；format 0 改动/analyze No issues/hygiene OK（复验）；文件约束 8≤10、单文件≤400 行实测
+- [x] 三连裁①执行：合入轮 `git rm app/live_shots.dart` 留痕（commit 前置），main 树 grep=0 实证驱动未落库
+
+### 审美审计（看图闸门·监工亲看三页实拍）
+- 层级：类目页弹性占比句已降标题档（titleLarge，不再套 28 大数字），首页 42 数字卡保持 number 档合理；字号 ladder 无新滥用 ✓
+- 间距节奏：三页卡片间距一致，无文字挤压/截断/重叠 ✓
+- 圆角阴影：悬浮圆角卡+柔和 ground，符合 §1/§3 Hero 主卡规范 ✓
+- 对比度：渐变卡主句白系+副句 RunwayHero.sub，实拍清晰可读，无白字压浅底 ✓
+- 动效：本卡零动效改动，gpt-taste 不适用 ✓
+- AI 味：无紫粉渐变/无 emoji 图标/无居中大堆叠，深青主色一致 ✓
+- 一致性：食/行/居/玩单套命名；tab 高亮与页面映射（首页=攒够首页/账本=类目管理/我的=目标阶梯）与 21:3x 销案一致 ✓
+- 遗留（非本卡 blocker）：首页 hero『（示例数据）』水印、右上图标观感、目标页文案复读、类目页 FAB 安全垫——4 项审美挂账在册归 SB-028（偏差②不修=合规，决策 p=0.86 按判落）
+
+### 模拟器冒烟
+（本轮 v3 一条龙进行中，结果见下方补记/下一段）
+
+### 漂移与一致性审计（本轮实测）
+禁词非 md=基线 5 处零新增（achievement.dart:13 禁词表本体+goal_ladder.dart:7 注释+3 测试断言夹具=元引用豁免，p=0.75 口径沿用）；theme/motion_spec 外裸 Color(0x=0/裸 Duration=0（git grep app/lib 实测）；美团|工资|房贷非 md=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（live_shots 驱动系 memoryForTest+Value(1200)/Value(3000) 合成夹具，沿 22:0x 实证）；_LOCK find=0；origin 零触碰；合入后 feat 残留=0（branch -D was dd53ce0）；main 头 acefa4d↔REVIEW 22:3x 勘误段✓；progress 唯一真相✓；task_plan 薄索引未据其判进度✓。
+
+### 下一步
+合入舞步：squash@7de4223→真 git mv done/（SB-027 归档，done/=25）→v3 一条龙安卓冒烟（main 落 app 代码必做）→锚点更新→快照同步。SB-028 待办为唯一待派卡（真人闸门在飞不提前开卡）。R4：SB-027 计数停 1/2。
+- 利益点自省：更近——三 tab 首次真实存在，『天天看见向想要的东西挪一步』的目标页/账本页从『找不到入口』变为一按即达；机制无 SilentBook 旧病同构；计数：22:0x 更近→22:3x 持平（勘误）→本轮更近。
