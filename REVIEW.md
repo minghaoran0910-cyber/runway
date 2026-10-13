@@ -523,7 +523,7 @@ R4 计数：SB-030 第 1 轮（同卡再 1 次 REQUEST_CHANGES 即 WAITING_HUMAN
 
 审美审计（视觉保真闸门 · 第2轮口径）：本轮 diff=trend_line 2 行+测试 37 行，UI 像素零变更；golden×6 字节与 01:2x 审查时一致（goal_light_data 241289B/weekly_light_data 240151B 实测沿册）；01:2x 第1轮七维审计（层级/间距/圆角阴影/对比度/动效/AI味/一致性全过，0 致命，扣分=m×2）结论延续有效，闸门通过；合入后冒烟实拍证据附下段。
 
-模拟器冒烟: （本轮执行中，结果见下条补录）
+模拟器冒烟: **PASS**（本轮一条龙实测@main 合入后树）：flutter build apk --debug ✓Built（Gradle assembleDebug 2099ms）；runway_api36 固定参数起 BOOT=1（12s）；install -r Success；am start com.zangou.runway/.MainActivity 正常；35s 进程存活=1；logcat FATAL EXCEPTION=0；实拍 /tmp/sb030_smoke_screen.png 226001B 首页渲染非白屏。冒烟锚点 18a80a9→7cbc946（合入 feat 码落点）。
 
 漂移与一致性审计: 禁词 app/lib 命中 2 行均元引用豁免（goal_ladder.dart:7 注释+achievement.dart:13 禁词表本体，沿 p=0.75）且本轮新码 git grep 实测 0 命中；theme/motion_spec 外裸 Color(0x=0 / 裸 Duration=0（含新码实测）；美团|工资|房贷非md=0；手机号锚定=0；open_id=0；真实账目=0 红线零触发（全 diff 合成夹具实测）；_LOCK find+tracked 双扫=0；branch 实测仅 main（feat 残留=0——feat/SB-030 经 diff 验证内容=main 除纯 docs 簿记后方 -D）；main 头 f2d960d→7cbc946 与本轮票对应（簿记 commit 后新头↔本段自验三连）；progress.md 唯一真相✓（builder 00:5x/01:4x 两行冲突消解按时序合入）；task_plan 薄索引未据此判进度✓。
 
