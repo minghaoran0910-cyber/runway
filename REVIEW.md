@@ -37,3 +37,20 @@
 - 利益点自省（clause 9）: 更近——SB-027 兑现的是『用户首页三类文字看得清』（对比度+引导语），本轮把『永远点不着』断链修回『19:45 可施工』；计数 19:0x 持平→19:3x 更近；无 SilentBook 旧病同构，无『更远』信号。
 - 推送口径: 零推送（⚡收口：无浩然行动项；escalate p=0.07 按判）；下一呈报节点=SB-027 看图提审轮，或 19:45/20:15 拍仍未施工之升级轮。
 
+
+## 2026-10-13 20:3x 巡检轮簿记
+
+结论: PASS（轮次簿记，非提审轮）——零新提审、builder 在飞监护正常、队列零漂移、漂移审计全绿。
+
+- 审查闸门: REQ mtime=1791814203(10-12 22:10:03) < REVIEW mtime=1791891921(19:45:21·checkout 触碰) 实测→无新提审不重审；REQ blob=26e1c4ec 工作树与 main 两处一致实测（与 20:0x『三处一致』同 blob 延续，已审结旧文）。
+- builder 现场: 树停 feat/SB-027-nav-font-rescue@89948a4（merge-base main↔feat=0b5b141 实测，89948a4 后 feat 新提交=0）；dartvm 2471+frontend_server 2568+dev-service 5138 存活，60495/60496/60500 新 PID=实拍链路执行中；工作树 5 行全系 builder WIP（category_page.dart/root_shell_test.dart/golden sb019 png×2/live_shots.dart 未跟踪），监工零触碰。提审必查项挂账沿用: 三页实拍缺 or golden sb019 再生说明缺=看图闸门直接 REQUEST_CHANGES。
+- 队列同步: main 侧卡状态行实测——SB-012 审查通过·真人闸门在飞 / SB-021 挂起 v0.2 / SB-027 待办·重建施工(v2·18:3x 措辞；实况=在飞，pgrep 三进程实证，builder 领卡翻行系 LOOP 侧习惯非漂移) / SB-028 待办——与快照零漂移；done/=24（ls 实测）；活跃卡 4；待办卡≤2 且 SB-012 真人闸门前置，不提前开新卡（watch⑥沿用）。
+- 冒烟锚点: `git diff --name-only 0e3398b..main -- app/` 实测=0；0e3398b..main 非 docs/图/yml 文件=0 实测（本轮新增仅监工簿记 commit）→APK 构建输入零变化，锚点 0e3398b 维持不重跑；无 G 卡 PASS（SB-012 tag v0.1.0 仍等真人闸门）。
+- 漂移与一致性审计（clause 6 本轮一行结论）: 全绿——禁词 app/lib 命中 2 行均元引用豁免（achievement.dart:13 禁词表本体+goal_ladder.dart:7 注释复述，行号与基线一致，沿 p=0.75）零新增；theme/motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（工作树全量含 builder WIP 实测）；美团|工资|房贷非 md=0；锚定手机号=0；open_id 非 md=0；真实账目=0 红线零触发（live_shots.dart 实扫=Value(1200)/Value(3000) 分单位合成夹具·testWidgets 一次性实拍驱动·非入库数据；root_shell_test.dart diff 新增行数值常量=0）；_LOCK find=0；branch=main+feat 在飞非残留；remote 监工零触碰（origin/main=0b5b141 外部推送观察沿录）；main@3152e65↔REVIEW 20:0x 段✓（簿记后新头↔本段✓）；progress.md 唯一真相✓；task_plan.md 薄索引未据其判进度✓。
+- 提示词新鲜度（clause 8）: 巡检 message 括注逐项与实测一致——『19:45 点火已兑现·builder 在飞·PID 2471·golden 脏·feat 新提交=0』✓/『watchdog 19:47 首错→21:4x 拍仍错则修提示词』✓（errs=1 未增、next=21:47 实测，挂账有效）/『SB-028·done/=24·看图闸门新规』✓/wake 20:15 拍 lastRunStatus=ok（在飞 idle-out 合规）·next=20:45 ✓——无过时项，本轮零 cron edit；com.zangou.runway+am start 口径、golden 路径、薄索引 3a9d763、错峰 :00-:30↔:15-:45 全现行。
+- cron 体检: 巡检 19b5f29f running（本拍）/wake e71e53ac ok/runway-watchdog abaa94c7 error（留 21:47 复验拍）/统一看门狗 169be936 ok/需求反思 6f3e81c0 ok。
+- 决策模型（clause 10）: 本轮未调用——无边界裁决；builder 45 分钟在飞属正常（三进程存活+wake 20:15 ok 实证，LOOP 超时守卫归开发侧），不构成需要呈报的异常。
+- 视觉保真闸门: 本轮无 ui/** 提审，豁免；20:0x 起新规已在括注中生效。
+- 利益点自省（clause 9）: 持平——builder 持续推进『首页三页文字看得清』（浩然真机控诉本体），19:3x/20:0x 已计更近，本轮监工零动作监护+审计守线不重复计；无 SilentBook 旧病同构，无『更远』信号，不触发排期升级。
+- 簿记方式: 树被 builder 占用（feat·在飞），监工经 plumbing（hash-object+mktree+commit-tree+update-ref CAS）直落 main，工作树零触碰（沿 20:0x 已实证程序）。
+- 推送口径: 零推送（⚡收口：无浩然行动项）。下一呈报节点=SB-027 提审看图闸门轮，或 21:47 拍 watchdog 仍错时的提示词修复轮（监工自有职权，修后按常规落档）。
