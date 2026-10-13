@@ -414,3 +414,5 @@ main@7de4223 落 app 代码 → 本轮实测：apk 构建 ✓（assembleDebug 19
 证据：app/build/live_shots/sb028-quickadd-body-1014.png（md5 0c44b04c012dba57cfd062424b74de73）/ hdr29-before-home-1014.png（md5 97d73c70d9b821354ae7b50be4095ac2），gitignore 区+监工工作区 memory/runway-shots/ 双存。冒烟锚点维持 10c61f3（本轮系实拍补账非新码合入；10c61f3..HEAD 纯 docs 实测）。
 
 [SB-028][SB-029][supervisor patrol]
+
+> 竞态留痕（00:1x）：补拍票提交瞬间 builder 恰完成 00:15 拍领卡切至 feat/SB-029-hero-ring（提交前复查时仍在 main，切出发生在毫秒级窗口）；票落 feat 头后监工 git branch -f main 7e13f2b 快进对齐（d541a74=feat 祖先实测，中间仅本票纯 docs 一笔，builder 零代码入 main，SB-029 squash diff 不受污）——沿 15:0x SB-024 同型先例。簿记前双查（branch+tip）已再犯一次在册，条文草案维持挂周一适配审查。
