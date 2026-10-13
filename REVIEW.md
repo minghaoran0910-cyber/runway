@@ -621,3 +621,16 @@ R4 计数：SB-031 第 1 轮 PASS，计数清零。
 模拟器冒烟：不适用（锚点沿c61c125 PASS，零代码变更）。
 
 [supervisor patrol]
+
+## 巡检票 10-14 05:3x（监工巡检·零动作轮）
+- 审查触发判定：REQ mtime=1791917384(02:49:44) < REVIEW mtime=1791925387(05:03:07) → 无新提审不重审；REQ 显式 WAITING_HUMAN 标记行 grep=0 实测，head 复核=SB-031 第1轮已审结旧文。
+- 队列同步：活跃卡=2 grep -m1 实测与快照逐字一致（SB-012 审查通过·真人闸门在飞 / SB-021 挂起 v0.2）；done/=29 git ls-tree 实测；待办卡=0 见底已呈报不重复推送；最高卡号 SB-031 归档与巡检 message 括注一致，SB-032 未下发挂浩然拍板沿册。
+- 冒烟：c61c125..HEAD git diff 非 docs=0 实测（仅 REVIEW/REQ/done/SB-031/progress 纯 docs）→ 锚点维持 c61c125（该锚 03:0x 一条龙 PASS FATAL=0），不重跑。
+- 分支/锁/remote：branch 仅 main、feat 残留=0、_LOCK find+tracked 双扫=0、remote 零触碰、工作树净 0 行。
+- 漂移与一致性审计（一行版）：禁词五词 app/lib 命中2行均元引用豁免（achievement.dart:13 禁词表本体+goal_ladder.dart:7 注释复述，沿 p=0.75）基线零新增；theme/motion_spec 外裸 Color(0x=0/裸 Duration=0；美团|工资|房贷非md=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发；main头 b54940e↔REVIEW 05:0x 段✓；progress 唯一真相✓；task_plan 未据此判进度✓——全绿。
+- 决策模型：本轮无边界裁决未调用。周三非周一不做适配审查。灰区呈报：SB-032 p=0.63/弹层差异 p=0.66 未推批次仍属夜间不推，顺延晨间（≥07:0x首轮）同批呈报。
+- 提示词新鲜度：仓库自 c61c125 后零代码变更，05:0x 全量实测结论延续（卡号括注现行/com.zangou.runway 口径/golden 路径/薄索引/错峰 :00-:30 与 :15-:45 均无失配）——无需 cron edit。
+- 利益点自省：持平——零动作审计轮守住 SB-031 达成帧成果（庆祝卡片已合入可见），产品机制零变化，无 SilentBook 旧病同构；计数：更近(SB-031@03:0x)→持平(03:3x)→持平(04:4x)→持平(05:0x)→持平(本轮)，无『更远』信号不触发排期升级。
+模拟器冒烟：不适用（锚点沿 c61c125 PASS，零代码变更）。
+
+[supervisor patrol]
