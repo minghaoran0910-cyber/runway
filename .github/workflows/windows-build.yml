@@ -1,0 +1,27 @@
+name: windows-build
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['app/**', '.github/workflows/windows-build.yml']
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.6
+          channel: stable
+          architecture: x64
+      - name: pub get
+        run: flutter pub get
+        working-directory: app
+      - name: build windows release
+        run: flutter build windows --release
+        working-directory: app
+      - uses: actions/upload-artifact@v4
+        with:
+          name: runway-windows-release
+          path: app/build/windows/x64/runner/Release/**
+          if-no-files-found: error
