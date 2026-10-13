@@ -23,9 +23,12 @@ import 'theme/tokens.dart';
 // Hero 主卡沿 §3（AppTheme.heroCard）；列表行分隔仅用 hairline（§1.3）.
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key, required this.db});
+  // SB-027 · showFab=false 供 RootShell 嵌入时隐藏内层记一笔 FAB
+  //（外层统一 FAB，避免双 FAB 重叠；独立泵测默认 true，golden 零影响）.
+  const HomePage({super.key, required this.db, this.showFab = true});
 
   final AppDb db;
+  final bool showFab;
 
   Future<void> _openAdd(BuildContext context) async {
     await Navigator.of(
@@ -227,11 +230,13 @@ class HomePage extends StatelessWidget {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _openAdd(context),
-        tooltip: '记一笔',
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: showFab
+          ? FloatingActionButton(
+              onPressed: () => _openAdd(context),
+              tooltip: '记一笔',
+              child: const Icon(Icons.add),
+            )
+          : null,
     );
   }
 }

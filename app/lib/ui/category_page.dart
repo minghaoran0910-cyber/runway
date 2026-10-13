@@ -114,11 +114,14 @@ class CategoryPage extends StatelessWidget {
                               share: month.elasticShare,
                               elasticFen: month.elasticFen,
                             ),
-                            style: const TextStyle(
-                              fontSize: RunwayHero.numberSize,
+                            // SB-027 · 弹性占比句是说明性长句，禁套跑道大数字
+                            // 字号（RunwayHero.numberSize=28）：降至标题档，
+                            // 溢出与"一句话顶标题大"实锤即此修.
+                            // SB-027 ①b · 渐变卡内文字一律高对比档：ink 系深色
+                            // 在 hero 深青渐变上对比度不足，改用 RunwayHero 白系.
+                            style: theme.textTheme.titleLarge?.copyWith(
                               color: RunwayHero.number,
-                              fontWeight: FontWeight.w700,
-                              fontFeatures: <FontFeature>[
+                              fontFeatures: const <FontFeature>[
                                 FontFeature.tabularFigures(),
                               ],
                             ),
@@ -126,7 +129,10 @@ class CategoryPage extends StatelessWidget {
                           ),
                           Text(
                             '弹性是可优化的空间 · 预算与冷静期只压弹性',
-                            style: theme.textTheme.bodySmall,
+                            // SB-027 ①b · 同上：bodySmall 次灰改 hero 副白.
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: RunwayHero.sub,
+                            ),
                             key: const Key('elasticHint'),
                           ),
                         ],
@@ -224,7 +230,8 @@ class CategoryPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           const Text(
-                            '其他占比（示例数据）',
+                            // SB-027 ①c · 去"（示例数据）"出戏字样（水印方案归 SB-028）.
+                            '其他占比',
                             style: TextStyle(
                               fontSize: RunwayHero.titleSize,
                               color: RunwayHero.title,

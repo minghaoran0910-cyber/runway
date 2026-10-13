@@ -23,9 +23,10 @@ import 'theme/tokens.dart';
 // SB-006 看板叠加：顶部复用 DashboardGoalCard（传真实 goalFen，闭环 SB-006 D1）.
 
 class GoalPage extends StatelessWidget {
-  const GoalPage({super.key, required this.db});
+  const GoalPage({super.key, required this.db, this.showFab = true});
 
   final AppDb db;
+  final bool showFab;
 
   Future<void> _openEditor(BuildContext context, {Goal? goal}) async {
     final bool? saved = await showDialog<bool>(
@@ -235,12 +236,14 @@ class GoalPage extends StatelessWidget {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _openEditor(context),
-        tooltip: '定目标',
-        key: const Key('goalAdd'),
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: showFab
+          ? FloatingActionButton(
+              onPressed: () => _openEditor(context),
+              tooltip: '定目标',
+              key: const Key('goalAdd'),
+              child: const Icon(Icons.add),
+            )
+          : null,
     );
   }
 }
