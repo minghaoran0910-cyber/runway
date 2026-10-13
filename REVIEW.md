@@ -405,3 +405,12 @@ main@7de4223 落 app 代码 → 本轮实测：apk 构建 ✓（assembleDebug 19
 禁词五词 app/lib 命中 2 行均元引用豁免（goal_ladder.dart:7 注释复述禁令+achievement.dart:13 运行时禁词表本体，沿 p=0.75）；非 md 基线 5 文件零新增（两定义+三测试夹具 git grep -l 实测）；「多花」已裁白名单延续；theme/motion_spec 外裸 Color(0x=0/裸 Duration=0（app/lib 固化口径实测）；美团|工资|房贷非 md=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（10c61f3 后零代码变更，diff --name-only 实测纯 docs，合成夹具豁免口径延续）；_LOCK find+tracked 双扫=0；remote=origin 在册监工零触碰；branch 仅 main feat 残留=0；工作树净 0 行（status --porcelain 实测）；done/=26；活跃卡=4（SB-012/021/029/030 实测）；main 头 99dbcec↔REVIEW 23:5x 监工票 ✓；progress 唯一真相 ✓；task_plan 未据其判进度 ✓。
 
 [SB-029][SB-030][supervisor patrol]
+
+## 补拍票 — 2026-10-14 00:1x（SB-028 挂账销账：记一笔页本体实拍）
+结果: PASS（挂账销）。一条龙重跑（单脚本 boot→install→am start→35s→tap FAB→双实拍→pkill；首试 nohup 分步链随会话回收被杀零痕迹——反证在册条款"勿分步"有效，据实记录）：BOOT=1 / install Success / am start 35s 存活 PID=2333 / logcat FATAL=0 / 模拟器已关 pgrep=0。
+
+实拍目检：①记一笔页本体（非闪屏）——"记一笔"标题+返回箭头、金额大号"¥ 0.00"空态占位、类目短名 chip 食/行/居/玩/用/其他（食选中 accent 态）、备注（可选）细 hairline 描边+0/200 计数、数字键盘+保存钮——SB-028 三修复（短名统一/空态占位/边框 token 化）逐一肉眼可见，两轮撞冷启动闪屏之挂账就此销账；②同拍首页存为 SB-029 "before" 基准——hero 卡"本月支出（示例数据）"字样仍在 hero 内、右上两图标原样、FAB/三 tab 导航在位=SB-029 挂账②④前后对照基准成立。
+
+证据：app/build/live_shots/sb028-quickadd-body-1014.png（md5 0c44b04c012dba57cfd062424b74de73）/ hdr29-before-home-1014.png（md5 97d73c70d9b821354ae7b50be4095ac2），gitignore 区+监工工作区 memory/runway-shots/ 双存。冒烟锚点维持 10c61f3（本轮系实拍补账非新码合入；10c61f3..HEAD 纯 docs 实测）。
+
+[SB-028][SB-029][supervisor patrol]
