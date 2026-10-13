@@ -134,6 +134,8 @@ class HomePage extends StatelessWidget {
           builder: (BuildContext gctx, AsyncSnapshot<List<Goal>> gsnap) {
             final List<Goal> goals = gsnap.data ?? <Goal>[];
             final int? goalFen = goals.isEmpty ? null : goals.first.targetFen;
+            // SB-029 · hero 标题用首个目标名（无目标回落"本月支出"）.
+            final String? goalName = goals.isEmpty ? null : goals.first.name;
             return StreamBuilder<List<Transaction>>(
               stream: db.watchAll(),
               builder:
@@ -155,7 +157,7 @@ class HomePage extends StatelessWidget {
                     return ListView(
                       padding: const EdgeInsets.all(RunwaySpacing.page),
                       children: <Widget>[
-                        DashboardHero(summary: summary),
+                        DashboardHero(summary: summary, goalName: goalName),
                         const SizedBox(height: RunwaySpacing.section),
                         DashboardTodayCard(summary: summary),
                         const SizedBox(height: RunwaySpacing.section),
@@ -223,6 +225,24 @@ class HomePage extends StatelessWidget {
                               ),
                             ),
                           ),
+                        // SB-029 · "示例数据"页底浅灰水印（演示物料标注 §8.4；
+                        // 装饰文本不承载信息：文字级 token 降淡（§2.3 装饰不设限），
+                        // 不用 inkSecondary（§2.1 禁做小字）.
+                        Padding(
+                          padding: const EdgeInsets.only(top: 24, bottom: 80),
+                          child: Text(
+                            '示例数据',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color:
+                                  (isDark
+                                          ? RunwayDark.inkSecondaryText
+                                          : RunwayLight.inkSecondaryText)
+                                      .withValues(alpha: 0.55),
+                            ),
+                            textAlign: TextAlign.center,
+                            key: const Key('homeWatermark'),
+                          ),
+                        ),
                       ],
                     );
                   },

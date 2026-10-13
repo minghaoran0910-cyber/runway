@@ -161,3 +161,4 @@
 - 2026-10-13 23:5x 监工审查轮：SB-028 第1轮=**PASS**（REQ 23:19:06>REVIEW 23:09:17 实测；监工独立全量 417/417 绿亲跑+apk 构建/安装/启动冒烟两轮 ALIVE=1/FATAL=0；看图闸门=golden 目审+监工亲拍首页实拍，页本体实拍两轮撞冷启动闪屏挂账补拍；决策模型不可用 transport→监工自裁证据默认照受，看图口径+下一批排期两项留浩然拍板⚡②③④已推送；勘误申报 203 行实测 228 限内；squash@10c61f3→branch -D→真 git mv done/=26；漂移全绿红线零触发；冒烟锚点 7de4223→10c61f3。利益点更近。)[SB-028][supervisor patrol]
 
 - 2026-10-13 23:5x 视觉升级开卡令落地：SB-029/030 下发（四项审美挂账全转卡），看图口径暂 A，builder 踢起。
+- 2026-10-14 00:3x builder SB-029 done（分支 `feat/SB-029-hero-ring`）：hero 升级 demo 同构可视化主卡——①ProgressRing 新组件（ui/widgets，96/r40/w9/圆头/渐变弧，动画走 MotionSpec.state+emphasizedDecelerate，SB-030 可复用）②跑道口径进 dashboard_stats（可动用=goal_ladder 原公式 2×max(0,上月−本月)/分母=上月刚性无则本月/满环=12个月，纯函数+4态单测）③hero 行：目标名标题+右上琥珀"比上月±N个月"+得到金句（有目标走 nextLadderHint/无走 equivalentOf）+"可动用¥÷刚性¥/月"公式+今日/其他占比/故障态键全保留；④"（示例数据）"移出 hero，页底浅灰水印（homeWatermark）；golden sb006×4+sb012首页×2 再生目审过（仅 hero+水印像素变更）；全量425/425绿（新增8）+ci ALL GREEN+hygiene OK+analyze零告警。待监工审查。[SB-029]

@@ -2,46 +2,145 @@ import 'package:flutter/material.dart';
 
 import '../logic/dashboard_stats.dart';
 import '../logic/entry.dart';
+import '../logic/goal_ladder.dart';
 import 'theme/app_theme.dart';
 import 'theme/tokens.dart';
+import 'widgets/progress_ring.dart';
 
 // SB-006 · 看板四区组件（Hero 支出主卡 / 今日 / 类目 Top5 / 目标进度）.
 // 形状只用 r22（Hero）/ r16（内容卡）/ r10（进度条裁剪）；分隔仅 hairline；
 // 数字 tabular（§1.4）；颜色只用 tokens；字号收敛阶梯（Hero 沿 RunwayHero）.
+// SB-029 · Hero 升级为 demo 同构可视化主卡（demos/shots/home-light.png）：
+// 环形进度（环内跑道月数大数字+单位）+ 右上琥珀对比行（比上月 ±N 个月）+
+// 得到框架金句 + "可动用 ÷ 刚性"公式行；"（示例数据）"移出 hero，
+// 改页底水印（home_page.dart 底）；homeTotal 键保留在环内大数字上（SB-004 回归）.
 
-/// Hero：本月支出主数字（复用 homeTotal 键，保 SB-004 回归）+ 今日副数据 + 其他占比故障态.
+/// Hero：跑道主卡（目标名/环形月数/琥珀对比/金句/公式/分类健康）.
 class DashboardHero extends StatelessWidget {
-  const DashboardHero({super.key, required this.summary});
+  const DashboardHero({super.key, required this.summary, this.goalName});
 
   final DashboardSummary summary;
+
+  /// 首个目标名（null=未设目标，标题回落"本月支出"）.
+  final String? goalName;
 
   @override
   Widget build(BuildContext context) {
     final String shareText =
         '${(summary.otherShare * 100).toStringAsFixed(1)}%';
+    final bool hasCompare = summary.lastMonthFen > 0;
+    // 金句（得到框架；大额只陈述复用 equivalentOf，无行动召唤）.
+    final String verdict;
+    if (goalName != null && summary.goalFen != null && summary.goalFen! > 0) {
+      verdict = nextLadderHint(
+        convertibleFen: summary.convertibleFen,
+        targetFen: summary.goalFen!,
+      );
+    } else if (summary.convertibleFen > 0) {
+      verdict = equivalentOf(summary.convertibleFen);
+    } else {
+      verdict = '记下第一笔，开始攒跑道';
+    }
     return Container(
       decoration: AppTheme.heroCard(),
       padding: const EdgeInsets.all(RunwaySpacing.cardInner),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Text(
-            '本月支出（示例数据）',
-            style: TextStyle(
-              fontSize: RunwayHero.titleSize,
-              color: RunwayHero.title,
-            ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  goalName ?? '本月支出',
+                  style: const TextStyle(
+                    fontSize: RunwayHero.titleSize,
+                    color: RunwayHero.title,
+                  ),
+                  key: const Key('heroTitle'),
+                ),
+              ),
+              Text(
+                hasCompare
+                    ? '比上月 ${formatRunwayDelta(summary.runwayDeltaMonths)} 个月'
+                    : '首月记账中',
+                style: const TextStyle(
+                  fontSize: RunwayHero.subSize,
+                  color: RunwayHero.goldAccent,
+                  fontWeight: FontWeight.w600,
+                  fontFeatures: <FontFeature>[FontFeature.tabularFigures()],
+                ),
+                key: const Key('heroCompare'),
+              ),
+            ],
           ),
-          Text(
-            formatFen(summary.monthFen),
-            style: const TextStyle(
-              fontSize: RunwayHero.numberSize,
-              color: RunwayHero.number,
-              fontWeight: FontWeight.w700,
-              fontFeatures: <FontFeature>[FontFeature.tabularFigures()],
-            ),
-            key: const Key('homeTotal'),
+          const SizedBox(height: 12),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              ProgressRing(
+                key: const Key('heroRing'),
+                fraction: runwayFraction(summary.runwayMonths),
+                center: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      formatRunway(summary.runwayMonths),
+                      style: const TextStyle(
+                        fontSize: RunwayHero.numberSize,
+                        color: RunwayHero.number,
+                        fontWeight: FontWeight.w700,
+                        fontFeatures: <FontFeature>[
+                          FontFeature.tabularFigures(),
+                        ],
+                      ),
+                      key: const Key('homeTotal'),
+                    ),
+                    const Text(
+                      '个月',
+                      style: TextStyle(
+                        fontSize: RunwayHero.subSize,
+                        color: RunwayHero.sub,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      verdict,
+                      style: const TextStyle(
+                        fontSize: 17,
+                        color: RunwayHero.number,
+                        fontWeight: FontWeight.w700,
+                        fontFeatures: <FontFeature>[
+                          FontFeature.tabularFigures(),
+                        ],
+                      ),
+                      key: const Key('heroVerdict'),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '可动用 ¥${formatFen(summary.convertibleFen)}'
+                      ' ÷ 刚性 ¥${formatFen(summary.rigidPerMonthFen)}/月',
+                      style: const TextStyle(
+                        fontSize: RunwayHero.subSize,
+                        color: RunwayHero.sub,
+                        fontFeatures: <FontFeature>[
+                          FontFeature.tabularFigures(),
+                        ],
+                      ),
+                      key: const Key('heroFormula'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
+          const SizedBox(height: 12),
           Text(
             '今日 ${summary.todayCount} 笔 · ${formatFen(summary.todayFen)}'
             ' · 其他占比 $shareText',
