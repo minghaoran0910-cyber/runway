@@ -51,34 +51,6 @@ class ProgressRing extends StatelessWidget {
   }
 }
 
-// SB-033 · 环扫数字滚动（DESIGN §5+§6：环扫与数字共用同一进度函数
-// MotionSpec.state + emphasizedDecelerate；reduce-motion 直接显示终值）.
-// 与 ProgressRing 同帧起播，中间帧≠终值即同步证据（监工实拍验收）.
-class CountUpMonths extends StatelessWidget {
-  const CountUpMonths({super.key, required this.months, required this.style});
-
-  final double months;
-  final TextStyle style;
-
-  @override
-  Widget build(BuildContext context) {
-    final bool reduce = MediaQuery.of(context).disableAnimations;
-    if (reduce) {
-      return Text(_fmt(months), style: style, key: const Key('homeTotal'));
-    }
-    return TweenAnimationBuilder<double>(
-      tween: Tween<double>(begin: 0, end: months),
-      duration: MotionSpec.state,
-      curve: MotionSpec.emphasizedDecelerate,
-      builder: (BuildContext ctx, double v, Widget? child) {
-        return Text(_fmt(v), style: style, key: const Key('homeTotal'));
-      },
-    );
-  }
-
-  static String _fmt(double m) => m.toStringAsFixed(1);
-}
-
 class _RingPainter extends CustomPainter {
   const _RingPainter({required this.fraction});
 

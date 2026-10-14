@@ -151,25 +151,4 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('ringNum')), findsOneWidget);
   });
-
-  testWidgets('SB-033 环扫数字滚动：中间帧≠终值+终值收敛', (WidgetTester tester) async {
-    final DateTime now = FixedClock.today();
-    final DashboardSummary s = computeDashboard(
-      flows: _seedThreeMonths(now),
-      now: now,
-    );
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: DashboardHero(summary: s, goalName: '家庭安全垫'),
-        ),
-      ),
-    );
-    // 首帧：从 0 起播，中间态≠终值（同步证据，监工实拍同口径）.
-    await tester.pump(const Duration(milliseconds: 130));
-    final Text mid = tester.widget<Text>(find.byKey(const Key('homeTotal')));
-    expect(mid.data, isNot('1.2'));
-    await tester.pumpAndSettle();
-    expect(find.text('1.2'), findsOneWidget);
-  });
 }

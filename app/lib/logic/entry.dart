@@ -29,37 +29,13 @@ int? parseAmountToFen(String raw) {
   return fen;
 }
 
-/// 分 → 显示串（"12.34"/"12"；千分位+tabular 由 UI 保证，见 SB-033）.
-/// 全 App 唯一金额格式化入口，禁各页自造格式；负数保留符号（测试/退档链用）.
+/// 分 → 显示串（"12.34"/"12"）.
 String formatFen(int fen) {
-  final bool neg = fen < 0;
-  final int abs = fen.abs();
-  final int yuan = abs ~/ 100;
-  final int rest = abs % 100;
-  final String intPart = _groupThousands(yuan);
-  final String dec;
-  if (rest == 0) {
-    dec = '';
-  } else if (rest % 10 == 0) {
-    dec = '.${rest ~/ 10}';
-  } else {
-    dec = '.${rest.toString().padLeft(2, '0')}';
-  }
-  return '${neg ? '-' : ''}$intPart$dec';
-}
-
-/// 千分位分组（纯 Dart，禁 intl 新依赖）.
-String _groupThousands(int n) {
-  final String s = n.toString();
-  if (s.length <= 3) return s;
-  final StringBuffer b = StringBuffer();
-  final int first = s.length % 3;
-  if (first > 0) b.write(s.substring(0, first));
-  for (int i = first; i < s.length; i += 3) {
-    if (b.isNotEmpty) b.write(',');
-    b.write(s.substring(i, i + 3));
-  }
-  return b.toString();
+  final int yuan = fen ~/ 100;
+  final int rest = fen % 100;
+  if (rest == 0) return '$yuan';
+  if (rest % 10 == 0) return '$yuan.${rest ~/ 10}';
+  return '$yuan.${rest.toString().padLeft(2, '0')}';
 }
 
 /// 领域校验：返回 null = 合法，否则为错误文案.

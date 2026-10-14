@@ -114,7 +114,7 @@ void main() {
   });
 
   test('SB-008 金额格式化与阶梯推导一致', () {
-    expect(formatAmount(399900), '3,999');
+    expect(formatAmount(399900), '3999');
     expect(formatAmount(1800), '18');
   });
 

@@ -83,8 +83,8 @@ class DashboardHero extends StatelessWidget {
                 center: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    CountUpMonths(
-                      months: summary.runwayMonths,
+                    Text(
+                      formatRunway(summary.runwayMonths),
                       style: const TextStyle(
                         fontSize: RunwayHero.numberSize,
                         color: RunwayHero.number,
@@ -93,6 +93,7 @@ class DashboardHero extends StatelessWidget {
                           FontFeature.tabularFigures(),
                         ],
                       ),
+                      key: const Key('homeTotal'),
                     ),
                     const Text(
                       '个月',
