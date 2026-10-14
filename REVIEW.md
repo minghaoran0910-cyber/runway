@@ -611,3 +611,13 @@
 
 ## 漂移与一致性审计 — 10-15 07:0x（条款6·本轮）
 禁词 app/lib 命中 2 行均元引用豁免（goal_ladder.dart:7 注释复述禁令+achievement.dart:13 禁词表本体，本轮 grep 实测行号一致，沿 p=0.75），用户可见=0；ui/theme·motion 外裸 Color(0x=0/裸 Duration(milliseconds:=0（实测 0/0 非空路径）；美团|工资|房贷 app/lib=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（8830d1c 后码体零变更·合成夹具豁免沿册·本轮 8830d1c..HEAD 纯 docs 实测）；_LOCK=0；工作树 0 行；branch=main+feat×6+rescue×1 全在册零 stray（033@69deccb/034@e576624/rescue@3e4918c）；done/=34；活跃卡=6；main 头 7ef656a↔REVIEW 06:3x 段✓（本票追加↔新簿记头，自验三连随提交回显）；origin 零触碰（ahead 17=合入+簿记合规，本轮无 push/fetch/ls-remote）；progress 唯一真相✓；task_plan 薄索引未据此判进度✓。**全绿**。
+
+## 巡检票 — 10-15 07:3x（零新审·锚点维持·漂移全绿）
+结论: PASS（本轮零新审，簿记票）
+- REQ 验真：盘上 mtime 1792010763(04:46:03)<REVIEW 1792019018(07:03:38)；git show HEAD:REVIEW_REQUEST.md 与盘上 diff=IDENTICAL（假翻转验法在册）；REQ head='# WAITING_HUMAN — SB-038 已累计 2 轮 RC'显式头部复核✓不重审。wake 维持 disabled（cron list --all 实测 88a8e128 disabled，老包装器 e71e53ac/f859efc9 同停=附录2 停摆合规）。
+- 队列零漂移：活跃卡=6 状态行与快照一致（SB-038..041 mtime=02:49 未动/SB-012@10-12/SB-021@10-11）；done/=34 ls-tree 实测；待办=0 见底已呈（链 039/040/041=PASS 待合被 038 拍板堵，恢复路径=pending_backfill②），不重复推送。
+- 冒烟义务=无：8830d1c..HEAD(4fdfbfe) 变更文件 4 个全 .md（REVIEW/REQ/done归档 SB-042/progress）实测→锚点 8830d1c 维持；emu/pgrep=0 模拟器未起。
+- 并发与现场：opencode 进程×6=OpenCode.app GUI 常驻（etime 2d14h Electron helpers 实测）非 headless builder→builder 轮次=0；_LOCK find+tracked=0；工作树 0 行；worktree=main+reshoot×5(037-041)+vC@092f7e2 全在册；ahead 17→本票 18（origin 零触碰，本轮无 push/fetch/ls-remote）。
+- 漂移审计（条款6）：禁词五词 app/lib 命中 2 行均元引用豁免（goal_ladder.dart:7+achievement.dart:13 本轮行号实测一致，沿 p=0.75）用户可见=0；ui/theme·motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0；美团|工资|房贷非md=0；open_id=0；锚定手机号=0；真实账目=0 红线零触发（8830d1c 后码体零变更·合成夹具豁免沿册）；main 头 4fdfbfe↔REVIEW 07:0x 段✓（本票追加↔新簿记头）；progress 唯一真相✓；task_plan 薄索引未据此判进度✓。**全绿**。
+- 其他：周四非周一无适配审查；决策模型未调用（本拍无边界裁决）；新鲜度=括注锚点 5284460 已被 8830d1c 取代，沿在册防 churn 口径（REVIEW/快照为真相）未动 cron；自验三连随本票提交回显。
+- 利益点自省：持平——零动作审计轮守住 037/042 成果（首页清理+目标保存真落库），机制零变化无 SilentBook 旧病；推进堵点在浩然侧（038 返工拍板），非『更远』。
