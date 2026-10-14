@@ -222,3 +222,25 @@
 提示词新鲜度: 巡检 message 括注 3 处过时（『现行最高卡号=SB-040』→SB-041 已下发在飞/『期限 p=0.63 灰区三选一待裁』→浩然已裁 C 销账/『补拍窗口=19:15 拍后』→SB-041 在飞改判夜间）→本轮 cron edit 修正+get 回读验证；wake 88a8e128=现役正主✓（cron list 实测与括注一致）；com.zangou.runway/am start/golden/薄索引/:00-:30 与 :15-:45 错峰沿册现行。
 ⚡推送判定: 零推送——审查无新单/队列同步/在飞监护均非浩然行动项；wake 审批墙升级预案待 19:45/20:15 拍实测才可能触发（连拒 2 拍=⚡类③）。
 [supervisor patrol 10-14 19:3x]
+
+# REVIEW — 2026-10-14 20:3x 监工巡检轮（零新提审·SB-041 孤儿 WIP 抢救@wip·wake 两拍空转呈报·续做授权已发）
+结论: 无审查触发（移树前实测 REQ mtime 18:36:40 < REVIEW 18:58:38；SB-041 移树前 feat 头=c9bb82e 零码提交=未提审；盘上 REQ=038 旧单系在册 checkout 假翻转口径，无重验义务）。本轮核心=管道异状处置：19:15 拍撞审批墙断拍后，wake 19:45/20:15 两拍派发器日志零写入（runway-wake.log mtime=19:22:07 实测——该脚本所有守卫分支必写行，零行=两拍根本没执行到派发器）→ 触发 19:3x 在册 watch 预案『管道阻塞→升级呈浩然』。
+检查项:
+- [x] SB-041 孤儿 WIP 抢救（决策模型 rescue_authority p=0.84≥0.75 按判即行，先例=sb038 17:0x 监工抢救@wip）：9 文件原样点名 git add 落 feat/SB-041-deadline-persist@89d2e34（M×5：app_db/app_db.g/goal_page/goal_timeline/golden_goal_test；新×4：goal_deadline_dao/goal_deadline/goal_editor/sb041_goal_deadline_test；builder 资产、内容零改动、提交前后 status 对账）→ 树归位 main，wake S0.2/S0.4 守卫恢复可过。
+- [x] 调度侧实测：cron list wake 88a8e128=ok·下拍 21:15；runway-watchdog abaa94c7 上一拍=error；本巡检 20:00 拍 lastRunStatus=error（"Agent couldn't generate a response"，无副作用实测：该拍后仓库零新提交/零 mtime 异动）——同窗 19:45–20:15 三 job 异状=LiteLLM/网关故障窗疑；wake 20:15 拍标 ok 却零执行=不可观测失效，升级呈浩然。
+- [x] 队列：卡面状态行无实质漂移（037/039/040/041 待办=在册 P3 随提审翻；038 已提审待审✓；012 体验中/021 挂起）；四在审分支 head 本轮实测零漂移=6ec8bab/2a96660/d194fe8/ceb245b；done/=32 ls-tree 实测；待办 0 见底——18:3x p=0.79 裁决维持：不自派新卡，等周一批次。
+- [x] 冒烟：未触发（022e317..main 非 md=0 沿册，码体未动，锚点维持；无新码合入无 G 卡 PASS）；模拟器未起（pgrep=0；21:15 builder 续做在即，在册『不与 opencode 同时起』）。
+- [x] worktree/分支：主树归位 main（本票提交后净）+ /private/tmp/vC detached@092f7e2（在册不动）；branch=main+feat×7（素材 033/034+在审 037/038/039/040+在飞 041@wip）+rescue 素材，均在册非残留；_LOCK=0；origin 本轮零触碰。
+问题列表:
+1. （P2·待观察）wake 两拍空转根因未明（疑故障窗连带；20:15 拍 ok-但-零执行为新型失效）——21:15 拍若仍零执行，下轮坐实后再呈处置（手动补踢/派发架构走规范流程），wake 三易主过程偏差沿册挂周一适配审查。
+2. （P3·簿记）SB-041 卡面状态行=待办→随提审翻。
+3. （挂账）四卡补拍（037 四组/038 两组/039 两组/040 四组）+第 2 轮审链=夜间监工窗口；若 21:15 builder 回在飞则顺延，独立 worktree 防踩踏不变。
+下一步: ①21:00/21:30 拍验证 wake 真点火；②builder 凭续做授权推进 SB-041，提审单必含迁移三件套+实拍（18:5x 卡新闸门）；③周一批次+规范适配审查挂账不变；④浩然在账待答=SB-012 真人 7 天闸门+素材分支与 vC worktree 删除一句话。
+
+## 续做授权（一次性·2026-10-14 20:3x 轮出·消耗即失效）
+点名分支：feat/SB-041-deadline-persist，自 @89d2e34 @wip 检查点起。范围：deadline 渲染失败点收口（19:15 拍 +8-1 之 1 failed）→ schema v12 迁移三件套（旧库升级/存读/回归）→ 按卡验收含实拍截图 → 正常提审。不得扩 scope、不开新工作面、不碰四在审分支。施工约束：exec 内禁用 rm 或含删除副作用的组合命令（无人在场拍无审批源，撞墙即断拍，19:15 教训在册）；临时文件直接建于 /tmp 免清理；每轮以至少一记提交收口再退场。失败出口按 LOOP S1.4 登记。
+漂移审计结论一行: 20:3x 实测（main=d2e5641 树）全绿——禁词五词 app/lib=2 行均元引用豁免（achievement.dart:13 禁词表本体+goal_ladder.dart:7 注释复述，沿册行号一致）+app/test=3 行负面断言守卫（cooloff_test:183/experiment_test:148/goal_ladder_test:127，禁词作断言数据非文案，同性质豁免）/theme·motion 外裸 Color(0x=0·裸 Duration=0/美团|工资|房贷=0/ou_=0/手机号命中实测=测试 epoch 毫秒（1760000000000）非号码沿册豁免/@wip 9 文件预览扫禁词·裸 Color·裸 Duration=0，199900/129900/29900 分=合成目标价夹具非真实账目/真实账目=0 红线零触发/_LOCK=0/done/=32/main 头 d2e5641↔REVIEW 19:3x 段✓（本票提交后新头↔本段自验三连随提交回显）/progress 唯一真相✓ task_plan 薄索引未据其判进度✓。
+利益点自省（一行）: 更近——『预计 12 月 25 日攒到』从重启即丢变为可信事实即『天天看见自己向想要的东西挪一步』的兑现面，本轮抢救=一小时 builder 施工资产不烧、管道恢复可转，距交付一拍更近；无 SilentBook 旧病同构（零索用户自律，抢救与续做全自动化侧）；计数 19:3x 持平→20:3x 更近。
+决策模型: rescue_authority p=0.84≥0.75→按判=本轮立即抢救不等批准；escalate_report p=0.87≥0.75→按判=呈浩然一条简报（类别③按 19:3x 预案）；status=ok（typesafe/jev-1.13，decision-v1）。
+⚡推送判定: 单推送一条（类别③·在册预案预授权，内容=SB-041 断拍已抢救+仅需盯 21:15 拍，无阻塞其行动项）；队列/漂移/簿记零推送。
+[supervisor patrol 10-14 20:3x]
