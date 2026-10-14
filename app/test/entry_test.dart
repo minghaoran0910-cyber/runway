@@ -29,6 +29,15 @@ void main() {
       expect(formatFen(1234), '12.34');
       expect(formatFen(50), '0.5');
     });
+
+    test('SB-033 千分位全局统一：0/4位/5位/负数/极值', () {
+      expect(formatFen(0), '0');
+      expect(formatFen(123400), '1,234');
+      expect(formatFen(3612000), '36,120');
+      expect(formatFen(123456), '1,234.56');
+      expect(formatFen(-123400), '-1,234');
+      expect(formatFen(100000000), '1,000,000');
+    });
   });
 
   group('SB-004 领域校验', () {
