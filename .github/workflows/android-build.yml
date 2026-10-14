@@ -15,7 +15,7 @@ jobs:
           channel: stable
       - run: flutter pub get
         working-directory: app
-      - run: flutter build apk --debug
+      - run: flutter build apk --debug --dart-define=DIAG_ENDPOINT=https://dada561.com/diag/ingest --dart-define=DIAG_TOKEN=${{ secrets.DIAG_TOKEN }} --dart-define=DIAG_EXPIRY_MS=1793109600000
         working-directory: app
       - uses: actions/upload-artifact@v4
         with:
