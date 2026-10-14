@@ -486,3 +486,4 @@
 ## 漂移与一致性审计 — 03:1x（条款6·本轮·合入后代码体实测）
 禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7 注释复述+achievement.dart:13 禁词表本体，本轮行号实测一致，沿 p=0.75），用户可见=0；theme/motion_spec 外裸 Color(0x=0/裸 Duration=0（cherry-pick 后 app/lib 复扫）；美团|工资|房贷 app/lib=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发；_LOCK find=0；工作树=归档+票文件（簿记提交中）无孤儿码改；branch=main+feat×5（037 待清+038-041 在审）+素材×3 在册零 stray；done/=33（索引实测，32→33 本轮+037）；main 头 5284460 含 037 业务体↔本票归档轮对应✓（簿记提交后新头↔03:1x 段自验三连回显）；origin 零触碰（无 push/fetch/ls-remote）；progress 唯一真相✓；task_plan 未据其判进度✓。**全绿**。
 [supervisor patrol 10-15 03:1x]
+补录（同轮 03:10）：条款8 cron edit 已落地——巡检 message 括注翻 10-15 03:1x 现行（SB-037 已合入归档/最高卡号 SB-042/锚点 5284460/链序待合/038 等拍板），get 回读实测 len=5012·旧 10-14 20:3x 括注=0·永久条款（红线/反虚构/大白话/视觉闸门/利益点/决策模型/收尾铁律/通知收口/让位三）逐项在场✓；runway-watchdog abaa94c7 复元 ok（前态 error 2x=『Memos Get blocked』·23:3x 挂『凌晨第3连败呈报』项——未及三败已自愈，销账不呈报）。[supervisor patrol 10-15 03:10 补录]
