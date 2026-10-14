@@ -37,8 +37,9 @@ class GoalPage extends StatelessWidget {
         goal: goal,
         db: db,
         onSave: (BuildContext dctx, _GoalForm form) async {
-          await _saveDialog(dctx, form, goal);
-          if (dctx.mounted) Navigator.of(dctx).pop(true);
+          // SB-042 · 仅真实落库才 pop(true)，失败时对话框保持打开.
+          final bool ok = await _saveDialog(dctx, form, goal);
+          if (ok && dctx.mounted) Navigator.of(dctx).pop(true);
         },
       ),
     );
@@ -49,7 +50,8 @@ class GoalPage extends StatelessWidget {
     }
   }
 
-  Future<void> _saveDialog(
+  // SB-042 · true=真实落库，false=校验失败/异常（对话框保持打开）.
+  Future<bool> _saveDialog(
     BuildContext context,
     _GoalForm form,
     Goal? goal,
@@ -62,32 +64,42 @@ class GoalPage extends StatelessWidget {
     );
     if (err != null) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(err)));
-      return;
+      return false;
     }
-    if (goal == null) {
-      await db.insertGoal(
-        GoalsCompanion(
-          name: Value(form.name.trim()),
-          targetFen: Value(form.targetFen!),
-          priceName: Value(form.priceName.trim()),
-          priceFen: Value(form.priceFen!),
-          tier: Value(ladderNameFor(form.targetFen!)),
-        ),
-      );
-    } else {
-      await db.updateGoal(
-        GoalsCompanion(
-          id: Value(goal.id),
-          name: Value(form.name.trim()),
-          targetFen: Value(form.targetFen!),
-          priceName: Value(form.priceName.trim()),
-          priceFen: Value(form.priceFen!),
-          tier: Value(ladderNameFor(form.targetFen!)),
-          doneAt: Value(goal.doneAt),
-          createdAt: Value(goal.createdAt),
-        ),
-      );
+    try {
+      if (goal == null) {
+        await db.insertGoal(
+          GoalsCompanion(
+            name: Value(form.name.trim()),
+            targetFen: Value(form.targetFen!),
+            priceName: Value(form.priceName.trim()),
+            priceFen: Value(form.priceFen!),
+            tier: Value(ladderNameFor(form.targetFen!)),
+          ),
+        );
+      } else {
+        await db.updateGoal(
+          GoalsCompanion(
+            id: Value(goal.id),
+            name: Value(form.name.trim()),
+            targetFen: Value(form.targetFen!),
+            priceName: Value(form.priceName.trim()),
+            priceFen: Value(form.priceFen!),
+            tier: Value(ladderNameFor(form.targetFen!)),
+            doneAt: Value(goal.doneAt),
+            createdAt: Value(goal.createdAt),
+          ),
+        );
+      }
+    } catch (_) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('保存失败，请重试')));
+      }
+      return false;
     }
+    return true;
   }
 
   @override
@@ -325,7 +337,8 @@ class _GoalDialogState extends State<_GoalDialog> {
               children: <Widget>[
                 for (final PriceRef p in defaultPrices)
                   ChoiceChip(
-                    label: Text('${p.name}${formatFen(p.fen)}'),
+                    // SB-042 P3 · 补分隔（5090 ¥16,499），金额口径仍走 formatFen.
+                    label: Text('${p.name} ¥${formatFen(p.fen)}'),
                     selected: _priceName.text == p.name,
                     onSelected: (_) => _pickPrice(p),
                   ),
