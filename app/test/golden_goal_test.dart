@@ -2,6 +2,7 @@ import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:runway/data/app_db.dart';
+import 'package:runway/logic/achievement.dart';
 import 'package:runway/ui/goal_page.dart';
 import 'package:runway/ui/theme/app_theme.dart';
 import 'package:runway/ui/theme/tokens.dart';
@@ -66,10 +67,12 @@ Future<AppDb> _seedDb() async {
 Future<AppDb> _seedDoneDb() async {
   // SB-031 · 达成态合成夹具：目标 100 元（10000 分），上月支出 6000 分、
   // 本月 0 → convertible=12000 ≥ 目标，达成态（禁真实账目）.
+  // SB-032 · 达成已庆祝预置：门闩视作已弹过，golden 只收稳定达成页；
+  // 庆祝弹层禁入镜，浅/深两帧底板对齐（static 会话跨测泄漏一并隔离）.
   final AppDb db = AppDb.memoryForTest();
   final DateTime now = FixedClock.today();
   final DateTime lastMonth = DateTime(now.year, now.month - 1, 15, 12);
-  await db.insertGoal(
+  final int goalId = await db.insertGoal(
     GoalsCompanion(
       name: const Value('攒键盘'),
       targetFen: const Value(10000),
@@ -84,6 +87,16 @@ Future<AppDb> _seedDoneDb() async {
       category: const Value('食'),
       note: const Value('合成上月'),
       source: const Value('manual'),
+    ),
+  );
+  await db.insertAchievement(
+    AchievementsCompanion(
+      goalId: Value(goalId),
+      goalName: const Value('攒键盘'),
+      targetFen: const Value(10000),
+      convertibleFen: const Value(12000),
+      tier: const Value(''),
+      unlockedAt: Value(now),
     ),
   );
   return db;
@@ -206,6 +219,8 @@ void main() {
   });
 
   testWidgets('SB-031 golden 目标页达成态 light', (WidgetTester tester) async {
+    // SB-032 · static 会话跨测隔离（light 先跑 claim 后 dark 不弹，两帧错位）.
+    AchievementSession.global.resetForTest();
     tester.view.physicalSize = const Size(1080, 2400);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.resetPhysicalSize);
@@ -217,6 +232,8 @@ void main() {
     expect(find.byKey(const Key('goalTimelineDone-1')), findsOneWidget);
     expect(find.textContaining('已攒够'), findsWidgets);
     expect(find.textContaining('✓'), findsNothing);
+    // SB-032 · 弹层禁入镜（两帧底板对齐回归闸）.
+    expect(find.byKey(const Key('achievementCard')), findsNothing);
     await expectLater(
       find.byType(GoalBoard),
       matchesGoldenFile('../../golden/sb007/goal_light_done.png'),
@@ -225,6 +242,8 @@ void main() {
   });
 
   testWidgets('SB-031 golden 目标页达成态 dark', (WidgetTester tester) async {
+    // SB-032 · static 会话跨测隔离（同上）.
+    AchievementSession.global.resetForTest();
     tester.view.physicalSize = const Size(1080, 2400);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.resetPhysicalSize);
@@ -235,6 +254,8 @@ void main() {
     expect(find.byKey(const Key('goalTimelineDone-1')), findsOneWidget);
     expect(find.textContaining('已攒够'), findsWidgets);
     expect(find.textContaining('✓'), findsNothing);
+    // SB-032 · 弹层禁入镜（两帧底板对齐回归闸）.
+    expect(find.byKey(const Key('achievementCard')), findsNothing);
     await expectLater(
       find.byType(GoalBoard),
       matchesGoldenFile('../../golden/sb007/goal_dark_done.png'),
