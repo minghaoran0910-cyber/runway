@@ -8,6 +8,7 @@ import '../logic/goal_ladder.dart';
 import 'achievement_gate.dart';
 import 'achievements_page.dart';
 import 'dashboard_cards.dart';
+import 'diagnostics_card.dart';
 import 'goal_card.dart';
 import 'goal_price_follow.dart';
 import 'goal_timeline.dart';
@@ -217,6 +218,9 @@ class GoalPage extends StatelessWidget {
                             ),
                           ),
                         ),
+                        // SB-034 · 诊断回传开关行（仅 debug + 已配置可见；
+                        // 默认未注入 = 零像素，golden 不动）.
+                        const DiagnosticsSection(),
                       ],
                     );
                   },

@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'data/app_db.dart';
+import 'diagnostics/diag_hook.dart';
+import 'diagnostics/diag_reporter.dart';
 import 'ui/root_shell.dart';
 import 'ui/theme/app_theme.dart';
 
@@ -24,6 +27,12 @@ Widget textClampBuilder(BuildContext ctx, Widget? child) {
 }
 
 void main() {
+  // SB-034 · 诊断双挂 + 30s 周期（仅 debug；release 下 kDebugMode 为 const false，
+  // 分支剪枝，运行时零调用；未注入 endpoint 即未配置，flush 空转零发送）.
+  if (kDebugMode) {
+    DiagHook.install(DiagRuntime.instance.reporter);
+    DiagRuntime.instance.reporter.startPeriodic();
+  }
   runApp(const MyApp());
 }
 
