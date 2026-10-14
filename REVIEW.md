@@ -579,3 +579,19 @@
 
 ## 漂移与一致性审计 — 06:0x（条款6·本轮）
 禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7 注释复述+achievement.dart:13 禁词表本体，本轮 grep -rnE 实测行号一致，沿 p=0.75），用户可见=0；ui/theme·motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（grep 实测 0/0 非空路径）；美团|工资|房贷 app/lib=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（8830d1c 后码体零变更·合成夹具豁免沿册·本轮 8830d1c..HEAD 纯 docs 实测）；_LOCK find=0；branch=main+在审 feat×6+素材/rescue×3 零 stray；工作树 0 行；done/=34 ls-tree 实测；main 头 0d51ae1↔05:3x 票簿记对应✓（本票追加↔新簿记头，自验三连随提交回显）；origin 零触碰（本轮无 push/fetch/ls-remote）；progress 唯一真相✓；task_plan 薄索引未据其判进度✓。**全绿**。
+
+## 巡检票 — 10-15 06:3x（零新审·锚点维持·队列零漂移）
+- 新审判定: REQ mtime 1792010763(04:46:03) < REVIEW 1792015383(06:0x 簿记)→无新提审不重审；验真=盘上 REVIEW_REQUEST vs `git show HEAD:REVIEW_REQUEST.md` diff 实测=IDENTICAL(0 行)非假翻转；REQ 头部复核=WAITING_HUMAN SB-038 显式头（已审版勿重审）✓
+- 队列同步: 活跃 6 卡（docs/tasks ls 实测=012/021/038/039/040/041）状态行 grep -m1 实测与快照逐字一致（012 真人闸门在飞/021 挂起 v0.2/038 第 2 轮 RC R4=2 WAITING_HUMAN 等浩然拍板/039·040·041 二轮 PASS 待链序合入）；done/=34 git ls-tree 实测；卡号双口径沿 watch⑰（活跃最高=SB-041，done 内最高=SB-042）；待办=0 见底在册不重复呈报。
+- 冒烟: main 头 bfd27f2（纯簿记）；`git diff --name-only 8830d1c..HEAD` 实测=REVIEW.md/REVIEW_REQUEST.md/done/SB-042.md/progress.md 四文件·非 docs=0 实测→锚点 8830d1c 维持不重跑；模拟器未起（pgrep qemu/android.emu=0 实测）。
+- 并发: builder=0（pgrep "opencode run" 实测 0；另见 5 行 OpenCode Helper=GUI 常驻非施工会话，不判施工）；emu=0；_LOCK find=0；工作树 0 行（porcelain wc 实测）；branch=main（reshoot worktree×5+素材分支在册删除待浩然一句话）。
+- cron 体检: 巡检 19b5f29f running(本拍)/wake 88a8e128 disabled（cron get enabled:false 实测·浩然拍板后先翻括注再 enable）/统一看门狗 169be936 ok(last 28m)/runway-watchdog abaa94c7 ok(last 45m)/需求反思 6f3e81c0 ok；wake 历史同名×3(b71bf570/e71e53ac/f859efc9) 均 disabled 在册，清理归周一批次。
+- 规范适配审查: 今日周四非周一→不触发；周一批次挂账不变（wake 三易主/条款草案×3+补拍坐标禁跨卡复用/zsh 切词勘正/审计空路径防御）。
+- 提示词新鲜度（条款8）: 括注过时点（042『builder 领』→已归档/锚点 5284460→8830d1c/wake『现役 ok』→disabled）04:0x/05:3x/06:0x 三轮已录并按 21:4x 裁定处置（括注=一次性上下文不逐拍改写防 churn）→本轮不 cron edit；现行真相以本轮实测为准（全项实测无据括注误判）✓
+- R4 计数: 本轮无新 RC。
+- 利益点自省（一行）: 持平——零产品动作轮守住 037+042 合入成果（用户可见：审美清扫+目标保存不再假成功），机制零变化无 SilentBook 旧病同构；推进在浩然侧（SB-038 返工拍板/SB-012 七天真人），监工侧无可施工增量，非『更远』。
+- 决策模型（条款10）: 未调用——本轮无边界裁决；decision_evaluate 连续不可用观察沿册（watch⑦）。
+- ⚡推送判定: 零推送——全部常规结果落盘；SB-038 拍板 03:0x 已呈待答不重复推；自检口诀=这条消息没有浩然也能过→不发明明。
+
+## 漂移与一致性审计 — 10-15 06:3x（条款6·本轮）
+禁词 app/lib 命中 2 行均元引用豁免（goal_ladder.dart:7 注释复述禁令+achievement.dart:13 禁词表本体 '又花掉'，本轮 grep -rnE 实测行号一致，沿 p=0.75），用户可见=0；ui/theme·motion 外裸 Color(0x=0/裸 Duration(milliseconds:=0（本轮 app/lib 实测 0/0 非空路径）；美团|工资|房贷非md=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（8830d1c 后码体零变更，合成夹具豁免口径延续）；_LOCK=0；origin 零触碰（本轮无 push/fetch/ls-remote）；branches=main+feat×6+rescue×1 全在册零 stray；工作树净 0 行（簿记后复测）；done/=34；活跃卡=6；main 头 bfd27f2↔REVIEW 06:0x 段(行567)对应✓（簿记后本轮新头↔06:3x 段✓）；progress 唯一真相✓；task_plan 薄索引未据此判进度✓。
