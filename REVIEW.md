@@ -200,3 +200,12 @@
 利益点自省（一行）：持平——SB-032 纯测试卫生零用户可见变化，但把"达成庆祝帧"回归闸钉死（核心利益点时刻的验收底座更可信），零新增用户义务，无 SilentBook 旧病同构；计数：更近(SB-031@03:0x)→持平×16(03:3x~11:3x)→持平×17(SB-032 卫生轮)；推进在 builder 侧（SB-033 待领）+浩然侧（SB-012 真人闸门）。
 决策模型：本轮无边界裁决未调用（PASS 判定全实证，无灰区）。
 [supervisor review 10-14 12:3x]
+
+## 监工票 — 2026-10-14 12:5x（VPS /diag/ingest 施工轮·在册欠账销账）
+结论: 施工完成。SB-034 服务端依赖清零（客户端卡不变，仍排 033 后）。
+- 部署：runway-diag.service（python3 stdlib 监听 127.0.0.1:8788，Bearer 共享密钥闸 + 单请求≤200 条≤256KB + 50MB 滚动，jsonl 落盘 /var/log/runway-diag/ingest.jsonl）+ nginx 443 `location = /diag/ingest`（snippet 挂载，00-blog.conf 仅增 1 行 include；改前原值已全文留档本轮会话，回滚=删 include 行+删 snippet+disable 服务）
+- 实测五点：带钥 POST=200+落盘✓（记录含 recv/src_ip/rec）；错钥=401✓；GET=405✓；公网 https://dada561.com/diag/ingest 200/401✓；博客首页=200 无回归✓；nginx -t ok+reload ok
+- 密钥：debug-only 体验期写键已登记 SB-034 卡（仓库本地不推远端）；轮换=覆写 VPS /etc/runway-diag/token + systemctl restart runway-diag
+- 踩坑实录：conf.d/*.conf 是 http 级 include，裸 location 片段必须放 snippets/ 再 include 进 server 块（首装 nginx -t 前已纠正）；macOS scp+tar 落盘权限 600 致 nobody 读不到 ingest.py，chmod 644 后 active
+下一步: SB-034 客户端合入后登记巡检 tail 增量接线；infra.md 已同步记录。
+[supervisor patrol 10-14 12:5x]
