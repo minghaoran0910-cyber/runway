@@ -70,3 +70,21 @@
 ## 监工票 — 2026-10-14 16:0x（B 流程收口：SB-034 全流程审查通过·交付包定版）
 - 四项核销：①**实拍审美闸门**=监工亲看三页（首页环+琥珀+千分位✓/目标✓/周报折线✓；新揪四件审美债→SB-037）；②**测试计数定案**=独立复跑 **460/460 绿**（此前 444/448/467 各票口径一律作废以此为准）；③**VPS 注入实测**=交付 APK kernel_blob 内端点字符串命中（真烧进包）+服务端 401/200 双向+模拟器一条龙冒烟 pid 存活 fatal=0；客户端首条上报等第一次真实事件（空缓冲不发=设计如此，非缺陷）；④**一条龙冒烟**=runway_api36 装启三证据过。
 - **交付包定版 main@092f7e2b644d**：国内直链 https://dada561.com/dl/runway-debug-092f7e2b644d.apk（155MB·SHA256 6ddc43b10ca8…）= GitHub release `runway-diag-20261014` 同物。wake cron 已重建（f156cbdd，--no-deliver）。SB-037 插队待跑。
+
+---
+
+# REVIEW — 2026-10-14 16:1x 监工巡检轮（B 收口复核·一条龙冒烟 PASS 新锚点）
+结论: PASS（无新提审·复核登记轮）
+检查项:
+- [x] REQ(15:13:06)<REVIEW(16:03:54 收口票@022e317) 零新提审不重审；REQ head 复核=已归档 SB-033 旧提审单（13:2x 文），显式 WAITING_HUMAN 行 grep=0（第 6 行 S0.6 元叙述沿 p=0.85 豁免）
+- [x] B 两卡收敛落盘在册复核：SB-033 实拍版 PASS 归档(7814f15)+SB-034 四项核销 PASS·交付包定版 main@092f7e2b644d(022e317)
+- [x] **一条龙冒烟（本轮独立实测，不采信收口票自证）**：测试体=HEAD 022e317（092f7e2..HEAD diff 实测=REVIEW/SB-037 卡/归档 move/progress 纯 docs，码体=定版包）；flutter build apk --debug ✓(Gradle assembleDebug 9.6s)→runway_api36 四旗标启动 BOOT=1(27s)→pm clear+install -r Success×2→am start -n com.zangou.runway/.MainActivity→35s 存活 PIDOF=2228·logcat FATAL EXCEPTION=0→pkill 收口。模拟器冒烟: PASS，锚点 ead992f(作废)→022e317
+- [x] 队列同步：SB-012=体验中(真人闸门在飞)/SB-021=挂起 v0.2/SB-037=待办(15:5x 自派·16:0x 插队·16:15 wake 预计点火)；待办卡=1≤2；done/=32(git ls-tree 实测；15:5x 票"35"系簿记计数误差，归档事实真实，本票勘正)
+- [x] wake 实测：正主已重建为 f156cbdd(15/45·idle·下拍 16:15)，老正主 e71e53ac 与同名重复 f859efc9/b71bf570 均不在册——过程偏差(在册口径"重启老正主单个"被替换为"重建+删老")=功能等价(单 wake·错峰不变)，挂周一规范适配审查批次，不另推
+- [x] 监工全程三不：零 push/零 gh·release 修改/零清理素材分支(feat/SB-033@69deccb·feat/SB-034@e576624·sb033-rescue@3e4918c 在册待浩然一句话或周一批次)；观察：opencode 进程×6 存活(主会话收口尾)，本轮模拟器未与其并发（起后即自验 pkill 收口，pgrep 复核）
+- [x] 交付链接定版有效：dada561.com/dl/runway-debug-092f7e2b644d.apk(=release runway-diag-20261014 同物)——浩然 14:47 索要之带后门版已可装，13:59 作废链接挂账销账
+问题列表: 无（SB-037 四件审美债为在飞新账，随卡跟踪）
+下一步: ①16:15 wake 拍接 SB-037（"体验期的包尽量早带"已排）②周一首轮=当周卡计划+规范适配审查（合入归属校验/wake 重建偏差两条文草案）③SB-012 真人 7 天闸门仍在浩然侧。
+漂移审计结论一行: 16:1x 实测全绿（app/lib 固化口径）：禁词五词 app/lib 命中 2 行均元引用豁免（achievement.dart:13 禁词表本体+goal_ladder.dart:7 注释复述·行号本轮 grep 实测一致·沿 p=0.75）·非 md 禁词文件集=5 基线零新增/ui·theme·motion_spec 外裸 Color(0x=0·裸 Duration(milliseconds:=0/手机号=0·open_id 非 md=0·美团|工资|房贷 非 md=0/真实账目=0 红线零触发（diag mask 单测值 3612000 分等实测=合成脱敏夹具）/_LOCK find=0/branch=main+素材×3（在册非残留）/工作树净 0 行/progress 唯一真相✓/task_plan 未据此判进度✓/origin 本轮零触碰。
+利益点自省（一行）: 更近——体验期干净交付包三码同车（环扫滚动+千分位首屏天天可见+诊断通道）经监工独立冒烟背书，用户装的即是『零成本看见自己挪一步』本体；无 SilentBook 旧病同构；计数 15:1x 更远×1→15:3x 持平→15:5x 更近×2→16:1x 更近，无连续两轮更远，不触发排期升级。
+[supervisor patrol 10-14 16:1x]
