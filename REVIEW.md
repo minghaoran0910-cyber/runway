@@ -487,3 +487,31 @@
 禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7 注释复述+achievement.dart:13 禁词表本体，本轮行号实测一致，沿 p=0.75），用户可见=0；theme/motion_spec 外裸 Color(0x=0/裸 Duration=0（cherry-pick 后 app/lib 复扫）；美团|工资|房贷 app/lib=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发；_LOCK find=0；工作树=归档+票文件（簿记提交中）无孤儿码改；branch=main+feat×5（037 待清+038-041 在审）+素材×3 在册零 stray；done/=33（索引实测，32→33 本轮+037）；main 头 5284460 含 037 业务体↔本票归档轮对应✓（簿记提交后新头↔03:1x 段自验三连回显）；origin 零触碰（无 push/fetch/ls-remote）；progress 唯一真相✓；task_plan 未据其判进度✓。**全绿**。
 [supervisor patrol 10-15 03:1x]
 补录（同轮 03:10）：条款8 cron edit 已落地——巡检 message 括注翻 10-15 03:1x 现行（SB-037 已合入归档/最高卡号 SB-042/锚点 5284460/链序待合/038 等拍板），get 回读实测 len=5012·旧 10-14 20:3x 括注=0·永久条款（红线/反虚构/大白话/视觉闸门/利益点/决策模型/收尾铁律/通知收口/让位三）逐项在场✓；runway-watchdog abaa94c7 复元 ok（前态 error 2x=『Memos Get blocked』·23:3x 挂『凌晨第3连败呈报』项——未及三败已自愈，销账不呈报）。[supervisor patrol 10-15 03:10 补录]
+
+---
+
+# REVIEW — 2026-10-15 03:3x-04:0x 第 1 轮 · 卡 SB-042（目标保存假成功修复）
+结论: PASS（已合入 main@8830d1c + git mv 归档 done/）
+检查项:
+- [x] 提审验真：REQ mtime 1792005731(03:22:11) > REVIEW 1792005098(03:11:38)；盘上 REQ vs 分支 HEAD diff=空=真新提审非假翻转；feat/SB-042-fake-success-fix@8d2aa08(业务)+5703aee(REQ 簿记)；无 WAITING_HUMAN 标记；业务 diff=2 文件≤4 合规，goal_page.dart 399 行<400。
+- [x] 接线审查：`_saveDialog`→`Future<bool>`（校验失败 false / 落库异常 false+『保存失败，请重试』/ 成功 true），onSave 仅 ok=true 才 pop(true)，失败对话框存活=卡目标 1-2 达成；insert/update 包 try 异常兜底；无新依赖；update 路径同接线覆盖（REQ 声明，代码同函数实证）。
+- [x] chip 分隔：`'${p.name} ¥${formatFen(p.fen)}'`——formatFen 本体无货币符（entry.dart:34 实测），『5090 ¥16,499』无双符号，金额口径仍 formatFen 唯一入口=卡目标 4 达成。
+- [x] 回归测试：四断言齐（错误条+对话框存活+无成功条+DB 零行）+合法路径+chip 断言；分支独立复跑 realexit=0 +464 All tests passed（真实退出码版）。
+- [x] 模拟器补拍（视觉闸门·三发）：一发 (980,2246)=键盘✓键、二发 (800,1692)=常买键（gap15 坐标系系 041 编辑器布局，042 对话框不适用）；三发 pill 色密度实测 (741,1984) 命中——gap16c_error_a/error_b md5 相同=错误 toast 在场+对话框未关+无『已定下新目标』条，after 帧 md5 回位 before=snackbar 4s 生命周期吻合；FATAL=0×3、EMU_CLEAN×3；帧档 runway-shots/2026-10-15-reshoot/gap16*_*.png。
+- [x] **审美审计（视觉闸门·逐维度，实拍帧=gap16 系列）**：层级=标题 20/字段标 15/次要 12 阶梯一致无滥用；间距=字段节奏统一、chip 换行两列自然；圆角=chip 胶囊 r13/控件 r10 符合三档形状语言无第四种；对比度=暗底白字达标、选中态『奶茶 ¥18』accent 底+勾可辨、无白字压浅底；动效=snackbar 标准进出无裸 duration；AI 味=无 emoji 图标/无紫渐变/无居中大堆叠；一致性=四枚 chip 同模板『名 ¥额』（奶茶 ¥18/键盘 ¥299/手机 ¥3,999/5090 ¥16,499）双命名病零复现。**判：PASS，零回退**。P3 观察：错误 snackbar 渲染于对话框底缘之下部分被遮（ScaffoldMessenger 层级 main 预存行为，非本卡引入，不阻塞）。
+- [x] 合入：cherry-pick -n 8d2aa08 纯业务体法→main@8830d1c；合入后 main 全量套件 realexit=0 +464 绿。
+- [x] 模拟器冒烟：**PASS**（build 2.8s / BOOT 9x3s / install Success / am start com.zangou.runway/.MainActivity / 35s 存活 PIDOF=2566 / FATAL=0 / pkill 收口）。锚点 5284460→**8830d1c**。
+- [x] 归档：SB-042 状态行翻已完成+git mv docs/tasks/done/（真实 git mv·done 33→34 自验三连随回显）；feat/SB-042 分支删除（squash 体已落 main）。
+- [x] 队列同步：039/040/041=二轮 PASS 待链序合入（链堵=038 拍板在浩然）；038=WAITING_HUMAN（03:0x 已呈报不重复）；042=已合入归档；待办=0——见底但不虚报『无卡可派』：堵点=浩然拍板非缺卡。
+- [x] R4 计数：本轮无 RC。
+- [x] 并发：builder=0（ps 无 opencode run）；wake 03:45 拍 REQ>REVIEW 守卫 idle-out 未踩树；emu 零跨拍残留；_LOCK=0；工作树 0 行；origin 零触碰（本轮无 push/fetch/ls-remote）。
+问题列表:
+1. (P3·监工手法入册) 补拍坐标禁跨卡复用：gap15 坐标系在 042 对话框两连脱靶，pill 色密度定位法（本轮 (741,1984) 实证）为现行定靶口径。
+2. (P3·簿记滞后沿册) 卡面状态行 builder 提审未翻（只写 REQ/progress），归档时统一翻，沿口径。
+下一步: ①038 返工拍板权在浩然（03:0x 已呈）；②拍板后链序 039→040→041 rebase 逐个合入+每卡翻锚点+一条龙冒烟（040×041 goal_editor add/add+041 卡第 4 条删月数字段=必然项，merge-tree 042×039=12/042×040=9/042×041=6 实测在案，rebase 工作量微增属预期）；③假成功=切包前必修项已清（SB-012 真人闸门版本下轮更新即含修复）；④周一批次挂账不变；⑤浩然侧在账不变（SB-012 真人 7 天+素材分支×3+vC worktree+037 分支清理一句话）。
+利益点自省（一行）: 更近——假成功=『看见的必须是真的』信任洞已修复合入 main，切包堵点清一；计数 03:1x 更近→03:5x 更近；机制零新增无 SilentBook 旧病同构（纯接线修复不依赖用户自律）。
+决策模型（条款 10）: 未调用——本轮无边界裁决（PASS 按标准审+合入授权条款 5 直执；坐标脱靶=事实修正非裁决项；decision_evaluate 连续不可用观察沿册）。
+提示词新鲜度（条款 8）: 最高卡号 SB-042✓（03:1x 括注已翻）/锚点本轮 5284460→8830d1c（快照+本票在册，括注一次性上下文不逐拍改写沿 21:4x 裁定）/com.zangou.runway+am start 现行（本轮三 APK 实装实测）✓/:00-:30 与 :15/:45 错峰✓→无 cron edit。
+⚡推送判定: 零推送——PASS+合入+冒烟+队列同步=常规结果落盘；待办=0 之堵点（038 拍板）03:0x 已呈报不重复；无新增浩然行动项。
+## 漂移与一致性审计 — 03:5x（条款 6 · 本轮·合入后 main 复扫）
+禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7 注释复述+achievement.dart:13 禁词表本体，行号本轮实测一致，沿 p=0.75），用户可见=0；theme/motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（git grep 实测 0/0 非空路径）；锚定手机号 app/lib=0；open_id=0；美团|工资|房贷 app/lib=0；真实账目=0 红线零触发（本卡码体+测试帧全合成 milktea/3999/1649900/2027-04-30）；_LOCK find=0；工作树 0 行；branch=main+feat×6 在审/在册+素材×3 零 stray（042 已删）；done/=34 ls-tree 实测；main 头 8830d1c↔本票✓（簿记后新头↔03:5x 段自验三连随提交回显）；origin 零触碰；progress 唯一真相✓；task_plan 薄索引未据其判进度✓。**全绿**。
