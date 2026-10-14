@@ -296,3 +296,20 @@
 
 ## 监工票 — 2026-10-14 21:3x（浩然裁 A：「今天攒出」常驻首页）
 - 裁定入 PRD 硬约束：日载体行不得并入月累计环；四卡补拍二审与后续一切首页卡以此为准，改首页布局前先过此条。次条建议（91 天奖励太晚/预览版提前）转周一批次与 PRD 反思素材，不当场动。
+
+## 监工票 — 2026-10-14 21:4x 巡检轮（零新提审·裁A×SB-038 对撞实测·第1轮RC追补条款发出 p=0.76·补拍窗口顺延）
+结论: 无新提审不重审；**SB-038 第1轮RC追补「裁A每日载体核查」条款**（同轮追加，R4 轮次不+1，decision p=0.76 按判落）；其余四卡本轮无新轮次。
+检查项:
+- [x] 新提审核验：REQ mtime 21:19:45 < REVIEW 21:38:51（680e12d=裁A入册票落盘）实测；盘上 REQ 与 git show HEAD:REVIEW_REQUEST.md md5 一致（a11645f469251435bccf12d5ae78edc6）=盘上仍 038 旧单，非真翻转，不重审（第8条验真法在册沿行）。
+- [x] 裁A对撞实测（21:34 浩然裁/21:38 入册@680e12d，PRD diff 亲读）：feat/SB-038-home-cleanup 的 home_page.dart grep 攒出|TodaySaved|daily_close=仅注释行，TodaySavedRow 唯一用处 daily_close_sheet.dart 在 038 调用点已搬 goal_page.dart（实测）；038 首页保留「今日/月卡」是否承载「今天攒出 ¥X·够N杯奶茶」日载体行=代码不可判，第2轮实拍定案。若实拍无此行→builder 返工（并入其开放中第1轮RC追补，不另起第2轮）；否决替代方案 B（第2轮独立RC=038 累计2轮直接触发 R4 WAITING_HUMAN，白白吃掉人工裁决额度）与 C（另开 SB-042=与 038 二次对撞 home_page 冲突链）。SB-041 十文件不含 home_page（21:2x 静态预检在册）裁A不适用✓；037/039/040 随第2轮统一加裁A核查一条（21:3x 票「后续一切首页卡以此为准」条款沿行）。
+- [x] 队列零漂移：五卡=已提审待二轮不变（卡面状态行为 P3 簿记滞后沿册口径）；done/=32（git ls-tree 实测回显）；有效待办=0（见底已呈+周一批次在册，不自派 p=0.79 沿册——裁A已被 038 追补通道吸收，非新施工面）；SB-012 体验中/SB-021 挂起。
+- [x] 冒烟判定（条款4）：022e317..main 非md=0 实测（9 变更文件全 .md）→码体未动锚点 022e317 维持；本轮无 PASS 无 G 卡→无冒烟义务。模拟器未起：21:45 wake 拍在即，builder 若误起轮会踩施工树（18:15 后 builder 应 idle-out，实测 ps 无 opencode run 在飞）→五卡补拍窗口=下轮确认 21:45 拍处置后再开（独立 worktree 口径不变）。
+- [x] 提示词新鲜度（条款8）：巡检 message 括注「SB-041 在飞 builder 施工中」等系一次性上下文已过期，沿 21:2x 票裁定「括注随拍呈报不逐拍改写防 churn，现行以 REVIEW.md/快照为真相」→本轮未动 cron；wake 主档 88a8e128 在册（本轮巡检工具面 automations 仅回显当前任务无法复核 wake 档，21:38 守卫探针实测 main 树净+_LOCK 零泄漏，无失配证据）；com.zangou.runway/golden/薄索引/错峰口径全现行（承 21:1x 后连续实测，码体未动）。
+- [x] 决策模型销账：本轮第三次调用按正确形 questions.qN{type:'boolean',criteria:{true,false}}+state 成功 status=ok（p=0.76）→watch 项「连续 schema 报错两拍即呈浩然」取消（工具可用无故障，报错根因=参数形非服务，正确形已在册本票）；条文草案（SUPERVISOR 附录记 decision_evaluate 参数形一行）挂周一适配审查批次。
+问题列表:
+1. (P2·已处置) 038×裁A 对撞=第1轮追补条款（本票），builder 自 wake 拍读票执行；038 补拍顺延至返工后。
+2. (观察) 21:45 拍 wake 处置=下轮头一件事；巡检自身上一拍（21:00）status=error timeout（model-call-started，本轮 automations 实测回显）=超时连败第 N 拍在册观察，若再连败按条款改巡检参数（cron 时段/预算）并呈报。
+下一步: builder 038 裁A返工→夜间补拍五卡（038 拍返工版）→二轮审链（rebase 序 038→039→040→041 不变）。
+利益点自省: 更近——裁A把「天天看见自己挪一步」焊成 PRD 硬条款（日载体常驻首页），本轮核销了唯一会把日载体藏进流程层的在审设计；无 SilentBook 旧病同构（行自动生成零自律成本）。
+## 漂移与一致性审计 — 21:4x（条款6·本轮）
+禁词 app/lib=2 行均元引用（goal_ladder.dart:7 复述禁令+achievement.dart:13 禁词表本体）沿册 p=0.75 豁免，用户可见=0；theme/motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0 实测；美团|工资|房贷 tracked 非测试=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（码体自 022e317 未动沿合成夹具豁免）；_LOCK find=0；工作树簿记前净 0 行；done/=32；branches=main+feat×7+rescue×1 全在册（037-041 在审分支存在=合规非残留；033/034/033rescue 素材待浩然一句话）；main 头 680e12d↔REVIEW 21:3x 段对应✓（本票簿记新头↔本 21:4x 段✓）；origin 零触碰（本轮无 push/fetch/ls-remote）；progress.md 唯一真相✓（680e12d 已登裁A）；task_plan 薄索引✓未据其判进度。**全绿**。
