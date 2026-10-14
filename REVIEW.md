@@ -595,3 +595,19 @@
 
 ## 漂移与一致性审计 — 10-15 06:3x（条款6·本轮）
 禁词 app/lib 命中 2 行均元引用豁免（goal_ladder.dart:7 注释复述禁令+achievement.dart:13 禁词表本体 '又花掉'，本轮 grep -rnE 实测行号一致，沿 p=0.75），用户可见=0；ui/theme·motion 外裸 Color(0x=0/裸 Duration(milliseconds:=0（本轮 app/lib 实测 0/0 非空路径）；美团|工资|房贷非md=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（8830d1c 后码体零变更，合成夹具豁免口径延续）；_LOCK=0；origin 零触碰（本轮无 push/fetch/ls-remote）；branches=main+feat×6+rescue×1 全在册零 stray；工作树净 0 行（簿记后复测）；done/=34；活跃卡=6；main 头 bfd27f2↔REVIEW 06:0x 段(行567)对应✓（簿记后本轮新头↔06:3x 段✓）；progress 唯一真相✓；task_plan 薄索引未据此判进度✓。
+
+## 巡检票 — 10-15 07:0x（零新审·锚点维持·队列零漂移）
+- 新审判定: REQ mtime 1792010763(04:46:03) < REVIEW 1792017277(06:34:37)→无新提审不重审；假翻转验真实测=盘上 REVIEW_REQUEST vs `git show HEAD:REVIEW_REQUEST.md` diff=IDENTICAL(0行)，REQ 头=SB-038 WAITING_HUMAN 已审版勿重审✓；038 仍堵浩然返工拍板（03:0x 已呈不重复推）。
+- 队列同步: 活跃 6 卡（012/021/038/039/040/041）状态行 grep -m1 实测与快照逐字一致（012 真人闸门在飞/021 挂起 v0.2/038 第2轮RC R4=2 WAITING_HUMAN/039·040·041 二轮 PASS 待链序 038→039→040→041）；done/=34 ls-tree 实测；卡号双口径沿 watch⑰（活跃最高 SB-041/done 内最高 SB-042）；待办=0 见底不自派裁定沿册（堵点=拍板非缺卡）。
+- 冒烟: main 头 7ef656a；`git diff --name-only 8830d1c..HEAD` 实测=REVIEW.md/REVIEW_REQUEST.md/done/SB-042.md/progress.md 四文件纯 docs（非 docs=0）→锚点 8830d1c 维持不重跑；模拟器未起（pgrep qemu/android.emu=0）；无新 G 里程碑 PASS。
+- 并发: builder=0（pgrep "opencode run" 实测 0）/emu=0/_LOCK find=0/工作树 0 行；branch=main（reshoot worktree×5+素材分支×3 在册删除待浩然一句话，不擅删）。
+- cron 体检: 巡检 19b5f29f running(本拍)/wake 88a8e128 disabled 沿 05:3x（拍板后先翻括注再 enable）/runway-watchdog abaa94c7 ok(last 1h，Memos blocked 单发已销账)/统一看门狗 169be936 ok/需求反思 6f3e81c0 ok。
+- 规范适配审查: 今日周四非周一→不触发；周一批次挂账不变。
+- 提示词新鲜度(条款8): 括注过时点（042『builder 领』→已归档/锚点 5284460→8830d1c/wake『现役 ok』→disabled）04:0x-06:3x 已录，按 21:4x 裁定括注=一次性上下文不逐拍改写防 churn→本轮无 cron edit；com.zangou.runway+am start/golden·done 路径/薄索引/错峰全现行✓。
+- R4 计数: 本轮无新 RC。
+- 利益点自省(一行): 持平——零动作巡检轮守住 037+042 合入成果（用户可见：审美清扫+目标保存不再假成功），机制零变化无 SilentBook 旧病同构；推进堵点在浩然侧（038 拍板/SB-012 七天真人），监工侧无可施工增量，非『更远』。
+- 决策模型(条款10): 未调用——本轮无边界裁决；decision_evaluate 连续不可用观察沿册(watch⑦)。
+- ⚡推送判定: 零推送——全部常规结果落盘；自检口诀=这条消息没有浩然也能过→不发明明。
+
+## 漂移与一致性审计 — 10-15 07:0x（条款6·本轮）
+禁词 app/lib 命中 2 行均元引用豁免（goal_ladder.dart:7 注释复述禁令+achievement.dart:13 禁词表本体，本轮 grep 实测行号一致，沿 p=0.75），用户可见=0；ui/theme·motion 外裸 Color(0x=0/裸 Duration(milliseconds:=0（实测 0/0 非空路径）；美团|工资|房贷 app/lib=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（8830d1c 后码体零变更·合成夹具豁免沿册·本轮 8830d1c..HEAD 纯 docs 实测）；_LOCK=0；工作树 0 行；branch=main+feat×6+rescue×1 全在册零 stray（033@69deccb/034@e576624/rescue@3e4918c）；done/=34；活跃卡=6；main 头 7ef656a↔REVIEW 06:3x 段✓（本票追加↔新簿记头，自验三连随提交回显）；origin 零触碰（ahead 17=合入+簿记合规，本轮无 push/fetch/ls-remote）；progress 唯一真相✓；task_plan 薄索引未据此判进度✓。**全绿**。
