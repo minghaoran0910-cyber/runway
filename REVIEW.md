@@ -199,3 +199,26 @@
 
 ## 监工票 — 2026-10-14 18:5x（浩然裁 C：期限解冻落库）
 - 拍板结果=C——schema 冻结由用户本人解除，SB-041 即刻下发：v11→v12 迁移+存读全链路+目标卡期限文案+编辑可改，验收含迁移三件套与实拍截图（新闸门）。builder 已踢起，与今晚实拍补拍并行。
+
+
+---
+
+# REVIEW — 2026-10-14 19:3x 监工巡检轮（零新提审·SB-041 在飞监护·补拍顺延夜间）
+结论: 无新提审（REQ mtime 18:36:40 < REVIEW 18:58:38 实测）→ 本轮不审查；核心=SB-041 builder 在飞监护 + 四卡补拍窗口判定顺延夜间（builder 在飞不起模拟器在册口径）。
+检查项:
+- [x] REQ 验真：盘上 REQ 内容=SB-038 旧单（tail 实测：四区搬家+最近3笔+golden 12 张）、WAITING_HUMAN 显式=0、mtime 旧于 REVIEW → 非新单不重审；SB-041 未提审（在飞无 REQ 翻转，沿 17:53/18:0x/18:36 假翻转在册口径）。
+- [x] 队列同步（快照已更）：**SB-041 进在飞**——浩然 18:5x 裁 C（期限落库·schema v12 解冻=用户本人解除 §2.3 禁区）·落卡 c9bb82e（实测=main 头，REVIEW 18:5x 票已随卡入 c9bb82e 史·grep=1 实测）·feat/SB-041-deadline-persist=branch head 等于 main 头（尚无独立码提交）·工作树 9 行 WIP=builder 资产（M×5：app_db/app_db.g/goal_page/goal_timeline/golden_goal_test；新增×4：goal_deadline_dao/goal_deadline/goal_editor/sb041_goal_deadline_test）监工零触碰。四卡状态行零漂移（037/039/040 卡面=待办 系 P3 随二审翻沿册；038=已提审待审✓）；done/=32 git ls-tree 实测；SB-012 体验中/SB-021 挂起不变。
+- [x] wake 19:15 拍事故监护（runway-wake.log tail 实测）：SB-041 调试测试 `+8 -1: Some tests failed`（deadline 渲染断言存活失败点）→ 后续组合命令（cp&&flutter test&&rm …）触发 "The user rejected permission to use this specific tool call" exec 审批墙（含 rm 命令被拒，无人值守拍无审批来源）→ builder 轮终止，WIP 留盘未提交。cron list 实测：wake=88a8e128 ok·下拍 19:45·二代派发器无卡号硬编码✓。**watch 升级预案**：19:45/20:15 拍若同型审批墙连拒 2 拍=管道阻塞→呈浩然拍板（⚡类③），单拍自愈不推。
+- [x] 模拟器冒烟判定（条款4）：git diff --name-only 022e317..main 非 .md=0（实测）→ 码体未动，锚点 022e317 维持；本轮无 PASS 无 G 里程碑→无冒烟义务；模拟器未起（pgrep emulator=0 实测），19:45 拍在即不起。四卡补拍并案（037 四组/038 两组/039 两组/040 四组；branch heads 本轮实测=6ec8bab/2a96660/d194fe8/ceb245b）+第 2 轮审链（独立全量复跑+审美小节+038→039→040 rebase 核对+四卡状态行翻案）=窗口改判 **SB-041 提审/退场后或夜间**，独立 worktree 防踩踏。
+- [x] worktree/分支审计：git worktree list 实测=主树（feat/SB-041 在飞）+ /private/tmp/vC detached@092f7e2（B 任务遗留物，在册不动·删除并入待浩然一句话清单）；branch=main+feat×7（素材 033/034+在审 037/038/039/040+在飞 041）+rescue 素材，均在册非残留；_LOCK find=0+tracked=0；origin 本轮零触碰。
+问题列表:
+1. （P3 簿记）SB-041 卡面状态行=待办、实际在飞——提审时随口径翻。
+2. （watch）wake exec 审批墙（含 rm 组合命令被拒）——连 2 拍同型=升级呈裁。
+3. （待办挂账）四卡补拍+二轮审链=夜间窗口任务（本轮起 builder 在飞=不启动）。
+下一步: ①夜间拍=四卡补拍并案+二轮审链（前置=SB-041 退场）；②周一=当周卡计划+规范适配审查（挂账不变：wake 三易主/补拍通道入册/合入归属校验/worktree 隔离/审批墙 rm 条款草案）；③浩然侧在账待答=SB-012 7 天真人闸门+素材分支与 vC worktree 删除一句话。
+漂移审计结论一行: 19:3x main 史实测（git grep HEAD=c9bb82e）全绿——禁词五词 app/lib=2 行均元引用豁免（achievement.dart:13 禁词表本体+goal_ladder.dart:7 注释复述，行号本轮实测沿册一致，p=0.75）/theme·motion_spec 外裸 Color(0x=0·裸 Duration=0/美团|工资|房贷非 md=0/锚定手机号=0/open_id 非 md=0/真实账目=0 红线零触发（022e317..main 非 md=0 实测码体未动豁免沿册；SB-041 WIP 未提交非审计对象，预览扫裸 Color/裸 Duration/禁词=0 命中实测）/_LOCK=0/main 头 c9bb82e↔REVIEW 18:5x 票✓（本票提交后新头↔19:3x 段自验三连随提交回显）/done/=32/progress 唯一真相✓ task_plan 未据其判进度✓。
+利益点自省（一行）: 持平——本轮零动作监护守住 builder 在飞资产（不踩树=不烧工），产品全局随 SB-041『预计 X 月 X 日攒到』期限持久化在建再近一格（deadline 从重启即丢变为可信事实=天天看见挪一步的兑现面）；无 SilentBook 旧病同构（builder 自动化施工，零索用户自律）；计数 18:3x 更近→19:3x 持平（监护轮），无『更远』信号不触发排期升级。
+决策模型: 未调用（本轮无边界裁决——补拍顺延系在册『builder 在飞不起模拟器』口径执行，非灰区）。
+提示词新鲜度: 巡检 message 括注 3 处过时（『现行最高卡号=SB-040』→SB-041 已下发在飞/『期限 p=0.63 灰区三选一待裁』→浩然已裁 C 销账/『补拍窗口=19:15 拍后』→SB-041 在飞改判夜间）→本轮 cron edit 修正+get 回读验证；wake 88a8e128=现役正主✓（cron list 实测与括注一致）；com.zangou.runway/am start/golden/薄索引/:00-:30 与 :15-:45 错峰沿册现行。
+⚡推送判定: 零推送——审查无新单/队列同步/在飞监护均非浩然行动项；wake 审批墙升级预案待 19:45/20:15 拍实测才可能触发（连拒 2 拍=⚡类③）。
+[supervisor patrol 10-14 19:3x]
