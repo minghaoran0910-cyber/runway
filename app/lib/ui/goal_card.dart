@@ -88,20 +88,21 @@ class GoalProgressCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 4),
+            // SB-037③：去重（旧文"已攒 0% · 下一站 奶茶 · 已攒 0%"双已攒+双行复述；
+            // 进度行只留一份已攒+站名，下一站详情由时间线承载，本卡不再复述第二行）.
             Text(
               view.done
                   ? '已攒够 · 得到阶段性底气'
-                  : '已攒 $pct% · ${nextLadderHint(convertibleFen: view.convertibleFen, targetFen: targetFen)}',
+                  : () {
+                      final String? next = nextLadderName(
+                        convertibleFen: view.convertibleFen,
+                      );
+                      return next == null
+                          ? '已攒 $pct% · 已越过全部阶梯'
+                          : '已攒 $pct% · 下一站 $next';
+                    }(),
               style: theme.textTheme.bodySmall,
               key: Key(view.done ? 'goalDone' : 'goalProgress'),
-            ),
-            Text(
-              nextLadderHint(
-                convertibleFen: view.convertibleFen,
-                targetFen: targetFen,
-              ),
-              style: theme.textTheme.bodySmall,
-              key: const Key('goalLadder'),
             ),
           ],
         ),

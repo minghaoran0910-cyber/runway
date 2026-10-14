@@ -10,9 +10,19 @@ abstract final class AppTheme {
     final ColorScheme scheme = ColorScheme.light(
       primary: RunwayLight.accentStrong,
       onPrimary: RunwayLight.surface,
+      primaryContainer: RunwayLight.accent,
+      onPrimaryContainer: RunwayLight.surface,
       secondary: RunwayLight.accent,
+      onSecondary: RunwayLight.surface,
+      secondaryContainer: RunwayLight.surface2,
+      onSecondaryContainer: RunwayLight.ink,
+      tertiary: RunwayLight.gold,
+      onTertiary: RunwayLight.surface,
+      tertiaryContainer: RunwayLight.surface2,
+      onTertiaryContainer: RunwayLight.ink,
       surface: RunwayLight.surface,
       onSurface: RunwayLight.ink,
+      surfaceContainerHighest: RunwayLight.surface2,
       error: RunwayLight.danger,
       onError: RunwayLight.surface,
     );
@@ -34,6 +44,28 @@ abstract final class AppTheme {
       ),
       dividerColor: RunwayLight.hairline,
       textTheme: _textTheme(RunwayLight.ink, RunwayLight.inkSecondaryText),
+      // SB-037①：开关/链接主色青（禁系统默认紫；容器色亦收敛青系/中性）.
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith<Color>(
+          (Set<WidgetState> s) => s.contains(WidgetState.selected)
+              ? RunwayLight.surface
+              : RunwayLight.inkSecondary,
+        ),
+        trackColor: WidgetStateProperty.resolveWith<Color>(
+          (Set<WidgetState> s) => s.contains(WidgetState.selected)
+              ? RunwayLight.accentStrong
+              : RunwayLight.surface2,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(foregroundColor: RunwayLight.accentStrong),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          backgroundColor: RunwayLight.accentStrong,
+          foregroundColor: RunwayLight.surface,
+        ),
+      ),
     );
   }
 
@@ -41,9 +73,19 @@ abstract final class AppTheme {
     final ColorScheme scheme = ColorScheme.dark(
       primary: RunwayDark.accentStrong,
       onPrimary: RunwayDark.surface,
+      primaryContainer: RunwayDark.accent,
+      onPrimaryContainer: RunwayDark.surface,
       secondary: RunwayDark.accent,
+      onSecondary: RunwayDark.surface,
+      secondaryContainer: RunwayDark.surface2,
+      onSecondaryContainer: RunwayDark.ink,
+      tertiary: RunwayDark.gold,
+      onTertiary: RunwayDark.surface,
+      tertiaryContainer: RunwayDark.surface2,
+      onTertiaryContainer: RunwayDark.ink,
       surface: RunwayDark.surface,
       onSurface: RunwayDark.ink,
+      surfaceContainerHighest: RunwayDark.surface2,
       error: RunwayDark.danger,
       onError: RunwayDark.surface,
     );
@@ -65,6 +107,28 @@ abstract final class AppTheme {
       ),
       dividerColor: RunwayDark.hairline,
       textTheme: _textTheme(RunwayDark.ink, RunwayDark.inkSecondaryText),
+      // SB-037①：同 light（深色青+暖金强调，禁紫）.
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith<Color>(
+          (Set<WidgetState> s) => s.contains(WidgetState.selected)
+              ? RunwayDark.surface
+              : RunwayDark.inkSecondary,
+        ),
+        trackColor: WidgetStateProperty.resolveWith<Color>(
+          (Set<WidgetState> s) => s.contains(WidgetState.selected)
+              ? RunwayDark.accentStrong
+              : RunwayDark.surface2,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(foregroundColor: RunwayDark.accentStrong),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          backgroundColor: RunwayDark.accentStrong,
+          foregroundColor: RunwayDark.surface,
+        ),
+      ),
     );
   }
 
@@ -86,6 +150,7 @@ abstract final class AppTheme {
       fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
     );
     return TextTheme(
+      bodyLarge: body(17, FontWeight.w400, ink),
       bodyMedium: body(13, FontWeight.w400, ink),
       bodySmall: body(12, FontWeight.w400, secondary),
       titleMedium: body(15, FontWeight.w500, ink),

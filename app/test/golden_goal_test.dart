@@ -158,7 +158,8 @@ void main() {
     await tester.pumpAndSettle();
     // 记一笔后换算文案仍在（流已联动重算，未抛异常即联动通路正常）.
     expect(find.byKey(const Key('goalConvert')), findsOneWidget);
-    expect(find.byKey(const Key('goalLadder')), findsOneWidget);
+    // SB-037③去重后 goalLadder 第二行已移除（进度行自带站名），断言零复述.
+    expect(find.byKey(const Key('goalLadder')), findsNothing);
     await _unmountAndFlush(tester);
   });
 

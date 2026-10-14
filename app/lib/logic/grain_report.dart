@@ -350,7 +350,8 @@ String weeklySavingConvert({
   if (hit != null) {
     final double n = savedFen / hit.fen;
     final String ns = n.toStringAsFixed(1);
-    return '≈ $ns ${cupUnit(hit.name)}${hit.name}';
+    // SB-037④：量词短语不换行（同 goal_ladder，计数与单位间不换行空格）.
+    return '≈ $ns ${cupUnit(hit.name)}${hit.name}';
   }
   if (avgMonthlySpendFen > 0) {
     final double days = savedFen * 30.0 / avgMonthlySpendFen;

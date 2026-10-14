@@ -116,7 +116,7 @@ void main() {
       convertibleFen: v.convertibleFen,
       price: tea,
     );
-    expect(copy.contains('省出 2 杯奶茶'), isTrue);
+    expect(copy.contains('省出 2 杯奶茶'), isTrue);
   });
 
   test('SB-007 文案：零省出为持平期得到表述（零亏欠词）', () {
@@ -140,14 +140,27 @@ void main() {
   test('SB-007 文案：多杯带余数下一杯进度', () {
     const PriceRef tea = PriceRef(name: '奶茶', fen: 1800);
     final String copy = describeSaving(convertibleFen: 4000, price: tea);
-    expect(copy.contains('省出 2 杯奶茶'), isTrue);
+    // SB-037④：计数与单位间为不换行空格（0xA0），此处按字符断言.
+    expect(copy.contains('省出 2 杯奶茶'), isTrue);
     expect(copy.contains('下一杯'), isTrue);
   });
 
   test('SB-007 文案：整杯无余数不追加', () {
     const PriceRef tea = PriceRef(name: '奶茶', fen: 1800);
     final String copy = describeSaving(convertibleFen: 3600, price: tea);
-    expect(copy, '本周省出 2 杯奶茶');
+    expect(copy, '本周省出 2 杯奶茶');
+  });
+
+  test('SB-037 量词短语不换行：equivalentOf 计数与单位间 0xA0', () {
+    final String big = equivalentOf(1649900 * 2);
+    expect(big.contains('2 件5090'), isTrue);
+    expect(big.codeUnits.contains(0xA0), isTrue);
+  });
+
+  test('SB-037 去重 helper：nextLadderName 只要站名', () {
+    expect(nextLadderName(convertibleFen: 0), '奶茶');
+    expect(nextLadderName(convertibleFen: 20000), '键盘');
+    expect(nextLadderName(convertibleFen: 100000000), isNull);
   });
 
   test('SB-007 大额：只陈述不劝阻', () {

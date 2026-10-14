@@ -66,11 +66,16 @@ class BudgetCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
+            // SB-037②：观察期状态句降 bodyLarge（标题级 headlineSmall 仅给真实金额）.
             Text(
               budgetBody(budgetFen: budgetFen, savedFen: savedFen),
-              style: theme.textTheme.headlineSmall?.copyWith(
-                fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
-              ),
+              style: budgetFen <= 0
+                  ? theme.textTheme.bodyLarge
+                  : theme.textTheme.headlineSmall?.copyWith(
+                      fontFeatures: const <FontFeature>[
+                        FontFeature.tabularFigures(),
+                      ],
+                    ),
               key: const Key('budgetConvert'),
             ),
             const SizedBox(height: 4),

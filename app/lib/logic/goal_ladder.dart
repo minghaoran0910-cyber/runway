@@ -127,7 +127,8 @@ String describeSaving({required int convertibleFen, required PriceRef price}) {
         ' 得到 1 ${cupUnit(price.name)}${price.name}';
   }
   final int rest = convertibleFen % price.fen;
-  final String head = '本周省出 $count ${cupUnit(price.name)}${price.name}';
+  // SB-037④：量词短语不换行（计数与单位间用不换行空格，防"2 件|5090"断行）.
+  final String head = '本周省出 $count ${cupUnit(price.name)}${price.name}';
   if (rest <= 0) return head;
   return '$head · 另已攒 ${formatFen(rest)} 向下一杯前进';
 }
@@ -140,7 +141,16 @@ String equivalentOf(int convertibleFen) {
   }
   if (hit == null) return '稳步积累中';
   final int count = convertibleFen ~/ hit.fen;
-  return '相当于 $count ${cupUnit(hit.name)}${hit.name}';
+  // SB-037④：同上，量词短语不换行.
+  return '相当于 $count ${cupUnit(hit.name)}${hit.name}';
+}
+
+/// 下一站名（SB-037③去重用：只要站名不要第二份"已攒%"）.
+String? nextLadderName({required int convertibleFen}) {
+  for (final LadderRung r in defaultLadder) {
+    if (r.thresholdFen > convertibleFen) return r.name;
+  }
+  return null;
 }
 
 /// 目标所属阶梯档（不超过目标额的最大档）.
