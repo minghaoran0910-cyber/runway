@@ -563,3 +563,19 @@
 禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7 注释复述禁令+achievement.dart:13 禁词表本体，本轮 grep -rnE 实测行号一致，沿 p=0.75），用户可见=0；ui/theme·motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（grep 实测回显 0/0 非空路径）；美团|工资|房贷 app/lib=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（8830d1c 后码体零变更合成夹具豁免沿册，本轮 8830d1c..HEAD 纯 docs 实测）；_LOCK find=0；branch=main+在审 feat×5+素材/rescue×3 零 stray；工作树=本轮代簿记提交后 0 行（提交前 2 行=builder 04:45 未提交 docs，非监工触碰）；done/=34 ls-tree 实测；main 头 74a19a6↔04:3x 票✓（本票↔新簿记头，自验三连随提交回显）；origin 零触碰（本轮无 push/fetch/ls-remote；origin/feat/SB-038 追踪 ref=历史在册非本轮动作）；progress 唯一真相✓；task_plan 薄索引未据其判进度✓。**全绿**。
 - 利益点自省（一行）: 持平——本轮零产品动作（wake 防空转+人工状态标记持久化），用户可见态不变（目标保存真成功+审美清扫在 main 持续可见），机制零变化无 SilentBook 旧病同构，无『更远』信号不触发排期升级；推进堵点仍在浩然侧（038 返工拍板，03:0x 已呈）。
 - 决策模型（条款 10）: 未调用——本轮无边界裁决（wake 停=附录 2 字面机械执行；代簿记=17:3x 先例；链不提前=038 门在册裁定）。decision_evaluate 连续不可用观察沿册（watch⑦）。
+
+## 巡检票 — 10-15 06:0x（零新审·锚点维持·队列零漂移·watchdog 复元）
+- 新审判定: REQ mtime 1792010763(04:46:03) < REVIEW 1792013803(05:37 簿记)→无新提审不重审；假翻转验真实测=盘上 REVIEW_REQUEST vs `git show HEAD:REVIEW_REQUEST.md` diff=0 行（REQ_IDENTICAL），盘上头=SB-038 WAITING_HUMAN 版沿 05:3x 在册 → 038 仍堵浩然返工拍板（03:0x 已呈不重复）。
+- 队列同步: 活跃 6 卡（docs/tasks ls 实测=012/021/038/039/040/041）状态行 grep -m1 实测与快照逐字一致（012 真人闸门在飞/021 挂起 v0.2/038 第 2 轮 RC R4=2 WAITING_HUMAN/039·040·041 二轮 PASS 待链序 038→039→040→041）；done/=34 ls-tree 实测；docs/tasks 现行最高卡号=SB-041（042 已归档，全局最高=done 内 SB-042，双口径沿 04:3x 勘正）；分支 tips 本轮实测全对册：038@6e1bc24/039@d194fe8/040@ceb245b/041@6ac8e51/037@6ec8bab(reshoot 占用删待批)/素材 033@69deccb·034@e576624·rescue@3e4918c 零 stray；worktree=7（main+reshoot×5+vC）在册；待办=0 堵点=038 拍板非缺卡，见底不自派裁定沿册。
+- 冒烟: main 头 0d51ae1；`git diff --name-only 8830d1c..HEAD` 实测=REVIEW.md/REVIEW_REQUEST.md/done/SB-042.md/progress.md 纯 docs（码体=0）→锚点 8830d1c 维持不重跑；模拟器未起（pgrep 实测 0）；无新 G 里程碑 PASS。
+- 并发: builder=0（pgrep opencode run 实测 0）；emu=0；_LOCK find=0；工作树 0 行（本轮开头实测）。
+- cron 体检: 巡检 19b5f29f running(本拍)/wake 88a8e128 disabled 沿 05:3x（list 不显=disabled 常态，浩然拍板后先翻括注再 enable）/统一看门狗 169be936 ok/需求反思 6f3e81c0 ok；runway-watchdog abaa94c7=**ok**（15 分钟前拍实测，03:50 单发『Memos Get blocked』已自愈销账=非三连败未触发呈报阈值）。
+- 规范适配审查: 今日周四非周一→不触发（周一批次挂账不变：wake 三易主/条款草案×3+补拍坐标禁跨卡复用/zsh 切词勘正/审直行 0x 空路径防御）。
+- 提示词新鲜度（条款8）: 巡检括注过时点（042『builder 领』→已归档/锚点 5284460→8830d1c/wake『现役 ok』→disabled）04:0x/05:3x 已录，按 21:4x 裁定括注=一次性上下文不逐拍改写防 churn→本轮无 cron edit；com.zangou.runway+am start 口径/golden·done 归档路径/task_plan 薄索引 633B 实测在册/:00-:30 错峰全现行✓。
+- R4 计数: 本轮无新 RC。
+- 利益点自省（一行）: 持平——零产品动作轮守住 037+042 合入成果（用户可见：审美清扫+目标保存不再假成功），机制零变化无 SilentBook 旧病同构；推进堵点=浩然 038 返工拍板（03:0x 已呈），监工侧无可施工增量，非『更远』。
+- 决策模型（条款10）: 未调用——本轮无边界裁决；decision_evaluate 连续不可用观察沿册（watch⑦）。
+- ⚡推送判定: 零推送——全部常规结果落盘，038 拍板呈报在册不重复；自检口诀=此消息没有浩然也能过→不发明明。
+
+## 漂移与一致性审计 — 06:0x（条款6·本轮）
+禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7 注释复述+achievement.dart:13 禁词表本体，本轮 grep -rnE 实测行号一致，沿 p=0.75），用户可见=0；ui/theme·motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（grep 实测 0/0 非空路径）；美团|工资|房贷 app/lib=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（8830d1c 后码体零变更·合成夹具豁免沿册·本轮 8830d1c..HEAD 纯 docs 实测）；_LOCK find=0；branch=main+在审 feat×6+素材/rescue×3 零 stray；工作树 0 行；done/=34 ls-tree 实测；main 头 0d51ae1↔05:3x 票簿记对应✓（本票追加↔新簿记头，自验三连随提交回显）；origin 零触碰（本轮无 push/fetch/ls-remote）；progress 唯一真相✓；task_plan 薄索引未据其判进度✓。**全绿**。
