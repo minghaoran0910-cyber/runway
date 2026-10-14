@@ -434,3 +434,33 @@
 ## 漂移与一致性审计 — 02:2x（条款6·本轮）
 禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7 注释复述+achievement.dart:13 禁词表本体，行号本轮实测一致，沿 p=0.75），用户可见=0；theme/motion_spec 外裸 Color(0x=0/裸 Duration=0（grep 实测回显 0/0 非空路径）；美团|工资|房贷 app/lib=0；锚定手机号 app/lib=0；open_id=0；真实账目=0 红线零触发（本拍帧全合成测试数据 milktea/300/2027-04-30）；_LOCK find=0；工作树 0 行；branch=main+feat×5 在审+素材×3（SB-033/SB-034/rescue 在册待浩然一句话）零 stray；done/=32 ls-tree 实测；main 头 ec2e0a2↔盘上 REVIEW 02:1x 段✓（本票簿记后新头↔02:2x 段自验三连随提交回显）；origin 零触碰（本轮无 push/fetch/ls-remote）；progress 唯一真相✓；task_plan 薄索引未据其判进度✓。**全绿**。
 [supervisor patrol 10-15 02:2x]
+
+
+# REVIEW — 2026-10-15 02:3x-03:0x 监工巡检轮（五卡二轮审出票：037/039/040/041 PASS·038 第2轮RC R4=2呈浩然·假成功定性=main预存纯假弹窗→SB-042自派）
+结论: 零新提审（REQ mtime 1791990901 持平 < REVIEW，盘上 vs HEAD:REVIEW_REQUEST diff=IDENTICAL 非假翻转实测）→本轮不审新单；核心=**五卡二轮审链执行完毕**。判定：**SB-037 PASS / SB-039 PASS / SB-040 PASS / SB-041 PASS（四卡均附审美小节，合入按链序）**；**SB-038 第 2 轮 REQUEST_CHANGES（R4=2→WAITING_HUMAN 呈浩然）**；假成功缺陷定性=**纯假弹窗、main 预存非 041 引入**→新卡 **SB-042** 自派修复。
+检查项:
+- [x] **独立复跑（真实退出码版，管道陷阱已修）**：037 realexit=0（+462 All tests passed）/038 realexit=1（10 失败）/039 realexit=0（+463）/040 realexit=0（+465）/041 realexit=0（+469）。首轮循环 `flutter test|tail` 取到的是 tail 退出码（恒0）不作证据，二轮全部以 `>file; echo $?` 实测。
+- [x] **SB-038 第2轮RC（R4=2）逐条理由**：全量套件 10 失败@tip 6e1bc24（业务体 441847b+47a9626）——SB-030 目标页→周报1跳可达、SB-014 目标页含余粮区+周报入口（goalToWeekly key Found 0 widgets×2，非像素差=导航真断）、SB-016 收口区挂载+DAO、SB-017 冷静区挂载+DAO、SB-018 实验区挂载+DAO、SB-031 目标页达成态 golden light+dark、golden_budget/dashboard 相关。对照组：037/039/040/041 同机同套件全绿→失败为 038 分支特有（四区搬家破坏跨页导航与首页区挂载契约），非环境噪音。**勘正**：23:0x 票『四文件20项独立复跑全绿』为子集复跑，未覆盖全量套件，本轮全量翻红成立。R4=2→按 LOOP builder 该卡停手 WAITING_HUMAN，等浩然拍板（授权返工修导航+golden 或改卡拆分）。
+- [x] **审美审计（视觉闸门·逐卡逐维度，实拍帧=runway-shots/2026-10-15-reshoot）**：
+  - **SB-037**（home/ledger/mine/mine_bottom 四组 vs main 基线三张）：层级=标题20/卡标15-16/次要12-13 阶梯一致无滥用；间距=页边距16 卡内节奏统一；圆角=hero r22/卡 r16/chip r10 符合三形状语言；对比度=白字压蓝渐变 hero 达标、次要字 #A6B2B4 达标、无白字压浅底；强调色=蓝 accent+金『首月记账中』徽章 ≤2 处合规；动效帧不可见=静态豁免；AI味=无 emoji 图标（编辑/删除为 Material 线性图标）、无紫渐变、无居中大堆叠；一致性=清扫为 token 级（app_theme 集中化 +65 行），sb004/sb005 golden 随主题微移属预期。**判：PASS，清扫方向正确，零回退**。备注 P3：quick_add 外观变更仅有 golden 测试帧无模拟器实拍（17:1x 票定义『四组』已交付齐，不追溯）。
+  - **SB-039**（home/ledger/mine 三组）：类目人话化实证=账本页 餐饮/交通/居住/娱乐/日用 + 要花的/能省的/固定的 + banner『本月能省的占比 0%』全渲染，单卡内零双命名；chip 胶囊 r13、选中态 accent 底+勾、文字对比达标；无溢出裁切。**判：PASS**。旁证：038 帧首页『行·60/食·23』vs 其账本『食/行』双命名病在 main 实存，039 正是解药——链序 038→039 合入后首页随 039 统一。
+  - **SB-040**（settings/goal_editor/home 三组）：设置页四行（通知导入/待确认/数据导出/关于）Material 图标+hairline 分隔、层级干净、无 AI 味；编辑器『期限（月，1-36，可空）』字段=浩然裁 C 在册合法偏差（只收不存实证沿册）。发现 P3（main 预存，非本卡引入）：单价 chip 第四枚显示『509016,499』=PriceRef(name:'5090',fen:1649900) 拼接无分隔符，label 模板 `${name}${formatFen}` 缺陷，归 SB-042 顺带修。**判：PASS（合入条件=链序 038→039→040 rebase+golden 重跑）**。
+  - **SB-041**（goal_editor/gap15 三帧）：编辑器『期限（日期 yyyy-MM-dd，可空）』placeholder 合规；阶梯页『milktea · 300 / 0 / 300 / 预计 4月30日攒到』人话化渲染实证；首页 hero『下一站 奶茶 · 已攒 0%』+本月目标 0/300·0% 即时刷新实证；无溢出/乱码/对比问题。**判：PASS（合入条件=040→041 rebase：merge-tree 实测 040×041=6 冲突含 goal_editor.dart add/add+goal_page.dart——builder 在 rebase 时按卡第4条删 040 月数字段保 041 日期字段，21:2x 在册必然项）**。
+- [x] **假成功缺陷定性（02:2x 挂账二选一，本轮读码破案）**：**纯假弹窗，无部分写入**。机制=goal_page.dart `_openEditor`：onSave 回调 `await _saveDialog(...)` 后**无条件** `pop(true)`，而 `_saveDialog` 校验失败时弹错误条后静默 `return`（void）→对话框以 saved=true 关闭→外层 `if (saved==true)` 弹『已定下新目标』成功条；insertGoal 在校验之后，失败路径零落库（gap14 首页空态+阶梯 0 个实证吻合）。**归因=main 预存**：main:goal_page.dart:39-49 同构接线逐字实测，SB-041 未引入（其 goal_editor 期限校验 dErr 分支反而是正确早退）→不因此卡 041；修复另卡。
+- [x] **SB-042 新卡自派（源=本轮审计实证，合规≤4文件）**：修目标保存假成功（_saveDialog 返回 bool、失败 pop(false)/不关、成功才弹条）+回归测试（非法金额→错误条+对话框存活+无成功条+DB 零写入）+顺带 5090 chip 分隔符 P3。docs/tasks/SB-042.md 已落卡。builder 队列=038 返工（待浩然拍板）→042→链 rebase。
+- [x] 队列同步：SB-037/039/040/041=二轮 PASS 待链序合入；SB-038=二轮 RC R4=2 停摆等拍板；SB-042=待办（新）；SB-012 体验中/SB-021 挂起沿册；done/=32 ls-tree 实测；最高卡号 SB-041→SB-042（本轮下发）。待办=1（042）+038 返工在卡=未见底不催排批。
+- [x] 冒烟锚点：022e317..HEAD 非 docs=0 实测（本轮零合入）→锚点维持不跑模拟器（builder=0/emu=0 实测，凌晨静段零并发）。037 合入轮下拍必冒烟。
+- [x] 并发/让位：builder=0（ps 无 opencode run 在飞，OpenCode.app GUI 常驻不算）；emu=0；_LOCK=0；工作树 0 行；merge-tree 首轮全 clean 系 zsh 不切词假象，本轮逐对重测（038×039=9 冲突均 docs/golden 链项、main×037=7 冲突均 docs→合入走 `cherry-pick -n e7f7437` 纯业务体法）。origin 零触碰。
+问题列表:
+1. (P1→SB-042) 目标保存假成功=main 预存纯假弹窗，伤『看见的必须是真的』核心利益点；SB-012 真人闸门版本即含此缺陷，切包前必修。
+2. (P1→038) SB-038 全量套件 10 失败（导航断链+区挂载契约破坏+golden 脱更），R4=2 停摆待浩然。
+3. (P2 在册沿账) 040×041 goal_editor add/add+sb007 四方=链 rebase 必然项；039 rebase 038 后 golden 重跑。
+4. (P3) 5090 chip 无分隔符（归 042）；037 quick_add 无实拍（不追溯）；首轮复跑管道退出码陷阱=方法勘正入票。
+下一步: ①下拍=SB-037 合入（cherry-pick -n e7f7437→main→一条龙冒烟 /tmp/smoke1600.sh 通道）；②浩然拍板 038 返工授权（拍板前 wake 拍对 038 只停不动）；③038 落地后链序 039→040→041 rebase 逐个合入+冒烟；④SB-042 排 038 后；⑤全链过+新用户四任务走查绿才谈切包；⑥周一批次挂账不变。
+利益点自省（一行）: 更近——五卡链堵点全部定性完毕（038 真红/假成功真凶=main 预存/链冲突在册可控），切包前必堵的信任级缺陷抓出并落卡；计数 02:1x 更近→02:2x 更近→02:3x 更近；无 SilentBook 旧病同构（假成功恰是『无感失真』的反面教材，SB-042 修复方向=诚实反馈）。
+决策模型（条款10）: **决策模型不可用**——decision_evaluate 工具本轮返回 not found（连续第 N 次观察沿册），按条款记名后走原流程；SB-041 归因裁决=监工签字（代码实证 main 同构预存，非灰区：证据链完整不满足『编判决』条件），038 处置=按机械条款 R4=2 呈浩然。
+提示词新鲜度（条款8）: REQ 持平✓/卡号 SB-041→SB-042 本轮下发（cron 括注『现行最高卡号=SB-041』下拍若仍见 SB-041 需 edit 翻 042，本轮暂不改防 churn，挂下拍核）/锚点 022e317✓/com.zangou.runway+am start 现行✓/:00-:30 与 :15/:45 错峰✓→本轮无 cron edit。
+⚡推送判定: 推送（类①）——SB-038 R4=2 需浩然拍板返工授权；SB-042 自派+假成功定性一句话报备随同。
+## 漂移与一致性审计 — 03:0x（条款6·本轮）
+禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7 注释复述+achievement.dart:13 禁词表本体，行号本轮实测一致，沿 p=0.75），用户可见=0；theme/motion_spec 外裸 Color(0x=0/裸 Duration=0（git grep 排除法实测空输出=零命中）；美团|工资|房贷 app/lib=0；锚定手机号 app/lib=0；open_id=0；真实账目=0 红线零触发（本轮帧全合成 milktea/300/2027-04-30，042 卡文无真实数据）；_LOCK find=0；工作树 0 行；branch=main+feat×5 在审+素材×3 在册零 stray（origin 上 feat/SB-038 素材分支在册零触碰）；done/=32 ls-tree 实测；main 头 55d2122↔盘上 REVIEW 02:2x 段✓（本票簿记后新头↔02:3x 段自验三连随提交回显）；origin 零触碰（本轮无 push/fetch/ls-remote）；progress 唯一真相✓；task_plan 薄索引未据其判进度✓。**全绿**。
+[supervisor patrol 10-15 03:0x]
