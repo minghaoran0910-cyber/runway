@@ -12,3 +12,7 @@
 漂移审计结论一行：10-14 14:0x 实测全绿（禁词 app/lib=2 行元引用豁免 achievement.dart:13 本体+goal_ladder.dart:7 注释复述·行号一致零新增·非 md 禁词文件集=5 基线零新增 / ui·theme·motion_spec 外裸 Color(0x=0·裸 Duration(milliseconds:=0（本轮首跑 exclude pathspec 误打 :(*!* 得 fatal 假绿，当轮自查改 grep 管道复跑，数字系复跑回显；同型 lib/ 空路径教训沿册）/ 手机号=0·open_id 非 md=0·美团|工资|房贷 非 md=0·真实账目=0 红线零触发（ead992f 后零代码变更·合成夹具豁免延续）/ _LOCK find+tracked=0 / branch 仅 main / 工作树净 0 行 / done/=31 / main 头 eb78eea↔REVIEW 13:4x 段✓ / origin 本轮零触碰 / progress 唯一真相✓ / task_plan 未据此判进度✓）。
 利益点自省（一行）：持平——零动作审计轮守住 SB-033 hero 滚动+千分位成果（首屏天天可见@ead992f），产品机制零变化，无 SilentBook 旧病同构；计数：更近(SB-033@13:4x)→持平×1(14:0x)；推进在浩然侧（p=0.61 灰区待裁+真人闸门）与 builder 侧（SB-034 待领），监工侧无可施工增量，非『更远』。
 [supervisor patrol 10-14 14:0x]
+
+## 监工票 — 2026-10-14 14:4x（B 执行完毕 + 撞车说明）
+- 浩然裁 B 已执行：ead992f 回滚，SB-033 卡 done→tasks 重开（builder 自补三页实拍，代码不动，驱动按裁定①合入前删）。**撞车实录**：执行期间巡检轮并发把 builder 违规直提 main 的 SB-034 提交撤回 feat/SB-034-diag-channel（纪律纠正正确），把我的首轮 revert 一并卷掉——监工已在撤后干净态上重放 B，双票合一以此票为准。
+- 排序令：SB-033 返工重提 → 复审（实拍看图为闸门）→ 重合 → 才轮到 SB-034 审。两卡全过后再出"交付包"（数字滚动+千分位+诊断后门同车），新链接发浩然；13:59 那个 apk 链接作废勿装。
