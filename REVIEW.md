@@ -102,3 +102,27 @@
 
 ## 监工票 — 2026-10-14 17:1x（SB-038 断点抢救+一次性续做授权）
 - builder 17:0x 再崩（今日第 5 次），home_page.dart 半成品（-12/+4，方向=按卡搬家）已由监工抢救至 feat/SB-038-home-cleanup@wip 并推远端，main 归净。**一次性续做授权**：下轮 builder checkout 该分支续做至提审——收口/冷静/实验/预算四块搬"我的"、右上角双图标并一条入口、首页首屏=环+攒出+最近3笔；golden 重生成+tool/ci.sh 全绿后写 REVIEW_REQUEST。仅一次，再崩回监工接管。
+
+
+---
+
+# REVIEW — 2026-10-14 17:1x 监工巡检轮（分支审计发现 SB-037 已建已提审·视觉闸门第1轮打回·SB-038 在飞）
+结论: 本轮 main 无新提审（REQ=16:46 占位壳，mtime 1791968548=REVIEW 同刻=17:02 git checkout 落盘时间，非新单不重审）；但分支一致性审计（条款6b）发现 **feat/SB-037-aesthetic-cleanup@6ec8bab 上 SB-037 已建码已提审待审** → 判 **第 1 轮 · 卡 SB-037 = REQUEST_CHANGES**。
+检查项:
+- [x] 发现链（git log 实测 main..feat/SB-037 = e7f7437→89436e6→6ec8bab）：16:15 wake 拍实际领了 SB-037 并当晚建码提审（e7f7437 feat(ui) 审美清扫四件，业务5+测试2 文件 +115/-19，golden 再生 30 帧；89436e6 提审单+进度登记；6ec8bab=16:39 三卡文档误落本支，监工已于 17:00 回补 main@8d9878a）。提审单状态行『待审查（builder S2 新卡提审·SB-037）』。**勘正 17:0x 票认知**：SB-037 非『待办第4位』，而是『已提审在闸』。
+- [x] 视觉保真闸门执法（2026-10-13 浩然条款：缺实拍直接 RC 不进入审码）：SB-037 改 app/lib/ui/** 5 文件；提审单自述『实拍四组以 golden 改前→改后定量对照代替（device live shots 未拍）』+『本 shell 无 adb/Android SDK、live_shots driver 已不在仓』+『监工看图闸门可按本包补拍』。卡面验收亦明写『改前改后实拍四组』。缺图=闸门硬伤 → 本轮不进入审码、不独立复跑其 462 计数申报、不采 golden 对照表（待补图后二轮一起核）。
+- [x] 返工路径登记（不让 R4 空转）：代码无需返工——补拍动作由**监工空闲轮**（builder 不在飞时）在分支 HEAD 起 runway_api36 补实拍改前/改后四组+独立复跑全量+看图审美审，补毕即进入 SB-037 第 2 轮审；builder 若自发领到本卡亦可自行补拍。**并发红线沿册**：本拍 builder 17:15 轮在飞（_LOCK 17:15:23·opencode run PID 存活·工作树 17 行 SB-038 改动），监工零触碰其树、模拟器不起。
+- [x] R4 计数：SB-037 第 1 轮 RC（同卡再 1 次=builder 侧 WAITING_HUMAN，本轮已写明补拍路径防无谓返工轮）。
+- [x] 队列同步（快照已更）：在飞=SB-038（17:15 轮·feat/SB-038-home-cleanup 自 8d9878a）；待办=SB-039/SB-040（=2 张，下一批=周一当周卡计划，未见底）；SB-037=补拍待二轮；SB-012=体验中（真人闸门浩然侧）/SB-021=挂起。点单顺序修正：SB-038→039→040 不变，SB-037 插回=监工补拍轮而非 builder 重跑。
+- [x] 冒烟判定（条款4）：git diff --name-only 022e317..HEAD 实测=7 文件全 .md（REVIEW/REQ/SUPERVISOR/三卡/progress）→ main 码体未动，锚点维持 **022e317** 不重跑；G 里程碑卡无新 PASS。
+- [x] 分支账：branch=main+feat×2（037 已提审在闸/038 在飞，均非残留）+在册素材×3（feat/SB-033@69deccb·feat/SB-034@e576624·sb033-rework-rescued@3e4918c，删否待浩然一句话，监工零触碰）；done/=32（git ls-tree refs/heads/main 实测）；origin 零触碰。
+问题列表:
+1. （P2 流程）16:39 三卡文档落 feat/SB-037=builder 切支与监工写卡并发所致，已 17:00 勘正；『簿记提交前查 branch --show-current』条款沿册执行（本轮监工簿记改用 plumbing 直落 refs/heads/main，不碰 builder 在飞工作树）。
+2. （待呈）builder shell 无 adb/SDK → UI 卡实拍永远依赖监工补拍，闸门闭环单点在巡检轮；条文草案挂周一适配审查（监工补拍入册 or 给 builder 配模拟器通道）。
+下一步: ①17:30/18:00 轮若 builder 空闲=执行 SB-037 补拍四组+全量复跑+第 2 轮审；②SB-038 提审等 REQ 翻转，勿抢跑；③周一=当周卡计划+规范适配审查（wake 重建偏差/合入归属校验/补拍通道三草案）；④SB-012 真人 7 天闸门浩然侧。
+漂移审计结论一行: 17:1x 实测（main@8d9878a 口径，含 builder 在飞改动）全绿：禁词五词 app/lib 命中 2 行均元引用豁免（achievement.dart:13 禁词表本体+goal_ladder.dart:7 注释，行号实测一致，沿 p=0.75）·非 md 禁词文件集=5 基线零新增/裸 Color(0x=0·裸 Duration(milliseconds:=0（ui/theme 外，motion_spec 在 theme 目录内口径不变）/手机号=0·open_id 非 md=0·美团|工资|房贷 app 内=0/真实账目=0 红线零触发（builder 在飞 home_page diff 实测 +4/-12=import 收敛+类目入口下线，零新增数字零新增文案）/_LOCK find=1（builder 在飞 17:15:23 建·ls-files=0 非泄漏）/工作树 M=17 行全 builder SB-038 在飞改动（监工零触碰）/main 头 8d9878a↔REVIEW 17:0x 票✓（本票后新头↔17:1x 段✓）/progress 唯一真相✓ task_plan 未据此判进度✓/origin 零触碰✓。
+利益点自省（一行）: 更近——首页大扫除（用户打开 App 3 秒看懂今天攒了多少）正在写码，SB-037 审美清扫被闸门拦在『眼见为实』前一步；计数 16:1x 更近→16:5x 持平→17:1x 更近，无连续两轮更远，无 SilentBook 旧病同构（本轮机制=监工补拍不索用户自律）。
+决策模型: 本轮裁决均系机械条款执行（缺实拍=闸门直打回，无边界灰区）→未调用；16:5x 曾试调用 tool_call 挂起未回显，按『不可用不阻塞』沿册。
+提示词新鲜度（条款8）: wake 现役正主=**88a8e128**（16:21:58 建·payload=runway-wake.sh 脚本口径·16:45 拍 ok 120s·17:15 拍在飞）——f156cbdd 16:2x 已被替换不在册（wake 一天三度易主，过程偏差并入周一批次）；巡检/统一看门狗 169be936/runway-watchdog abaa94c7/需求反思 6f3e81c0 全在册 ok 错峰 :00-:30↔:15-:45 无失配。巡检 message 括注 4 处过时已本轮 cron edit 修正并 get 回读验证（最高卡号 SB-037→SB-040+SB-037 已提审在闸 / wake f156cbdd→88a8e128 / 直链『有效』→源站已删 CDN 约 20:4x 过期 / 交付包定版→作废待四卡走查重出）。
+⚡推送判定: 零推送——RC 可由 builder 状态机+监工补拍闭环消化，不需浩然行动；SB-037『已提审』认知翻案与补拍通道系排期内部事项（待其成为灰区再呈）。
+[supervisor patrol 10-14 17:1x]
