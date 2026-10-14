@@ -183,3 +183,20 @@
 利益点自省（一行）：持平（登记轮）——本轮产品零变化，但 032（测试卫生）/033（滚动补 spec+千分位全局）/034（诊断三闸·默认开可关·到期熄火）三卡全部指向『零成本天天看见』的可靠性与美感，零新增用户义务，无 SilentBook 旧病同构；计数：更近(SB-031@03:0x)→持平×16(03:3x~11:3x)，无『更远』信号不触发排期升级；推进在 builder 侧（SB-032 在飞）+浩然侧（SB-012 真人闸门）。
 漂移审计结论一行：10-14 11:3x 实测全绿（禁词基线 8 零新增元引用豁免/裸 Color·Duration=0/手机号·open_id·美团工资房贷·真实账目=0/红线零触发/_LOCK=0/feat 在飞非残留/工作树净/origin 零触碰/锚点 c61c125 维持）。
 [supervisor patrol 10-14 11:3x]
+
+# REVIEW — 2026-10-14 12:3x 审查轮（SB-032 新卡第 1 轮）
+结论: PASS（第 1 轮 · 卡 SB-032）
+检查项:
+- [x] 提审闸门：REQ(1791951642/12:20:42) > REVIEW(1791951364/12:16:04) 实测新提审；WAITING_HUMAN 显式标记行=0（唯一命中=REQ 第 6 行 S0.6 元叙述，沿 p=0.85 豁免）
+- [x] 分支/提交：feat/SB-032-test-hygiene@ca84a76 单 commit 基座 main@36fa0cf；diff 实测=2 文件（golden_goal_test.dart +23/-1、goal_light_done.png 211009→243509B），≤4 合规；测试文件 284 行≤400 实测；无 pubspec/tokens/schema；未推送、remote 零触碰
+- [x] 根因实证：AchievementSession.global 静态单例（achievement.dart:84）claim/shown 跨测泄漏成立；resetForTest（achievement.dart:81）、insertAchievement（app_db.dart:282）、Key('achievementCard')（achievement_card.dart:44）全部在册；light/dark 两测各加 resetForTest+弹层 findsNothing 回归闸，弹层本体覆盖仍由 golden_achievement_test 承担未弱化
+- [x] 验收 1：data/empty 四帧+dark_done 字节未动实测（diff 仅 light_done 一帧）；FixedClock 沿用零新建时钟注入；light_done 新帧监工目审=达成页全可见、无弹层无遮罩、无日期串、合成夹具（攒键盘 100 元）
+- [x] 验收 2（监工本轮亲测非转述）：flutter test --reporter compact = +442 All tests passed exit 0；flutter analyze --fatal-infos = No issues；tool/check-repo-hygiene.sh = OK；dart format --set-exit-if-changed = 0 changed；app/lib 生产零改动 diff 实测
+- [x] 视觉保真闸门：豁免——app/lib/ui** 零改动（纯测试卡，SUPERVISOR.md 闸门条款 4）
+问题列表: 无。观察（不阻断）：卡状态行 builder 提审时未翻转（仍"待办"）——builder 状态行条文=周一适配审查草案沿册。
+下一步: 已按合入授权 squash@88b0849 落 main、卡归档 done/（实测 git mv）、feat 分支删除；本轮非 md 合入→模拟器冒烟必做（结果见下方追加段）；SB-033 提审须附实拍截图过视觉闸门；待办=2（033/034）≤2 触发排下一批提醒——下一批源=SB-012 真人走查反馈+v0.2 Wave1（待 tag），暂不自派新卡。
+模拟器冒烟: 待补（本轮一条龙执行中）。
+漂移审计结论一行：10-14 12:3x 实测全绿（禁词 app/lib 2 行元引用豁免 achievement.dart:13+goal_ladder.dart:7 行号一致·非 md 基线 6 文件零新增·diff 新增禁词/裸 Color=0·theme/motion 外裸 Color(0x=0/裸 Duration=0·美团|工资|房贷非 md=0·_LOCK find+tracked=0·done/=30·main 头 88b0849↔本段✓·progress 唯一真相✓·task_plan 未据此判进度✓）。
+利益点自省（一行）：持平——SB-032 纯测试卫生零用户可见变化，但把"达成庆祝帧"回归闸钉死（核心利益点时刻的验收底座更可信），零新增用户义务，无 SilentBook 旧病同构；计数：更近(SB-031@03:0x)→持平×16(03:3x~11:3x)→持平×17(SB-032 卫生轮)；推进在 builder 侧（SB-033 待领）+浩然侧（SB-012 真人闸门）。
+决策模型：本轮无边界裁决未调用（PASS 判定全实证，无灰区）。
+[supervisor review 10-14 12:3x]
