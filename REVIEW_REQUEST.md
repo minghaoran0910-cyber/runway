@@ -1,3 +1,10 @@
+# WAITING_HUMAN — SB-038 已累计 2 轮 REQUEST_CHANGES（R4=2），本轮即第 3 轮，按 LOOP S1.1 停手待人工裁决
+
+- **计数**：第 1 轮 RC=视觉闸门缺实拍（REVIEW 17:3x 票）；第 2 轮 RC=全量套件 10 失败（REVIEW 02:3x–03:0x 票：跨页导航断×2＋四区挂载/DAO＋golden 脱更，REVIEW 443 行逐条）。轮次编号俱全，S1.1 前提满足。
+- **停手理由**：卡或规范可能有问题（四区搬家破坏跨页导航与区挂载契约；返工=修导航＋golden 或改卡拆分，需浩然拍板，REVIEW 443 行已载明）。
+- **原提审单原文保留在下**（供监工/人工参阅；本轮零码改、零提交，分支仍留 feat/SB-038-home-cleanup@6e1bc24）。
+
+---
 # REVIEW_REQUEST — SB-038 首页大扫除（S0.1 一次性续做授权提审）
 
 - **卡**：docs/tasks/SB-038.md（待办→提审）；**分支**：feat/SB-038-home-cleanup@441847b（留在 feat，未 merge/push main，S0.1 授权已消耗即失效）
