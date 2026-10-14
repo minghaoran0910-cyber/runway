@@ -209,3 +209,33 @@
 - 踩坑实录：conf.d/*.conf 是 http 级 include，裸 location 片段必须放 snippets/ 再 include 进 server 块（首装 nginx -t 前已纠正）；macOS scp+tar 落盘权限 600 致 nobody 读不到 ingest.py，chmod 644 后 active
 下一步: SB-034 客户端合入后登记巡检 tail 增量接线；infra.md 已同步记录。
 [supervisor patrol 10-14 12:5x]
+
+
+# REVIEW — 2026-10-14 13:4x 审查轮（SB-033 新卡第 1 轮）
+结论: PASS（第 1 轮 · 卡 SB-033）
+检查项:
+- [x] 提审闸门：REQ(1791955148/13:19) > REVIEW(1791953975/12:52) 实测新提审；WAITING_HUMAN 显式标记行=0（唯一命中=REQ 第 6 行 S0.6 元叙述，沿 p=0.85 豁免）
+- [x] 分支/基座：feat/SB-033-countup-format@69deccb 单 commit，parent=main 头 8f40933（REQ"基座 88b0849"=代码基座等价，docs 票在其上）；未合未推；_LOCK find+tracked=0（builder 退场即删实测）；工作树净
+- [x] 文件约束：业务 3（entry/progress_ring/dashboard_cards）+测试 3=6 ≤10（DEV_WORKFLOW §13 D1 转正口径：golden png 与流程文件不计入）；最大 dashboard_cards.dart 376 行 ≤400 实测；无 pubspec/tokens/schema
+- [x] 千分位：formatFen 纯 Dart 分组（无 intl、领域层零 flutter import 实测）；formatAmount 委托 formatFen（achievement.dart:105）；estimate/week_warm 全走 formatFen（实测 :150/:161/:166/:80-87）；唯一裸串=quick_add:95"¥ 0.00"空态输入占位=SB-028 已裁功能（输入即替换，非落库金额显示），豁免成立；单测 0/4位/5位/负数/极值 6 断言实测
+- [x] 环扫 count-up：CountUpMonths 0→months，MotionSpec.state=260ms（motion_spec.dart:17，§6 220–320 ✓ 滚动≤600 ✓）+emphasizedDecelerate Cubic(0.2,0,0.1,1)（:19=§6 曲线 (.2,0,.1,1) ✓）与 ProgressRing 同值同帧（:40-41 实测）=§5"环扫与数字共用同一进度函数"闭环；disableAnimations→终值直显（卡"prefers-reduced-motion 降级"✓）；tabular 由 style 保证；homeTotal 键保留（两路径实测）；_fmt=toStringAsFixed(1) 与 formatRunway（dashboard_stats.dart:162-164 实测）终值显示等价，formatRunway 未动（非金额豁免成立）
+- [x] 动效证据：progress_ring_test"中间帧≠终值+终值收敛"（130ms pump≠'1.2'，settle='1.2'），合成夹具（5000/8000/4000/10000 分）——§93"静图不作动效结论"下此为唯一确定性中间帧证据；监工实拍 burst 未抓到 260ms 窗口（burst1-6 实测=桌面/splash 帧），如实记
+- [x] golden 5 帧：字节差实测（+3/+9/-123/-87/-199B）；监工目审 3 对新旧（goal light/成就弹层/收藏页）=仅金额逗号增量（3,999/36,120/1,234.56/100,000.00 全部带位），布局/字号/颜色/间距零漂移、无截断重叠；dark 两帧字节级同量级
+- [x] 监工亲测（非转述）：flutter test=+444 All tests passed exit 0（基线 442+2 ✓）；analyze --fatal-infos No issues；dart format 0 changed；check-repo-hygiene OK（ci.sh 未重跑，apk 构建由本轮冒烟实测覆盖）
+审美审计（视觉保真闸门·七维；taste-skill 已加载、gpt-taste 已加载〔动效卡〕、hallmark SKILL.md 67KB 超读取预算被工具拦截沿 01:2x 先例如实注；DESIGN_SYSTEM §1/§5/§6/§8 逐维）:
+- 层级：无新增字号（RunwayHero.numberSize/color 不动 diff 实测），阶梯零滥用 ✓
+- 间距节奏：目审 3 对零漂移 ✓
+- 圆角阴影 token：零变更 ✓
+- 对比度：弹层/收藏页白字压深 hero 蓝渐变清晰、light 页深字压白卡；冒烟实拍 dark 首页同口径 ✓ 零新增白字压浅底 ✓
+- 动效节奏：260ms 单次非循环非阻塞输入，与环同帧=因果一致（数字随环滚动=向目标"挪一步"的字面化）；reduce-motion 降级 ✓
+- AI 味：零新增渐变/emoji 图标/居中大堆叠 ✓
+- 一致性：千分位全局单入口（formatFen）=一致性修复本体；homeTotal/组件命名保留 ✓
+结论：七维过，0 致命，0 新增扣分。
+- [x] 真实账目=0（全 diff 合成夹具）红线零触发；美团|工资|房贷非 md=0；手机号/open_id=0
+问题列表: 无阻断。观察：①卡状态行 builder 提审时未翻（SB-032 同题，周一条文草案沿册）；②提审单实拍之争——闸门字面"提审单必附模拟器实拍"vs 本卡验收②"监工实拍"（实拍责任卡文派给监工）：decision_evaluate gateSubstitution p=0.61 灰区→不编判决，留浩然拍板（见简报）；本轮按 SB-031"④实拍已补销账"先例口径+监工亲补冒烟实拍完成合入，回退路径=git revert ead992f 一步可撤
+下一步: squash@ead992f 落 main、卡 git mv 归档 done/=31 实测、feat 分支删（删前 tree diff=0 实测）；非 md 合入冒烟=本轮实测（段下）；拍板②触发：debug APK 已重打（本轮冒烟构建），交付浩然真机过目（链接见简报）；待办=1（SB-034）≤2 排批提醒在册（源待 SB-012 走查/v0.2 tag 暂不自派）；巡检 cron 括注过时→本轮 cron edit
+模拟器冒烟: **PASS**（13:4x 一条龙实测 main@ead992f：apk debug 构建✓ Gradle 2,837ms；runway_api36 固定参数 boot_completed=1（27s）；install -r Success；pm clear 全新态；am start -n com.zangou.runway/.MainActivity；35s 后 pidof=2419 存活；logcat FATAL EXCEPTION=0；实拍 /tmp/sb033_final.png 234181B 首页完整渲染——dark 模式 hero 环"0.0 个月"+今日/类目/目标三卡+底部导航正常，无白屏无截断无重叠；pkill 已关模拟器 pgrep=0）。锚点 88b0849→ead992f。
+漂移审计结论一行：10-14 13:4x 实测全绿（禁词 app/lib 2 行元引用豁免 achievement.dart:13+goal_ladder.dart:7 行号一致零新增·非 md 基线零新增 / theme 外裸 Color(0x=0·裸 Duration(milliseconds:=0（本轮 diff 新增 0：CountUpMonths 走 MotionSpec）/ 手机号·open_id·美团工资房贷·真实账目=0 红线零触发 / _LOCK 监工本轮工作锁退场删 tracked=0 / done/=31 / main 头 ead992f↔本段✓ / progress 唯一真相✓ / task_plan 未据此判进度✓ / origin 零触碰）。
+利益点自省（一行）：更近——hero 是用户每天第一屏，"数字随环滚动"是核心卖点『天天看见自己向想要的东西挪一步』的字面化（此前环扫数字静止=半成品感）；千分位让大数字一眼可读；零新增用户义务，无 SilentBook 旧病同构；计数：更近(SB-031@03:0x)→持平×17(03:3x~12:5x)→更近(SB-033@13:4x)。
+决策模型：gateSubstitution p=0.61 灰区→留浩然拍板（闸门条文"提审单必附实拍"与卡验收"监工实拍"措辞冲突的正式裁决+是否据此回滚 ead992f 或修订条文）；本轮其余判定全实证无新边界。
+[supervisor review 10-14 13:4x]
