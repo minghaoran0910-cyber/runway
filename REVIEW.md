@@ -464,3 +464,25 @@
 ## 漂移与一致性审计 — 03:0x（条款6·本轮）
 禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7 注释复述+achievement.dart:13 禁词表本体，行号本轮实测一致，沿 p=0.75），用户可见=0；theme/motion_spec 外裸 Color(0x=0/裸 Duration=0（git grep 排除法实测空输出=零命中）；美团|工资|房贷 app/lib=0；锚定手机号 app/lib=0；open_id=0；真实账目=0 红线零触发（本轮帧全合成 milktea/300/2027-04-30，042 卡文无真实数据）；_LOCK find=0；工作树 0 行；branch=main+feat×5 在审+素材×3 在册零 stray（origin 上 feat/SB-038 素材分支在册零触碰）；done/=32 ls-tree 实测；main 头 55d2122↔盘上 REVIEW 02:2x 段✓（本票簿记后新头↔02:3x 段自验三连随提交回显）；origin 零触碰（本轮无 push/fetch/ls-remote）；progress 唯一真相✓；task_plan 薄索引未据其判进度✓。**全绿**。
 [supervisor patrol 10-15 03:0x]
+
+# REVIEW — 2026-10-15 03:1x 监工巡检轮（SB-037 合入 main+一条龙冒烟 PASS+归档）
+结论: PASS（合入轮）
+检查项:
+- [x] 零新提审：REQ mtime 1791990901 < REVIEW 1792003734 实测，无新单不重审；03:0x 判定沿用不翻案。
+- [x] **SB-037 合入（按 03:0x 票预案·cherry-pick -n e7f7437 纯业务体法）**：main@c8722a0 干净树基线 → cherry-pick -n 无冲突 → 37 文件（app/lib 6+app/test 2+golden 29）→ **main@5284460**。branch tip docs 票（89436e6/6ec8bab）未倒灌 main，防旧 docs 回灌达成。
+- [x] **合入后 main 全量套件独立复跑**：`flutter test` realexit=0，**+462 All tests passed**（真实退出码法，管道陷阱沿册）。
+- [x] **一条龙模拟器冒烟（锚点必翻轮·/tmp/smoke1600.sh 通道）**：脚本回显 HEAD: 5284460；build apk ✓ 11.2s；emulator runway_api36 四旗标 BOOT=1 after 9x3s（27s）；pm clear+install Success×2；am start -n com.zangou.runway/.MainActivity；35s 后 **PIDOF=2291 FATAL=0**；pkill 收口 pgrep emulator=0 复验。**模拟器冒烟：PASS**（logcat 仅一行系统进程 com.google.android.tts SIGABRT，非本 app，FATAL EXCEPTION=0 口径判过）。新冒烟锚点=**5284460**（簿记头为其上纯 docs）。
+- [x] 归档：docs/tasks/SB-037.md 状态行改"已合入+证据"→ **git mv done/**（真实 git mv，索引 33 文件实测；ls-tree HEAD=32 系簿记提交前快照，提交后翻 33，自验三连回显附后）。
+- [x] 队列同步：done/ 32→33；待合=039/040/041（链序 038→039→040→041，038 未定→链堵等拍板，037 独立先行已完成）；待办=1（SB-042）；038 WAITING_HUMAN 拍板呈报 03:0x 已推送不重复。
+- [x] 并发/让位：合入+冒烟窗口 builder=0/emu=0 实测起于巡检头；冒烟全程独占模拟器已收口；wake :15/:45 错峰未踩。
+问题列表:
+1. (P3 挂账) feat/SB-037-aesthetic-cleanup 分支删除被 /private/tmp/reshoot/037 worktree 占用，且 tip 含 2 枚 docs 票未入 main——删支删树动作列待批（不擅删，防素材误清），周一批次或浩然一句话处理。
+2. (P1 沿账不变) SB-038 R4=2 WAITING_HUMAN 等浩然拍板；链 039/040/041 合入+SB-042 均排其后。
+下一步: ①下拍无新审义务（REQ 持平+锚点已翻 5284460 非 docs=0）；②浩然拍板 038 返工→链序 rebase 逐个合入+各翻锚点；③SB-042 排 038 后 builder 领；④037 分支/worktree 清理待批；⑤全链过+新用户四任务走查绿才谈切包。
+利益点自省（一行）: 更近——UI 一致性清扫（token 集中化+紫控件清除+文案去重）已上主线且装机实跑存活，用户拿到的下一版包视觉更接近"冷静诚实的账本"人设；计数 02:2x 更近→02:3x 更近→03:0x 更近→03:1x 更近；机制零变化无 SilentBook 旧病同构。
+决策模型（条款10）: 本轮无边界裁决事项（合入=03:0x 票预案执行+PASS 自动合入授权在册）→未调用。
+提示词新鲜度（条款8）: 巡检 cron 括注"现行最高卡号=SB-041"已过时（SB-042 已下发+037 已归档）→本轮 cron edit 翻 SB-042+冒烟锚点 022e317→5284460，get 回读验证；wake/watchdog command 无卡号硬编码（二代派发器在册）不动。
+⚡推送判定: 零推送（合入完成+冒烟通过=常规结果落档；038 拍板呈报 03:0x 已发不重复；无新五类事项）。
+## 漂移与一致性审计 — 03:1x（条款6·本轮·合入后代码体实测）
+禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7 注释复述+achievement.dart:13 禁词表本体，本轮行号实测一致，沿 p=0.75），用户可见=0；theme/motion_spec 外裸 Color(0x=0/裸 Duration=0（cherry-pick 后 app/lib 复扫）；美团|工资|房贷 app/lib=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发；_LOCK find=0；工作树=归档+票文件（簿记提交中）无孤儿码改；branch=main+feat×5（037 待清+038-041 在审）+素材×3 在册零 stray；done/=33（索引实测，32→33 本轮+037）；main 头 5284460 含 037 业务体↔本票归档轮对应✓（簿记提交后新头↔03:1x 段自验三连回显）；origin 零触碰（无 push/fetch/ls-remote）；progress 唯一真相✓；task_plan 未据其判进度✓。**全绿**。
+[supervisor patrol 10-15 03:1x]
