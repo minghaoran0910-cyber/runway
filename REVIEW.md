@@ -144,3 +144,18 @@
 利益点自省（一行）：持平——零动作审计轮守住 SB-031 达成帧成果（庆祝卡片已合入可见），产品机制零变化，无 SilentBook 旧病同构；计数：更近(SB-031@03:0x)→持平×14(03:3x~10:3x)，无『更远』信号不触发排期升级；推进在浩然侧（灰区批次待答/SB-012 真人闸门），监工侧无可施工增量（待办=0），非『更远』。
 漂移审计结论一行：10-14 10:3x 实测全绿（禁词元引用2行豁免零新增/裸Color·Duration=0/手机号·open_id·美团工资房贷·真实账目=0/红线零触发/_LOCK=0/仅main/工作树净/锚点c61c125维持）。
 [supervisor patrol 10-14 10:3x]
+
+# REVIEW — 2026-10-14 11:0x 巡检票（监工轮）
+结论: 本轮无新提审（REQ mtime 1791917384/02:49:44 < REVIEW 1791945141/10:32:21），零动作轮。
+- 审查: REQ head 复核=SB-031 第1轮已审结旧文 PASS@c61c125；WAITING_HUMAN 显式标记行=0（grep 命中1行=第6行 S0.6 元叙述，沿 p=0.85 豁免）。
+- 队列: 零漂移——活跃卡2状态行 grep -m1 实测与快照逐字一致（SB-012 真人闸门在飞/SB-021 挂起 v0.2）；done/=29 git ls-tree 实测；待办=0 见底（07:0x 晨间已呈报不重复推送）；docs/tasks 最高卡号 SB-031 与巡检括注一致。
+- 冒烟: c61c125..HEAD 15 提交 git diff 非md=0 实测（REVIEW/REQ/done/SB-031/progress 纯docs）→锚点维持 c61c125（03:0x 一条龙 PASS FATAL=0）不重跑；模拟器未起。
+- 漂移审计: 全绿——禁词五词文件集=基线8（REVIEW 元叙述/_inbox/achievement+goal_ladder 定义/3测试夹具/DESIGN_SYSTEM）零新增，app/lib 命中2行均元引用豁免（achievement.dart:13 禁词表本体+goal_ladder.dart:7 注释复述，行号本轮实测一致，沿 p=0.75）；「多花」白名单零新增；theme/motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（app/lib 实测 0/0，61 dart 文件口径）；美团|工资|房贷非md=0；锚定手机号=0；open_id 非md=0；真实账目=0 红线零触发（c61c125 后零代码变更，合成夹具豁免延续）；_LOCK find=0 且 tracked=0；branch 仅 main feat 残留=0；工作树净0行；origin/main=99dbcec 本轮零触碰（无 push/fetch/ls-remote），main ahead 28=合规未推送；main头77a7e90↔REVIEW 10:3x 段✓。
+- 适配审查: 周三非周一，不做。
+- 提示词新鲜度: cron list 实测五 job 全 enabled ok（巡检 19b5f29f 本拍/wake e71e53ac ok·10:45拍后零新提交=idle-out 合规·下拍11:15/runway-watchdog abaa94c7 ok/统一看门狗 169be936 ok/需求反思 6f3e81c0 ok）；括注卡号/com.zangou.runway+am start 口径/golden 归档/薄索引 3a9d763/错峰 :00-:30 vs :15-:45 全现行→未动 cron。
+- 决策模型: 本轮无边界裁决，未调用。
+- 晨间灰区批次（SB-032 p=0.63/弹层差异 p=0.66/count-up p=0.33/千分位 p=0.67/下发追认 p=0.64/D2-D4/APK 交付请示）07:0x 已呈待答，不重复推送。
+
+利益点自省（一行）：持平——零动作审计轮守住 SB-031 达成帧成果（庆祝卡片已合入可见），产品机制零变化，无 SilentBook 旧病同构；计数：更近(SB-031@03:0x)→持平×15(03:3x~11:0x)，无『更远』信号，不触发排期升级；推进在浩然侧（晨间批次待答/真人闸门），监工侧无可施工增量（待办=0），非『更远』。
+漂移审计结论一行：10-14 11:0x 实测全绿（禁词基线8零新增元引用豁免/裸Color·Duration=0/手机号·open_id·美团工资房贷·真实账目=0/红线零触发/_LOCK=0/仅main/工作树净/origin零触碰/锚点c61c125维持）。
+[supervisor patrol 10-14 11:0x]
