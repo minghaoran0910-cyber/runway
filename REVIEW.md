@@ -515,3 +515,17 @@
 ⚡推送判定: 零推送——PASS+合入+冒烟+队列同步=常规结果落盘；待办=0 之堵点（038 拍板）03:0x 已呈报不重复；无新增浩然行动项。
 ## 漂移与一致性审计 — 03:5x（条款 6 · 本轮·合入后 main 复扫）
 禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7 注释复述+achievement.dart:13 禁词表本体，行号本轮实测一致，沿 p=0.75），用户可见=0；theme/motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（git grep 实测 0/0 非空路径）；锚定手机号 app/lib=0；open_id=0；美团|工资|房贷 app/lib=0；真实账目=0 红线零触发（本卡码体+测试帧全合成 milktea/3999/1649900/2027-04-30）；_LOCK find=0；工作树 0 行；branch=main+feat×6 在审/在册+素材×3 零 stray（042 已删）；done/=34 ls-tree 实测；main 头 8830d1c↔本票✓（簿记后新头↔03:5x 段自验三连随提交回显）；origin 零触碰；progress 唯一真相✓；task_plan 薄索引未据其判进度✓。**全绿**。
+
+## 巡检票 — 10-15 04:0x（零新审·锚点维持·队列零漂移）
+- 新审查判定: REQ mtime 1792007028 < REVIEW 1792007235 = 无新提审；盘上 vs `git show HEAD:REVIEW_REQUEST.md` diff=IDENTICAL（假翻转验真过，盘上头=SB-038 已审版·WAITING_HUMAN grep=0）→不重审；038 仍堵浩然拍板（03:0x 已呈报不重复）。
+- 队列同步: docs/tasks 活跃 6 卡（012/021/038/039/040/041）状态行 grep -m1 实测与快照逐字一致；037/042 已 git mv done/=34 ls-tree 实测；分支 tip 实测 038@6e1bc24/039@d194fe8/040@ceb245b/041@6ac8e51 零漂移；待办=0（堵点=拍板非缺卡）。
+- 冒烟: main 头 964c511；8830d1c..HEAD name-only 实测=REVIEW.md/progress.md/docs/tasks/done/SB-042.md 全簿记（非 docs 码体=0）→锚点 8830d1c 维持不重跑；并发实测 emulator=0/builder=0/_LOCK=0/工作树 0 行。
+- worktree: main + reshoot×5（037-041）+ vC@092f7e2 全在册（清理待浩然批，不擅删）。
+- cron 体检: 巡检 running/wake 88a8e128 ok（03:45 拍 idle-out 守卫合规，下拍 04:15）/统一看门狗 169be936 ok/需求反思 6f3e81c0 ok；⚠️runway-watchdog abaa94c7 03:50 拍 error=『⚠️ Memos Get blocked』（205s 终止；与 21:51 同型，其间 23:50/01:50 两拍均 ok=单发非三连败，呈报阈值未达，沿册观察）。
+- 规范适配审查: 今天周四非周一→本节不触发。
+- 提示词新鲜度: 巡检括注过时点=锚点 5284460→8830d1c 与 042『排 038 后 builder 领』→已合入归档（本票+快照在册为真相）；按 21:4x 裁定括注=一次性上下文不逐拍改写防 churn→本轮无 cron edit；wake 老包装器/com.zangou.runway+am start/:00-:30 vs :15-:45 错峰全现行。
+- 利益点自省（一行）: 持平——零动作巡检轮守住 037+042 合入成果，机制零变化无 SilentBook 旧病同构，无『更远』信号不触发排期升级。
+- 决策模型（条款 10）: 未调用——本轮无边界裁决；decision_evaluate 连续不可用观察沿册。
+- ⚡推送判定: 零推送——全部常规结果落盘，无新增浩然行动项（038 拍板堵点呈报在 03:0x 在册不重复）。
+## 漂移与一致性审计 — 04:0x（条款 6 · 本轮）
+禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7 注释复述+achievement.dart:13 禁词表本体，行号本轮实测，沿 p=0.75），用户可见=0；theme/motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（grep 实测 0/0 非空路径）；美团|工资|房贷 app/lib=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（8830d1c 后码体零变更，合成夹具豁免口径沿册）；_LOCK find=0；工作树 0 行；branch=main+feat×6+rescue×1 全在审/在册（033@69deccb/034@e576624/rescue@3e4918c 三 tip 本轮实测对册）零 stray；done/=34 ls-tree 实测；main 头 964c511↔03:5x 票簿记对应✓（本票追加↔新簿记头自验三连随提交回显）；origin 零触碰（ahead 12=合入+簿记本地拍，本轮无 push/fetch/ls-remote）；progress 唯一真相✓；task_plan 薄索引未据其判进度✓。**全绿**。
