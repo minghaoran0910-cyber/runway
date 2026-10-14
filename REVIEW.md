@@ -243,4 +243,6 @@
 利益点自省（一行）: 更近——『预计 12 月 25 日攒到』从重启即丢变为可信事实即『天天看见自己向想要的东西挪一步』的兑现面，本轮抢救=一小时 builder 施工资产不烧、管道恢复可转，距交付一拍更近；无 SilentBook 旧病同构（零索用户自律，抢救与续做全自动化侧）；计数 19:3x 持平→20:3x 更近。
 决策模型: rescue_authority p=0.84≥0.75→按判=本轮立即抢救不等批准；escalate_report p=0.87≥0.75→按判=呈浩然一条简报（类别③按 19:3x 预案）；status=ok（typesafe/jev-1.13，decision-v1）。
 ⚡推送判定: 单推送一条（类别③·在册预案预授权，内容=SB-041 断拍已抢救+仅需盯 21:15 拍，无阻塞其行动项）；队列/漂移/簿记零推送。
+
+提示词新鲜度（20:3x 收口补录）: 巡检 cron 括注 19:3x→20:3x 已 edit 落库·get 回读验证（len=5915·new-in=True·old-gone=True·enabled=True·schedule 不变）；改写段=现行最高卡号注（@wip 抢救+续做授权+21:15 观察拍+main 头注）；wake 括注澄清：payload 实际脚本=~/.openclaw/tools/runway-wake-dispatch.sh（括注原文 runway-wake.sh 系简写·二代 command 架构无卡号硬编码，本轮不改 wake 文案——rm 教训已入监工续做授权约束，wake 侧 rm 条款草案沿册挂周一适配审查）；com.zangou.runway/am start/golden/薄索引/错峰 :00-:30 vs :15-:45 全现行；时序守卫实测：REQ mtime < REVIEW mtime（S0.5 不误挡 builder 下拍续做，stat 随本票回显）。
 [supervisor patrol 10-14 20:3x]
