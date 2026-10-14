@@ -93,3 +93,19 @@
 漂移审计结论一行：10-14 09:0x 实测全绿（禁词元引用2行豁免零新增/裸Color·Duration=0/手机号·open_id·美团工资房贷·真实账目=0/红线零触发/_LOCK=0/仅main/工作树净/锚点c61c125维持）。
 
 [supervisor patrol 10-14 09:0x]
+
+# REVIEW — 2026-10-14 09:3x 巡检轮（零动作）
+结论: 无新提审（REQ mtime 1791917384/02:49:44 < REVIEW 1791939785/09:03 簿记），不重审
+检查项:
+- [x] REQ head 复核=SB-031 第1轮已审结旧文 PASS@c61c125；WAITING_HUMAN grep=1 经明细核验=第6行 S0.6 元叙述（『无显式 WAITING_HUMAN 标记行』），显式标记行=0，沿 10-13 20:0x p=0.85 豁免口径
+- [x] 队列零漂移：SB-012 状态行=审查通过·代码闸门已合入·真人闸门在飞 / SB-021 状态行=挂起 v0.2（grep -m1 实测与快照逐字一致）；done/=29（git ls-tree 实测）；docs/tasks 活跃卡=2、最高卡号 SB-031 与巡检括注一致；待办=0 见底晨间 07:0x 已呈报，不重复推送
+- [x] wake 09:15 拍合规 idle-out（git log c849bec..HEAD=0 实测）；cron list 五 job 实测全 ok：巡检 19b5f29f（本拍）/wake e71e53ac/runway-watchdog abaa94c7/统一看门狗 169be936/需求反思 6f3e81c0
+- [x] 冒烟锚点维持：git diff --name-only c61c125..HEAD 实测=REVIEW/REQ/done/SB-031/progress 纯 docs（非md=0）；git log -- . ':!*.md' 实测最新代码提交=c61c125 → 不重跑（03:0x 一条龙 PASS FATAL=0），模拟器未起
+- [x] 提示词新鲜度全现行：巡检括注卡号（SB-031 已归档/SB-032 未下发待拍板/SB-012 真人闸门在飞）与 docs/tasks 实测一致；com.zangou.runway 冒烟口径现行；golden 目录现行；task_plan 薄索引 633B 现行（3a9d763 口径）；错峰 :00-:30 与 :15-:45 无失配 → 未动 cron
+- [x] 漂移审计全绿（app/lib 固化口径，本轮未复犯 lib/ 空路径）：禁词五词 app/lib 命中2行均元引用豁免（achievement.dart:13 禁词表本体『又花掉』+goal_ladder.dart:7 注释复述，行号本轮 grep 实测一致，沿 p=0.75）；非md基线文件集=5 零新增（本轮 git grep -l 表面=6 系口径假象：第6=_inbox/SPEC-DESIGN-设计系统.md 系引号包裹路径尾带引号漏过 .md$ 过滤，明细实测澄清，非漂移）；「多花」延续已裁白名单；theme/motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（git grep exclude 实测 0/0 非空路径）；美团|工资|房贷非md=0；锚定手机号=0；open_id 非md=0；真实账目=0 红线零触发（c61c125 后零代码变更，合成夹具豁免延续）；_LOCK find+tracked 双扫=0；remote=origin 在册监工零触碰（main ahead 未推送=合规）；branch 仅 main feat 残留=0；工作树净0行；done/=29；活跃卡=2
+- [x] main 头 c849bec↔REVIEW 09:0x 段对应✓、代码锚 c61c125↔03:0x 归档轮✓（本轮簿记提交后新头↔本段✓）；progress 唯一真相✓；task_plan 薄索引未据此判进度✓
+- [x] 周三非周一不做规范适配审查；决策模型未调用（本轮无新边界裁决）；晨间灰区批次（SB-032 p=0.63/弹层差异 p=0.66/count-up p=0.33/千分位 p=0.67/下发追认 p=0.64/D2-D4）07:0x 已呈待答，不重复推送
+- [x] 模拟器冒烟：本轮未跑（锚点 c61c125 维持，03:0x 一条龙 PASS FATAL=0，main 头后零新代码提交）
+利益点自省（一行）：持平——零动作审计轮守住 SB-031 达成帧成果（庆祝卡片已合入可见），产品机制零变化，无 SilentBook 旧病同构；计数：更近(SB-031@03:0x)→持平×12(03:3x~09:3x)，无『更远』信号，不触发排期升级；推进在浩然侧（灰区批次待答/SB-032 拍板/SB-012 真人7天闸门），监工侧无可施工增量（待办=0），非『更远』。
+漂移审计结论一行：10-14 09:3x 实测全绿（禁词元引用2行豁免零新增·非md基线=5第6命中系引号路径口径假象已澄清/裸Color·Duration=0/手机号·open_id·美团工资房贷·真实账目=0/红线零触发/_LOCK=0/仅main/工作树净/锚点c61c125维持）。
+[supervisor patrol 10-14 09:3x]
