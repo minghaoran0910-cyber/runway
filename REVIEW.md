@@ -988,3 +988,16 @@
 - 决策模型：accept_deviation_pass status=ok p=0.63→灰区不编判决，留浩然拍板（裁决行已入本票）。
 - 利益点自省（一行）：更近——首审实证 SB-045 码体全部可交付（四组降噪落地+483 绿），只欠拍摄证据且补拍通道已证；计数 19:0x 更近→本票更近（审查实证）；无「更远」、无 SilentBook 旧病同构。
 - 下一步：等浩然拍板 A/B（⚡②③已呈报）；A=RC 作废→合入+补四帧走查+翻锚+恢复 wake；B=二次 RC→自动 WAITING_HUMAN。
+
+## 监工票 — 2026-10-15 20:0x（巡检轮·零新审·SB-045 待浩然 A/B 拍板·wake 冻结在位·watchdog 两连败未发生销账）
+结论: 零新审（REQ mtime 1792064285=19:38:05 < REVIEW 1792064439=19:40:39 实测；盘上 REQ=main 旧版提审单，vs git show HEAD=IDENTICAL 验真✓，真实 SB-045 提审单存 feat@99f89b7、19:5x 轮已审结发 RC；WAITING_HUMAN=0）。本票=冻结守场轮；浩然 19:41 已收 A/B 呈报（delivery mirror 实测在会话），未回=不重复推（⚡自检：此条无浩然也能过）。
+- 待拍板现状：wake b0ea8424 disabled 实测（监工 19:5x 冻结在册，等浩然回执再翻）；feat/SB-045 分支实测仍=2 提交（a76a8d5 码体+99f89b7 提审单，零新增=builder 未擅自施工✓）；A=RC 作废→监工合入+四帧补拍走查+done 40→41+翻锚+一条龙+恢复 wake（补拍通道三度在册）；B=二次 RC→R4 双 strike 自动 WAITING_HUMAN 死锁（不推荐在册）。
+- watchdog 销账：abaa94c7 末拍≈19:44 status=ok 实测（cron list 16m ago）——「17:4x 红+20:0x 拍仍红=两连败⚡⑤升级」条件未发生，18:0x/18:3x/19:0x/19:5x 票沿册红灯观察关闭，未呈报合规；周一批保留 Memos 依赖败因排查。
+- 队列：零漂移——main 卡状态行实测 012 审查通过·真人闸门在飞/021 挂起/045 待办（簿记滞后 P3 沿册=实际已提审·第 1 轮 RC 待拍板，拍板轮翻）；done/=40 ls-tree 实测；待办=0 见底口径沿册——本拍不新派卡（防与拍板 rebase 撞道，19:5x 口径）。
+- 冒烟：eb616e8..HEAD(40d3580) 非 docs=0 实测（4 提交=纯 docs 票+派卡）→义务不发生，锚点维持 eb616e8=快照 last_smoke_commit 实测一致；emulator=0/opencode=0/_LOCK=0/工作树净 0 行（pgrep+git 实测）。
+- 漂移与一致性（一行）：main@40d3580 全绿——禁词 app/lib=2 行均元引用豁免（achievement.dart:13 禁词表本体+goal_ladder.dart:7 注释复述·行号本轮 grep 实测一致·用户可见=0）；ui/theme·motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（git grep 实测 0/0）；美团|工资|房贷 dart=0；锚定 11 位手机号=0·open_id=0（git grep wc 实测 0/0）红线零触发；_LOCK find=0；branches=main+在册 feat×9（033/034/037/038/039/040/041/043+045 在飞）+rescue×1 零 stray（已合入卡分支删除待浩然一句话口径沿册）；worktree=7 全在册；main 头 40d3580↔REVIEW 19:5x 票✓（本票后=簿记头↔本票✓）；progress 唯一真相✓（19:0x/18:3x 条目实读对应）；task_plan 薄索引未据其判进度✓；origin 零触碰（本拍无 push/fetch/ls-remote；origin/main ref 29871c7@11:06 无新增位移；ahead 34 纯本地簿记在册）。
+- 提示词新鲜度：无 cron edit（防 churn 沿 21:4x 裁定·括注周一统一翻在册）；本拍现行口径实测复核：最高卡号=SB-045/done=40/锚点=eb616e8/wake=b0ea8424（disabled=待拍板冻结态非漂移）/watchdog ok/com.zangou.runway+am start 口径✓/golden·docs/designaudit 路径✓/错峰 :00/:30 vs :15/:45✓（本拍 wake 零点火无撞车）——括注过时项零新增，周一批清单不增量。
+- 决策模型：未调用——待拍板轮无新边界（p=0.63 灰区已呈浩然，监工不重裁不自审）。
+- 下一步：等浩然微信回 A/B（主会话回执落地→下拍巡检消费执行）；SB-012 真人闸门沿飞；切包前置四任务走查待浩然切包意向沿册。20:30 巡检常规守场。
+- 利益点自省（一行）：持平——零动作守场轮守住码体已审实证（483 绿+两帧视觉审+四组降噪落地待合入），等拍板非施工停滞；计数 19:0x 更近→19:5x 更近（审查实证）→本票持平，无「更远」、无 SilentBook 旧病同构。
+[supervisor patrol 10-15 20:0x]
