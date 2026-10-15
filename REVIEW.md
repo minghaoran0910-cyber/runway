@@ -30,3 +30,31 @@
 - 理由沿 21:37 票：7 天真人证据期防样本漂移，旧包版本=可归因基线。
 - 旁路收口：wuqiansa.top 打不开案=站侧证书错配（cert CN=wuqianpa.top ≠ 域名 wuqiansa.top，TCP/DNS 全通、HTTP 301 正常、HTTPS 握手后域名校验拒），非家里网络问题，白名单无需加；浏览器警告页继续访问可绕，根治在站主换 cert。
 - 零 push/零 origin；锚点维持 53e819e。[supervisor]
+
+## 监工票 — 2026-10-15 22:0x（SB-046 首审 R1 · PASS·裁A豁免合入→main@794bb4b）
+结论: PASS（R1 首审即过；squash 合入 main@794bb4b，码体 diff feat..main=空 逐字节一致；裁A冻结下 SB-046 豁免在册照常落地）
+检查项:
+- [x] REQ mtime 21:55:05>REVIEW 21:44:00 新提审；盘上 REQ=HEAD diff 空验真✓；基线 main@1d977fe=merge-base 无 rebase✓
+- [x] 码体：estimate.dart:150/161 formatFen→formatFenHead（¥ 前缀去重正确——formatFenHead 自带 ¥ 实证 entry.dart:57）；dashboard_cards.dart:41-43 新增笔数分支（convertibleFen>0 优先序不动、零笔分支保留、新句 9 字≤14、禁词表零动）✓
+- [x] 测试：新增 3 例（取整1+起步2）断言方向正确；监工独立复跑 dart format 0 改动 + flutter analyze --fatal-infos No issues + 全量 +486 All tests passed REAL_EXIT=0（feat 与合入后 main 双跑绿，不继承 builder 声明）
+- [x] 文件合规：码件 4（lib2+test2）≤卡估 5；dashboard_cards.dart 385 行≤400；golden4 按 DEV §2.2 不计数；实拍 2 帧 1080x2400 盘上 sips 实测；依赖 0；不碰禁区✓
+- [x] 金样联动：sb016 ask×2（Bin 14501→14504/14653→14664）+sb006 data×2（Bin 349241→349202/222435→222408）盘上实测；golden 测试在 +486 内复跑绿=帧与码体匹配（1104px/593px 为 builder 申报值，监工以测试绿+Bin 变更实证背书）
+- [x] 视觉闸门：提审附实拍 2 帧（每改一页≥1 硬要求满足）；偏差=卡验收要求的有数态 2 帧缺，见下方裁决
+审美审计（UI 卡强制·逐维度）:
+- 层级：hero 主数字 28pt 与副文案差≥12pt 保持；本卡纯文案替换零新增字号，ladder 无滥用 ✓
+- 间距节奏：hero→今日→零碎→最近3笔 段落节奏未动 ✓
+- 圆角阴影：主卡 r22/内容卡 r16/胶囊 r13 三档无第四种；本卡零改动 ✓
+- 对比度：白字压深青 hero 底 ≥4.5:1；新句「已记下、攒出在路上」沿用原 verdict text token，无白字压浅底 ✓
+- 动效节奏：零动效改动 ✓
+- AI 味：无紫渐变（hero=规范深青渐变）、无 emoji 图标、无居中大堆叠 ✓
+- 一致性：「记下/攒出」双动词口径统一；新句=得到框架禁亏欠；标题金额整数口径与 SB-043 先例一致；实拍帧「食」类目单命名无「餐饮」双轨 ✓
+- 结论：审美审计通过。
+偏差裁决（有数态实拍缺失）:
+- 盘上仅空态基线 2 帧（零笔分支「记下第一笔」在位实证）；builder 如实申报偏差并请求监工合入轮补拍，引 SB-045 19:5x→20:39 裁A先例（浩然亲裁同构偏差：金样+单测锁定+监工合入轮补拍闭环）。
+- decision_evaluate p=0.54 灰区（0.25<p<0.75）→监工不编新裁决，适用浩然既有裁A先例=先例执行非新裁决；补拍结果见后续票，若补拍发现数据态渲染异常→立即转 REQUEST_CHANGES 回退。先例适用清单挂周一规范适配审查呈浩然复核。
+漂移与一致性（一行）：main@794bb4b 全绿——禁词用户可见=0（元引用 2 行豁免实测）；ui/theme·motion_spec 外裸 Color(0x=0/Duration=0；美团|工资|房贷|open_id|手机号=0 红线零触发；_LOCK=0；分支 046 已删=main+在册 feat×9+rescue×1 零 stray（11 实测）；worktree=7 全在册；树净；origin 零触碰（ahead=43·ref 仍 29871c7 归属挂周一批）；main 头 794bb4b↔本票✓；progress 唯一真相✓；task_plan 薄索引未据其判进度✓。
+提示词新鲜度：无 cron edit（防 churn 沿册；过时括注增量：done→42/046 已合入/锚点待翻——周一统一翻）；现行口径复核实测 com.zangou.runway+am start/golden·designaudit 路径全现行。
+利益点自省（一行）：更近——标题位分位小数噪声与「已记过还喊记下第一笔」失真双砍，用户每天看到的推进信号更真；计数 21:3x 持平→本票更近（合入落地），无『更远』无 SilentBook 旧病同构。
+队列：012 体验中（7 天真人闸门在飞）/021 挂起/046 归档 done/=42（本票簿记后 ls-tree 实测）；待办=0 见底——裁A测试期无在册证据新打磨卡（19:5x/21:0x 两笔 P3 均已由 046 消费），不拍脑袋派卡；报修类随报随合通道畅通；wake 空队列合规自退沿册。
+下一步：本票后续补冒烟+有数态补拍（合入轮义务）；SB-012 真人闸门沿飞；周一批：括注统一翻/素材分支删除请示/走查帧库内补档/origin 归属核对/046 先例适用呈复核。
+[supervisor patrol 10-15 22:0x]
