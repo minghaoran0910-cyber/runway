@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../data/app_db.dart';
 import '../logic/dashboard_stats.dart';
+import '../logic/goal_deadline.dart';
 import '../logic/goal_ladder.dart';
 import 'achievement_gate.dart';
 import 'achievements_page.dart';
@@ -26,6 +27,8 @@ import 'theme/tokens.dart';
 // SB-040 · 页标题改为"我的"（设置的家不再挂目标的牌）+ 设置入口；空态加
 // "设一个试试"按钮（点即表单）；换算行可点选单价（预设+目标价）；空列表不渲
 // 染白卡（修空白卡 bug）；编辑器拆至 goal_editor.dart（保单文件 ≤400）.
+// SB-041 · 编辑器拆至 goal_editor.dart（保单文件 ≤400）；期限直存 goals.deadline
+// （v12，浩然裁 C 解冻）；目标卡期限行见 goal_timeline.dart.
 // 形状只用 r16（内容卡）；分隔仅 hairline；数字 tabular（§1.4）；
 // 颜色只用 tokens；文案全量"得到"框架（§7），零亏欠表述.
 // 进度数据源为 SB-004 transactions（watchAll 实时联动）；目标持久化于 goals 表.
@@ -45,35 +48,27 @@ class GoalPageState extends State<GoalPage> {
   PriceRef? priceOverride;
 
   Future<void> _openEditor(BuildContext context, {Goal? goal}) async {
-    final int? savedDeadline = await showDialog<int?>(
+    final bool? saved = await showDialog<bool>(
       context: context,
       builder: (BuildContext ctx) => GoalDialog(
         goal: goal,
         db: widget.db,
         onSave: (BuildContext dctx, GoalForm form) async {
-          // SB-042 · 仅真实落库才关对话框；校验失败/异常（null）保持打开.
-          final int? deadline = await _saveDialog(dctx, form, goal);
-          if (deadline != null && dctx.mounted) {
-            Navigator.of(dctx).pop<int?>(deadline);
-          }
+          // SB-042 · 仅真实落库才关对话框；校验失败/异常保持打开.
+          final bool ok = await _saveDialog(dctx, form, goal);
+          if (ok && dctx.mounted) Navigator.of(dctx).pop(true);
         },
       ),
     );
-    if (savedDeadline != null && context.mounted) {
+    if (saved == true && context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            goal == null
-                ? (savedDeadline > 0 ? '已定下新目标 · $savedDeadline 个月' : '已定下新目标')
-                : '目标已更新',
-          ),
-        ),
+        SnackBar(content: Text(goal == null ? '已定下新目标' : '目标已更新')),
       );
     }
   }
 
-  /// 保存；返回期限月数（0=未填），校验失败返回 null（对话框不关）.
-  Future<int?> _saveDialog(
+  /// SB-042 · true=真实落库（含期限直存），false=校验失败/异常（对话框保持打开）.
+  Future<bool> _saveDialog(
     BuildContext context,
     GoalForm form,
     Goal? goal,
@@ -86,7 +81,12 @@ class GoalPageState extends State<GoalPage> {
     );
     if (err != null) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(err)));
-      return null;
+      return false;
+    }
+    final String? dErr = validateDeadlineDate(form.deadline ?? '');
+    if (dErr != null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(dErr)));
+      return false;
     }
     try {
       if (goal == null) {
@@ -97,6 +97,7 @@ class GoalPageState extends State<GoalPage> {
             priceName: Value(form.priceName.trim()),
             priceFen: Value(form.priceFen!),
             tier: Value(ladderNameFor(form.targetFen!)),
+            deadline: Value(form.deadline),
           ),
         );
       } else {
@@ -109,6 +110,7 @@ class GoalPageState extends State<GoalPage> {
             priceFen: Value(form.priceFen!),
             tier: Value(ladderNameFor(form.targetFen!)),
             doneAt: Value(goal.doneAt),
+            deadline: Value(form.deadline),
             createdAt: Value(goal.createdAt),
           ),
         );
@@ -119,9 +121,9 @@ class GoalPageState extends State<GoalPage> {
           context,
         ).showSnackBar(const SnackBar(content: Text('保存失败，请重试')));
       }
-      return null;
+      return false;
     }
-    return form.deadlineMonths ?? 0;
+    return true;
   }
 
   Future<void> _pickPrice(BuildContext context, PriceRef current) async {

@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../data/app_db.dart';
 import '../logic/entry.dart';
+import '../logic/goal_deadline.dart';
 import '../logic/goal_ladder.dart';
 import 'goal_price_follow.dart';
 
-// SB-040 · 目标编辑器（自 goal_page.dart 拆出，DEV §2 单文件 ≤400）.
-// 新增期限字段（月，1–36，可空）：schema 冻结（DEV §2.3 禁区）暂不入库，
-// 仅收集+校验，随保存回显；持久化待后续 schema 卡. 口径零改，复用 SB-007.
+// SB-041 · 目标编辑器（自 goal_page.dart 拆出，DEV §2 单文件 ≤400；与 SB-040 分支
+// goal_editor.dart 同名不同命：该分支未合入且用"月数"口径，本卡按卡面"ISO 日期串"
+// 口径实现，合入时以本文件为准核对，见提审单偏差声明）.
+// 期限字段（yyyy-MM-dd，可空）：直存 goals.deadline，随保存入库（SB-040 冻结已解）；
+// 空=无期限，目标卡不渲染该行；无"暂不保存"类占位（主线本无，见提审单）.
 
 class GoalForm {
   String name = '';
@@ -16,17 +19,8 @@ class GoalForm {
   int? priceFen = 1800;
   String followKey = '';
 
-  /// 期望期限（月）；null=未填. 暂不持久化（见文件头注记）.
-  int? deadlineMonths;
-}
-
-/// 期限合法性（可空；填了须 1–36）.
-String? validateDeadline(String raw) {
-  final String t = raw.trim();
-  if (t.isEmpty) return null;
-  final int? v = int.tryParse(t);
-  if (v == null || v < 1 || v > 36) return '期限须为 1–36 个月';
-  return null;
+  /// 期限 ISO 日期串；null=无期限，直存 goals.deadline.
+  String? deadline;
 }
 
 /// 目标设定对话框（名称/目标额/期限/参考单价；内置单价 chips 一键填入，可自定义改）.
@@ -57,7 +51,7 @@ class GoalDialogState extends State<GoalDialog> {
     _target = TextEditingController(
       text: widget.goal == null ? '' : formatFen(widget.goal!.targetFen),
     );
-    _deadline = TextEditingController();
+    _deadline = TextEditingController(text: widget.goal?.deadline ?? '');
     _priceName = TextEditingController(text: widget.goal?.priceName ?? '奶茶');
     _price = TextEditingController(
       text: widget.goal == null ? '18' : formatFen(widget.goal!.priceFen),
@@ -105,8 +99,10 @@ class GoalDialogState extends State<GoalDialog> {
             ),
             TextField(
               controller: _deadline,
-              decoration: const InputDecoration(labelText: '期限（月，1–36，可空）'),
-              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                labelText: '期限（日期 yyyy-MM-dd，可空）',
+              ),
+              keyboardType: TextInputType.datetime,
               key: const Key('goalDeadline'),
             ),
             const SizedBox(height: 8),
@@ -115,7 +111,6 @@ class GoalDialogState extends State<GoalDialog> {
               children: <Widget>[
                 for (final PriceRef p in defaultPrices)
                   ChoiceChip(
-                    // SB-042 P3 · 补分隔（5090 ¥16,499），金额口径仍走 formatFen.
                     label: Text('${p.name} ¥${formatFen(p.fen)}'),
                     selected: _priceName.text == p.name,
                     onSelected: (_) => _pickPrice(p),
@@ -152,29 +147,28 @@ class GoalDialogState extends State<GoalDialog> {
       ),
       actions: <Widget>[
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).pop(false),
           child: const Text('取消'),
         ),
         FilledButton(
           onPressed: () async {
-            final String? dErr = validateDeadline(_deadline.text);
+            final String? dErr = validateDeadlineDate(_deadline.text);
             if (dErr != null) {
               ScaffoldMessenger.of(
                 context,
               ).showSnackBar(SnackBar(content: Text(dErr)));
               return;
             }
-            final String dt = _deadline.text.trim();
             final GoalForm form = GoalForm()
               ..name = _name.text
               ..targetFen = parseAmountToFen(_target.text)
               ..priceName = _priceName.text
               ..priceFen = parseAmountToFen(_price.text)
-              ..deadlineMonths = dt.isEmpty ? null : int.parse(dt);
+              ..deadline = normalizeDeadline(_deadline.text);
             if (widget.onSave != null) {
               await widget.onSave!(context, form);
             } else {
-              Navigator.of(context).pop();
+              Navigator.of(context).pop(false);
             }
           },
           key: const Key('goalSave'),
@@ -185,7 +179,6 @@ class GoalDialogState extends State<GoalDialog> {
   }
 }
 
-/// 实物换算选择（预设 defaultPrices + 当前目标价自定义项；纯选择器，零口径改动）.
 Future<PriceRef?> pickConvertPrice(
   BuildContext context, {
   required PriceRef current,

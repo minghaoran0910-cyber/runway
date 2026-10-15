@@ -12,7 +12,7 @@ import 'estimate_store.dart';
 import 'experiment_store.dart';
 import 'import_batch.dart';
 
-// schema：v1 Tx/v2 Goals/v3 Ach/v4 Grain+Weekly/v5 Pending/v6 ImportBatch/v7 Budgets/v8 DailyClose/v9 Cooloff/v10 Experiment/v11 Roles(SB-019).
+// schema：v1 Tx/v2 Goals/v3 Ach/v4 Grain+Weekly/v5 Pending/v6 ImportBatch/v7 Budgets/v8 DailyClose/v9 Cooloff/v10 Experiment/v11 Roles/v12 GoalDeadline(SB-041).
 // 禁手改；真实账目永不入库，测试合成 fixtures.
 
 part 'app_db.g.dart';
@@ -29,6 +29,7 @@ class Transactions extends Table {
 }
 
 /// schema v2 goals（目标名/目标额分/单价名/单价分/阶梯档/达成时间；tier/doneAt 可空）.
+/// schema v12 +deadline（ISO 日期串 yyyy-MM-dd，可空；SB-041 浩然裁 C 解冻持久化）.
 class Goals extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text().withLength(min: 1, max: 32)();
@@ -37,6 +38,7 @@ class Goals extends Table {
   IntColumn get priceFen => integer()();
   TextColumn get tier => text().nullable()();
   DateTimeColumn get doneAt => dateTime().nullable()();
+  TextColumn get deadline => text().nullable()();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }
 
@@ -148,12 +150,12 @@ class AppDb extends _$AppDb {
   }
 
   @override
-  int get schemaVersion => 11;
+  int get schemaVersion => 12;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (Migrator m) => m.createAll(),
-    // v2 goals；v3 ach；v4 grain+weekly；v5 pending；v6 importbatch+列；v7 budgets；v8 dailyclose；v9 cooloff；v10 experiment；v11 roles.
+    // v2 goals；v3 ach；v4 grain+weekly；v5 pending；v6 importbatch+列；v7 budgets；v8 dailyclose；v9 cooloff；v10 experiment；v11 roles；v12 goals.deadline.
     onUpgrade: (m, from, to) async {
       if (from < 2) {
         await m.createTable(goals);
@@ -190,13 +192,15 @@ class AppDb extends _$AppDb {
       if (from < 11) {
         await m.createTable(roleOverrides);
       }
+      if (from < 12) {
+        await m.addColumn(goals, goals.deadline);
+      }
     },
   );
 
-  /// 回滚见各 dao（v9 cooloff_dao / v10 experiment_dao / v11 category_role_dao）；v5 删 pending_records 即回 v4；v4 删 safety_pad+weekly_reports 即回 v3.
-  Future<void> rollbackPendingToV4() async {
-    await customStatement('DROP TABLE IF EXISTS pending_records');
-  }
+  /// 回滚见各 dao（v9 cooloff_dao / v10 experiment_dao / v11 category_role_dao / v12 goal_deadline_dao）；v5 删 pending_records 即回 v4；v4 删 safety_pad+weekly_reports 即回 v3.
+  Future<void> rollbackPendingToV4() =>
+      customStatement('DROP TABLE IF EXISTS pending_records');
 
   Future<void> rollbackSafetyWeeklyToV3() async {
     await customStatement('DROP TABLE IF EXISTS safety_pad');
@@ -204,13 +208,11 @@ class AppDb extends _$AppDb {
   }
 
   /// v3 回滚：删 achievements 即回 v2；v2 回滚：删 goals 即回 v1（开发期用）.
-  Future<void> rollbackAchievementsToV2() async {
-    await customStatement('DROP TABLE IF EXISTS achievements');
-  }
+  Future<void> rollbackAchievementsToV2() =>
+      customStatement('DROP TABLE IF EXISTS achievements');
 
-  Future<void> rollbackGoalsToV1() async {
-    await customStatement('DROP TABLE IF EXISTS goals');
-  }
+  Future<void> rollbackGoalsToV1() =>
+      customStatement('DROP TABLE IF EXISTS goals');
 
   /// v1 回滚：删库重建（无存量迁移）.
   Future<void> resetDatabase() async {

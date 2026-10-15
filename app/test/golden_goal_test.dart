@@ -41,6 +41,8 @@ Future<AppDb> _seedDb() async {
       targetFen: const Value(399900),
       priceName: const Value('奶茶'),
       priceFen: const Value(1800),
+      // SB-041 · 有数据帧带期限行，锁定"预计 M月d日攒到"渲染.
+      deadline: const Value('2026-12-31'),
     ),
   );
   await db.insertOne(

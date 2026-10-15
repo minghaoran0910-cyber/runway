@@ -549,6 +549,17 @@ class $GoalsTable extends Goals with TableInfo<$GoalsTable, Goal> {
     type: DriftSqlType.dateTime,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _deadlineMeta = const VerificationMeta(
+    'deadline',
+  );
+  @override
+  late final GeneratedColumn<String> deadline = GeneratedColumn<String>(
+    'deadline',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -570,6 +581,7 @@ class $GoalsTable extends Goals with TableInfo<$GoalsTable, Goal> {
     priceFen,
     tier,
     doneAt,
+    deadline,
     createdAt,
   ];
   @override
@@ -631,6 +643,12 @@ class $GoalsTable extends Goals with TableInfo<$GoalsTable, Goal> {
         doneAt.isAcceptableOrUnknown(data['done_at']!, _doneAtMeta),
       );
     }
+    if (data.containsKey('deadline')) {
+      context.handle(
+        _deadlineMeta,
+        deadline.isAcceptableOrUnknown(data['deadline']!, _deadlineMeta),
+      );
+    }
     if (data.containsKey('created_at')) {
       context.handle(
         _createdAtMeta,
@@ -674,6 +692,10 @@ class $GoalsTable extends Goals with TableInfo<$GoalsTable, Goal> {
         DriftSqlType.dateTime,
         data['${effectivePrefix}done_at'],
       ),
+      deadline: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}deadline'],
+      ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -695,6 +717,7 @@ class Goal extends DataClass implements Insertable<Goal> {
   final int priceFen;
   final String? tier;
   final DateTime? doneAt;
+  final String? deadline;
   final DateTime createdAt;
   const Goal({
     required this.id,
@@ -704,6 +727,7 @@ class Goal extends DataClass implements Insertable<Goal> {
     required this.priceFen,
     this.tier,
     this.doneAt,
+    this.deadline,
     required this.createdAt,
   });
   @override
@@ -720,6 +744,9 @@ class Goal extends DataClass implements Insertable<Goal> {
     if (!nullToAbsent || doneAt != null) {
       map['done_at'] = Variable<DateTime>(doneAt);
     }
+    if (!nullToAbsent || deadline != null) {
+      map['deadline'] = Variable<String>(deadline);
+    }
     map['created_at'] = Variable<DateTime>(createdAt);
     return map;
   }
@@ -735,6 +762,9 @@ class Goal extends DataClass implements Insertable<Goal> {
       doneAt: doneAt == null && nullToAbsent
           ? const Value.absent()
           : Value(doneAt),
+      deadline: deadline == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deadline),
       createdAt: Value(createdAt),
     );
   }
@@ -752,6 +782,7 @@ class Goal extends DataClass implements Insertable<Goal> {
       priceFen: serializer.fromJson<int>(json['priceFen']),
       tier: serializer.fromJson<String?>(json['tier']),
       doneAt: serializer.fromJson<DateTime?>(json['doneAt']),
+      deadline: serializer.fromJson<String?>(json['deadline']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
   }
@@ -766,6 +797,7 @@ class Goal extends DataClass implements Insertable<Goal> {
       'priceFen': serializer.toJson<int>(priceFen),
       'tier': serializer.toJson<String?>(tier),
       'doneAt': serializer.toJson<DateTime?>(doneAt),
+      'deadline': serializer.toJson<String?>(deadline),
       'createdAt': serializer.toJson<DateTime>(createdAt),
     };
   }
@@ -778,6 +810,7 @@ class Goal extends DataClass implements Insertable<Goal> {
     int? priceFen,
     Value<String?> tier = const Value.absent(),
     Value<DateTime?> doneAt = const Value.absent(),
+    Value<String?> deadline = const Value.absent(),
     DateTime? createdAt,
   }) => Goal(
     id: id ?? this.id,
@@ -787,6 +820,7 @@ class Goal extends DataClass implements Insertable<Goal> {
     priceFen: priceFen ?? this.priceFen,
     tier: tier.present ? tier.value : this.tier,
     doneAt: doneAt.present ? doneAt.value : this.doneAt,
+    deadline: deadline.present ? deadline.value : this.deadline,
     createdAt: createdAt ?? this.createdAt,
   );
   Goal copyWithCompanion(GoalsCompanion data) {
@@ -798,6 +832,7 @@ class Goal extends DataClass implements Insertable<Goal> {
       priceFen: data.priceFen.present ? data.priceFen.value : this.priceFen,
       tier: data.tier.present ? data.tier.value : this.tier,
       doneAt: data.doneAt.present ? data.doneAt.value : this.doneAt,
+      deadline: data.deadline.present ? data.deadline.value : this.deadline,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
   }
@@ -812,6 +847,7 @@ class Goal extends DataClass implements Insertable<Goal> {
           ..write('priceFen: $priceFen, ')
           ..write('tier: $tier, ')
           ..write('doneAt: $doneAt, ')
+          ..write('deadline: $deadline, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
@@ -826,6 +862,7 @@ class Goal extends DataClass implements Insertable<Goal> {
     priceFen,
     tier,
     doneAt,
+    deadline,
     createdAt,
   );
   @override
@@ -839,6 +876,7 @@ class Goal extends DataClass implements Insertable<Goal> {
           other.priceFen == this.priceFen &&
           other.tier == this.tier &&
           other.doneAt == this.doneAt &&
+          other.deadline == this.deadline &&
           other.createdAt == this.createdAt);
 }
 
@@ -850,6 +888,7 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
   final Value<int> priceFen;
   final Value<String?> tier;
   final Value<DateTime?> doneAt;
+  final Value<String?> deadline;
   final Value<DateTime> createdAt;
   const GoalsCompanion({
     this.id = const Value.absent(),
@@ -859,6 +898,7 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
     this.priceFen = const Value.absent(),
     this.tier = const Value.absent(),
     this.doneAt = const Value.absent(),
+    this.deadline = const Value.absent(),
     this.createdAt = const Value.absent(),
   });
   GoalsCompanion.insert({
@@ -869,6 +909,7 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
     required int priceFen,
     this.tier = const Value.absent(),
     this.doneAt = const Value.absent(),
+    this.deadline = const Value.absent(),
     this.createdAt = const Value.absent(),
   }) : name = Value(name),
        targetFen = Value(targetFen),
@@ -882,6 +923,7 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
     Expression<int>? priceFen,
     Expression<String>? tier,
     Expression<DateTime>? doneAt,
+    Expression<String>? deadline,
     Expression<DateTime>? createdAt,
   }) {
     return RawValuesInsertable({
@@ -892,6 +934,7 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
       if (priceFen != null) 'price_fen': priceFen,
       if (tier != null) 'tier': tier,
       if (doneAt != null) 'done_at': doneAt,
+      if (deadline != null) 'deadline': deadline,
       if (createdAt != null) 'created_at': createdAt,
     });
   }
@@ -904,6 +947,7 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
     Value<int>? priceFen,
     Value<String?>? tier,
     Value<DateTime?>? doneAt,
+    Value<String?>? deadline,
     Value<DateTime>? createdAt,
   }) {
     return GoalsCompanion(
@@ -914,6 +958,7 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
       priceFen: priceFen ?? this.priceFen,
       tier: tier ?? this.tier,
       doneAt: doneAt ?? this.doneAt,
+      deadline: deadline ?? this.deadline,
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -942,6 +987,9 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
     if (doneAt.present) {
       map['done_at'] = Variable<DateTime>(doneAt.value);
     }
+    if (deadline.present) {
+      map['deadline'] = Variable<String>(deadline.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -958,6 +1006,7 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
           ..write('priceFen: $priceFen, ')
           ..write('tier: $tier, ')
           ..write('doneAt: $doneAt, ')
+          ..write('deadline: $deadline, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
@@ -6218,6 +6267,7 @@ typedef $$GoalsTableCreateCompanionBuilder =
       required int priceFen,
       Value<String?> tier,
       Value<DateTime?> doneAt,
+      Value<String?> deadline,
       Value<DateTime> createdAt,
     });
 typedef $$GoalsTableUpdateCompanionBuilder =
@@ -6229,6 +6279,7 @@ typedef $$GoalsTableUpdateCompanionBuilder =
       Value<int> priceFen,
       Value<String?> tier,
       Value<DateTime?> doneAt,
+      Value<String?> deadline,
       Value<DateTime> createdAt,
     });
 
@@ -6272,6 +6323,11 @@ class $$GoalsTableFilterComposer extends Composer<_$AppDb, $GoalsTable> {
 
   ColumnFilters<DateTime> get doneAt => $composableBuilder(
     column: $table.doneAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get deadline => $composableBuilder(
+    column: $table.deadline,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -6324,6 +6380,11 @@ class $$GoalsTableOrderingComposer extends Composer<_$AppDb, $GoalsTable> {
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get deadline => $composableBuilder(
+    column: $table.deadline,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -6358,6 +6419,9 @@ class $$GoalsTableAnnotationComposer extends Composer<_$AppDb, $GoalsTable> {
 
   GeneratedColumn<DateTime> get doneAt =>
       $composableBuilder(column: $table.doneAt, builder: (column) => column);
+
+  GeneratedColumn<String> get deadline =>
+      $composableBuilder(column: $table.deadline, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -6398,6 +6462,7 @@ class $$GoalsTableTableManager
                 Value<int> priceFen = const Value.absent(),
                 Value<String?> tier = const Value.absent(),
                 Value<DateTime?> doneAt = const Value.absent(),
+                Value<String?> deadline = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
               }) => GoalsCompanion(
                 id: id,
@@ -6407,6 +6472,7 @@ class $$GoalsTableTableManager
                 priceFen: priceFen,
                 tier: tier,
                 doneAt: doneAt,
+                deadline: deadline,
                 createdAt: createdAt,
               ),
           createCompanionCallback:
@@ -6418,6 +6484,7 @@ class $$GoalsTableTableManager
                 required int priceFen,
                 Value<String?> tier = const Value.absent(),
                 Value<DateTime?> doneAt = const Value.absent(),
+                Value<String?> deadline = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
               }) => GoalsCompanion.insert(
                 id: id,
@@ -6427,6 +6494,7 @@ class $$GoalsTableTableManager
                 priceFen: priceFen,
                 tier: tier,
                 doneAt: doneAt,
+                deadline: deadline,
                 createdAt: createdAt,
               ),
           withReferenceMapper: (p0) => p0

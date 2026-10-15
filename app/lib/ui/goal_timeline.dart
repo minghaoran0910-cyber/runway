@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/app_db.dart';
 import '../logic/entry.dart';
+import '../logic/goal_deadline.dart';
 import 'theme/tokens.dart';
 
 // SB-030 · 目标纵向时间线（demo 清单④：图标方块竖线串联；
@@ -10,6 +11,7 @@ import 'theme/tokens.dart';
 // 形状只用 r16 外卡 / r10 图标瓦片 §1.2；图标 34px 瓦片+19px 图标 §4；
 // 达标瓦片 gold，未达标中性瓦片；分隔竖线仅 hairline §1.3；
 // N 周=自建目标起整周数（(now-createdAt)/7+1，最小 1），如实口径不编造）.
+// SB-041 · 期限行（goals.deadline 可空；有值即"预计 M月d日攒到"，空则零像素）.
 
 /// 目标时间线（goals 为全部目标，convertibleFen 为全局可换算省出）.
 class GoalTimeline extends StatelessWidget {
@@ -52,6 +54,7 @@ class GoalTimeline extends StatelessWidget {
               final bool done = convertibleFen >= g.targetFen;
               final int weeks = weeksSince(g.createdAt, now);
               final bool last = i == goals.length - 1;
+              final String deadlineLine = formatDeadlineLine(g.deadline);
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -139,6 +142,15 @@ class GoalTimeline extends StatelessWidget {
                             ),
                           ],
                         ),
+                        if (deadlineLine.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 2),
+                            child: Text(
+                              deadlineLine,
+                              style: theme.textTheme.bodySmall,
+                              key: Key('goalDeadline-${g.id}'),
+                            ),
+                          ),
                       ],
                     ),
                   ),

@@ -2,7 +2,7 @@ import 'package:drift/drift.dart' hide Column, isNull, isNotNull;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:runway/data/app_db.dart';
-import 'package:runway/ui/goal_editor.dart';
+import 'package:runway/logic/goal_deadline.dart';
 import 'package:runway/ui/goal_page.dart';
 import 'package:runway/ui/settings_page.dart';
 
@@ -18,15 +18,15 @@ Future<void> _unmountAndFlush(WidgetTester tester) async {
 }
 
 void main() {
-  test('SB-040 期限校验：空=过，1–36=过，其余=错', () {
-    expect(validateDeadline(''), isNull);
-    expect(validateDeadline('  '), isNull);
-    expect(validateDeadline('6'), isNull);
-    expect(validateDeadline('1'), isNull);
-    expect(validateDeadline('36'), isNull);
-    expect(validateDeadline('0'), isNotNull);
-    expect(validateDeadline('37'), isNotNull);
-    expect(validateDeadline('abc'), isNotNull);
+  // 041 合入轮：期限口径按卡第4条=删月数字段保日期字段，校验随迁 validateDeadlineDate.
+  test('SB-040 期限校验：空=过，yyyy-MM-dd=过，其余=错', () {
+    expect(validateDeadlineDate(''), isNull);
+    expect(validateDeadlineDate('  '), isNull);
+    expect(validateDeadlineDate('2026-12-31'), isNull);
+    expect(validateDeadlineDate('2026-01-01'), isNull);
+    expect(validateDeadlineDate('99'), isNotNull);
+    expect(validateDeadlineDate('2026-13-01'), isNotNull);
+    expect(validateDeadlineDate('abc'), isNotNull);
   });
 
   test('SB-040 导出 CSV：表头固定+逗号转义', () {
@@ -81,13 +81,13 @@ void main() {
     await tester.enterText(find.byKey(const Key('goalDeadline')), '99');
     await tester.tap(find.byKey(const Key('goalSave')));
     await tester.pumpAndSettle();
-    expect(find.text('期限须为 1–36 个月'), findsOneWidget);
+    expect(find.text('期限须为 yyyy-MM-dd 日期'), findsOneWidget);
     // 错误条 4s 占屏，成功条会排队——先等它退场再二次保存.
     await tester.pump(const Duration(seconds: 5));
 
     // 合法期限放行：建完列表出现（含期限回显）.
     // 注：snackbar 4s 即逝，pumpAndSettle 会把它消费掉——改定泵断言.
-    await tester.enterText(find.byKey(const Key('goalDeadline')), '6');
+    await tester.enterText(find.byKey(const Key('goalDeadline')), '2026-12-31');
     await tester.tap(find.byKey(const Key('goalSave')));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));

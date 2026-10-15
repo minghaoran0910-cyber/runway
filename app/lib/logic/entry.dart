@@ -7,7 +7,9 @@ const List<String> defaultCategories = <String>['食', '行', '居', '玩', '用
 
 /// 金额字符串 → 分（null = 非法）. 支持 "12.34"/"12"/"0.5"，前后空格容忍.
 int? parseAmountToFen(String raw) {
-  final String s = raw.trim();
+  // SB-041 · 容忍千分位逗号（SB-033 formatFen 回填如 "1,299" 须能解析回分，
+  // 否则目标编辑页预填大金额必校验失败）.
+  final String s = raw.trim().replaceAll(',', '');
   if (s.isEmpty) return null;
   if (s.startsWith('-') || s.startsWith('+')) return null;
   final List<String> parts = s.split('.');
