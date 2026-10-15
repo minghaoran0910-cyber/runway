@@ -916,3 +916,14 @@
 - 下一步：17:1x wake 消费二审票→过则合入轮（cherry-pick -n 业务体+git rm failures 80 张+ignore+全量复跑+done/38→40+翻锚点+一条龙冒烟+新用户四任务走查前置）；RC 则按 R4 程序呈浩然。巡检下拍 :30 常规守场。
 - 决策模型：本轮无边界裁决，未调用。
 - 利益点自省（一行）：持平——零动作巡检轮守住裁A清障成果，让出 17:1x 二审点火窗口（¥ 一致性+手感动线两卡距合入仅一次独立二审）；计数 16:5x 更近→本轮持平，无「更远」、无 SilentBook 旧病同构。
+
+## 监工票 — 2026-10-15 17:3x 轮（巡检·落笔 17:4x·零新审·裁A二审撞外读权限墙未产出·漂移全绿）
+结论: 零新审。REQ mtime 1792052362（16:19:22）未翻 + 盘上 vs git show HEAD=IDENTICAL 验真✓；盘上 REVIEW mtime 17:16:16 系 builder checkout 假翻转（reflog 实测 17:16:16 main→feat/SB-043-copy-amount-consistency），非新审内容。首审 16:3x 机械审结·签字裁A（浩然「A」=复 wake 独立二审），监工不自审，本票不重审。
+- 二审在飞实况（本票新发现）：b0ea8424 17:15 拍 dispatch 点火完成（157ms 即发即忘+log 在册）；builder 会话 17:16:16 检出 feat@ba4cecf，全量套件两轮 +483 All tests passed（REAL_EXIT=0 双证·wake log 实测）；17:18:45 连续两起 external_directory 自动拒绝——读 repo 外提审实拍 runway-shots/2026-10-15-designaudit/09_home_after.png、10_mine_after.png 失败，会话随后无声终止：本票实测 opencode run 进程=0、_LOCK=0、工作树净 0 行、--all since 17:00 零新提交（feat/main 双零动）、无二审票落地 → **二审结果未产出**，堵点=视觉闸门实拍在 repo 外不可读（headless 权限墙，结构性非代码病）。
+- 处置（在册通道收口·监工不抢权不移树）：17:45 sb043-044-ershen-report(b7e582fb) 核查票按路径③报实况+修复动作呈浩然（修复候选：A 提审截图镜像入 repo 再跑二审/B dispatch 加 runway-shots 外读授权/C 转浩然目检沿裁B式）——落票时该 job runs 尚无完成记录（在跑或排队），main 头未动=监工簿记先行不冲突；17:45 wake 拍 S0.2 实测自退（分支≠main 等监工合入·不双开）；17:47 watchdog 兜底。监工侧不起模拟器（并发让位+16:0x 误杀教训沿册）。
+- 队列：零漂移——main 状态行实测 012 审查通过·真人闸门在飞/021 挂起/043 已提审/044 已提审；done/=38 ls-tree 实测（盘上+main 双测一致）；待办=0 见底沿册不重推；下批候选（P2 文案批+§6 动效体系卡）按 16:3x 在册口径待 043/044 合入后再派（防 worktree/rebase 并发）。
+- 冒烟：a90e2e5..main(e20799b) 非 docs=0 实测（diff 排除 md/failures 空回显）→义务不发生，锚点维持 a90e2e5=快照 last_smoke_commit；emulator=0/builder=0。
+- 漂移与一致性（一行）：main@e20799b 树全绿——禁词 app/lib=2 行均元引用豁免（achievement.dart:13 禁词表本体+goal_ladder.dart:7 注释复述·行号本票实测一致）用户可见=0；ui/theme·motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（git grep 实测 0/0）；美团|工资|房贷 非 md=0·open_id=0·手机号正则=0 红线零触发；_LOCK=0；branches=main+feat×8（033/034/037/038/039/040/041/043）+rescue×1 全在册零 stray（已合入卡分支删除仍待浩然一句话）；worktree=主+reshoot×5+vC 在册+本票临时 patrol worktree（提交后即拆）；main 头 e20799b↔REVIEW 17:0x 票✓（本票后=簿记头↔本票✓）；progress 唯一真相✓；task_plan 薄索引未据其判进度✓；origin 零触碰（本拍无 push/fetch/ls-remote；origin/main ref 维持 29871c7@11:06=无新增外部推送；main ahead 25 本地在册挂周一归属核对沿 12:0x）。
+- 提示词新鲜度：无 cron edit（防 churn 沿 21:4x 裁定；括注过时三项 wake 号 b0ea8424/最高卡号 SB-044/锚点 a90e2e5·done=38 已挂周一批·16:3x 票在册）。新结构观察入周一批：headless external_directory 自动拒绝→视觉闸门截图不可读=二审每拍空转/半截死风险，待 A/B/C 拍板后同步修 dispatch 或提审单路径条款。
+- 决策模型：本轮无边界裁决项（A/B/C 修复路径选择属 ershen-report 呈浩然职责，非监工签字灰区），未调用。
+- 利益点自省（一行）：持平——零动作守场轮守住 043/044 全量双绿证据（¥ 一致性+手感动线距合入只差视觉闸门一次）；权限墙=流程堵点非机制病，无 SilentBook 旧病同构；计数 17:0x 持平→本票持平，无「更远」信号。
