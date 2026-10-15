@@ -750,3 +750,5 @@
 - 提示词新鲜度：括注防 churn 沿 21:4x 裁定周一批次统一翻（含 wake 冻结→"手动接管在飞"新口径、锚点 8830d1c、done=34、双口径卡号）；cron list 实测：巡检✓/runway-watchdog ok（44m 前）/统一看门狗 ok/需求反思 ok/wake 88a8e128 不在现行列表=disabled 延续✓；本拍无 cron edit。
 - 利益点自省：更近——038 首页四区整理（"天天看见自己向想要的东西挪一步"的核心页面之一）在手动渠道真实推进，11:1x 冻结后堵点首次有实际产出；需盯：返工改 ui/goal_page，新提审必过视觉保真闸门（实拍必附）+切包前新用户四任务走查。
 - 下一步：等手动接管翻 REQ→按视觉闸门审（038 已累计 RC×2，裁A 授权返工轮，若本轮再审仍 RC 则即刻停手呈 WAITING_HUMAN 不再放第三轮）；038 过后链序 039→040→041 rebase 逐个合入+每合一卡翻锚点+一条龙冒烟；周一批次挂账不变（wake 三易主/条款草案×3/括注统一翻/补拍坐标禁跨卡复用/origin 推送归属核对）。
+
+> 续记（12:3x 同轮 · 12:36 接管现场复核）：wt038 脏改 6→13 全清单实测=sb007 goal 六图+sb012 budget_home 二图 golden 全部重生成 + app/test/failures/ 新增 budget_home_dark/light 对比图（golden 先败后刷流程实证，M 仅测试资源非业务码新扩散）；shots 02/03/04 md5 各异（92d43f…/cebb15…=真实页面内容，早前 splash 同图期已过）；emu7 尾 ERROR『Failed to find ColorBuffer』=渲染器告警非 app FATAL，且 runway_api36 现 pgrep=0 实测=接管会话已自行收口模拟器，监工全程未并发起模拟器未触碰该树；REQ 未翻（mtime 仍 1792031094/10:24:54）+feat/SB-038 头仍 6e1bc24+wt038 零提交=返工"未 commit 未提审"，监工无新审义务；链卡 039/040/041 头 d194fe8/ceb245b/6ac8e51 未动；队列六卡状态行 grep 实测零漂移/done=34/锚点 8830d1c 维持（非代码 diff=0 实测）。本轮结论不变，零推送。
