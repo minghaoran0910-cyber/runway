@@ -2,9 +2,7 @@ import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
 
 import '../data/app_db.dart';
-import '../logic/category_rules.dart';
 import '../logic/dashboard_stats.dart';
-import '../logic/entry.dart';
 import '../logic/goal_ladder.dart';
 import 'achievement_gate.dart';
 import 'achievements_page.dart';
@@ -15,50 +13,69 @@ import 'dashboard_cards.dart';
 import 'diagnostics_card.dart';
 import 'experiment_card.dart';
 import 'goal_card.dart';
-import 'goal_price_follow.dart';
+import 'goal_editor.dart';
 import 'goal_timeline.dart';
 import 'grain_card.dart';
+import 'settings_page.dart';
 import 'weekly_page.dart';
 import 'theme/app_theme.dart';
 import 'theme/tokens.dart';
 
 // SB-007 · 目标设定页（PRD §2 攒到层入口；进度组件见 goal_card.dart）.
 // SB-009 · 余粮同区展示（GrainReserveCard 复用目标区视觉语言，不另造轮子）+ 周报入口.
+// SB-040 · 页标题改为"我的"（设置的家不再挂目标的牌）+ 设置入口；空态加
+// "设一个试试"按钮（点即表单）；换算行可点选单价（预设+目标价）；空列表不渲
+// 染白卡（修空白卡 bug）；编辑器拆至 goal_editor.dart（保单文件 ≤400）.
 // 形状只用 r16（内容卡）；分隔仅 hairline；数字 tabular（§1.4）；
 // 颜色只用 tokens；文案全量"得到"框架（§7），零亏欠表述.
 // 进度数据源为 SB-004 transactions（watchAll 实时联动）；目标持久化于 goals 表.
-// SB-006 看板叠加：顶部复用 DashboardGoalCard（传真实 goalFen，闭环 SB-006 D1）.
 
-class GoalPage extends StatelessWidget {
+class GoalPage extends StatefulWidget {
   const GoalPage({super.key, required this.db, this.showFab = true});
 
   final AppDb db;
   final bool showFab;
 
+  @override
+  State<GoalPage> createState() => GoalPageState();
+}
+
+class GoalPageState extends State<GoalPage> {
+  /// 换算单价覆盖（SB-040：点换算行选单价；null=用当前目标价）.
+  PriceRef? priceOverride;
+
   Future<void> _openEditor(BuildContext context, {Goal? goal}) async {
-    final bool? saved = await showDialog<bool>(
+    final int? savedDeadline = await showDialog<int?>(
       context: context,
-      builder: (BuildContext ctx) => _GoalDialog(
+      builder: (BuildContext ctx) => GoalDialog(
         goal: goal,
-        db: db,
-        onSave: (BuildContext dctx, _GoalForm form) async {
-          // SB-042 · 仅真实落库才 pop(true)，失败时对话框保持打开.
-          final bool ok = await _saveDialog(dctx, form, goal);
-          if (ok && dctx.mounted) Navigator.of(dctx).pop(true);
+        db: widget.db,
+        onSave: (BuildContext dctx, GoalForm form) async {
+          // SB-042 · 仅真实落库才关对话框；校验失败/异常（null）保持打开.
+          final int? deadline = await _saveDialog(dctx, form, goal);
+          if (deadline != null && dctx.mounted) {
+            Navigator.of(dctx).pop<int?>(deadline);
+          }
         },
       ),
     );
-    if (saved == true && context.mounted) {
+    if (savedDeadline != null && context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(goal == null ? '已定下新目标' : '目标已更新')),
+        SnackBar(
+          content: Text(
+            goal == null
+                ? (savedDeadline > 0 ? '已定下新目标 · $savedDeadline 个月' : '已定下新目标')
+                : '目标已更新',
+          ),
+        ),
       );
     }
   }
 
-  // SB-042 · true=真实落库，false=校验失败/异常（对话框保持打开）.
-  Future<bool> _saveDialog(
+  /// 保存；返回期限月数（0=未填），校验失败返回 null（对话框不关）.
+  Future<int?> _saveDialog(
     BuildContext context,
-    _GoalForm form,
+    GoalForm form,
     Goal? goal,
   ) async {
     final String? err = validateGoal(
@@ -69,11 +86,11 @@ class GoalPage extends StatelessWidget {
     );
     if (err != null) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(err)));
-      return false;
+      return null;
     }
     try {
       if (goal == null) {
-        await db.insertGoal(
+        await widget.db.insertGoal(
           GoalsCompanion(
             name: Value(form.name.trim()),
             targetFen: Value(form.targetFen!),
@@ -83,7 +100,7 @@ class GoalPage extends StatelessWidget {
           ),
         );
       } else {
-        await db.updateGoal(
+        await widget.db.updateGoal(
           GoalsCompanion(
             id: Value(goal.id),
             name: Value(form.name.trim()),
@@ -102,9 +119,22 @@ class GoalPage extends StatelessWidget {
           context,
         ).showSnackBar(const SnackBar(content: Text('保存失败，请重试')));
       }
-      return false;
+      return null;
     }
-    return true;
+    return form.deadlineMonths ?? 0;
+  }
+
+  Future<void> _pickPrice(BuildContext context, PriceRef current) async {
+    final List<Goal> goals = await widget.db.listGoals();
+    if (!context.mounted) return;
+    final PriceRef? sel = await pickConvertPrice(
+      context,
+      current: current,
+      goals: goals,
+    );
+    if (sel != null && context.mounted) {
+      setState(() => priceOverride = sel);
+    }
   }
 
   @override
@@ -112,16 +142,30 @@ class GoalPage extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final bool isDark = theme.brightness == Brightness.dark;
     return Scaffold(
-      appBar: AppBar(title: const Text('目标阶梯')),
+      appBar: AppBar(
+        title: const Text('我的'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.settings_outlined),
+            tooltip: '设置',
+            key: const Key('settingsEntry'),
+            onPressed: () => Navigator.of(context).push<void>(
+              MaterialPageRoute<void>(
+                builder: (_) => SettingsPage(db: widget.db),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Container(
         decoration: AppTheme.ground(isDark),
         child: StreamBuilder<List<Goal>>(
-          stream: db.watchGoals(),
+          stream: widget.db.watchGoals(),
           builder: (BuildContext ctx, AsyncSnapshot<List<Goal>> gsnap) {
             final List<Goal> goals = gsnap.data ?? <Goal>[];
             final Goal? active = goals.isEmpty ? null : goals.first;
             return StreamBuilder<List<Transaction>>(
-              stream: db.watchAll(),
+              stream: widget.db.watchAll(),
               builder:
                   (BuildContext ctx2, AsyncSnapshot<List<Transaction>> tsnap) {
                     final List<Transaction> rows =
@@ -142,6 +186,14 @@ class GoalPage extends StatelessWidget {
                       now: now,
                       goalFen: active?.targetFen,
                     );
+                    final PriceRef price =
+                        priceOverride ??
+                        (active == null
+                            ? const PriceRef(name: '奶茶', fen: 1800)
+                            : PriceRef(
+                                name: active.priceName,
+                                fen: active.priceFen,
+                              ));
                     return ListView(
                       padding: const EdgeInsets.all(RunwaySpacing.page),
                       children: <Widget>[
@@ -166,19 +218,26 @@ class GoalPage extends StatelessWidget {
                                     style: theme.textTheme.bodyMedium,
                                     key: const Key('goalEmpty'),
                                   ),
+                                  const SizedBox(height: 12),
+                                  FilledButton(
+                                    onPressed: () => _openEditor(context),
+                                    key: const Key('goalEmptyAdd'),
+                                    child: const Text('设一个试试'),
+                                  ),
                                 ],
                               ),
                             ),
                           )
                         else
-                          GoalProgressCard(
-                            targetFen: active.targetFen,
-                            price: PriceRef(
-                              name: active.priceName,
-                              fen: active.priceFen,
+                          GestureDetector(
+                            key: const Key('goalPricePick'),
+                            onTap: () => _pickPrice(context, price),
+                            child: GoalProgressCard(
+                              targetFen: active.targetFen,
+                              price: price,
+                              monthSpendFen: sums.monthSpendFen,
+                              lastMonthSpendFen: sums.lastMonthSpendFen,
                             ),
-                            monthSpendFen: sums.monthSpendFen,
-                            lastMonthSpendFen: sums.lastMonthSpendFen,
                           ),
                         // SB-008 · 达成态才出现的收藏入口（非达成零像素改动，
                         // SB-007 golden 基线不受影响）.
@@ -191,19 +250,19 @@ class GoalPage extends StatelessWidget {
                           TextButton(
                             onPressed: () => Navigator.of(context).push<void>(
                               MaterialPageRoute<void>(
-                                builder: (_) => AchievementsPage(db: db),
+                                builder: (_) => AchievementsPage(db: widget.db),
                               ),
                             ),
                             key: const Key('goalToAchievements'),
                             child: const Text('查看成就收藏'),
                           ),
-                        AchievementGate(db: db),
+                        AchievementGate(db: widget.db),
                         const SizedBox(height: RunwaySpacing.section),
-                        GrainZone(db: db, rows: rows),
+                        GrainZone(db: widget.db, rows: rows),
                         TextButton(
                           onPressed: () => Navigator.of(context).push<void>(
                             MaterialPageRoute<void>(
-                              builder: (_) => WeeklyPage(db: db),
+                              builder: (_) => WeeklyPage(db: widget.db),
                             ),
                           ),
                           key: const Key('goalToWeekly'),
@@ -218,45 +277,42 @@ class GoalPage extends StatelessWidget {
                         const SizedBox(height: 8),
                         // SB-030 · 目标纵向时间线（demo 清单④；未达成 tabular
                         // "¥现攒/¥目标"，达成琥珀"✓ 已攒够·N周"；N=自建起整周）.
-                        Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(
-                              RunwaySpacing.cardInner,
-                            ),
-                            child: GoalTimeline(
-                              goals: goals,
-                              convertibleFen: computeGoal(
-                                monthSpendFen: sums.monthSpendFen,
-                                lastMonthSpendFen: sums.lastMonthSpendFen,
-                              ).convertibleFen,
-                              now: now,
-                              onEdit: (Goal g) => _openEditor(context, goal: g),
-                              onDelete: (Goal g) => db.deleteGoal(g.id),
+                        // SB-040 · 空列表不渲染白卡（修"全部目标 0 个"下方
+                        // 空白卡 bug；空态已有上方设目标卡承接）.
+                        if (goals.isNotEmpty)
+                          Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(
+                                RunwaySpacing.cardInner,
+                              ),
+                              child: GoalTimeline(
+                                goals: goals,
+                                convertibleFen: computeGoal(
+                                  monthSpendFen: sums.monthSpendFen,
+                                  lastMonthSpendFen: sums.lastMonthSpendFen,
+                                ).convertibleFen,
+                                now: now,
+                                onEdit: (Goal g) =>
+                                    _openEditor(context, goal: g),
+                                onDelete: (Goal g) =>
+                                    widget.db.deleteGoal(g.id),
+                              ),
                             ),
                           ),
-                        ),
+                        // SB-034 · 诊断回传开关行（仅 debug + 已配置可见；
+                        // 默认未注入 = 零像素，golden 不动）.
                         const SizedBox(height: RunwaySpacing.section),
                         // SB-038 · 首页搬家区（只搬家不删除：每日收口/大额冷静/
                         // 月度小实验/预算观察；口径零改，复用同一 Zone；
-                        // 返工轮=裁A 修导航：搬家区移到时间线之后，
-                        // 目标页首屏恢复主版顺序，周报入口回到首屏可见）.
-                        DailyCloseZone(db: db, rows: rows),
+                        // 040 合入轮随 StatefulWidget 改挂 widget.db）.
+                        DailyCloseZone(db: widget.db, rows: rows),
                         const SizedBox(height: RunwaySpacing.section),
-                        CooloffZone(db: db),
+                        CooloffZone(db: widget.db),
                         const SizedBox(height: RunwaySpacing.section),
-                        ExperimentZone(db: db),
+                        ExperimentZone(db: widget.db),
                         const SizedBox(height: RunwaySpacing.section),
-                        BudgetZone(db: db, rows: rows),
-                        // SB-034 · 诊断回传开关行（仅 debug + 已配置可见；
-                        // 默认未注入 = 零像素，golden 不动）.
+                        BudgetZone(db: widget.db, rows: rows),
                         const DiagnosticsSection(),
-                        // SB-039 ③ · 关于诊断常驻行（类目页迁入，bodySmall 常显）.
-                        AboutDiagnosticsCard(
-                          ruleCount: defaultRules.length,
-                          categoryCount: ruleCategories.length,
-                          otherShare: summary.otherShare,
-                          otherFault: summary.otherFault,
-                        ),
                       ],
                     );
                   },
@@ -264,7 +320,7 @@ class GoalPage extends StatelessWidget {
           },
         ),
       ),
-      floatingActionButton: showFab
+      floatingActionButton: widget.showFab
           ? FloatingActionButton(
               onPressed: () => _openEditor(context),
               tooltip: '定目标',
@@ -272,152 +328,6 @@ class GoalPage extends StatelessWidget {
               child: const Icon(Icons.add),
             )
           : null,
-    );
-  }
-}
-
-class _GoalForm {
-  String name = '';
-  int? targetFen;
-  String priceName = '奶茶';
-  int? priceFen = 1800;
-  String followKey = '';
-}
-
-/// 目标设定对话框（名称/目标额/参考单价；内置单价 chips 一键填入，可自定义改）.
-/// SB-020 · 常买跟随（可选）：填"类目｜备注"键取中位数填入单价；
-/// 填入后仍可手改，手改即锁定优先；换算引擎零改动（复用 SB-007）.
-class _GoalDialog extends StatefulWidget {
-  const _GoalDialog({this.goal, this.db, this.onSave});
-
-  final Goal? goal;
-  final AppDb? db;
-  final Future<void> Function(BuildContext ctx, _GoalForm form)? onSave;
-
-  @override
-  State<_GoalDialog> createState() => _GoalDialogState();
-}
-
-class _GoalDialogState extends State<_GoalDialog> {
-  late final TextEditingController _name;
-  late final TextEditingController _target;
-  late final TextEditingController _priceName;
-  late final TextEditingController _price;
-
-  @override
-  void initState() {
-    super.initState();
-    _name = TextEditingController(text: widget.goal?.name ?? '');
-    _target = TextEditingController(
-      text: widget.goal == null ? '' : formatFen(widget.goal!.targetFen),
-    );
-    _priceName = TextEditingController(text: widget.goal?.priceName ?? '奶茶');
-    _price = TextEditingController(
-      text: widget.goal == null ? '18' : formatFen(widget.goal!.priceFen),
-    );
-  }
-
-  @override
-  void dispose() {
-    _name.dispose();
-    _target.dispose();
-    _priceName.dispose();
-    _price.dispose();
-    super.dispose();
-  }
-
-  void _pickPrice(PriceRef p) {
-    setState(() {
-      _priceName.text = p.name;
-      _price.text = formatFen(p.fen);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(widget.goal == null ? '定一个目标' : '编辑目标'),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            TextField(
-              controller: _name,
-              decoration: const InputDecoration(labelText: '目标名（如攒手机）'),
-              maxLength: 32,
-              key: const Key('goalName'),
-            ),
-            TextField(
-              controller: _target,
-              decoration: const InputDecoration(labelText: '目标金额（元）'),
-              keyboardType: const TextInputType.numberWithOptions(
-                decimal: true,
-              ),
-              key: const Key('goalTarget'),
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              children: <Widget>[
-                for (final PriceRef p in defaultPrices)
-                  ChoiceChip(
-                    // SB-042 P3 · 补分隔（5090 ¥16,499），金额口径仍走 formatFen.
-                    label: Text('${p.name} ¥${formatFen(p.fen)}'),
-                    selected: _priceName.text == p.name,
-                    onSelected: (_) => _pickPrice(p),
-                  ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              controller: _priceName,
-              decoration: const InputDecoration(labelText: '参考单价名（可自定义）'),
-              maxLength: 16,
-              key: const Key('goalPriceName'),
-            ),
-            TextField(
-              controller: _price,
-              decoration: const InputDecoration(labelText: '参考单价（元）'),
-              keyboardType: const TextInputType.numberWithOptions(
-                decimal: true,
-              ),
-              key: const Key('goalPrice'),
-            ),
-            const SizedBox(height: 8),
-            GoalFollowField(
-              db: widget.db,
-              onPick: (int medianFen, String noteName) {
-                setState(() {
-                  _price.text = formatFen(medianFen);
-                  _priceName.text = noteName;
-                });
-              },
-            ),
-          ],
-        ),
-      ),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(false),
-          child: const Text('取消'),
-        ),
-        FilledButton(
-          onPressed: () async {
-            final _GoalForm form = _GoalForm()
-              ..name = _name.text
-              ..targetFen = parseAmountToFen(_target.text)
-              ..priceName = _priceName.text
-              ..priceFen = parseAmountToFen(_price.text);
-            if (widget.onSave != null) {
-              await widget.onSave!(context, form);
-            } else {
-              Navigator.of(context).pop(false);
-            }
-          },
-          key: const Key('goalSave'),
-          child: const Text('保存'),
-        ),
-      ],
     );
   }
 }

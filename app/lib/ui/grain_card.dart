@@ -61,11 +61,21 @@ class GrainReserveCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
+            // SB-040 · 空目标态（targetFen<=0，文案="记满 3 个月…"引导语）降
+            // bodySmall：标题级字号只留给真实数字（DESIGN §1.4 数字一等公民）.
             Text(
               grainBody(fundFen: view.fundFen, targetFen: view.targetFen),
-              style: theme.textTheme.headlineSmall?.copyWith(
-                fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
-              ),
+              style: view.targetFen <= 0
+                  ? theme.textTheme.bodySmall?.copyWith(
+                      fontFeatures: const <FontFeature>[
+                        FontFeature.tabularFigures(),
+                      ],
+                    )
+                  : theme.textTheme.headlineSmall?.copyWith(
+                      fontFeatures: const <FontFeature>[
+                        FontFeature.tabularFigures(),
+                      ],
+                    ),
               key: const Key('grainConvert'),
             ),
             const SizedBox(height: 4),

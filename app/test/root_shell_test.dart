@@ -44,12 +44,15 @@ void main() {
     expect(find.text('类目管理'), findsOneWidget);
     expect(find.byKey(const Key('shellAdd')), findsOneWidget);
 
-    // 我的：目标阶梯页可达；该页保留定目标 FAB，外层记一笔隐藏.
+    // 我的：我的页（SB-040 起标题=我的，不再叫目标阶梯）可达；
+    // 该页保留定目标 FAB，外层记一笔隐藏.
     // SB-027 续做修：FAB 跨 Scaffold 有 hero 过渡（~300ms），定泵
     // 300ms+1 帧恰卡在过渡中导致旧 shellAdd 仍在 overlay——改 settle 等过渡走完.
     await tester.tap(find.text('我的'));
     await tester.pumpAndSettle();
-    expect(find.text('目标阶梯'), findsOneWidget);
+    // Tab 文案"我的"+AppBar 标题"我的"=2 处.
+    expect(find.text('我的'), findsNWidgets(2));
+    expect(find.text('目标阶梯'), findsNothing);
     expect(find.byKey(const Key('goalAdd')), findsOneWidget);
     expect(find.byKey(const Key('shellAdd')), findsNothing);
 

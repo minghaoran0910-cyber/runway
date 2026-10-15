@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:runway/data/app_db.dart';
@@ -220,6 +221,16 @@ void main() {
 
   testWidgets('SB-030 目标页→周报 1 跳可达（首页起 ≤2 跳）', (WidgetTester tester) async {
     final AppDb db = AppDb.memoryForTest();
+    // SB-040 起空列表不渲染时间线白卡——先置一条目标再断言可达.
+    await db.insertGoal(
+      GoalsCompanion(
+        name: const Value('攒手机'),
+        targetFen: const Value(399900),
+        priceName: const Value('奶茶'),
+        priceFen: const Value(1800),
+        tier: const Value('手机'),
+      ),
+    );
     await tester.pumpWidget(
       MaterialApp(
         theme: AppTheme.light(),
@@ -228,9 +239,23 @@ void main() {
     );
     await tester.pumpAndSettle();
     // 目标页含周报入口键（第 2 跳），首页→目标→周报共 ≤2 跳.
-    expect(find.byKey(const Key('goalToWeekly')), findsOneWidget);
-    expect(find.byKey(const Key('goalCount')), findsOneWidget);
-    expect(find.byKey(const Key('goalTimeline')), findsOneWidget);
+    // 040 合入轮：合并态列表更高且搬家区流重建使 scrollUntilVisible 内部
+    // element() 竞态（No element）——改渐进拖拽+收集：三键均在列表出现=可达.
+    final Set<String> seen = <String>{};
+    for (int i = 0; i < 12 && seen.length < 3; i++) {
+      for (final String k in <String>[
+        'goalToWeekly',
+        'goalCount',
+        'goalTimeline',
+      ]) {
+        if (find.byKey(Key(k)).evaluate().isNotEmpty) {
+          seen.add(k);
+        }
+      }
+      await tester.drag(find.byType(ListView).first, const Offset(0, -400));
+      await tester.pumpAndSettle();
+    }
+    expect(seen.length, 3, reason: '周报入口/计数/时间线三键须均在目标页列表出现（≤2跳契约）');
     await _unmountAndFlush(tester);
   });
 }
