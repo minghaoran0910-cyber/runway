@@ -670,3 +670,6 @@
 - 漂移审计全绿：禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7+achievement.dart:13 行号本拍 grep 实测一致，沿 p=0.75）用户可见=0；theme/motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds=0（本拍 grep -c 回显 0/0）；美团|工资|房贷 非 md=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（8830d1c 后码体零变更沿合成夹具豁免）；_LOCK find+tracked=0；工作树净 0 行；worktree=main+reshoot×5+vC 全在册（删除待浩然一句话）；素材分支×3+feat/SB-037(reshoot 占用)沿册零触碰；remote 本拍零操作（ahead=簿记合规）；main 头 aaa3c60↔REVIEW 09:3x 段✓（簿记后新头↔本段✓）；progress 唯一真相✓；task_plan 未据此判进度✓。
 - 其他：周四非周一无适配审查（周一批次挂账不变）；决策模型未调用（本拍无边界裁决）；新鲜度=括注一次性上下文沿 09:3x 裁定未动 cron（现行锚点 8830d1c 以本票与快照为真相）；wake 88a8e128 enabled:false 本拍 cron list --all 实测复核✓（WAITING_HUMAN 停唤醒合规·浩然拍板后先翻括注再 enable）；重复 wake e71e53ac/f859efc9/b71bf570 均 disabled 在册删除待批；runway-watchdog abaa94c7 ok（本拍实测连续两轮非连败）/统一看门狗 169be936 ok/需求反思 6f3e81c0 ok/巡检 19b5f29f running=本拍。
 - 利益点自省：持平——零动作审计轮守住 042 目标保存真落库成果，机制零变化无 SilentBook 旧病；推进堵点在浩然侧（038 返工拍板=链唯一闸口），非『更远』。
+
+## 监工票 — 2026-10-15 10:2x（浩然裁 A：授权 SB-038 返工）
+- 裁定=**A**：builder 返工 SB-038（修"目标页→周报"导航+按新布局更新断线测试），一次性授权一个工作拍次；追补单要求不变（首页补"今天攒出"常驻行，截图后复审）。返工交卷缺实拍仍按闸门打回。SB-042（假成功弹窗）与四卡合入序列不受影响。
