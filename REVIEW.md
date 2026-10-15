@@ -822,3 +822,17 @@
 - 验证：全量 realexit=0（+468）；format/analyze/hygiene=0/0/OK；一条龙冒烟 build✓/BOOT=1/install/PID=2342/FATAL=0/首页实拍目检正常（账本 tab tap 脱帧未补，类目渲染由 sb005 金样绿覆盖）。
 - 锚点 dd8cf0f→c6dffae；R4/挂账零变化；origin/分支/worktree 零触碰。
 - 下一步：040 业务体 squash（在册冲突=goal_editor 与 041 交叠，040 先合按原卡面施工）→全量→冒烟→归档；再 041（goal_editor add/add 按卡第4条=删 040 月数字段保 041 日期字段·schema v12）。
+
+## 监工票 — 2026-10-15 14:5x 巡检轮（链序③落点独立复跑=红·冻结④·呈浩然拍板）
+结论: REQUEST_CHANGES（对 main@006c016 合入落点；非卡面审查，不计 SB-040 R4）
+- 无新提审：REQ(12:48:14) < REVIEW(14:30:51)，REQ 盘上↔HEAD diff=IDENTICAL 验真（盘上头=038 第3轮已审结旧单）。本票为条款6b 一致性驱动的主动审计票。
+- 链序③落点实证：006c016『SB-040 合入（squash 121a818·浩然裁合链序③·金样待合并态刷）』14:36:36 落 main——**无 REVIEW 票/无 progress 登记/卡未归档/无簿记提交**（四缺，合入舞步未走完）；提交信息自认金样未刷。
+- 独立复跑（--concurrency=1 串行×2，确定性）：**+464 -10 realexit=1**。失败=8 金样（goal light/dark×6·我的页预算区×2·role/budget_home 旧帧）+2 逻辑回归：①SB-030 目标页→周报 goalCount Key Found 0（12:5x 手动接管修过的断点形态复现）；②SB-042 非法金额『5090 ¥』错误条 Found 0（042 假成功守卫回归）。
+- 归因实验：临时 worktree 检出上一提交 c6dffae 复跑同三文件=**+20 All tests passed realexit=0**（worktree 已移除）→10 项失败全部由 006c016 引入，非 038/039 合入遗留。
+- 处置：①**冻结 041**（红基不得叠链序，条款5 RC 永不合入）；②监工不自回滚 main（回滚授权不在条款内），修复前行 vs 回滚 c6dffae 呈浩然拍板（⚡③⑤）；③冒烟义务**待裁后补**（红基冒烟无意义，REVIEW 记待办）；④工作树 half-scene 恢复：done/SB-038·039 状态翻牌未提交=与 14:0x/14:1x 在册票逐字一致，本轮随簿记提交（非新断言）；⑤app/test/failures/（66 png≈22MB，14:25 合入轮旧档+14:35-14:36 监工复跑新证）**保留不删**。
+- 视觉闸门：本票不审美观（红基先修后美；SB-040 重落/修复后按闸门口径重验）。
+- 决策模型（条款10）：**不可用**（tool schema 三次报错：questions 结构校验失败，status≠ok），按原流程呈浩然；watch 挂『决策模型 schema 漂移』复核。
+- 漂移与一致性审计：禁词 app/lib=2 行元引用豁免（goal_ladder.dart:7+achievement.dart:13 行号本拍实测）用户可见=0；ui/theme·motion_spec 外裸 Color(0x=0/裸 Duration=0（实测回显）；美团|工资|房贷=0；open_id 码体=0；手机号=0（13 位 epoch 毫秒夹具 2 文件误报沿册 audit_method_note①）；真实账目=0 红线零触发；_LOCK find=0；branches main+feat×7+rescue×1 全在册；worktree=7 行（归因 worktree 已卸）；origin 零触碰（无 push/fetch/ls-remote，本拍实测）；**6b 违反=本轮发现本体**（main 头 006c016 无 REVIEW 对应票，P1 已立票补账）；progress 唯一真相✓（040 落点未登记=归属不清佐证，周一推送归属核对批次并入『合入执行者归属』项）；task_plan 未据此判进度✓。
+- 利益点自省（一行）：**更远**——目标页=『天天看见自己挪一步』主载体，当前 main 上周报入口断+保存错误提示失效，用户可见面倒退；计数 13:3x 更近→14:0x 更近→14:1x 更近→本轮更远（单轮，未触连续两轮升级）；『合入未验证即落 main』与 SilentBook 旧病（信任不核验）同构，修复路径已随简报请拍板。
+
+下一步（待浩然裁定后执行）：A) 回滚 main→c6dffae（git revert 006c016，SB-040 回 feat/SB-040 重走全量+金样+冒烟+归档）；或 B) 修复前行（builder 补 goal_page 两处回归+合并态重刷金样+全量绿→监工复验→归档→冒烟→再链序④ 041）。两案均须恢复 wake 或指定修复执行者。
