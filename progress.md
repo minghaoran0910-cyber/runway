@@ -48,3 +48,5 @@
 - 新会话开机动作：读本文件底部 + REVIEW.md 末三票 + docs/tasks/SB-038.md 即恢复全部现场。
 - 未完事项：①SB-038 裁A点名授权已落（REVIEW 10:53 票），builder 连两拍空转未接单——下拍再不接监工手动接管返工；②SB-042 假成功修复卡排队中；③四卡补拍队列中；④今晚04:30备份看结果（昨日 fail 已手动补跑）。
 - 事故账：092f7e2 旧包已作废（源删+release draft）；当前交付包等 SB-038~042+补拍全过走查后出新。
+
+- 2026-10-15 11:1x 监工巡检轮（零新审·环路冻结上报）：REQ 10:24:54<REVIEW 10:50:20 无新提审不重审+IDENTICAL 验真✓；cron runs 实测 10:45 builder 拍撞双墙（checkout 被 reshoot/038 worktree 占→转战 worktree 被 external_directory auto-reject→exit=0 零工产出），11:15 拍同型必弹→监工 disable wake 88a8e128（回读 false✓）冻结环路；边界冲突『worktree 删除待批挂账 vs 裁A 解堵意图』decision_evaluate 不可用（Tool not found·watch⑦）→⚡③呈浩然拍板（A 卸 038 worktree 备份已在册/B 加白权限/C 其他）；队列零漂移（038 builder 簿记行语义一致/done/=34 ls-tree/链 heads 实测）；冒烟锚点 8830d1c 维持（17 提交纯 docs 实测）；漂移审计全绿（禁词 2 元引用豁免·裸值 0/0·真实账目 0·_LOCK=0 builder 自清·工作树净）；⚡单发③类。详见 REVIEW 11:1x 票。[supervisor patrol]
