@@ -621,3 +621,13 @@
 - 漂移审计（条款6）：禁词五词 app/lib 命中 2 行均元引用豁免（goal_ladder.dart:7+achievement.dart:13 本轮行号实测一致，沿 p=0.75）用户可见=0；ui/theme·motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0；美团|工资|房贷非md=0；open_id=0；锚定手机号=0；真实账目=0 红线零触发（8830d1c 后码体零变更·合成夹具豁免沿册）；main 头 4fdfbfe↔REVIEW 07:0x 段✓（本票追加↔新簿记头）；progress 唯一真相✓；task_plan 薄索引未据此判进度✓。**全绿**。
 - 其他：周四非周一无适配审查；决策模型未调用（本拍无边界裁决）；新鲜度=括注锚点 5284460 已被 8830d1c 取代，沿在册防 churn 口径（REVIEW/快照为真相）未动 cron；自验三连随本票提交回显。
 - 利益点自省：持平——零动作审计轮守住 037/042 成果（首页清理+目标保存真落库），机制零变化无 SilentBook 旧病；推进堵点在浩然侧（038 返工拍板），非『更远』。
+
+## 巡检票 — 10-15 08:0x（零新审·锚点维持·漂移全绿）
+结论: PASS（本轮零新审，簿记票）
+- REQ 验真：盘上 mtime 1792010763(04:46:03)<REVIEW 1792020942(07:35:42)；git show HEAD:REVIEW_REQUEST.md 与盘上 diff=IDENTICAL（假翻转验法在册）；REQ head='# WAITING_HUMAN — SB-038 已累计 2 轮 RC'显式头部复核✓不重审。wake 88a8e128 维持停用（本拍 cron list 实测零行=enabled 列表无 wake，沿 07:3x --all disabled 口径；SUPERVISOR 附录2 停摆合规，拍板前不恢复）。
+- 队列零漂移：活跃卡=6 状态行 grep 实测与快照逐字一致（SB-012 经验闸门在飞/SB-021 挂起/SB-038 RC2→WAITING_HUMAN/SB-039·040·041 二轮 PASS 待链）；done/=34 git ls-tree 实测；待办=0 见底已呈（链被 038 拍板堵=非见底自派场景，恢复路径=pending_backfill②），不重复推送。
+- 冒烟义务=无：8830d1c..HEAD(cc7bbcb) 变更文件 4 个全 .md（REVIEW/REQ/done归档 SB-042/progress）实测→锚点 8830d1c 维持；pgrep 无 emulator 进程（OpenCode.app GUI 常驻×6=Electron helpers 在册非 builder）→builder 轮次=0。
+- 并发与现场：_LOCK find+tracked=0；工作树 0 行；branch=main（feat/SB-037..041+素材×3+rescue 全在册链/待批非残留）；origin 零触碰本轮无 push/fetch/ls-remote（实测 ahead 19→本票 20；勘正 07:3x 票簿记算术 off-by-one：其票写'17→本票18'实测其票后头=19，链上 03:5x 归档票起算差异非新提交混入，零风险仅簿记纪律留痕）。
+- 漂移审计（条款6）：禁词五词 app/lib 命中 2 行均元引用豁免（goal_ladder.dart:7+achievement.dart:13 本轮行号实测一致，沿 p=0.75）用户可见=0；ui/theme·motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（find+xargs 实测）；美团|工资|房贷 dart=0；open_id 非md=0；锚定手机号=0；真实账目=0 红线零触发（8830d1c 后码体零变更·合成夹具豁免沿册）；main 头 cc7bbcb↔REVIEW 07:3x 末段✓（本票追加↔新簿记头）；progress 唯一真相✓；task_plan 薄索引未据此判进度✓。**全绿**。
+- 其他：周四非周一无适配审查（周一批次挂账不变）；决策模型未调用（本拍无边界裁决）；新鲜度=括注锚点 5284460 已被 8830d1c 取代，沿在册防 churn 口径（REVIEW/快照为真相，周一批次统一翻括注）未动 cron；灰区批次（SB-032/D2-D4）04:0x 已呈待答不重复推；038 拍板呈报 03:0x 已在飞待答。自验三连随本票提交回显。
+- 利益点自省：持平——零动作审计轮守住 042 目标保存真落库成果，机制零变化无 SilentBook 旧病；推进堵点在浩然侧（038 返工拍板=链唯一闸口），非『更远』。
