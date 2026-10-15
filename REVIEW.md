@@ -972,3 +972,19 @@
 - 决策模型：本轮无边界裁决项，未调用（见底自派=既有授权机械执行，非新裁量）。
 - 利益点自省（一行）：更近——队列见底解除且 SB-045 砍的全是误导性噪声（0.0% 假数据/悬空标签/读不懂的梗），「零成本天天看见自己挪一步」的表面信任继续加厚；计数 18:3x 更近→本票更近（派卡），无「更远」、无 SilentBook 旧病同构。
 - 下一步：19:15 wake 领 SB-045 施工→提审（实拍帧强制）；SB-012 真人闸门沿飞；切包前置四任务走查待浩然切包意向（沿册）。
+
+## 监工票 — 2026-10-15 19:5x（巡检轮·SB-045 首审·字面 RC（缺实拍帧）·偏差 p=0.63 灰区留浩然拍板·wake 已冻结）
+结论: REQUEST_CHANGES（第 1 轮 · 卡 SB-045）——唯一堵点=模拟器实拍帧缺（卡面验收字面条款「缺图直接 REQUEST_CHANGES」）；码体/测试/已供帧视觉审全部绿。偏差接受裁决 decision_evaluate p=0.63 灰区=不编判决留浩然拍板（⚡②③本轮呈报）。wake b0ea8424 已 disabled（实测）——裁 A 放行则本 RC 作废、监工直接合入并补四帧真机走查（SB-042/043/044 补拍通道先例在册）；裁 B 从严则 builder 无 SDK 补不出实拍→二次 RC→自动 WAITING_HUMAN 死锁，不推荐。
+- 审查义务与验真：REQ mtime 1792063779(19:29:39)>REVIEW 1792062277(19:04:37) 义务发生✓；盘上 vs git show feat@99f89b7:REVIEW_REQUEST.md=IDENTICAL 验真✓（本票 checkout main 后盘上 REQ 回 main 旧版 mtime=1792064285，真实提审单存 feat@99f89b7）；WAITING_HUMAN 标记=0。
+- 码体逐条（diff main...feat 实测 lib6+test2=8 文件 58 行·≤10 合规·tokens/pubspec/CI 零碰）：①零值降噪 hero+诊断同阈值 share*100<0.05 整段隐藏（含条件 SizedBox），故障态文案 diff=0✓；②悬空标签「分类健康」→「分类都在轨」两处统一无双命名✓；③引导 33→13 字+grainHint 起步态白话锚「记下第一笔，底气开始攒」（fund<=0&&target>0 位序正确），词表常量零动、完成态渲染 diff=0✓；④裸 top:24×3→RunwaySpacing.section/sectionHeaderTop（grep "top: 24" 残留=0 实测）✓；禁词 diff+行五词 grep=0；格式化走 formatFenYuan 既有入口✓；测试同步锁（dashOtherShare findsNothing/占比 findsNothing/「分类都在轨」findsOneWidget）✓。
+- 监工独立复跑（绿不继承）：全量 flutter test=+483 All tests passed exit 0（本轮回显）。
+- 审美审计（视觉闸门小节·已供 2 帧核看）：层级 hero 大字+subSize 副信息无 ladder 滥用；间距 24 区块统一；对比度浅灰小字压蓝卡可读、无白字压浅底；无 AI 味（无紫渐变/emoji/居中大堆叠）；一致性「分类都在轨」同短句两处✓。P3 观察（不阻本卡）：02 帧 3 笔有数时 hero 仍「记下第一笔，开始攒跑道」（goal ladder 起步文案与数据态不同步，建议下批文案评估）；grainHint 新锚不在已供帧内=缺帧范围，归补拍覆盖。
+- 问题列表：1.（唯一）诊断区/类目引导/完成态 3 处模拟器实拍缺——卡验收 ≥4 帧入库 docs/designaudit/2026-10-15-copynoise/，实测 ls=2 帧（01_home/02_hero_data，macOS 窗口实拍非模拟器）。builder 环境无 adb（偏差声明在册）。
+- 冒烟：eb616e8..main@4263853 非 docs=0 实测→义务不发生，锚点维持 eb616e8=last_smoke_commit；裁 A 合入轮翻锚+一条龙+四帧走查。
+- 队列同步：012 体验中（7 天真人闸门在飞）/021 挂起/SB-045 已提审·第 1 轮 RC·待拍板（卡面状态行仍「待办」=builder 簿记滞后 P3 在册，合入/返工轮翻）；done/=40 ls-tree 实测；待办=0 见底——本拍不新派卡（防与拍板 rebase 撞道），下批候选登记=§6 动效体系卡+P3 文案观察批。
+- 漂移与一致性（一行）：main@4263853 全绿——禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7+achievement.dart:13 行号本轮实测一致·用户可见=0）；ui/theme·motion_spec 外裸 Color(0x=0/裸 Duration=0（实测 0/0）；美团|工资|房贷 dart=0/_LOCK find=0/真实账目=0 红线零触发；branches=main+在册 feat×9（033/034/037/038/039/040/041/043+新 045 在飞）+rescue×1 零 stray；worktree=7 全在册；树净 0 行；origin 零触碰（本拍无 push/fetch/ls-remote）；main 头 4263853↔19:0x 票✓（本票后=簿记头↔本票）；progress 唯一真相✓；task_plan 薄索引未据其判进度✓。
+- watchdog 观察：abaa94c7 仍单红「Memos Get blocked」（last run≈17:4x error 实测·下拍~20:0x）；20:3x 巡检验，仍红=连续两拍败→⚡⑤升级呈报。
+- 提示词新鲜度：无 cron edit（防 churn·括注周一统一翻在册；本拍括注过时+1：wake=disabled（我冻结非漂移）/最高卡号=SB-045/done=40/锚点=eb616e8）；现行口径复核：com.zangou.runway+am start✓/golden/sb0XX✓/错峰 :00/:30 vs :15/:45✓。
+- 决策模型：accept_deviation_pass status=ok p=0.63→灰区不编判决，留浩然拍板（裁决行已入本票）。
+- 利益点自省（一行）：更近——首审实证 SB-045 码体全部可交付（四组降噪落地+483 绿），只欠拍摄证据且补拍通道已证；计数 19:0x 更近→本票更近（审查实证）；无「更远」、无 SilentBook 旧病同构。
+- 下一步：等浩然拍板 A/B（⚡②③已呈报）；A=RC 作废→合入+补四帧走查+翻锚+恢复 wake；B=二次 RC→自动 WAITING_HUMAN。
