@@ -855,3 +855,11 @@
 - 漂移与一致性：本轮复跑零业务改动（我仅 docs 三路径）；禁词/裸Color/裸Duration/红线全绿口径沿 14:5x 票（同树码体，实测未变）；origin 零触碰✓。
 - 决策模型：沿记不可用（本轮获 schema：boolean 型需 criteria 结构，下次巡检按正格式重试）；本轮裁决（撤销呈拍板）为事实驱动非边界裁量，不依赖模型。
 - 利益点自省（一行）：更近——目标页+设置页（从零设目标≤4 步的核心利益点载体）已绿基合入，链序仅剩 041 末张；计数 14:5x 更远→本轮 更近（修复闭环），单轮波动不触发升级。
+
+## 监工票 — 2026-10-15 15:1x（链序④·SB-041 合入轮·链清）
+结论: 041 已合入 main@a90e2e5，483 绿，冒烟 PASS，done/=38。链序 038→039→040→041 全部闭环。
+- 合入法：cherry-pick -n 89d2e34+a900402+685950c 纯业务体 squash；goal_page 四处 hunk 人工三向合并（041 期限直存日期契约+042 诚实保存守卫+040 结构三合一），合并残留三处编译伤（return null/多余大括号/_pickPrice+pickConvertPrice 随 041 版 editor 替换而失踪）逐一补回，analyze 归零。
+- 卡第4条执行：040 月数字段删除、041 日期字段保留；sb040 期限案随迁 validateDeadlineDate 口径（含错误文案）；sb041 编辑案钮被 AppBar 遮挡（合并态页面更高）→Scrollable.ensureVisible 居中修复（在册口径=按新布局更新测试）。
+- 验证：全量 realexit=0（+483）；format/analyze/hygiene=0/0/OK；一条龙冒烟 build✓/BOOT=1/PID=2487/FATAL=0/目标页实拍 06_goal_after041.png。锚点 aa61e8d→a90e2e5。
+- 链清后队列：活跃卡=SB-012（体验中·真人闸门）+SB-021（挂起）；待办=0。下一里程碑=新交付包（038~042 全过+补拍走查后出包）+SB-012 新用户四任务走查。
+- 仍待浩然一句话：reshoot worktree×5+vC+重复 wake 删除（A/B/C）；wake 维持 disabled；今晚 04:30 备份结果自核呈报。
