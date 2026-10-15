@@ -882,3 +882,19 @@
 - 验证：全量 +483 realexit=0；三闸 0/0/OK；金样 20 帧合并态重刷；真机四帧目检（¥ 全覆盖/持平/取整去重/toast 首按不退/题签一致）FATAL=0。
 - 在册未修（如实报）：P2 文案批（其他占比 0.0% 零值/分类健康悬空/引导长文案/第一穗隐喻/仓满梗）；§6 动效体系（共享轴转场×8 路由/按压 scale .96/stagger 80/成就粒子=评奖最后一公里，建议 SB-045）；SB-012 真人走查→新交付包。
 - 旁路闭环：备份红项根因=launchd TCC 无 Documents 权限（04:30 三连 FAIL），已迁 Gateway cron runway-backup（04:30）+手动补跑 OK（23M tar+42M bundle）；wake 维持 disabled；origin 零触碰。
+
+## 监工票 — 2026-10-15 16:3x（巡检轮·SB-043/044 首审机械审结·监工不自审·签字呈拍板）
+结论: 第 1 轮 · 卡 SB-043/SB-044。机械审全过（问题清单 P2×1+P3×2 在册），但两卡系监工亲手施工（14:03 浩然令·监工手动接管），按 SUPERVISOR.md「监工不自审」条款本轮不发 PASS/RC 签字，签字路径呈浩然（⚡③）。
+- 提审验真：REQ 盘上 vs git show HEAD = IDENTICAL✓；mtime 持平（1792052362）系 16:19 簿记 commit 同触两文件，内容判定=SB-043/044 新提审未裁（R4 两卡新卡首审），审查义务本轮已履行。
+- 机械检查项（分支 0bd3f12 全实测）：[x] ui/theme·motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds=0；[x] 禁词五词 app/lib=2 行均元引用（achievement.dart:13 禁词表本体+goal_ladder.dart:7 注释）用户可见零新增，「多花」白名单口径≠「又花」；[x] 真实账目（美团|工资|房贷）lib+test=0 红线零触发；[x] 代码面 11 lib+4 test（两卡合计·单卡各≤10 边缘·簿记观察不阻断）；[x] 套件=builder 侧 /tmp/sb043_suite2.log 16:10 实测「+483 All tests passed」（16:10 后码体零变更，监工合入轮复跑义务在册）；[x] 工作树净 0 行。
+- 视觉闸门实拍核看（09_home_after/10_mine_after/11b_back_toast/12b_ledger_after 盘上实测在）：¥ 前缀全覆盖（¥31/¥275/¥288/¥2,500/¥2,995/¥3,999·75%/¥8,654/¥1,442）；「本月攒出」题名落地与 hero「下一站」语境分流；「与上月持平」chip 落地；余粮标题取整落地；双击返回 toast「再按一次退出攒够」首按不退出落地；tab 题签「账本」与页标题一致；无紫渐变/emoji 图标/居中大堆叠，hero 深青白字对比度合格。审美参考（非签字）：层级/间距节奏/三屏一致性过；REQ 自报 P2 遗留（其他占比 0.0% 零值/分类健康悬空/种下第一穗隐喻）与实拍对合无隐瞒。
+- 问题列表：
+  1. [P2] app/test/failures/ 80 张金样重生成中间产物（testImage/masterImage/isolatedDiff/maskedDiff×20 帧）随 b4b8620 入库且无 ignore 规则——合入轮义务：git rm 该目录 + .gitignore 补条目（合成夹具截图，无真实数据，非红线）。
+  2. [P3] home_page.dart:176/217 `top: 24` 裸间距（pending_page:247 同型=预存在册），随 §6 动效/间距批统一收 token。
+  3. [P3] daily_close/quick_add/achievement 无 after 实拍帧（纯文案+触觉改动·金样 20 帧重刷覆盖），真人走查轮顺带补。
+- 冒烟义务：a90e2e5..HEAD(5ff8674) diff 非 docs=0 实测→锚点维持 a90e2e5 不重跑；模拟器进程实测=0（77217 已自退·零并发占用·合入轮一条龙再翻锚点）。
+- 漂移与一致性（一行）：main@a90e2e5 树全绿——裸 Color/Duration=0/0、禁词元引用×2 豁免、真实账目=0、_LOCK=0、branches=main+在册 feat×8（含在审 043/044）+rescue×1 零未在册 stray、worktree 在册+patrol1600 已撤、done/=38 ls-tree 实测、origin 零触碰、progress 唯一真相✓、task_plan 未据其判进度✓。
+- 下一步：浩然拍签字路径（A=恢复 wake 由 opencode 独立二审 [建议]／B=浩然目检四帧裁合或返工／C=搁置）；裁过后合入轮=rebase 至 main 头+清 failures+翻锚点+一条龙冒烟+新用户四任务走查（切包前置 pending 在册）。
+- 决策模型：本轮未调用——「监工不自审」为硬条款非灰区，签字路径属浩然决策权，不代裁。
+- 提示词新鲜度：无 cron edit（防 churn 沿 21:4x 裁定·括注周一统一翻；wake disabled/锚点 a90e2e5/done=38/卡号 044 现行态周一批翻在册）。
+- 利益点自省（一行）：更近——¥ 前缀/取整/持平文案/避遮挡/双击退出全在「天天看见自己挪一步」的表面信任层；计数 15:1x 更近→16:0x 更近→本轮更近，无「更远」、无 SilentBook 旧病同构。
