@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../logic/achievement.dart';
 import '../logic/entry.dart';
@@ -173,6 +174,8 @@ class _AchievementPopState extends State<AchievementPop>
     );
     _scale = CurvedAnimation(parent: _ctrl, curve: MotionSpec.fabCurve);
     _ctrl.forward();
+    // SB-044 · 成就解锁触觉（§6：.medium；reduce-motion 静默）.
+    if (!reduce) HapticFeedback.mediumImpact();
   }
 
   @override

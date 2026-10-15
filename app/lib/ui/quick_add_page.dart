@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../data/app_db.dart';
 import '../../logic/entry.dart';
@@ -64,6 +65,8 @@ class _QuickAddPageState extends State<QuickAddPage> {
       ),
     );
     if (!mounted) return;
+    // SB-044 · 记一笔成功触觉（§6：.light）.
+    HapticFeedback.lightImpact();
     Navigator.of(context).pop(true);
   }
 

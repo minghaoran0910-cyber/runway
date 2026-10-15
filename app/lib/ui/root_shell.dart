@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../data/app_db.dart';
 import 'category_page.dart';
@@ -28,45 +29,71 @@ class RootShellState extends State<RootShell> {
     );
   }
 
+  DateTime? _lastBack;
+
+  /// SB-044 · 双击返回退出：首按提示、2 秒内再按才真退（防误触一键退丢上下文）.
+  void _handleBack() {
+    final DateTime now = DateTime.now();
+    if (_lastBack != null &&
+        now.difference(_lastBack!) < const Duration(seconds: 2)) {
+      // canPop:false 下 maybePop 会被自身拦截，真退须走 SystemNavigator.
+      SystemNavigator.pop();
+      return;
+    }
+    _lastBack = now;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('再按一次退出攒够'),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: IndexedStack(
-        index: index,
-        children: <Widget>[
-          HomePage(db: widget.db, showFab: false),
-          CategoryPage(db: widget.db),
-          GoalPage(db: widget.db),
-        ],
-      ),
-      floatingActionButton: index == 2
-          ? null
-          : FloatingActionButton(
-              onPressed: _openAdd,
-              tooltip: '记一笔',
-              key: const Key('shellAdd'),
-              child: const Icon(Icons.add),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, Object? result) {
+        if (!didPop) _handleBack();
+      },
+      child: Scaffold(
+        body: IndexedStack(
+          index: index,
+          children: <Widget>[
+            HomePage(db: widget.db, showFab: false),
+            CategoryPage(db: widget.db),
+            GoalPage(db: widget.db),
+          ],
+        ),
+        floatingActionButton: index == 2
+            ? null
+            : FloatingActionButton(
+                onPressed: _openAdd,
+                tooltip: '记一笔',
+                key: const Key('shellAdd'),
+                child: const Icon(Icons.add),
+              ),
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: index,
+          onDestinationSelected: (int i) => setState(() => index = i),
+          destinations: const <Widget>[
+            NavigationDestination(
+              icon: Icon(Icons.home_outlined),
+              selectedIcon: Icon(Icons.home),
+              label: '首页',
             ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: index,
-        onDestinationSelected: (int i) => setState(() => index = i),
-        destinations: const <Widget>[
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: '首页',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.book_outlined),
-            selectedIcon: Icon(Icons.book),
-            label: '账本',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.person_outlined),
-            selectedIcon: Icon(Icons.person),
-            label: '我的',
-          ),
-        ],
+            NavigationDestination(
+              icon: Icon(Icons.book_outlined),
+              selectedIcon: Icon(Icons.book),
+              label: '账本',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.person_outlined),
+              selectedIcon: Icon(Icons.person),
+              label: '我的',
+            ),
+          ],
+        ),
       ),
     );
   }

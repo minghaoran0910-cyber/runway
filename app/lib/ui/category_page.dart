@@ -51,7 +51,7 @@ class CategoryPage extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final bool isDark = theme.brightness == Brightness.dark;
     return Scaffold(
-      appBar: AppBar(title: const Text('类目管理')),
+      appBar: AppBar(title: const Text('账本')),
       body: Container(
         decoration: AppTheme.ground(isDark),
         child: StreamBuilder<List<Transaction>>(
@@ -99,7 +99,12 @@ class CategoryPage extends StatelessWidget {
                   ...customs.toList()..sort(),
                 ];
                 return ListView(
-                  padding: const EdgeInsets.all(RunwaySpacing.page),
+                  padding: const EdgeInsets.fromLTRB(
+                    RunwaySpacing.page,
+                    RunwaySpacing.page,
+                    RunwaySpacing.page,
+                    96,
+                  ), // SB-044 · 底部 96 避开 FAB 遮挡
                   children: <Widget>[
                     Container(
                       decoration: AppTheme.heroCard(),
@@ -184,7 +189,9 @@ class CategoryPage extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    formatFen(summary.fenByCategory[c] ?? 0),
+                                    formatFenYuan(
+                                      summary.fenByCategory[c] ?? 0,
+                                    ),
                                     style: theme.textTheme.titleMedium,
                                     key: Key('catTotal-$c'),
                                   ),
@@ -249,7 +256,7 @@ class CategoryPage extends StatelessWidget {
                             child: ListTile(
                               title: Text(
                                 // SB-039 ① · 记录行类目取全称.
-                                '${categoryDisplayName(canon)} · ${formatFen(r.amountFen)}',
+                                '${categoryDisplayName(canon)} · ${formatFenYuan(r.amountFen)}',
                                 style: theme.textTheme.titleMedium,
                               ),
                               subtitle: Text(

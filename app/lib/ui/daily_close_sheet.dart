@@ -65,7 +65,7 @@ class DailyCloseCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              closed ? '今日收口 · 已记' : '今日收口 · 一键',
+              closed ? '今日小结 · 已记' : '今日小结 · 一键',
               style: theme.textTheme.titleMedium,
               key: const Key('dailyCloseTitle'),
             ),
@@ -221,7 +221,7 @@ class DailyCloseZone extends StatelessWidget {
         amountFen: Value(estimateFen),
         occurredAt: Value(now),
         category: const Value('其他'),
-        note: const Value('每日收口估算'),
+        note: const Value('每日小结估算'),
         source: const Value('estimate'),
       ),
     );
@@ -309,7 +309,7 @@ class DailyCloseZone extends StatelessWidget {
                       children: <Widget>[
                         Expanded(
                           child: Text(
-                            '每日收口',
+                            '每日小结',
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ),
@@ -329,7 +329,7 @@ class DailyCloseZone extends StatelessWidget {
                             RunwaySpacing.cardInner,
                           ),
                           child: Text(
-                            '先记账，收口自然来',
+                            '先记账，小结自然来',
                             style: Theme.of(context).textTheme.bodyMedium,
                             key: const Key('dailyCloseEmpty'),
                           ),

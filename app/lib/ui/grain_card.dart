@@ -31,7 +31,6 @@ class GrainReserveCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final bool isDark = theme.brightness == Brightness.dark;
-    final String pct = (view.progress * 100).toStringAsFixed(0);
     final String monthTitle = grainMonthsTitle(
       fundFen: view.fundFen,
       targetFen: view.targetFen,
@@ -80,7 +79,7 @@ class GrainReserveCard extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              '月均支出 ${formatFen(view.avgMonthlySpendFen)} · 目标 ${formatFen(view.targetFen)}',
+              '月均支出 ${formatFenHead(view.avgMonthlySpendFen)} · 目标 ${formatFenHead(view.targetFen)}',
               style: theme.textTheme.bodySmall,
               key: const Key('grainTarget'),
             ),
@@ -104,7 +103,7 @@ class GrainReserveCard extends StatelessWidget {
             Text(
               view.done
                   ? '已攒够余粮 · 仓满 · ${grainJokeFor('仓满')}'
-                  : '已攒 $pct% · $monthTitle · ${grainHint(fundFen: view.fundFen, targetFen: view.targetFen)}',
+                  : '$monthTitle · ${grainHint(fundFen: view.fundFen, targetFen: view.targetFen)}',
               style: theme.textTheme.bodySmall,
               key: Key(view.done ? 'grainDone' : 'grainProgress'),
             ),

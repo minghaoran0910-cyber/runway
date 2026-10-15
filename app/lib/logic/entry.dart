@@ -50,6 +50,15 @@ String formatFen(int fen) {
   return '${neg ? '-' : ''}$intPart$dec';
 }
 
+/// ¥ 前缀单一入口（SB-043 · 金额展示面统一货币符号）.
+String formatFenYuan(int fen) => '¥${formatFen(fen)}';
+
+/// 标题级金额：四舍五入到元 + ¥ 前缀（SB-043 · 标题数字去小数噪声）.
+String formatFenHead(int fen) {
+  final int yuan = (fen / 100).round();
+  return '${yuan < 0 ? '-' : ''}¥${_groupThousands(yuan.abs())}';
+}
+
 /// 千分位分组（纯 Dart，禁 intl 新依赖）.
 String _groupThousands(int n) {
   final String s = n.toString();

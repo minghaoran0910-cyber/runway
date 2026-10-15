@@ -93,7 +93,7 @@ void main() {
     final List<Transaction> rows = await db.listAll();
     expect(rows.length, 1);
     expect(rows.first.category, '行');
-    expect(find.text('行 · 12.34'), findsOneWidget);
+    expect(find.text('行 · ¥12.34'), findsOneWidget);
 
     await _unmountAndFlush(tester);
   });

@@ -120,8 +120,8 @@ String grainTitle({required int targetMonths}) {
 /// 余粮正文（得到框架；大额只陈述复用 equivalentOf）.
 String grainBody({required int fundFen, required int targetFen}) {
   if (targetFen <= 0) return '记满 3 个月，开始攒出第一个月底气';
-  if (fundFen <= 0) return '本期持平 · 已有目标 ${formatFen(targetFen)} 等待攒出';
-  return '已攒 ${formatFen(fundFen)} / 目标 ${formatFen(targetFen)} · ${equivalentOf(fundFen)}';
+  if (fundFen <= 0) return '本期持平 · 已有目标 ${formatFenHead(targetFen)} 等待攒出';
+  return '已攒 ${formatFenYuan(fundFen)} / 目标 ${formatFenYuan(targetFen)} · ${equivalentOf(fundFen)}';
 }
 
 /// 余粮下一站（得到框架；复用 goal_ladder.nextLadderHint 口径思想）.
@@ -331,9 +331,9 @@ String weeklyTitle({required DateTime weekStart}) {
 /// 周报正文（得到框架；换算复用 describeSaving equivalentOf，不复制第二套）.
 String weeklyBody({required int savedFen, required int spendFen}) {
   if (savedFen <= 0) {
-    return '本周支出 ${formatFen(spendFen)} · 持平即是稳 · ${equivalentOf(spendFen)}';
+    return '本周支出 ${formatFenYuan(spendFen)} · 持平即是稳 · ${equivalentOf(spendFen)}';
   }
-  return '本周省出 ${formatFen(savedFen)} · ${equivalentOf(savedFen)}';
+  return '本周省出 ${formatFenYuan(savedFen)} · ${equivalentOf(savedFen)}';
 }
 
 /// 本周攒出物理换算（SB-014：复用 SB-007 价格表；换算不出如实给余粮天数，禁止编造）.
@@ -362,8 +362,8 @@ String weeklySavingConvert({
 
 /// 周报环比文案（得到框架；只陈述不劝阻）.
 String weeklyMomText({required int momDeltaFen}) {
-  if (momDeltaFen > 0) return '比上周多省 ${formatFen(momDeltaFen)}';
-  if (momDeltaFen < 0) return '比上周多花 ${formatFen(-momDeltaFen)} · 整体仍在积累';
+  if (momDeltaFen > 0) return '比上周多省 ${formatFenYuan(momDeltaFen)}';
+  if (momDeltaFen < 0) return '比上周多花 ${formatFenYuan(-momDeltaFen)} · 整体仍在积累';
   return '与上周持平 · 稳步积累的证明';
 }
 
@@ -371,7 +371,7 @@ String weeklyMomText({required int momDeltaFen}) {
 String weeklyTopText(List<WeeklyTop> top3) {
   if (top3.isEmpty) return '本周暂无支出构成';
   final String parts = top3
-      .map((t) => '${t.category}${formatFen(t.fen)}')
+      .map((t) => '${t.category}¥${formatFen(t.fen)}')
       .join(' · ');
   return '支出 Top：$parts';
 }

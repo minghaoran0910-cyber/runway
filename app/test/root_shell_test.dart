@@ -41,7 +41,10 @@ void main() {
     await tester.tap(find.text('账本'));
     await tester.pump(const Duration(milliseconds: 300));
     await tester.pump();
-    expect(find.text('类目管理'), findsOneWidget);
+    expect(
+      find.descendant(of: find.byType(AppBar), matching: find.text('账本')),
+      findsOneWidget,
+    );
     expect(find.byKey(const Key('shellAdd')), findsOneWidget);
 
     // 我的：我的页（SB-040 起标题=我的，不再叫目标阶梯）可达；

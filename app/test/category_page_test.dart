@@ -85,8 +85,8 @@ void main() {
     expect(find.byKey(const Key('otherFault')), findsNothing);
     expect(find.byKey(const Key('catTotal-食')), findsOneWidget);
     expect(find.text('餐饮'), findsWidgets);
-    expect(find.text('90'), findsOneWidget);
-    expect(find.text('10'), findsOneWidget);
+    expect(find.text('¥90'), findsOneWidget);
+    expect(find.text('¥10'), findsOneWidget);
 
     await _unmountAndFlush(tester);
   });

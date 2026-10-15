@@ -134,7 +134,7 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('dailyCloseSwitch')), findsOneWidget);
-    expect(find.text('每日收口'), findsOneWidget);
+    expect(find.text('每日小结'), findsOneWidget);
     await _unmountAndFlush(tester);
     await db.close();
   });

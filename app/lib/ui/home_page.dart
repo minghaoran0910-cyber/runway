@@ -185,7 +185,7 @@ class HomePage extends StatelessWidget {
                           Card(
                             child: ListTile(
                               title: Text(
-                                '${r.category} · ${formatFen(r.amountFen)}',
+                                '${r.category} · ${formatFenYuan(r.amountFen)}',
                                 style: theme.textTheme.titleMedium,
                               ),
                               subtitle: Text(
@@ -213,7 +213,10 @@ class HomePage extends StatelessWidget {
                         // 装饰文本不承载信息：文字级 token 降淡（§2.3 装饰不设限），
                         // 不用 inkSecondary（§2.1 禁做小字）.
                         Padding(
-                          padding: const EdgeInsets.only(top: 24, bottom: 80),
+                          padding: const EdgeInsets.only(
+                            top: 24,
+                            bottom: 96,
+                          ), // SB-044 · 底部 96 完全避开 FAB
                           child: Text(
                             '示例数据',
                             style: theme.textTheme.bodySmall?.copyWith(

@@ -60,9 +60,11 @@ class DashboardHero extends StatelessWidget {
                 ),
               ),
               Text(
-                hasCompare
-                    ? '比上月 ${formatRunwayDelta(summary.runwayDeltaMonths)} 个月'
-                    : '首月记账中',
+                !hasCompare
+                    ? '首月记账中'
+                    : summary.runwayDeltaMonths.abs() < 0.05
+                    ? '与上月持平'
+                    : '比上月 ${formatRunwayDelta(summary.runwayDeltaMonths)} 个月',
                 style: const TextStyle(
                   fontSize: RunwayHero.subSize,
                   color: RunwayHero.goldAccent,
@@ -141,7 +143,7 @@ class DashboardHero extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            '今日 ${summary.todayCount} 笔 · ${formatFen(summary.todayFen)}'
+            '今日 ${summary.todayCount} 笔 · ${formatFenYuan(summary.todayFen)}'
             ' · 其他占比 $shareText',
             style: const TextStyle(
               fontSize: RunwayHero.subSize,
@@ -189,7 +191,7 @@ class DashboardTodayCard extends StatelessWidget {
                   Text('今日', style: theme.textTheme.titleMedium),
                   const SizedBox(height: 4),
                   Text(
-                    '${summary.todayCount} 笔 · ${formatFen(summary.todayFen)}',
+                    '${summary.todayCount} 笔 · ${formatFenYuan(summary.todayFen)}',
                     style: theme.textTheme.headlineSmall,
                     key: const Key('dashToday'),
                   ),
@@ -200,7 +202,7 @@ class DashboardTodayCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Text(
-                  '本周 ${formatFen(summary.weekFen)}',
+                  '本周 ${formatFenYuan(summary.weekFen)}',
                   style: theme.textTheme.bodySmall,
                   key: const Key('dashWeek'),
                 ),
@@ -286,7 +288,7 @@ class DashboardTop5Card extends StatelessWidget {
                       SizedBox(
                         width: 72,
                         child: Text(
-                          formatFen(e.fen),
+                          formatFenYuan(e.fen),
                           style: theme.textTheme.bodyMedium,
                           textAlign: TextAlign.right,
                           key: Key('dashTop5-${e.category}'),
@@ -319,7 +321,7 @@ class DashboardGoalCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('本月目标', style: theme.textTheme.titleMedium),
+              Text('本月攒出', style: theme.textTheme.titleMedium),
               const SizedBox(height: 8),
               Text(
                 '还没有设定目标，设一个试试',
@@ -339,10 +341,10 @@ class DashboardGoalCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('本月目标', style: theme.textTheme.titleMedium),
+            Text('本月攒出', style: theme.textTheme.titleMedium),
             const SizedBox(height: 8),
             Text(
-              '${formatFen(summary.monthFen)} / ${formatFen(goal)} · $pct%',
+              '${formatFenYuan(summary.monthFen)} / ${formatFenYuan(goal)} · $pct%',
               style: theme.textTheme.headlineSmall,
               key: const Key('dashGoal'),
             ),

@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../data/app_db.dart';
 import '../logic/dashboard_stats.dart';
@@ -61,6 +62,8 @@ class GoalPageState extends State<GoalPage> {
       ),
     );
     if (saved == true && context.mounted) {
+      // SB-044 · 保存成功触觉（§6：记一笔/存目标 .light）.
+      HapticFeedback.lightImpact();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(goal == null ? '已定下新目标' : '目标已更新')),
       );
@@ -197,7 +200,12 @@ class GoalPageState extends State<GoalPage> {
                                 fen: active.priceFen,
                               ));
                     return ListView(
-                      padding: const EdgeInsets.all(RunwaySpacing.page),
+                      padding: const EdgeInsets.fromLTRB(
+                        RunwaySpacing.page,
+                        RunwaySpacing.page,
+                        RunwaySpacing.page,
+                        96,
+                      ), // SB-044 · 底部 96 避开 FAB 遮挡
                       children: <Widget>[
                         DashboardGoalCard(summary: summary),
                         const SizedBox(height: RunwaySpacing.section),
