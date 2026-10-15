@@ -86,3 +86,52 @@ class DiagnosticsCard extends StatelessWidget {
     );
   }
 }
+
+/// SB-039 ③ · "关于·诊断"常驻行（"我的"页尾；与调试门控的 DiagnosticsSection
+/// 不同，本卡常显——内部实现细节有处可查，又不占类目页标题位；
+/// 文案一律 bodySmall，禁词复用成就表扫描零命中）.
+class AboutDiagnosticsCard extends StatelessWidget {
+  const AboutDiagnosticsCard({
+    super.key,
+    required this.ruleCount,
+    required this.categoryCount,
+    required this.otherShare,
+    required this.otherFault,
+  });
+
+  final int ruleCount;
+  final int categoryCount;
+  final double otherShare;
+  final bool otherFault;
+
+  @override
+  Widget build(BuildContext context) {
+    final String pct = (otherShare * 100).toStringAsFixed(1);
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(RunwaySpacing.cardInner),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              '关于 · 诊断信息',
+              style: Theme.of(context).textTheme.bodySmall,
+              key: const Key('aboutDiagTitle'),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              '内置规则 $ruleCount 条 · $categoryCount 类目',
+              style: Theme.of(context).textTheme.bodySmall,
+              key: const Key('aboutDiagRules'),
+            ),
+            Text(
+              otherFault ? '其他占比 $pct% · 分类故障：占比超 5%，待修复' : '其他占比 $pct% · 分类健康',
+              style: Theme.of(context).textTheme.bodySmall,
+              key: Key(otherFault ? 'aboutDiagFault' : 'aboutDiagHealthy'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

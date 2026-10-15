@@ -2,6 +2,7 @@ import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
 
 import '../data/app_db.dart';
+import '../logic/category_rules.dart';
 import '../logic/dashboard_stats.dart';
 import '../logic/entry.dart';
 import '../logic/goal_ladder.dart';
@@ -249,6 +250,13 @@ class GoalPage extends StatelessWidget {
                         // SB-034 · 诊断回传开关行（仅 debug + 已配置可见；
                         // 默认未注入 = 零像素，golden 不动）.
                         const DiagnosticsSection(),
+                        // SB-039 ③ · 关于诊断常驻行（类目页迁入，bodySmall 常显）.
+                        AboutDiagnosticsCard(
+                          ruleCount: defaultRules.length,
+                          categoryCount: ruleCategories.length,
+                          otherShare: summary.otherShare,
+                          otherFault: summary.otherFault,
+                        ),
                       ],
                     );
                   },

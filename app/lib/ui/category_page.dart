@@ -40,9 +40,9 @@ class CategoryPage extends StatelessWidget {
       ),
     );
     if (context.mounted) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('已纠正为 $to，同类下次自动归入')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('已纠正为 ${categoryDisplayName(to)}，同类下次自动归入')),
+      );
     }
   }
 
@@ -68,8 +68,6 @@ class CategoryPage extends StatelessWidget {
                   if (r != null) overrides[o.category] = r;
                 }
                 final CategorySummary summary = summarizeTransactions(rows);
-                final String shareText =
-                    '${(summary.otherShare * 100).toStringAsFixed(1)}%';
                 final DateTime now = DateTime.now();
                 final RoleSummary month = summarizeRoles(
                   rows
@@ -128,7 +126,7 @@ class CategoryPage extends StatelessWidget {
                             key: const Key('elasticShare'),
                           ),
                           Text(
-                            '弹性是可优化的空间 · 预算与冷静期只压弹性',
+                            '能省的钱是可优化的空间 · 预算与冷静期只压能省的',
                             // SB-027 ①b · 同上：bodySmall 次灰改 hero 副白.
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: RunwayHero.sub,
@@ -150,11 +148,12 @@ class CategoryPage extends StatelessWidget {
                             children: <Widget>[
                               Text(
                                 diningGuideText(),
-                                style: theme.textTheme.bodyMedium,
+                                // SB-039 ④ · 引导说明降 bodySmall，禁占标题位.
+                                style: theme.textTheme.bodySmall,
                                 key: const Key('diningGuide'),
                               ),
                               Text(
-                                '已发现 $diningHits 笔聚餐记录 · 可在下方把聚餐记为弹性',
+                                '已发现 $diningHits 笔聚餐记录 · 可在下方把聚餐记为能省的',
                                 style: theme.textTheme.bodySmall,
                                 key: const Key('diningCount'),
                               ),
@@ -178,8 +177,9 @@ class CategoryPage extends StatelessWidget {
                               Row(
                                 children: <Widget>[
                                   Expanded(
+                                    // SB-039 ① · 标题取全称（key 沿用引擎短名，零迁移）.
                                     child: Text(
-                                      c,
+                                      categoryDisplayName(c),
                                       style: theme.textTheme.titleMedium,
                                     ),
                                   ),
@@ -212,7 +212,7 @@ class CategoryPage extends StatelessWidget {
                               if (!overrides.containsKey(c) &&
                                   !defaultCategoryRoles.containsKey(c))
                                 Text(
-                                  '请选择角色：必要 / 弹性 / 固定',
+                                  '请选择角色：要花的 / 能省的 / 固定的',
                                   style: theme.textTheme.bodySmall?.copyWith(
                                     color: theme.colorScheme.error,
                                   ),
@@ -222,64 +222,16 @@ class CategoryPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                    const SizedBox(height: RunwaySpacing.section),
-                    Container(
-                      decoration: AppTheme.heroCard(),
-                      padding: const EdgeInsets.all(RunwaySpacing.cardInner),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          const Text(
-                            // SB-027 ①c · 去"（示例数据）"出戏字样（水印方案归 SB-028）.
-                            '其他占比',
-                            style: TextStyle(
-                              fontSize: RunwayHero.titleSize,
-                              color: RunwayHero.title,
-                            ),
-                          ),
-                          Text(
-                            shareText,
-                            style: const TextStyle(
-                              fontSize: RunwayHero.numberSize,
-                              color: RunwayHero.number,
-                              fontWeight: FontWeight.w700,
-                              fontFeatures: <FontFeature>[
-                                FontFeature.tabularFigures(),
-                              ],
-                            ),
-                            key: const Key('otherShare'),
-                          ),
-                          Text(
-                            summary.otherFault ? '分类故障：占比超 5%，待修复' : '分类健康',
-                            style: TextStyle(
-                              fontSize: RunwayHero.subSize,
-                              color: summary.otherFault
-                                  ? RunwayHero.goldAccent
-                                  : RunwayHero.sub,
-                            ),
-                            key: Key(
-                              summary.otherFault
-                                  ? 'otherFault'
-                                  : 'otherHealthy',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: RunwaySpacing.section),
-                    Text(
-                      '内置规则 ${defaultRules.length} 条 · 6 类目',
-                      style: theme.textTheme.bodySmall,
-                      key: const Key('ruleInfo'),
-                    ),
-                    const SizedBox(height: 8),
+                    // SB-039 ③ · 其他占比 + 内置规则行已搬"我的"关于诊断区，
+                    // 本页只留用户语言（走查"钱花哪了+哪能省"两步直达）.
                     const SizedBox(height: RunwaySpacing.section),
                     Text('近期记录（可纠正）', style: theme.textTheme.titleMedium),
                     const SizedBox(height: 8),
                     if (rows.isEmpty)
                       Text(
                         '还没有记录',
-                        style: theme.textTheme.bodyMedium,
+                        // SB-039 ④ · 占位说明降 bodySmall.
+                        style: theme.textTheme.bodySmall,
                         textAlign: TextAlign.center,
                         key: const Key('emptyCatHint'),
                       ),
@@ -296,12 +248,13 @@ class CategoryPage extends StatelessWidget {
                           return Card(
                             child: ListTile(
                               title: Text(
-                                '$canon · ${formatFen(r.amountFen)}',
+                                // SB-039 ① · 记录行类目取全称.
+                                '${categoryDisplayName(canon)} · ${formatFen(r.amountFen)}',
                                 style: theme.textTheme.titleMedium,
                               ),
                               subtitle: Text(
                                 diff
-                                    ? '${r.note.isEmpty ? '无备注' : r.note}（建议：$suggest）'
+                                    ? '${r.note.isEmpty ? '无备注' : r.note}（建议：${categoryDisplayName(suggest)}）'
                                     : (r.note.isEmpty ? '无备注' : r.note),
                                 style: theme.textTheme.bodySmall,
                               ),
@@ -314,7 +267,7 @@ class CategoryPage extends StatelessWidget {
                                     PopupMenuItem<String>(
                                       value: c,
                                       key: Key('fix-$c'),
-                                      child: Text(c),
+                                      child: Text(categoryDisplayName(c)),
                                     ),
                                 ],
                               ),

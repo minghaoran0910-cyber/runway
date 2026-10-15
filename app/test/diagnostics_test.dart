@@ -151,4 +151,39 @@ void main() {
     await t.pump();
     expect(got, isFalse);
   });
+
+  // SB-039 ③ · 关于诊断常驻行：规则数/占比健康两态，文案 bodySmall 常显.
+  testWidgets('SB-039 关于诊断行健康态', (WidgetTester t) async {
+    await t.pumpWidget(
+      const MaterialApp(
+        home: AboutDiagnosticsCard(
+          ruleCount: 179,
+          categoryCount: 6,
+          otherShare: 0.0,
+          otherFault: false,
+        ),
+      ),
+    );
+    await t.pump();
+    expect(find.byKey(const Key('aboutDiagTitle')), findsOneWidget);
+    expect(find.text('内置规则 179 条 · 6 类目'), findsOneWidget);
+    expect(find.byKey(const Key('aboutDiagHealthy')), findsOneWidget);
+    expect(find.byKey(const Key('aboutDiagFault')), findsNothing);
+  });
+
+  testWidgets('SB-039 关于诊断行故障态', (WidgetTester t) async {
+    await t.pumpWidget(
+      const MaterialApp(
+        home: AboutDiagnosticsCard(
+          ruleCount: 179,
+          categoryCount: 6,
+          otherShare: 0.1,
+          otherFault: true,
+        ),
+      ),
+    );
+    await t.pump();
+    expect(find.textContaining('其他占比 10.0%'), findsOneWidget);
+    expect(find.byKey(const Key('aboutDiagFault')), findsOneWidget);
+  });
 }

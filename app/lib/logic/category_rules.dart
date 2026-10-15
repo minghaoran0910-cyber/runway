@@ -3,6 +3,8 @@
 // 金额一律为分（整数）；文本匹配大小写不敏感（latin 商户名归一小写，中文不受影响）.
 
 /// 引擎标准类目（卡验收 1：食/行/居/玩/用/其他）.
+/// 存储与规则口径一律短名（SB-028）；用户界面一律经 [categoryDisplayName]
+/// 取全称（SB-039），引擎与存量数据零迁移.
 const List<String> ruleCategories = <String>['食', '行', '居', '玩', '用', '其他'];
 
 /// 兜底类目：无规则命中即归入"其他"（PRD §3 失败态口径）.
@@ -22,6 +24,21 @@ const Map<String, String> legacyCategoryAlias = <String, String>{
 String canonicalCategory(String raw) {
   if (ruleCategories.contains(raw)) return raw;
   return legacyCategoryAlias[raw] ?? raw;
+}
+
+/// 用户界面展示名（SB-039 ①：全称；引擎/存储仍短名，读时归一）.
+/// 未知（自建类目）原样返回.
+String categoryDisplayName(String raw) {
+  const Map<String, String> display = <String, String>{
+    '食': '餐饮',
+    '行': '交通',
+    '居': '居住',
+    '玩': '娱乐',
+    '用': '日用',
+    '其他': '其他',
+  };
+  final String canon = canonicalCategory(raw.trim());
+  return display[canon] ?? raw;
 }
 
 /// 单条规则：文本含 [keyword] 且金额落在 [minFen, maxFen] 即命中.

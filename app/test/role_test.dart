@@ -56,8 +56,24 @@ void main() {
     test('roleLabel/parseRole 互逆', () {
       for (final CategoryRole r in CategoryRole.values) {
         expect(parseRole(roleLabel(r)), r);
-        expect(roleName(r), roleLabel(r));
+        expect(roleName(r), isNotEmpty);
       }
+    });
+
+    // SB-039 ② · 展示人话，存储沿旧串（零迁移），旧串读入兼容.
+    test('SB-039 人话标签 + 旧串兼容', () {
+      expect(roleLabel(CategoryRole.necessary), '要花的');
+      expect(roleLabel(CategoryRole.flexible), '能省的');
+      expect(roleLabel(CategoryRole.fixed), '固定的');
+      expect(roleName(CategoryRole.necessary), '必要');
+      expect(roleName(CategoryRole.flexible), '弹性');
+      expect(roleName(CategoryRole.fixed), '固定');
+      expect(parseRole('必要'), CategoryRole.necessary);
+      expect(parseRole('弹性'), CategoryRole.flexible);
+      expect(parseRole('固定'), CategoryRole.fixed);
+      expect(parseRole('要花的'), CategoryRole.necessary);
+      expect(parseRole('能省的'), CategoryRole.flexible);
+      expect(parseRole('固定的'), CategoryRole.fixed);
     });
 
     test('parseRole 未知返回 null', () {
@@ -129,7 +145,8 @@ void main() {
       expect(elasticShareText(share: 0, elasticFen: 0), contains('0%'));
       final String t = elasticShareText(share: 0.3, elasticFen: 3000);
       expect(t, contains('30.0%'));
-      expect(t, contains('本月弹性占比'));
+      // SB-039 ② · 占比头行人话化.
+      expect(t, contains('本月能省的占比'));
     });
   });
 

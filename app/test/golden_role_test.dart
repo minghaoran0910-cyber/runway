@@ -97,8 +97,9 @@ void main() {
     await tester.pumpAndSettle();
 
     // 总额 16000，弹性=玩3000+自建类1000（计算侧兜底弹性，提示仅 UI 层）→ 25.0%.
+    // SB-039 ② · 头行人话化（key 不变）.
     expect(find.byKey(const Key('elasticShare')), findsOneWidget);
-    expect(find.textContaining('本月弹性占比 25.0%'), findsOneWidget);
+    expect(find.textContaining('本月能省的占比 25.0%'), findsOneWidget);
     expect(find.byKey(const Key('elasticHint')), findsOneWidget);
 
     await _unmountAndFlush(tester);

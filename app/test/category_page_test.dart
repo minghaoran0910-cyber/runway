@@ -40,12 +40,16 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
     await tester.pump();
 
-    expect(find.byKey(const Key('otherShare')), findsOneWidget);
-    expect(find.text('0.0%'), findsOneWidget);
-    expect(find.byKey(const Key('otherHealthy')), findsOneWidget);
+    // SB-039 ③ · 其他占比块已搬"我的"关于诊断区：本页无占比无故障行.
+    expect(find.byKey(const Key('otherShare')), findsNothing);
+    expect(find.byKey(const Key('otherHealthy')), findsNothing);
     expect(find.byKey(const Key('otherFault')), findsNothing);
     expect(find.byKey(const Key('emptyCatHint')), findsOneWidget);
-    expect(find.textContaining('条 · 6 类目'), findsOneWidget);
+    // SB-039 ③ · 其他占比/规则行已搬"我的"关于诊断区，本页零内部细节.
+    expect(find.byKey(const Key('otherShare')), findsNothing);
+    expect(find.textContaining('条 ·'), findsNothing);
+    // SB-039 ① · 类目行标题取全称（key 沿用引擎短名）.
+    expect(find.text('餐饮'), findsWidgets);
 
     await _unmountAndFlush(tester);
   });
@@ -77,9 +81,10 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
     await tester.pump();
 
-    expect(find.text('10.0%'), findsOneWidget);
-    expect(find.byKey(const Key('otherFault')), findsOneWidget);
+    // SB-039 ③ · 故障行随其他占比块搬"我的"页；本页看分项合计（全称）.
+    expect(find.byKey(const Key('otherFault')), findsNothing);
     expect(find.byKey(const Key('catTotal-食')), findsOneWidget);
+    expect(find.text('餐饮'), findsWidgets);
     expect(find.text('90'), findsOneWidget);
     expect(find.text('10'), findsOneWidget);
 
@@ -114,9 +119,10 @@ void main() {
 
     final List<Transaction> rows = await db.listAll();
     expect(rows.length, 1);
+    // SB-039 ① · 存储仍引擎短名（零迁移），提示条显全称.
     expect(rows.first.category, '食');
     expect(corrections.lookup(merchant: '', note: '未知事项'), '食');
-    expect(find.textContaining('已纠正为 食'), findsOneWidget);
+    expect(find.textContaining('已纠正为 餐饮'), findsOneWidget);
 
     await _unmountAndFlush(tester);
   });

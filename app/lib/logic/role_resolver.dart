@@ -8,11 +8,44 @@
 import 'achievement.dart';
 import 'category_rules.dart';
 
+// SB-039 ② · 角色人话化：UI 展示经 [roleLabel]（要花的/能省的/固定的）；
+// 存储串经 [roleName] 保持旧值（必要/弹性/固定），存量覆盖零迁移；
+// [parseRole] 新旧全收（旧串读入即归一到同一枚举）.
+
 /// 分类角色（必要=刚性开支；弹性=优化主战场；固定=账单）.
 enum CategoryRole { necessary, flexible, fixed }
 
-/// 角色中文名（UI 直显）.
+/// 角色中文名（UI 直显·人话）.
 String roleLabel(CategoryRole role) {
+  switch (role) {
+    case CategoryRole.necessary:
+      return '要花的';
+    case CategoryRole.flexible:
+      return '能省的';
+    case CategoryRole.fixed:
+      return '固定的';
+  }
+}
+
+/// 中文名 → 角色（人话与旧术语全收，未知返回 null，调用方提示必选）.
+CategoryRole? parseRole(String raw) {
+  switch (raw.trim()) {
+    case '要花的':
+    case '必要':
+      return CategoryRole.necessary;
+    case '能省的':
+    case '弹性':
+      return CategoryRole.flexible;
+    case '固定的':
+    case '固定':
+      return CategoryRole.fixed;
+    default:
+      return null;
+  }
+}
+
+/// 角色 → 存储串（与 SB-019 落库口径一致，恒为旧术语，禁随展示改）.
+String roleName(CategoryRole role) {
   switch (role) {
     case CategoryRole.necessary:
       return '必要';
@@ -23,27 +56,12 @@ String roleLabel(CategoryRole role) {
   }
 }
 
-/// 中文名 → 角色（未知返回 null，调用方提示必选）.
-CategoryRole? parseRole(String raw) {
-  switch (raw.trim()) {
-    case '必要':
-      return CategoryRole.necessary;
-    case '弹性':
-      return CategoryRole.flexible;
-    case '固定':
-      return CategoryRole.fixed;
-    default:
-      return null;
-  }
-}
-
-/// 角色 → 存储串（与 parseRole 互逆）.
-String roleName(CategoryRole role) => roleLabel(role);
-
 /// 领域校验：新建/编辑类目必选角色（null/空即非法）.
 String? validateRole(String? raw) {
-  if (raw == null || raw.trim().isEmpty) return '请选择角色：必要 / 弹性 / 固定';
-  if (parseRole(raw) == null) return '角色只能是必要 / 弹性 / 固定';
+  if (raw == null || raw.trim().isEmpty) {
+    return '请选择角色：要花的 / 能省的 / 固定的';
+  }
+  if (parseRole(raw) == null) return '角色只能是要花的 / 能省的 / 固定的';
   return null;
 }
 
@@ -122,12 +140,12 @@ RoleSummary summarizeRoles(
 /// 弹性占比头行文案（放类目管理页头部，首页不放；得到框架）.
 String elasticShareText({required double share, required int elasticFen}) {
   final String pct = (share * 100).toStringAsFixed(1);
-  if (elasticFen <= 0) return '本月弹性占比 0% · 先记账，优化空间自然来';
-  return '本月弹性占比 $pct% · 可优化的空间在这里';
+  if (elasticFen <= 0) return '本月能省的占比 0% · 先记账，优化空间自然来';
+  return '本月能省的占比 $pct% · 可优化的空间在这里';
 }
 
 /// 聚餐引导文案（一次性引导卡，不强制）.
-String diningGuideText() => '餐饮默认记为必要 · 聚餐可拆为弹性，下次同类自动提示';
+String diningGuideText() => '餐饮默认记为要花的 · 聚餐可拆为能省的，下次同类自动提示';
 
 /// 本卡禁词复用成就表（不另建第二套；角色文案零命中）.
 List<String> get roleBannedWords => achievementBannedWords;

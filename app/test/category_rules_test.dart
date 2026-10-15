@@ -111,6 +111,19 @@ void main() {
       expect(canonicalCategory('食'), '食');
       expect(canonicalCategory('自建类目'), '自建类目');
     });
+
+    // SB-039 ① · 展示全称（引擎/存储短名不动，旧长名先归一再展示）.
+    test('SB-039 展示名全称 + 自建直通', () {
+      expect(categoryDisplayName('食'), '餐饮');
+      expect(categoryDisplayName('行'), '交通');
+      expect(categoryDisplayName('居'), '居住');
+      expect(categoryDisplayName('玩'), '娱乐');
+      expect(categoryDisplayName('用'), '日用');
+      expect(categoryDisplayName('其他'), '其他');
+      expect(categoryDisplayName('餐饮'), '餐饮');
+      expect(categoryDisplayName('购物'), '日用');
+      expect(categoryDisplayName('自建类目'), '自建类目');
+    });
   });
 
   group('SB-005 其他占比', () {
