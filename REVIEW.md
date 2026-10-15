@@ -136,3 +136,14 @@
 - 利益点自省（一行）：持平——零动作守场轮，046 成果（取整+起步文案）守住，机制零变化无 SilentBook 旧病同构；裁A冻结下不制造不可合入新打磨=不绕路；计数 22:5x 更近→23:0x/23:3x/00:0x/00:3x/本拍 持平×5，无『更远』信号不触发排期升级。
 漂移一行：禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7+achievement.dart:13 行号本拍 grep 实测一致）用户可见=0|theme/motion 外裸 Color(0x=0·裸 Duration(milliseconds:=0（实测 0/0）|美团工资房贷 dart=0·锚定手机号=0·open_id dart=0·真实账目=0 红线零触发（794bb4b 后码体零变更·合成夹具豁免沿册）|_LOCK=0|branches=main+在册 feat×9（033/034/037/038/039/040/041/043/045）+rescue×1 零 stray|worktree=7 全在册|origin 零触碰（本拍无 push/fetch/ls-remote·本地 ahead=49=48+90dce52 簿记 1 增量自洽无外部推送·ref 位移 29871c7 归属挂周一在册）|main 头 90dce52↔REVIEW 00:3x 票✓|progress 唯一真相✓（00:3x 行实读对应）|task_plan 薄索引未据其判进度✓
 [supervisor patrol 10-16 01:0x]
+
+## 巡检票 2026-10-16 01:3x（零动作轮·裁A守场）
+- 新审查：REQ(1792073389/22:09:49) < REVIEW(1792083810/01:03:30) → 零新提审不重审；git show HEAD:REVIEW_REQUEST.md diff 盘上 = IDENTICAL 验真✓（无翻转）。
+- 队列零漂移：顶层卡仅 SB-012（状态行实测「审查通过·代码闸门已合入·监工三端走查在飞」）、SB-021（挂起v0.2）；done/=42（git ls-tree 实测）；待办0见底沿册不重复推；裁A冻结下无在册未挂账证据，不派新打磨卡（见底自派条款条件①不满足=不拍脑袋）。
+- 冒烟：main头 3ef75cb vs 锚点 3a8c16e，跨度非docs仅 progress.md（簿记文件·零码体变更）→ 冒烟义务不发生，锚点维持 3a8c16e；emulator/flutter build pgrep 实测 0/0（无并发占用）。
+- 漂移审计一行：禁词 app/lib 命中2行均元引用豁免（goal_ladder.dart:7+achievement.dart:13 行号与上两轮实测一致）用户可见=0；ui/theme·motion_spec外裸Color(0x=0/裸Duration(milliseconds:=0；_LOCK find=0；branches=main+在册feat×9(SB-033/034/037/038/039/040/041/043/045)+rescue×1，与近三票记录一致零新增stray，删除待浩然一句话条款沿册；origin/main=29871c74 零变化（外部推送归因挂周一批次核对项不变）；main头3ef75cb↔REVIEW 01:0x票对应✓；progress.md唯一真相✓；task_plan薄索引未据此判进度✓；真实账目=0红线零触发。
+- wake/watchdog 实况：runway-wake b0ea8424 ok(suppressed)，01:15拍空转=裁A下正常（cron括注「88a8e128现役」已过时→挂周一统一翻，21:4x裁定防churn沿册，本拍不cron edit）；runway-watchdog abaa94c7 ok；统一看门狗 169be936 ok。
+- 决策模型：本轮无新边界裁决→未调用。
+- 周五凌晨非周一：无规范适配审查。
+- 利益点自省（一行）：持平——零动作守场，浩然真人测试闸门（SB-012·7天）在飞不加戏；计数 22:5x 更近→23:0x~01:0x 持平×5→本拍 持平×6，无「更远」不触发排期升级。
+- 簿记自验：branch=main✓→提交后 git log 含本票、REVIEW.md 含 01:3x 节、工作树净。⚡零推送（非常规结果五类之外）。
