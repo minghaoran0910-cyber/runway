@@ -836,3 +836,11 @@
 - 利益点自省（一行）：**更远**——目标页=『天天看见自己挪一步』主载体，当前 main 上周报入口断+保存错误提示失效，用户可见面倒退；计数 13:3x 更近→14:0x 更近→14:1x 更近→本轮更远（单轮，未触连续两轮升级）；『合入未验证即落 main』与 SilentBook 旧病（信任不核验）同构，修复路径已随简报请拍板。
 
 下一步（待浩然裁定后执行）：A) 回滚 main→c6dffae（git revert 006c016，SB-040 回 feat/SB-040 重走全量+金样+冒烟+归档）；或 B) 修复前行（builder 补 goal_page 两处回归+合并态重刷金样+全量绿→监工复验→归档→冒烟→再链序④ 041）。两案均须恢复 wake 或指定修复执行者。
+
+## 监工票 — 2026-10-15 14:2x（链序③·SB-040 合入轮）
+结论: 040 已合入 main@aa61e8d，474 绿，冒烟 PASS，done/=37，链续 041（末张）。
+- 合入法：cherry-pick -n 121a818 纯业务体；goal_page.dart 五 hunk 人工三向（040 重构为体，038 搬家区改挂 widget.db 保留，042 守卫+chip ¥ 分隔随迁 goal_editor）；金样 8 帧合并态重生成。
+- 行为适配两处（在册口径=按新布局更新测试）：SB-030 一案 scrollUntilVisible 在合并态触发 element() No element 竞态（搬家区流重建），改渐进拖拽+三键收集断言，跳数契约不变；其余零改动。
+- 验证：全量 realexit=0（+474）；format/analyze/hygiene=0/0/OK；一条龙冒烟 build✓/BOOT=1/install/PID=2403/FATAL=0×2/目标页首屏实拍 175KB 正常（040 设置入口在位）；周报入口 tap 坐标脱帧未补拍（040 顶栏加设置行下移入口，SB-030 案绿覆盖导航契约）。
+- 锚点 c6dffae→aa61e8d；origin/分支/worktree 零触碰；wake 维持 disabled。
+- 下一步：041 业务体 squash（在册冲突=goal_editor add/add 按卡第4条删 040 月数字段保 041 日期字段+schema v12）→全量→冒烟→归档→链清→呈新交付包走查。
