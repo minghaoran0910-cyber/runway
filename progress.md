@@ -42,3 +42,5 @@
 - 2026-10-15 10:2x 浩然裁 A：SB-038 返工授权落账，builder 踢起。
 - 2026-10-15 10:3x 监工巡检轮：零新审（REQ mtime==REVIEW 非严格更新+盘上 vs HEAD diff=IDENTICAL 验真+REQ 头=已获裁定A·返工放行·WAITING_HUMAN 标记 grep=0 实测，第3轮审查义务不成立）+队列同步（SB-038 状态行=返工授权中·裁A在册，其余5卡零漂移/done/=34 ls-tree）+锚点 8830d1c 维持（8830d1c..HEAD=15 提交非docs=0 实测，模拟器未起不与 builder 抢并发）+环路恢复（_LOCK 泄漏收尸=10:25:34 立·PID 32084 ps 实测死→移存 /tmp/leaked_LOCK_102534_pid32084；树净0行+branch=main 后 wake 88a8e128 enable 回读 enabled=true·next=10:45 实测✓；包装脚本无卡号硬编码，先翻括注条款自然满足）+漂移审计全绿+决策模型未调用（无边界裁决·038 已由浩然人工裁定）+挂账待浩然清理项不擅动。⚡零推送（裁A系浩然自发，无新行动项）。详见 REVIEW 10:3x 票。[supervisor patrol 10-15 10:3x]
 
+
+- 2026-10-15 10:5x 裁 A 生效式补票（S0.1 点名授权），builder 重踢验证接单。
