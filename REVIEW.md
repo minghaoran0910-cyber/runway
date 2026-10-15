@@ -651,3 +651,13 @@
 - 漂移审计（条款6）：禁词五词 app/lib 命中 2 行均元引用豁免（goal_ladder.dart:7+achievement.dart:13 行号本拍实测一致，沿 p=0.75）用户可见=0；ui/theme·motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（grep 排除法实测 0/0）；美团|工资|房贷 lib=0；锚定手机号=0；open_id lib=0；真实账目=0 红线零触发（8830d1c 后码体零变更·合成夹具豁免沿册）；main 头 101123b↔REVIEW 08:3x 段✓（本票追加↔新簿记头）；progress 唯一真相✓；task_plan 薄索引未据此判进度✓。**全绿**。
 - 其他：周四非周一无适配审查（周一批次挂账不变）；决策模型未调用（本拍无边界裁决）；新鲜度=括注锚点/SB-042 双口径沿 21:4x 防 churn 裁定未动 cron（现行锚点 8830d1c 以本票与快照为真相）；runway-watchdog abaa94c7 ok（本拍实测，非连败）/统一看门狗 169be936 ok/需求反思 6f3e81c0 ok；038 拍板 03:0x 已呈待答、灰区批次已呈待答，均不重复推。自验三连随本票提交回显。
 - 利益点自省：持平——零动作审计轮守住 042 目标保存真落库成果，机制零变化无 SilentBook 旧病；推进堵点在浩然侧（038 返工拍板=链唯一闸口），非『更远』。
+
+## 巡检票 — 10-15 09:3x（零新审·锚点维持·漂移全绿）
+结论: PASS（本轮零新审，簿记票）
+- REQ 验真：盘上 mtime 1792010763(04:46:03)<REVIEW 1792026167(09:02:47)；git show HEAD:REVIEW_REQUEST.md 与盘上 diff=IDENTICAL（本拍实测，假翻转验法在册）；REQ head='# WAITING_HUMAN — SB-038 已累计 2 轮 RC'显式头部复核✓不重审。038 堵浩然拍板 03:0x 已呈待答，不重复推。wake 88a8e128 维持停用（本拍 cron list --all 实测 disabled·last 4h ago=05:3x 停拍沿册；SUPERVISOR 附录2 合规，拍板后先翻括注再 enable）。
+- 队列零漂移：活跃卡=6 状态行 grep -m1 实测（SB-012 真人闸门在飞/SB-021 挂起 v0.2/SB-038 RC2→WAITING_HUMAN/SB-039·040·041 二轮 PASS 待链序 038→041）与快照逐字一致；done/=34 git ls-tree 实测（最高 SB-042 归档）；docs/tasks 现行最高活跃卡号=SB-041，双口径沿 watch⑰；待办=0 见底已呈不重复推送（链被 038 拍板堵=非见底自派场景，恢复路径=pending_backfill②）。
+- 冒烟义务=无：8830d1c..HEAD(ec12e52) 变更文件 4 个全 .md（REVIEW/REQ/done归档 SB-042/progress）实测→锚点 8830d1c 维持不重跑；pgrep emulator/qemu=0 模拟器未起；OpenCode.app GUI 常驻=Electron helpers 在册非 builder→builder 轮次=0。
+- 并发与现场：_LOCK find+tracked=0；工作树 0 行（status --porcelain 实测）；branch=main+feat×7(033/034 素材+037 reshoot 占用+038-041 链待合)+rescue×1 全在册零 stray；git worktree list 实测=main+reshoot×5(/private/tmp/reshoot/037-041)+vC@092f7e2 全在册删除待浩然一句话；origin 零触碰本轮无 push/fetch/ls-remote（ahead 22=合入+簿记自增合规）。
+- 漂移审计（条款6）：禁词五词 app/lib 命中 2 行均元引用豁免（goal_ladder.dart:7+achievement.dart:13 行号本拍实测一致，沿 p=0.75）用户可见=0；ui/theme·motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（git grep 排除法实测 0/0）；美团|工资|房贷 app/lib=0；锚定手机号=0（排除 md/pbxproj）；open_id=0；真实账目=0 红线零触发（8830d1c 后码体零变更·合成夹具豁免沿册）；main 头 ec12e52↔REVIEW 09:0x 末段✓（本票追加↔新簿记头）；progress 唯一真相✓；task_plan 薄索引未据此判进度✓。**全绿**。
+- 其他：周四非周一无适配审查（周一批次挂账不变）；决策模型未调用（本拍无边界裁决，不可用观察沿册 watch⑦）；新鲜度=括注锚点 5284460 已被 8830d1c 取代+SB-042 双口径，沿 21:4x 防 churn 裁定未动 cron（现行锚点以本票与快照为真相·周一批次统一翻括注）；cron list --all 实测巡检 running(本拍)/runway-watchdog ok(last 2h ago·昨日 Memos blocked 自愈沿册)/统一看门狗 ok/需求反思 ok；观察新增：历史 wake 停用残留×3(b71bf570/e71e53ac/f859efc9)在册不擅删，与 88a8e128 恢复时一并清理待浩然。自验三连随本票提交回显。
+- 利益点自省：持平——零动作审计轮守住 042 目标保存真落库成果（用户可见：改目标后保存不再假成功），机制零变化无 SilentBook 旧病；推进堵点在浩然侧（038 返工拍板=链 039/040/041 唯一闸口），非『更远』。
