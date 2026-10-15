@@ -815,3 +815,10 @@
 - R4 账：本轮=浩然目检「合」终裁；程序性挂起口径维持（未判第3退回，13:51 票沿册）。
 - 零触碰：origin/其他分支/reshoot worktree×5/vC（删除仍待浩然一句话）；wake 维持 disabled。
 - 下一步：039 业务体 cherry-pick（在册 9 冲突均 docs/golden 链项，docs 已排除，金样合并态重生成法）→全量→冒烟→归档；040；041（goal_editor add/add 按 041 卡第4条=删 040 月数字段保 041 日期字段）。
+
+## 监工票 — 2026-10-15 14:1x（链序②·SB-039 合入轮）
+结论: 039 已合入 main@c6dffae，468 绿，冒烟 PASS，done/=36，链续 040→041。
+- 合入法：cherry-pick -n bce1ea3 纯业务体；冲突=10 png 二进制（039 金样基于 037 主题前），取分支版后合并态 --update-goldens 重刷 category/goal/budget/role 12 帧；代码零冲突。
+- 验证：全量 realexit=0（+468）；format/analyze/hygiene=0/0/OK；一条龙冒烟 build✓/BOOT=1/install/PID=2342/FATAL=0/首页实拍目检正常（账本 tab tap 脱帧未补，类目渲染由 sb005 金样绿覆盖）。
+- 锚点 dd8cf0f→c6dffae；R4/挂账零变化；origin/分支/worktree 零触碰。
+- 下一步：040 业务体 squash（在册冲突=goal_editor 与 041 交叠，040 先合按原卡面施工）→全量→冒烟→归档；再 041（goal_editor add/add 按卡第4条=删 040 月数字段保 041 日期字段·schema v12）。
