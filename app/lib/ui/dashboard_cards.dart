@@ -38,6 +38,9 @@ class DashboardHero extends StatelessWidget {
       );
     } else if (summary.convertibleFen > 0) {
       verdict = equivalentOf(summary.convertibleFen);
+    } else if (summary.todayCount > 0 || summary.monthCount > 0) {
+      // SB-046 · 有笔数零攒出：已记账但尚未攒出，不再喊「第一笔」.
+      verdict = '已记下、攒出在路上';
     } else {
       verdict = '记下第一笔，开始攒跑道';
     }

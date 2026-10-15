@@ -147,7 +147,7 @@ String? todaySavedText({required int savedFen}) {
   if (hit == null) return null;
   final int count = savedFen ~/ hit.fen;
   if (count <= 0) return null;
-  return '今天攒出 ¥${formatFen(savedFen)} · 够 $count ${cupUnit(hit.name)}${hit.name}';
+  return '今天攒出 ${formatFenHead(savedFen)} · 够 $count ${cupUnit(hit.name)}${hit.name}';
 }
 
 /// 大额攒出（≥目标 5% 即达标线；调用方复用 SB-008 成就卡，禁新造动效）.
@@ -156,9 +156,9 @@ bool isBigDailySave({required int savedFen, required int targetFen}) {
   return savedFen * 20 >= targetFen;
 }
 
-/// 问句（得到框架；产品立场「不用每笔记」进文案）.
+/// 问句（得到框架；产品立场「不用每笔记」进文案；标题位取整 SB-046）.
 String closeAskText({required int estimateFen}) {
-  return '今天零碎大约 ¥${formatFen(estimateFen)}，记？';
+  return '今天零碎大约 ${formatFenHead(estimateFen)}，记？';
 }
 
 /// 已记态（得到框架；只报得到）.

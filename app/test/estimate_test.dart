@@ -189,6 +189,16 @@ void main() {
     expect(t.contains('/'), isFalse);
   });
 
+  test('SB-046 标题位取整：载体/问句分位小数收敛到元', () {
+    // 38528 分 = ¥385.28 → 标题位应为 ¥385（SB-043 先例的机械延伸）.
+    final String? t = todaySavedText(savedFen: 38528);
+    expect(t, isNotNull);
+    expect(t!, contains('¥385'));
+    expect(t.contains('385.28'), isFalse);
+    expect(closeAskText(estimateFen: 38528), contains('¥385'));
+    expect(closeAskText(estimateFen: 38528).contains('385.28'), isFalse);
+  });
+
   test('isBigDailySave 5%线', () {
     expect(isBigDailySave(savedFen: 500, targetFen: 10000), isTrue);
     expect(isBigDailySave(savedFen: 499, targetFen: 10000), isFalse);

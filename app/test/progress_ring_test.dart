@@ -172,4 +172,41 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('1.2'), findsOneWidget);
   });
+
+  testWidgets('SB-046 起步文案数据态：有笔零攒出不再喊第一笔', (WidgetTester tester) async {
+    const DashboardSummary s = DashboardSummary(
+      todayCount: 2,
+      todayFen: 5000,
+      weekFen: 5000,
+      monthFen: 5000,
+      monthCount: 2,
+      totalFen: 5000,
+      fenByCategory: <String, int>{'食': 5000},
+      top5: <TopEntry>[],
+      otherShare: 0,
+      otherFault: false,
+      goalFen: null,
+      goalProgress: 0,
+      goalOver: false,
+      convertibleFen: 0,
+    );
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: Scaffold(body: DashboardHero(summary: s)),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('已记下、攒出在路上'), findsOneWidget);
+    expect(find.text('记下第一笔，开始攒跑道'), findsNothing);
+  });
+
+  testWidgets('SB-046 起步文案数据态：零笔零攒出仍引导第一笔', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: Scaffold(body: DashboardHero(summary: DashboardSummary.empty)),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('记下第一笔，开始攒跑道'), findsOneWidget);
+  });
 }
