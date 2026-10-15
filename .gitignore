@@ -29,3 +29,4 @@ Thumbs.db
 _inbox/dispatch.log
 _inbox/*.log
 probe*.tmp
+app/test/failures/
