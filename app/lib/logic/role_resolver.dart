@@ -145,7 +145,9 @@ String elasticShareText({required double share, required int elasticFen}) {
 }
 
 /// 聚餐引导文案（一次性引导卡，不强制）.
-String diningGuideText() => '餐饮默认记为要花的 · 聚餐可拆为能省的，下次同类自动提示';
+// SB-045 ③ · 长句拆短：主句 ≤14 字（13 字）；自动提示行为发生时可见，
+// 同屏副行（已发现 N 笔聚餐记录）保留白话锚.
+String diningGuideText() => '餐饮记为要花的，聚餐可拆分';
 
 /// 本卡禁词复用成就表（不另建第二套；角色文案零命中）.
 List<String> get roleBannedWords => achievementBannedWords;

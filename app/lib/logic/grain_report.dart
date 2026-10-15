@@ -128,6 +128,8 @@ String grainBody({required int fundFen, required int targetFen}) {
 String grainHint({required int fundFen, required int targetFen}) {
   if (targetFen <= 0) return '先记账，底气自然来';
   if (fundFen >= targetFen) return '已攒够余粮 · 得到阶段性底气';
+  // SB-045 ③ · 起步态白话锚：称号「种下第一穗」同屏必有无门槛 plain 锚.
+  if (fundFen <= 0) return '记下第一笔，底气开始攒';
   final double pct = (fundFen / targetFen).clamp(0.0, 1.0).toDouble();
   return '已攒 ${(pct * 100).toStringAsFixed(0)}% · 稳步积累的证明';
 }

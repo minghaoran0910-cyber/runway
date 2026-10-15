@@ -169,6 +169,9 @@ void main() {
     expect(find.text('内置规则 179 条 · 6 类目'), findsOneWidget);
     expect(find.byKey(const Key('aboutDiagHealthy')), findsOneWidget);
     expect(find.byKey(const Key('aboutDiagFault')), findsNothing);
+    // SB-045 ①② · 零值降噪：share=0 → 占比字段不显示，只留「分类都在轨」.
+    expect(find.textContaining('其他占比'), findsNothing);
+    expect(find.text('分类都在轨'), findsOneWidget);
   });
 
   testWidgets('SB-039 关于诊断行故障态', (WidgetTester t) async {

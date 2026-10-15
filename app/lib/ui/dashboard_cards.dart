@@ -142,18 +142,22 @@ class DashboardHero extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          Text(
-            '今日 ${summary.todayCount} 笔 · ${formatFenYuan(summary.todayFen)}'
-            ' · 其他占比 $shareText',
-            style: const TextStyle(
-              fontSize: RunwayHero.subSize,
-              color: RunwayHero.sub,
+          // SB-045 ① · 其他占比零值降噪：share*100<0.05（取整即 0.0%）时
+          // 整段不显示该字段；故障态（>5%）恒显示.
+          if (summary.otherShare * 100 >= 0.05)
+            Text(
+              '今日 ${summary.todayCount} 笔 · ${formatFenYuan(summary.todayFen)}'
+              ' · 其他占比 $shareText',
+              style: const TextStyle(
+                fontSize: RunwayHero.subSize,
+                color: RunwayHero.sub,
+              ),
+              key: const Key('dashOtherShare'),
             ),
-            key: const Key('dashOtherShare'),
-          ),
-          const SizedBox(height: 4),
+          if (summary.otherShare * 100 >= 0.05) const SizedBox(height: 4),
           Text(
-            summary.otherFault ? '分类故障：其他占比超 5%' : '分类健康',
+            // SB-045 ② · 「分类健康」悬空标签→自解释短句；故障态文案不动.
+            summary.otherFault ? '分类故障：其他占比超 5%' : '分类都在轨',
             style: TextStyle(
               fontSize: RunwayHero.subSize,
               color: summary.otherFault

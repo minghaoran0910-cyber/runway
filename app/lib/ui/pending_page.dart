@@ -244,7 +244,10 @@ class _PendingListPageState extends State<PendingListPage> {
                         snap.data ?? <PendingRecord>[];
                     if (rows.isEmpty) {
                       return Padding(
-                        padding: const EdgeInsets.only(top: 24),
+                        // SB-045 ④ · 裸 24 收 token（section=24 同值）.
+                        padding: const EdgeInsets.only(
+                          top: RunwaySpacing.section,
+                        ),
                         child: Text(
                           '暂无待确认，授权通知使用权后自动采集',
                           style: theme.textTheme.bodyMedium,

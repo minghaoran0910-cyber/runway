@@ -173,7 +173,10 @@ class HomePage extends StatelessWidget {
                         const SizedBox(height: 8),
                         if (rows.isEmpty)
                           Padding(
-                            padding: const EdgeInsets.only(top: 24),
+                            // SB-045 ④ · 裸 24 收 token（section=24 同值）.
+                            padding: const EdgeInsets.only(
+                              top: RunwaySpacing.section,
+                            ),
                             child: Text(
                               '还没有记录，点右下角记第一笔',
                               style: theme.textTheme.bodyMedium,
@@ -213,8 +216,9 @@ class HomePage extends StatelessWidget {
                         // 装饰文本不承载信息：文字级 token 降淡（§2.3 装饰不设限），
                         // 不用 inkSecondary（§2.1 禁做小字）.
                         Padding(
+                          // SB-045 ④ · 裸 24 收 token（sectionHeaderTop=24 同值）.
                           padding: const EdgeInsets.only(
-                            top: 24,
+                            top: RunwaySpacing.sectionHeaderTop,
                             bottom: 96,
                           ), // SB-044 · 底部 96 完全避开 FAB
                           child: Text(

@@ -124,8 +124,12 @@ class AboutDiagnosticsCard extends StatelessWidget {
               style: Theme.of(context).textTheme.bodySmall,
               key: const Key('aboutDiagRules'),
             ),
+            // SB-045 ①② · 零值降噪+悬空标签收编（与 Hero 同口径）：
+            // share*100<0.05 时不显示占比字段，只留自解释短句；故障态不动.
             Text(
-              otherFault ? '其他占比 $pct% · 分类故障：占比超 5%，待修复' : '其他占比 $pct% · 分类健康',
+              otherFault
+                  ? '其他占比 $pct% · 分类故障：占比超 5%，待修复'
+                  : (otherShare * 100 < 0.05 ? '分类都在轨' : '其他占比 $pct% · 分类都在轨'),
               style: Theme.of(context).textTheme.bodySmall,
               key: Key(otherFault ? 'aboutDiagFault' : 'aboutDiagHealthy'),
             ),

@@ -101,6 +101,8 @@ void main() {
 
     expect(find.byKey(const Key('emptyHint')), findsOneWidget);
     expect(find.byKey(const Key('dashOtherHealthy')), findsOneWidget);
+    // SB-045 ① · 零值降噪：空库 share=0 → 占比字段整段不显示.
+    expect(find.byKey(const Key('dashOtherShare')), findsNothing);
     expect(find.byKey(const Key('recentTitle')), findsOneWidget);
     expect(find.textContaining('Top5'), findsNothing);
     // SB-038-RC1追补 · 空库零日档：攒出 0→todaySavedZero+去向行仍常驻（不断线）.
