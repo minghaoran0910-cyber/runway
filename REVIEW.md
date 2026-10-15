@@ -806,3 +806,12 @@
 - 决策模型：本轮无新边界裁决不调用（13:3x 实测 status=ok，watch⑦销账维持）。
 - 漂移与一致性审计（一行）：禁词2行=元引用豁免（achievement.dart:13 禁词表本体/goal_ladder.dart:7 注释复述，行号本拍实测一致沿 p=0.75）·ui/theme·motion_spec 外裸Color(0x=0·裸Duration(milliseconds:=0·美团|工资|房贷/open_id/锚定手机号非md=0·真实账目=0 红线零触发（8830d1c 后码体零变更沿合成夹具豁免）·main头703f904↔REVIEW 第3轮段✓（簿记后↔14:0x段）·progress唯一真相✓·task_plan未据此判进度✓→全绿。
 - 利益点自省（一行）：持平——零动作轮守住 038 导航修复+042 假成功修复成果，机制零变化无 SilentBook 旧病同构；计数 13:3x 更近→14:0x 持平，无『更远』信号不触发排期升级；堵点=浩然侧 038 目检签字（⚡③在飞不重复推）。
+
+## 监工票 — 2026-10-15 14:0x（裁「合」·SB-038 合入轮）
+结论: 038 已合入 main@dd8cf0f，冒烟 PASS，锚点翻，done/=35，链序续 039→040→041。
+- 合入法：cherry-pick -n 441847b+47a9626+1714787 纯业务体（docs 票不倒灌）；home_page.dart 冲突=分支含 474111c wip 上下文而 main 自 merge-base 后零改动（diff 空实测）→取分支版；13 png 二进制冲突→合并态重生成 12 金样后全量 realexit=0（+464 All tests passed）。
+- 闸门：dart format=0 / flutter analyze --fatal-infos --fatal-warnings=0 / check-repo-hygiene=OK。
+- 一条龙冒烟：build apk ✓/BOOT=1/install Success/am start PID=2541/FATAL=0/首页实拍 245KB 目检/pkill 收口。锚点 8830d1c→dd8cf0f。
+- R4 账：本轮=浩然目检「合」终裁；程序性挂起口径维持（未判第3退回，13:51 票沿册）。
+- 零触碰：origin/其他分支/reshoot worktree×5/vC（删除仍待浩然一句话）；wake 维持 disabled。
+- 下一步：039 业务体 cherry-pick（在册 9 冲突均 docs/golden 链项，docs 已排除，金样合并态重生成法）→全量→冒烟→归档；040；041（goal_editor add/add 按 041 卡第4条=删 040 月数字段保 041 日期字段）。
