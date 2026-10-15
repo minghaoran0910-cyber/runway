@@ -863,3 +863,15 @@
 - 验证：全量 realexit=0（+483）；format/analyze/hygiene=0/0/OK；一条龙冒烟 build✓/BOOT=1/PID=2487/FATAL=0/目标页实拍 06_goal_after041.png。锚点 aa61e8d→a90e2e5。
 - 链清后队列：活跃卡=SB-012（体验中·真人闸门）+SB-021（挂起）；待办=0。下一里程碑=新交付包（038~042 全过+补拍走查后出包）+SB-012 新用户四任务走查。
 - 仍待浩然一句话：reshoot worktree×5+vC+重复 wake 删除（A/B/C）；wake 维持 disabled；今晚 04:30 备份结果自核呈报。
+
+
+## 监工票 — 2026-10-15 16:0x（巡检轮·链清复验+SB-043 在飞登记+监工误杀事故自纠）
+结论: 无新提审（REQ mtime 1792039694 < REVIEW 1792049180 实测；盘上 vs git show HEAD = IDENTICAL 验真✓）；SB-041 合入落点自验三连全过（git log 实测头链含 a90e2e5 ✓ / git ls-tree done/=38 实测含 SB-041 ✓ / 本票链 15:1x 票在册 ✓）；新情形=SB-043（金额与文案一致性打磨）在飞：main worktree 检出 feat/SB-043-copy-amount-consistency、业务体@b4b8620（16:1x 实测工作树净 0 行）、REQ 未翻=未提审，本轮无审查义务。本票经临时 worktree /tmp/patrol1600 落 main（主 worktree 被 SB-043 检出占用，零 stash 零切分支）。
+- ⚠️监工事故（自纠上报口径=簿记不推送）：16:09 按"孤儿半截现场"kill 模拟器 57529（证据三件=15:54 起/无 input 事件/screencap 桌面），实为在飞会话所用——16:10:18 重生（新 PID 77217）+audit_emu_out.log 16:10 写入=活体实证。影响评估：其测试套件=host 侧 flutter test 不受影响（sb043_suite2.log 16:10 实测"+483 All tests passed"），模拟器自愈、零数据丢失、后续零触碰。教训（周一批次条款草案+1）：kill 模拟器前必查"重生行为/日志写入窗<10min=活体"，孤儿判定三证据不足。
+- 冒烟锚点补翻（快照滞后修复）：aa61e8d→a90e2e5。证据链=15:1x 合入票（build✓/BOOT=1/PID=2487/FATAL=0）+15:30 独立复测（smoke_1530.log 盘上实测：HEAD 0e76793/build 9.4s/install Success/PIDOF=2303/FATAL=0/SMOKE_DONE）+本轮活体探针（app 进程存活/crash 缓冲 FATAL=0）。本轮不重跑（SB-043 会话持有模拟器 77217，不并发起）。
+- 队列：活跃=SB-012（体验中·7 天真人闸门）+SB-021（挂起）+SB-043（在飞待提审）；done/=38 实测；待办=0（15:1x 票已呈不重复推）。
+- 漂移与一致性（main@a90e2e5 树实测，SB-043 分支不计入）：禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7+achievement.dart:13 行号实测沿册）；ui/theme·motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（wc -l 实测 0/0）；真实账目（美团|工资|房贷）dart=0 红线零触发；_LOCK=0；branches=main+在册 feat×7+在飞 SB-043+rescue×1 零未在册 stray（已合入卡分支/worktree 删除仍待浩然 A/B/C 一句话，不计残留）；worktree=7 在册（主+reshoot×5+vC）+本票临时 patrol1600（用后即撤）；origin 零触碰（本轮无 push/fetch/ls-remote）；main 头 0e76793↔REVIEW 15:1x 票✓；progress.md 唯一真相✓（15:1x 条目实读对应）；task_plan 薄索引未据其判进度✓。
+- 下一步：①下拍盯 SB-043 REQ 翻转→按视觉闸门审（改 ui/文案必附实拍截图）；②新用户四任务走查闸门仍未做（切包前置，15:1x 票在册义务——本轮预算耗于事故恢复+簿记，顺延下轮，切包前必做）；③周一批次沿册（wake 三易主/条款草案×4 含误杀教训/origin ref 位移归属核对/括注统一翻/A/B/C 清理待一句话）。
+- 提示词新鲜度：无 cron edit（防 churn 沿 21:4x 裁定；com.zangou.runway 实测现行=77217 内 app 存活/golden 路径/薄索引均现行；括注滞后项 wake 态·锚点·卡号周一统一翻）。
+- 决策模型：本轮无边界裁决，未调用（误杀处置=事实恢复非裁量）。
+- 利益点自省（一行）：更近——链清成果守住+SB-043 打磨"本月攒出/¥前缀/持平"正是『天天看见自己挪一步』的文案层在飞；计数 15:1x 更近→本轮更近，无"更远"、无 SilentBook 旧病同构。
