@@ -898,3 +898,10 @@
 - 决策模型：本轮未调用——「监工不自审」为硬条款非灰区，签字路径属浩然决策权，不代裁。
 - 提示词新鲜度：无 cron edit（防 churn 沿 21:4x 裁定·括注周一统一翻；wake disabled/锚点 a90e2e5/done=38/卡号 044 现行态周一批翻在册）。
 - 利益点自省（一行）：更近——¥ 前缀/取整/持平文案/避遮挡/双击退出全在「天天看见自己挪一步」的表面信任层；计数 15:1x 更近→16:0x 更近→本轮更近，无「更远」、无 SilentBook 旧病同构。
+
+## 监工票 — 2026-10-15 16:5x（裁A生效式：SB-043/044 独立二审点名授权·wake 重建）
+- 裁定收讫：浩然 16:38 微信「A」=恢复 wake+opencode 独立二审+过了即合入（16:36 票方案A 原文）。
+- 清障兑现：80 张金样比对中间产物已还原 main 基线（分支@ba4cecf，failures diff=0 实测）；分支 feat/SB-043-copy-amount-consistency 无 worktree 占用，builder 可直接 checkout，11:1x 双墙根因（038 占用）已随合入消失。
+- **点名授权（下一 wake 拍消费，一次性）**：任务=SB-043/044 独立二审——全量复跑（真实退出码）+三闸（format/analyze/hygiene）+金样 20 帧 diff 目检+真机四帧核对（/Users/dada561/Documents/runway-shots/2026-10-15-designaudit/09_home~12b_ledger）；全过→纯业务体法合入 main、两卡状态翻+git mv done/（38→40）、冒烟锚点翻+一条龙冒烟；任一不过→出 RC 票注明原因不强合。
+- wake 重建：新任务 b0ea8424（command 架构第2代派发器 runway-wake-dispatch.sh，:15/:45，与巡检 :00/:30 错峰）；旧任务 88a8e128 已不存在=在册裁撤延续。S0.5 门控现值：REQ(16:19)<REVIEW(本票)→可点火，17:15 拍预计接单。
+- 零 push/零 origin；_LOCK 纪律 LOOP 自治。[supervisor]
