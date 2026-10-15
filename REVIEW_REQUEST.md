@@ -1,33 +1,30 @@
-# 已获裁定A·返工放行（浩然 2026-10-15 10:18） — SB-038 已累计 2 轮 REQUEST_CHANGES（R4=2），本轮即第 3 轮，按 LOOP S1.1 停手待人工裁决
+# REVIEW_REQUEST — SB-038 首页大扫除（裁A 返工·监工手动接管·第3轮提审）
 
-- **计数**：第 1 轮 RC=视觉闸门缺实拍（REVIEW 17:3x 票）；第 2 轮 RC=全量套件 10 失败（REVIEW 02:3x–03:0x 票：跨页导航断×2＋四区挂载/DAO＋golden 脱更，REVIEW 443 行逐条）。轮次编号俱全，S1.1 前提满足。
-- **停手理由**：卡或规范可能有问题（四区搬家破坏跨页导航与区挂载契约；返工=修导航＋golden 或改卡拆分，需浩然拍板，REVIEW 443 行已载明）。
-- **原提审单原文保留在下**（供监工/人工参阅；本轮零码改、零提交，分支仍留 feat/SB-038-home-cleanup@6e1bc24）。
+- **卡**：docs/tasks/SB-038.md ｜ **分支**：feat/SB-038-home-cleanup@1714787（业务体单提交；未 merge/未 push，main/origin 零触碰）
+- **执行身份**：监工手动接管返工（交接预案①：builder 10:45/11:15 两拍撞双墙未接单）。wake 88a8e128 维持 disabled，builder 拍次零消耗，无并发冲突。
 
----
-# REVIEW_REQUEST — SB-038 首页大扫除（S0.1 一次性续做授权提审）
+## 裁A 四项逐条交付
 
-- **卡**：docs/tasks/SB-038.md（待办→提审）；**分支**：feat/SB-038-home-cleanup@441847b（留在 feat，未 merge/push main，S0.1 授权已消耗即失效）
-- **断点承接**：17:0x builder 崩溃现场 home_page.dart 半成品（-12/+4）由监工抢救至本分支@wip；本轮按授权范围续做至提审，无扩 scope、无新工作面。
+- ① **修导航断线**：断因实测=ListView 懒构建下，搬家区四卡把 goalToWeekly/goalCount/goalTimeline 推出构建窗（Found 0 widgets=真断线，非接线断裂）。修复=搬家块（每日收口/大额冷静/月度小实验/预算观察）整体移至目标时间线之后；**时间线以上区域与 main 净差异=0**（单变量重排：git diff main 仅 +4 imports + 搬家块落尾）。
+- ② **10 项断线测试按新布局更新**：SB-016/017/018 三「首页集成」案改 pump GoalPage 并更名「我的页集成（SB-038搬家后）」（scrollUntilVisible 保留）；三 DAO 案定性=前置案失败级联污染（隔离复跑全绿实证），零改动随前置修复自然转绿；SB-030/SB-014 随①布局恢复零改动转绿。
+- ③ **golden 重生成**：golden/sb007/goal_* 6 帧 + golden/sb012/budget_home_* 2 帧（--update-goldens 后复跑全绿；目检=首屏顺序同 main、搬家区落位时间线下、零溢出乱码）。
+- ④ **三页实拍**（模拟器 runway_api36·分支 debug APK·am start 后 PID 存活·FATAL=0）：
+  - /Users/dada561/Documents/runway-shots/2026-10-15-manual38/01_home.png —— 首页：环形图+「今天攒出」常驻行在位+四区已不出现（硬约束实证）
+  - 同目录 02_goal_top.png —— 目标页首屏：余粮区+「看本周周报」入口首屏可见（断线修复实证）
+  - 同目录 04_goal_zones.png —— 目标页下滑：冷静/月度小实验（8 chips）/预算观察全挂载（只搬家不删除实证）
+  - 同目录 05_weekly.png —— 周报页：经入口 1 跳到达（≤2 跳契约实证）
 
-## 变更清单（5 文件+12 基线，≤10 合规；golden 不计）
-- app/lib/ui/home_page.dart（234 行）：删 Top5/目标卡入口/DailyClose/Cooloff/Experiment/Budget 四区+全量列表，留 Hero 环+今日卡+最近3笔（rows.take(3)+recentTitle）+空态引导+水印+FAB；顶栏只留待确认（类目入口已下线，账本 Tab 即类目管理页）；删 category_page/goal_page 未用 import。
-- app/lib/ui/goal_page.dart（400 行，顶格未超）：我的页 GrainZone 后接搬家四区 DailyCloseZone/CooloffZone/ExperimentZone/BudgetZone（口径零改，复用同一 Zone；实物换算本就属我的页）。
-- app/test/dashboard_page_test.dart：改写为搬家后契约（首页=heroRing/dashToday/recentTitle、无Top5/目标/预算；我的页四区 key 可达断言）。
-- app/test/golden_home_budget_test.dart：改泵 GoalPage（预算宿主迁移）；常动组件 pumpAndSettle 永不收敛→改定泵（300ms+1 帧）。
-- app/test/golden_goal_test.dart：CRUD 单加拖回顶部再断言（页变长致顶部卡滚出被 ListView 卸载）。
-- golden 重生成 12 张：sb006（首页新布局）/sb007（我的页接四区）/sb012（内容=我的页预算区，路径沿用）。
+## 质量证据
 
-## 自检
-- dart format：0 改；flutter analyze：No issues；相关测试 16 项全绿（dashboard/root_shell/goal/home_budget）；tool/ci.sh 四闸 ALL GREEN（含 macOS+APK 双 build）；check-repo-hygiene OK。
+- **全量套件 realexit=0**：+460 All tests passed（基线 10 失败→0；基线复现 /tmp/sb038_baseline_test.log，返工后 /tmp/sb038_full2.log，均 `>file; echo $?` 真实退出码口径）。
+- **闸门**：dart format --set-exit-if-changed=0 ｜ flutter analyze --fatal-infos --fatal-warnings=0 ｜ tool/check-repo-hygiene.sh=OK。
+- **文件数**：业务 1（goal_page.dart）+测试 3=4 ≤10 ✓（金样 8 帧另册，沿 041 口径）。
+- **硬约束**：首页「今天攒出」常驻行保留（47a9626 资产零改动，实拍 01 为证）；口径零改；禁区零触碰；真实账目零接触（设备 pm clear 空态）。
 
-## 验收对照（卡）
-- 首页首屏=环（含大数字滚动+琥珀比上月+可动用÷刚性公式）+今日卡（本月笔数/本周在内）+最近3笔+FAB ✓（证：golden/sb006/dashboard_light_data.png 即新首屏）
-- 收口/冷静/实验/预算观察全在"我的"页，功能零丢失 ✓（widget 四 key 断言）
-- 右上角双图标→一条：类目入口删除，顶栏仅 pendingEntry ✓；类目管理由账本 Tab 承载（CategoryPage 未动）
-- 不碰禁区：tokens/pubspec/schema/CI/docs 规范零改；无新依赖。
+## R4 申报
 
-## 偏差声明
-- golden_goal CRUD 取证手法适配（拖回顶部）与 home_budget 定泵化：测试时钟/口径零改， Exhibit 行为等价（CRUD 在授权前 main 实测通过，搬家致懒加载卸载是唯一变量）。
-- sb012 基线路径名含 home 实为我的页内容：为减 churn 沿用路径，内容已是新宿主；由本单注明。
-- goal_page.dart 400 行恰顶格：后续 SB-039/040 若再加码须先拆卡。
+本单为第 3 轮审查（历史 RC×2：17:3x 缺实拍／02:3x 全量十失败）。本轮=裁A 授权返工，非自然 RC+1；已知悉 12:3x 票约束「若本轮再审仍 RC 则即刻停手呈 WAITING_HUMAN 不再放第三轮」。
+
+## 队列现状
+
+done/=34；038 过审后链序 039→040→041 rebase 逐个合入+每合一卡翻冒烟锚点（现锚点 8830d1c）；SB-042 已归档（03:5x）；wake 冻结+A/B/C+worktree×5/vC 清理仍待浩然。
