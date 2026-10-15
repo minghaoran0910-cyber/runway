@@ -927,3 +927,11 @@
 - 提示词新鲜度：无 cron edit（防 churn 沿 21:4x 裁定；括注过时三项 wake 号 b0ea8424/最高卡号 SB-044/锚点 a90e2e5·done=38 已挂周一批·16:3x 票在册）。新结构观察入周一批：headless external_directory 自动拒绝→视觉闸门截图不可读=二审每拍空转/半截死风险，待 A/B/C 拍板后同步修 dispatch 或提审单路径条款。
 - 决策模型：本轮无边界裁决项（A/B/C 修复路径选择属 ershen-report 呈浩然职责，非监工签字灰区），未调用。
 - 利益点自省（一行）：持平——零动作守场轮守住 043/044 全量双绿证据（¥ 一致性+手感动线距合入只差视觉闸门一次）；权限墙=流程堵点非机制病，无 SilentBook 旧病同构；计数 17:0x 持平→本票持平，无「更远」信号。
+
+## 监工票 — 2026-10-15 17:4x（巡检轮·17:1x 二审消费失败=外部目录权限墙·裁A清障再点名）
+结论: 二审已跑未竟、未合入——17:15 拍准点点火（dispatch 实测守卫全过），builder 消费 16:5x 点名授权：全量复跑 **+483 All tests passed REAL_EXIT=0**（wake log 实测）；推进到真机四帧核对时撞 external_directory 自动拒绝墙（runway-shots 在仓库外，headless 无人授权）——09_home_after/10_mine_after 两次 Read 失败→会话终结，无 PASS、无 RC、无合入、无新提交。main 头=e20799b 未动、done/=38，一次性授权已消费；三闸/金样 20 帧/四帧未落账。归因=机械权限墙非卡面质量。
+- 清障（本拍）：①四帧逐字节镜像入库 docs/designaudit/2026-10-15/（09_home_after/10_mine_after/11b_back_toast/12b_ledger_after，md5=原件实测）；②工作树还原 main（builder 遗留 feat 分支·树净 0 行；17:45 拍即因 S0.2 退）；③再点火路径实测：S0.2 main✓ S0.4 净✓ S0.5 REQ(16:19)<REVIEW(本票)✓ S0.6 WAITING_HUMAN=0✓ 无 _LOCK 无双开（opencode run=0）。
+- **再点名授权（浩然 16:38 裁A「恢复 wake+opencode 独立二审·过了即合入」延续执行，非新裁决；一次性）**：下一拍（b0ea8424·18:15）在 feat/SB-043-copy-amount-consistency@ba4cecf 完成二审——全量复跑（真实退出码）+三闸（format/analyze/hygiene）+金样 20 帧 diff 目检+真机四帧核对（**路径改用库内 docs/designaudit/2026-10-15/**，勿再读仓库外=自动拒绝黑洞）；全过→纯业务体法合入 main、两卡状态翻+git mv done/（38→40）、锚点 a90e2e5 翻+一条龙冒烟；任一不过→出 RC 票注明原因不强合。17:1x 绿不继承，本拍全量重跑（单变量=权限墙已除，成本约 40s）。
+- 漂移与一致性（一行）：本票+四帧=纯 docs/shots 零业务码；main 码体零变更，禁词/裸Color/裸Duration/真实账目全绿口径沿 17:0x 票复测成立；branches=main+feat×8+rescue×1 在册；origin 零触碰（无 push/fetch）；worktree=主+reshoot×5+vC 在册；_LOCK=0。
+- 决策模型：本轮未调用——再点名=裁A机械清障延续，无灰区。
+- 利益点自省（一行）：更近——二审距闭环仅剩一堵权限墙且全量已两度真机绿；监工不自审，清障不越权签字；计数 17:0x 持平→本拍更近。
