@@ -1,30 +1,24 @@
-# REVIEW_REQUEST — SB-038 首页大扫除（裁A 返工·监工手动接管·第3轮提审）
+# REVIEW_REQUEST — SB-043+SB-044 设计审查轮·体验一致性打磨（提审）
 
-- **卡**：docs/tasks/SB-038.md ｜ **分支**：feat/SB-038-home-cleanup@1714787（业务体单提交；未 merge/未 push，main/origin 零触碰）
-- **执行身份**：监工手动接管返工（交接预案①：builder 10:45/11:15 两拍撞双墙未接单）。wake 88a8e128 维持 disabled，builder 拍次零消耗，无并发冲突。
+- **卡**：docs/tasks/SB-043.md + docs/tasks/SB-044.md ｜ **分支**：feat/SB-043-copy-amount-consistency（043@b4b8620 → 044@0bd3f12，基于 main@0e76793）
+- **缘起**：浩然 14:03 令「用全部前端/设计/审美 skill 审查挑刺并逐步打磨至商业化/评奖水准」。监工全量审查（8 屏真机有数态+20 金样+代码逐面对照 DESIGN_SYSTEM v2.1）产出分级挑刺清单；本单修复其中 P0×1+P1×7 全部，P2 在册遗留。
 
-## 裁A 四项逐条交付
+## 挑刺→修复对照
+- **P0 指标打架**：hero「已攒 0%」vs 目标页「本月目标 75%」语义撞车 → 目标页卡改名「本月攒出」，hero 保「下一站」语境，一眼可辨。
+- **P1 金额无¥**：今日/本周/最近行/类目合计/周报文案 12 处 → formatFenYuan 单一入口全落。
+- **P1 标题小数噪声**：余粮「8,653.98 等待攒出」「月均 1,442.33」→ formatFenHead 取整（¥8,654/¥1,442）。
+- **P1 零值噪声**：「比上月 +0.0 个月」→「与上月持平」（|Δ|<0.05 阈值）。
+- **P1 FAB 遮挡**：goal/category/home 三列表底部 96，末行动作钮不再被压。
+- **P1 一键退出**：RootShell PopScope 双击返回（首按 toast 提示；canPop:false 下 maybePop 自拦截→SystemNavigator.pop 真退）。
+- **P1 触觉零实现**：§6 三点位落地（记一笔/存目标 .light、成就 .medium+reduce-motion 静默）。
+- **P1 题签不一**：账本 tab→页标题「类目管理」→「账本」；**P1 黑话**：用户向「收口」→「小结」5 串；**P1 重复**：余粮「已攒 0%」双现去除。
 
-- ① **修导航断线**：断因实测=ListView 懒构建下，搬家区四卡把 goalToWeekly/goalCount/goalTimeline 推出构建窗（Found 0 widgets=真断线，非接线断裂）。修复=搬家块（每日收口/大额冷静/月度小实验/预算观察）整体移至目标时间线之后；**时间线以上区域与 main 净差异=0**（单变量重排：git diff main 仅 +4 imports + 搬家块落尾）。
-- ② **10 项断线测试按新布局更新**：SB-016/017/018 三「首页集成」案改 pump GoalPage 并更名「我的页集成（SB-038搬家后）」（scrollUntilVisible 保留）；三 DAO 案定性=前置案失败级联污染（隔离复跑全绿实证），零改动随前置修复自然转绿；SB-030/SB-014 随①布局恢复零改动转绿。
-- ③ **golden 重生成**：golden/sb007/goal_* 6 帧 + golden/sb012/budget_home_* 2 帧（--update-goldens 后复跑全绿；目检=首屏顺序同 main、搬家区落位时间线下、零溢出乱码）。
-- ④ **三页实拍**（模拟器 runway_api36·分支 debug APK·am start 后 PID 存活·FATAL=0）：
-  - /Users/dada561/Documents/runway-shots/2026-10-15-manual38/01_home.png —— 首页：环形图+「今天攒出」常驻行在位+四区已不出现（硬约束实证）
-  - 同目录 02_goal_top.png —— 目标页首屏：余粮区+「看本周周报」入口首屏可见（断线修复实证）
-  - 同目录 04_goal_zones.png —— 目标页下滑：冷静/月度小实验（8 chips）/预算观察全挂载（只搬家不删除实证）
-  - 同目录 05_weekly.png —— 周报页：经入口 1 跳到达（≤2 跳契约实证）
+## 验证
+- 全量套件 realexit=0（+483）；format/analyze/hygiene=0/0/OK；金样 20 帧合并态重生成目检。
+- 真机装机四帧：¥ 全覆盖/「与上月持平」/「本月攒出 ¥2,995/¥3,999·75%」/取整去重/toast 首按不退出/账本题签一致 = runway-shots/2026-10-15-designaudit/09~12b（FATAL=0）。
 
-## 质量证据
-
-- **全量套件 realexit=0**：+460 All tests passed（基线 10 失败→0；基线复现 /tmp/sb038_baseline_test.log，返工后 /tmp/sb038_full2.log，均 `>file; echo $?` 真实退出码口径）。
-- **闸门**：dart format --set-exit-if-changed=0 ｜ flutter analyze --fatal-infos --fatal-warnings=0 ｜ tool/check-repo-hygiene.sh=OK。
-- **文件数**：业务 1（goal_page.dart）+测试 3=4 ≤10 ✓（金样 8 帧另册，沿 041 口径）。
-- **硬约束**：首页「今天攒出」常驻行保留（47a9626 资产零改动，实拍 01 为证）；口径零改；禁区零触碰；真实账目零接触（设备 pm clear 空态）。
-
-## R4 申报
-
-本单为第 3 轮审查（历史 RC×2：17:3x 缺实拍／02:3x 全量十失败）。本轮=裁A 授权返工，非自然 RC+1；已知悉 12:3x 票约束「若本轮再审仍 RC 则即刻停手呈 WAITING_HUMAN 不再放第三轮」。
-
-## 队列现状
-
-done/=34；038 过审后链序 039→040→041 rebase 逐个合入+每合一卡翻冒烟锚点（现锚点 8830d1c）；SB-042 已归档（03:5x）；wake 冻结+A/B/C+worktree×5/vC 清理仍待浩然。
+## 在册遗留（下一批，未修如实报）
+- P2 文案批：hero「其他占比 0.0%」零值噪声、「分类健康」悬空标签、账本引导卡长文案、「种下第一穗」隐喻门槛、「仓满」梗。
+- §6 动效体系卡（较大）：页面共享轴转场（现默认 MaterialPageRoute×8）、按压 scale .96、列表 stagger 80ms、成就粒子（唯一表演位）。
+- SB-012 真人四任务走查 → 新交付包（走查后出）。
+- R4 申报：两卡均新卡首审。
