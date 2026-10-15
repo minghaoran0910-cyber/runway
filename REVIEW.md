@@ -710,3 +710,17 @@
 - 其他：周四非周一无适配审查（周一批次挂账不变）；提示词新鲜度=括注锚点双口径沿 21:4x 防 churn 裁定未动 cron（现行锚点 8830d1c 以本票与快照为真相；wake 现役=88a8e128 disabled=本拍实况，拍恢复时再核）；重复 wake b71bf570/e71e53ac/f859efc9 均 disabled 在册删除待浩然；runway-watchdog abaa94c7 ok（last 1h）/统一看门狗 169be936 ok/需求反思 6f3e81c0 ok（cron list 实测）；R4 本轮无新 RC。
 - 利益点自省（一行）：持平——builder 返工拍空转但代码侧零变更、037/042 成果守住；卡点为结构性互斥（补拍脚手架占用 vs 权限白名单），本拍浮出并冻结环路防继续空烧，无 SilentBook 旧病同构。计数：10:3x 更近→11:1x 持平。
 - 下一步：待浩然裁 A/B/C；裁后按「先翻括注再 enable」恢复 wake，builder 下一拍续裁A 范围（工班未产出视同未消耗由浩然裁定口径为准）；新提审到盘按视觉保真闸门审（三页实拍必备）。
+
+## 监工票 — 2026-10-15 11:3x（零新审·死锁收尸·手动接管未遂留证）
+结论: PASS（本轮零新审；唤醒环路维持冻结）
+- REQ 验真：盘上 mtime 1792031094(10:24:54) < REVIEW 1792033711(11:08:31)→零新提审不重审；`git diff HEAD -- REVIEW_REQUEST.md`=0 行实测（IDENTICAL，假翻转排除）；显式 WAITING_HUMAN 标记行 grep=0 合规；REQ head=「已获裁定A·返工放行」✓。
+- 本拍核心发现——`_LOCK` 死锁（11:1x 票后新增）：仓根 `_LOCK` 内容 `6911 11:23:23 manual-takeover-sb038`；PID 6911 实测死（ps/kill -0=no such process）。取证链：reflog HEAD@{0}=43b78d1(11:08:31) 后零新提交；跟踪文件 stat 11:08 后改动=空输出实测；分支头未动（main@43b78d1/038@6e1bc24 rev-parse 实测）；reshoot/038 worktree 仅 `?? app/test/failures/`（8 件产物 11:15 更新，早于建锁 11:23，已备份 /tmp/sb038_wt_failures_backup_1130 实测 ls=8）；flutter/dart 构建进程 pgrep=0。判定=「手动接管 SB-038 返工」会话未遂、死主留锁、零产出。①锁按 LOOP 状态机步骤3『PID 已死→删锁』机械收尸，存档 /tmp/leaked_LOCK_113447_pid6911，find 复测=0；②不改变已呈浩然的 A/B/C 边界问题（11:1x ⚡③仍在飞，勿重复推）；③wake 88a8e128 维持 disabled（cron list 本拍实测✓），恢复仍以浩然裁定+翻括注为前置。时间线备注：先测(11:15)后建锁(11:23)再死，顺序异于常规，证据链不完整，仅留观察不加结论。
+- 队列同步：活跃 6 卡状态行 grep 实测与快照语义一致（012/021 沿册；038=裁A 落账行『修导航+更新测试，一个工作拍次+今天攒出追补单』；039/040/041=二轮审 PASS 等链序）；done/=34 git ls-tree 实测回显；待办=0 堵点=浩然裁定非缺卡，不重复推。
+- 冒烟义务=无：`git diff --name-only 8830d1c..HEAD` 非 .md=0 实测（REVIEW/REQ/SB-038.md/done-SB-042/progress 纯 docs）→锚点 8830d1c 维持；模拟器未起（pgrep=0），不与任何流抢并发。
+- cron 体检（list --all 实测）：巡检 19b5f29f running（本拍）；wake 88a8e128 disabled=在册实况；runway-watchdog abaa94c7 ok（last 2h）；统一看门狗 169be936 ok；需求反思 6f3e81c0 ok；wake 重复 ×3（b71bf570/e71e53ac/f859efc9）均 disabled，删除待浩然一句话不擅清。
+- 提示词新鲜度：括注锚点双口径沿 21:4x 防 churn 裁定，周一统一翻，本拍无 cron edit；com.zangou.runway+am start 口径现行；错峰 :00/:30 巡检 vs :15/:45 唤醒（wake 停拍中，无冲突面）。
+- 漂移与一致性审计（条款6）：禁词五词 app/lib=2 行均元引用豁免（goal_ladder.dart:7+achievement.dart:13 行号本拍 grep 实测一致，沿 p=0.75）用户可见=0；「多花」白名单零新增；ui/theme·motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（grep 排除法实测 0/0）；美团|工资|房贷 app/lib=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（8830d1c 后码体零变更·合成夹具豁免沿册）；_LOCK 收尸后复测=0；工作树净 0 行；branch=main 检出+feat×7+rescue×1 全在册零 stray；worktree=main+reshoot×5+vC 七行在册；origin 零触碰（本拍无 push/fetch/ls-remote）；main 头 43b78d1↔REVIEW 11:1x 段✓（本票簿记后新头↔本段✓，自验三连随提交回显）；progress 唯一真相✓；task_plan 薄索引未据此判进度✓。**全绿**。
+- 决策模型：未调用（本拍无边界裁决项；watch⑦『连续不可用』观察沿册不据此扩张——无需复测面）。
+- 其他：周四非周一无适配审查（周一批次挂账不变：wake 三易主/条款草案×3/括注统一翻/补拍坐标禁跨卡复用条款）；R4 本轮无新 RC；SB-012 七日真人闸门沿册在飞。
+- 利益点自省（一行）：持平——零动作审计轮守住 037/042 成果（目标保存真落库+审美清扫），手动接管未遂无新产出，环路冻结防继续空烧；计数：10:3x 更近→11:1x 持平→11:3x 持平，无『更远』信号不触发排期升级。
+- 下一步：等浩然裁 A（卸 038 worktree）/B（worktree 施工+external_directory 加白）/C（其他）；裁后先翻括注再 enable wake；038 新提审到盘按视觉保真闸门审（三页实拍必备）；链序 038→039→040→041 rebase 逐个合入+每合一卡翻锚点+一条龙冒烟。
