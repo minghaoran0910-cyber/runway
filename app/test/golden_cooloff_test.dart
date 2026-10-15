@@ -7,7 +7,7 @@ import 'package:runway/data/app_db.dart';
 import 'package:runway/data/cooloff_dao.dart';
 import 'package:runway/logic/cooloff.dart';
 import 'package:runway/ui/cooloff_card.dart';
-import 'package:runway/ui/home_page.dart';
+import 'package:runway/ui/goal_page.dart';
 import 'package:runway/ui/theme/app_theme.dart';
 import 'package:runway/ui/theme/tokens.dart';
 
@@ -117,12 +117,14 @@ void main() {
     await _unmountAndFlush(tester);
   });
 
-  testWidgets('SB-017 widget 首页集成：冷静区挂载+开关', (WidgetTester tester) async {
+  testWidgets('SB-017 widget 我的页集成（SB-038搬家后）：冷静区挂载+开关', (
+    WidgetTester tester,
+  ) async {
     final AppDb db = await _seedDb();
     await tester.pumpWidget(
       MaterialApp(
         theme: AppTheme.light(),
-        home: HomePage(db: db),
+        home: GoalPage(db: db),
       ),
     );
     await tester.pumpAndSettle();

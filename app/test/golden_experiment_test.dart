@@ -6,7 +6,7 @@ import 'package:runway/data/app_db.dart';
 import 'package:runway/data/experiment_dao.dart';
 import 'package:runway/logic/experiment.dart';
 import 'package:runway/ui/experiment_card.dart';
-import 'package:runway/ui/home_page.dart';
+import 'package:runway/ui/goal_page.dart';
 import 'package:runway/ui/theme/app_theme.dart';
 import 'package:runway/ui/theme/tokens.dart';
 
@@ -102,12 +102,14 @@ void main() {
     await _unmountAndFlush(tester);
   });
 
-  testWidgets('SB-018 widget 首页集成：实验区挂载+开关', (WidgetTester tester) async {
+  testWidgets('SB-018 widget 我的页集成（SB-038搬家后）：实验区挂载+开关', (
+    WidgetTester tester,
+  ) async {
     final AppDb db = AppDb.memoryForTest();
     await tester.pumpWidget(
       MaterialApp(
         theme: AppTheme.light(),
-        home: HomePage(db: db),
+        home: GoalPage(db: db),
       ),
     );
     await tester.pumpAndSettle();

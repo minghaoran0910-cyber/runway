@@ -128,6 +128,11 @@ void main() {
       scrollable: find.byType(Scrollable).first,
     );
     expect(find.textContaining('攒手机'), findsWidgets);
+    // SB-038 · 我的页接纳搬家四区后变长，顶部换算卡滚出即被 ListView 卸载；
+    // 直接拖回顶部再断言（scrollUntilVisible 只向下，功能零改，仅取证手法适配）.
+    await tester.drag(find.byType(Scrollable).first, const Offset(0, 3000));
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.pump();
     expect(find.byKey(const Key('goalConvert')), findsOneWidget);
     await _unmountAndFlush(tester);
   });

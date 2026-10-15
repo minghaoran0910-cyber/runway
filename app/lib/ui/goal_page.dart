@@ -7,8 +7,12 @@ import '../logic/entry.dart';
 import '../logic/goal_ladder.dart';
 import 'achievement_gate.dart';
 import 'achievements_page.dart';
+import 'budget_card.dart';
+import 'cooloff_card.dart';
+import 'daily_close_sheet.dart';
 import 'dashboard_cards.dart';
 import 'diagnostics_card.dart';
+import 'experiment_card.dart';
 import 'goal_card.dart';
 import 'goal_price_follow.dart';
 import 'goal_timeline.dart';
@@ -230,6 +234,18 @@ class GoalPage extends StatelessWidget {
                             ),
                           ),
                         ),
+                        const SizedBox(height: RunwaySpacing.section),
+                        // SB-038 · 首页搬家区（只搬家不删除：每日收口/大额冷静/
+                        // 月度小实验/预算观察；口径零改，复用同一 Zone；
+                        // 返工轮=裁A 修导航：搬家区移到时间线之后，
+                        // 目标页首屏恢复主版顺序，周报入口回到首屏可见）.
+                        DailyCloseZone(db: db, rows: rows),
+                        const SizedBox(height: RunwaySpacing.section),
+                        CooloffZone(db: db),
+                        const SizedBox(height: RunwaySpacing.section),
+                        ExperimentZone(db: db),
+                        const SizedBox(height: RunwaySpacing.section),
+                        BudgetZone(db: db, rows: rows),
                         // SB-034 · 诊断回传开关行（仅 debug + 已配置可见；
                         // 默认未注入 = 零像素，golden 不动）.
                         const DiagnosticsSection(),

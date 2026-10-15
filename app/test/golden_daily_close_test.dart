@@ -7,7 +7,7 @@ import 'package:runway/data/app_db.dart';
 import 'package:runway/data/estimate_dao.dart';
 import 'package:runway/logic/estimate.dart';
 import 'package:runway/ui/daily_close_sheet.dart';
-import 'package:runway/ui/home_page.dart';
+import 'package:runway/ui/goal_page.dart';
 import 'package:runway/ui/theme/app_theme.dart';
 import 'package:runway/ui/theme/tokens.dart';
 
@@ -116,12 +116,14 @@ void main() {
     await _unmountAndFlush(tester);
   });
 
-  testWidgets('SB-016 widget 首页集成：收口区挂载+开关', (WidgetTester tester) async {
+  testWidgets('SB-016 widget 我的页集成（SB-038搬家后）：收口区挂载+开关', (
+    WidgetTester tester,
+  ) async {
     final AppDb db = await _seedDb();
     await tester.pumpWidget(
       MaterialApp(
         theme: AppTheme.light(),
-        home: HomePage(db: db),
+        home: GoalPage(db: db),
       ),
     );
     await tester.pumpAndSettle();
