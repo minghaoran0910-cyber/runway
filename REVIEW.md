@@ -752,3 +752,45 @@
 - 下一步：等手动接管翻 REQ→按视觉闸门审（038 已累计 RC×2，裁A 授权返工轮，若本轮再审仍 RC 则即刻停手呈 WAITING_HUMAN 不再放第三轮）；038 过后链序 039→040→041 rebase 逐个合入+每合一卡翻锚点+一条龙冒烟；周一批次挂账不变（wake 三易主/条款草案×3/括注统一翻/补拍坐标禁跨卡复用/origin 推送归属核对）。
 
 > 续记（12:3x 同轮 · 12:36 接管现场复核）：wt038 脏改 6→13 全清单实测=sb007 goal 六图+sb012 budget_home 二图 golden 全部重生成 + app/test/failures/ 新增 budget_home_dark/light 对比图（golden 先败后刷流程实证，M 仅测试资源非业务码新扩散）；shots 02/03/04 md5 各异（92d43f…/cebb15…=真实页面内容，早前 splash 同图期已过）；emu7 尾 ERROR『Failed to find ColorBuffer』=渲染器告警非 app FATAL，且 runway_api36 现 pgrep=0 实测=接管会话已自行收口模拟器，监工全程未并发起模拟器未触碰该树；REQ 未翻（mtime 仍 1792031094/10:24:54）+feat/SB-038 头仍 6e1bc24+wt038 零提交=返工"未 commit 未提审"，监工无新审义务；链卡 039/040/041 头 d194fe8/ceb245b/6ac8e51 未动；队列六卡状态行 grep 实测零漂移/done=34/锚点 8830d1c 维持（非代码 diff=0 实测）。本轮结论不变，零推送。
+
+
+## 监工票 — 2026-10-15 13:3x（SB-038 第3轮审查·机械全绿·签字呈浩然·监工不自审条款生效）
+
+结论: 无质量打回（全部核验项绿）；PASS 签字=留浩然拍板——本轮码体出自监工手动接管施工，视觉闸门条款5『监工不自审』拦签（决策 p=0.06）。程序性挂起，非自然 RC，R4 暂不+1（该项 p=0.73 灰区，随简报一并留浩然确认）。
+
+审查对象：feat/SB-038-home-cleanup@c2f31a9（提审单）· 业务体@1714787。REQ 验真：盘上 mtime 1792039694 > REVIEW 1792039077=真新提审；`git show HEAD:REVIEW_REQUEST.md` vs 盘上 diff=IDENTICAL（假翻转排除✓）；WAITING_HUMAN 显式标记 grep=0✓。
+
+检查项（全部本轮独立实测，非转述提审单）:
+- [x] 返工提交 1714787 文件数=业务 1（goal_page.dart）+测试 3（golden_cooloff/daily_close/experiment）+金样 8 帧（sb007×6+sb012×2）=12 文件，与 REQ 申报逐字一致✓
+- [x] 单变量重排实证：goal_page.dart vs main 净差=+16 行（4 imports+搬家块 12 行）零删除；块落位 @230-236=GoalTimeline@213 之下、DiagnosticsSection@239 之上→『时间线以上与 main 净差=0』成立✓
+- [x] 三集成案更名『我的页集成（SB-038搬家后）』grep 实测×3（SB-016/017/018）；DAO 三案零改动✓（1714787 name-only 无 DAO 文件）
+- [x] 全量套件独立复跑：**+460 All tests passed · REALEXIT=0**（REQ 申报复现；基线十失败→0 复现）✓
+- [x] 三闸：dart format 0 changed exit0 · flutter analyze --fatal-infos --fatal-warnings "No issues found" exit0 · check-repo-hygiene OK exit0✓
+- [x] 实拍在盘：runway-shots/2026-10-15-manual38/ 共 7 张实测；REQ 所列『01_home.png』盘上不存在=实为 01b_home_recheck.png（P3 簿记差，见问题1）；02/04/05 在盘且内容与申报一致（首页=环+常驻行+四区不出现／目标页首屏=『看本周周报』可见／搬家区=冷静+小实验 8 chips+预算观察全挂载／周报页=1 跳到达）✓
+- [x] 链卡零漂移：039@d194fe8/040@ceb245b/041@6ac8e51（worktree list 实测=12:3x 在册值）；wake 88a8e128=disabled（cron list --all 实测）✓
+- [x] done/=34 ls-tree 实测·_LOCK=0·branches=main+在册 feat×7+rescue×1 零 stray·worktree=main+reshoot×5+vC 全在册✓
+- [x] 冒烟义务=无：8830d1c..main 非 .md=0 实测（纯 docs 簿记）→锚点 8830d1c 维持；模拟器未起 pgrep=0 无并发流✓
+
+审美审计（参考意见·非签字——码体=监工自产，条款5 禁自审；本节供浩然目检裁决用。hallmark 六纪律+taste 反默认已加载，对照 DESIGN_SYSTEM v2.1）:
+- 层级：hero 大数字 28-34 级/区块头 15-17/正文 12-13/说明 9.5-11，阶梯无滥用；『看本周周报』独立行距节奏✓；无斜体标题（hallmark⑥）✓
+- 间距节奏：搬家四区 RunwaySpacing.section 统一；chip 网格 4/8 对齐（8 chips 4-3-1 无溢出）✓
+- 圆角阴影：卡片圆角统一、无散落阴影、无 token 漂移（hallmark③ locked tokens：app/lib 裸 Color/Duration 实测 0/0）✓
+- 对比度：dark 白字压深底✓；金样 4 帧目检（goal_light_data/goal_dark_empty/budget_home_light/dashboard_light_data）light 深字压浅底✓；暖金强调仅『首月记账中』一处✓；无白字压浅底违例
+- 动效节奏：本轮纯静态重排，动效码零变更（diff 无 MotionSpec 改动）→gpt-taste 不适用✓
+- AI 味：无紫渐变（深青绿 hero）/无 emoji 图标/无居中大堆叠/无假 chrome 重绘（hallmark④）/无编造指标——空态诚实零值+『示例数据』水印（hallmark②）✓
+- 一致性：区名『每日收口/大额冷静/月度小实验/本月预算·观察期』与卡面题一致，『设月数/调预算』链接样式统一，无双命名✓
+- 金样闸门 8.1：基线变更 12 帧（本轮 8+47a9626 在册轮 4），代表 4 帧目检+全量像素复验绿✓
+
+问题列表:
+1. （P3 簿记）REQ 所列『01_home.png』盘上不存在，实为 01b_home_recheck.png；REQ『业务 1+测试 3=4』系返工提交口径，分支全量（squash 落地面）=业务 2+测试 6=8 码文件+金样 12 帧，仍 ≤10 合规——提审单应报全量口径。
+2. （程序性）监工不自审→本票不发 PASS，签字权归浩然（决策 p=0.06）；若浩然目检后裁『过』，监工按合入授权执行。
+
+决策模型（jev-1.13 本轮实测 status=ok·watch⑦『连续不可用』销账）：Q1 监工可否自审签字 p=0.06→不可，呈浩然；Q2 是否存在质量实质缺陷需打回 p=0.17→无，不发 RC；Q3 程序性挂起 R4 不+1 p=0.73→灰区，留浩然拍板（本票暂按不+1 簿记）。
+
+模拟器冒烟：本轮无义务（8830d1c..main 非 docs=0 实测·锚点维持 8830d1c）；合入后冒烟义务随链序轮执行。
+
+漂移与一致性审计（条款6）：禁词五词 app/lib=2 行均元引用豁免（goal_ladder.dart:7+achievement.dart:13 行号本拍实测一致，沿 p=0.75）用户可见=0；ui/theme·motion_spec 外裸 Color(0x=0/裸 Duration app/lib=0（本轮 diff 5 处 Duration 命中全在 app/test pump 帧等待计时，非 UI 动效 token，app/lib 固化口径实测 0/0）；美团|工资|房贷 app/lib+app/test=0；锚定手机号=0；open_id=0；真实账目=0 红线零触发（实拍=pm clear 空态+示例数据水印·金样=合成夹具豁免沿册）；_LOCK=0；feat×7+rescue×1 全在册零 stray；worktree×7 在册；origin 零触碰（本拍无 push/fetch/ls-remote）；main 头 703f904↔REVIEW 12:3x 续票段✓（本票簿记后新头↔本段✓）；progress 唯一真相✓；task_plan 未据此判进度✓。**全绿**。
+
+利益点自省（一行）：更近——周报入口断线三轮后真实修复且经独立复验，『天天看见自己挪一步』核心页面重新可用；计数：12:3x 更近→13:3x 更近，无 SilentBook 旧病同构。
+
+下一步：①浩然目检实拍+拍板（⚡③已呈，见简报）；裁『过』→监工执行 squash 合入（cherry-pick -n 业务体法）+git mv 归档+翻锚点+一条龙冒烟+链序 039→040→041 rebase 逐个合入（每合一卡翻锚点+冒烟）；裁『不过』→按 12:3x 约束即刻停手待另裁（不放第三轮返工）。②11:1x A/B/C（reshoot worktree 删除）仍在飞——合入走 cherry-pick -n 无需先卸 worktree，删除仍待浩然一句话。③周一批次挂账不变（wake 三易主/条款草案×3/括注统一翻/origin 推送归属核对/补拍坐标禁跨卡复用）。④提示词新鲜度：括注防 churn 沿 21:4x 裁定本拍无 cron edit；现行口径=本票+快照（REQ=第3轮真提审已验真/wake disabled/锚点 8830d1c/done=34/最高卡号双口径 041·042/wake 恢复前置=浩然目检拍板+A/B/C）。
