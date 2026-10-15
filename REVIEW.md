@@ -905,3 +905,14 @@
 - **点名授权（下一 wake 拍消费，一次性）**：任务=SB-043/044 独立二审——全量复跑（真实退出码）+三闸（format/analyze/hygiene）+金样 20 帧 diff 目检+真机四帧核对（/Users/dada561/Documents/runway-shots/2026-10-15-designaudit/09_home~12b_ledger）；全过→纯业务体法合入 main、两卡状态翻+git mv done/（38→40）、冒烟锚点翻+一条龙冒烟；任一不过→出 RC 票注明原因不强合。
 - wake 重建：新任务 b0ea8424（command 架构第2代派发器 runway-wake-dispatch.sh，:15/:45，与巡检 :00/:30 错峰）；旧任务 88a8e128 已不存在=在册裁撤延续。S0.5 门控现值：REQ(16:19)<REVIEW(本票)→可点火，17:15 拍预计接单。
 - 零 push/零 origin；_LOCK 纪律 LOOP 自治。[supervisor]
+
+## 监工票 — 2026-10-15 17:0x（巡检轮·零新审·二审点火守场·簿记勘正）
+结论: 无新提审（REQ mtime 1792052362 < REVIEW 1792054268 实测；盘上 vs git show HEAD = IDENTICAL 验真✓；WAITING_HUMAN=0）。裁A在飞态维持：wake b0ea8424=idle·下拍 17:1x 实测（cron list --all），本票落盘后 S0.5 门控（REQ<REVIEW）满足，点名二审票（16:5x 在册）由其消费；SB-043/044 分支头 ba4cecf（清障后·failures 还原实测）。
+- 簿记勘正（反虚构口径，如实入账）：16:5x 票称「旧任务 88a8e128 已不存在」不准确——实测 cron list --all：88a8e128 仍在册、状态=disabled（末拍 6h ago）。效果等价（不会双拍点火），口径订正为「已裁撤=disabled 沿册」，周一批次含其彻底删除待批。
+- 队列：活跃=SB-012（体验中·7 天真人闸门）+SB-021（挂起）+SB-043/044（已提审·待独立二审）；done/=38 ls-tree 实测；待办=0 见底已呈不重复推。下一批候选（P2 文案批+§6 动效体系卡）在册，待二审合入后再派——防 worktree/rebase 并发（16:0x 误杀教训沿册）。
+- 冒烟：a90e2e5..HEAD(aad05b2) changed files 实测=纯 docs（REVIEW/REQ/docs tasks/progress）→非 docs=0·锚点维持 a90e2e5 不重跑；并发实测 emulator=0/builder=0/工作树净 0 行/branch=main（让位 17:1x wake 点火，监工不与 opencode 并发起模拟器）。
+- 漂移与一致性（一行）：main@aad05b2 树全绿——禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7+achievement.dart:13 行号本票实测一致·用户可见=0）；ui/theme·motion_spec 外裸 Color(0x=0/裸 Duration(milliseconds:=0（git grep 实测 0/0）；真实账目（美团|工资|房贷）非 md=0 红线零触发；open_id/手机号非 md=0；_LOCK find=0；branches=main+feat×8（SB-033/034/037/038/039/040/041/043）+rescue×1 全在册零未在册 stray（已合入卡分支删除仍待浩然一句话，不计残留）；worktree=主+reshoot×5+vC 全在册；main 头 aad05b2↔REVIEW 16:5x 票✓（本票后=aad05b2+簿记头↔本票✓）；progress.md 唯一真相✓（16:5x 条目实读对应）；task_plan 薄索引未据其判进度✓；origin 零触碰（本拍无 push/fetch/ls-remote；origin/main ref 位移观察沿 12:0x 挂周一归属核对）。
+- 提示词新鲜度：无 cron edit（防 churn 沿 21:4x 裁定·括注周一统一翻）。本票实测过时项入周一清单增补：①巡检括注「wake 现役 88a8e128 ok（15/45 拍·老包装器）」→现行 b0ea8424（:15/:45 command 架构·idle·17:1x 待拍）；②「最高卡号 SB-042」→现行 SB-044；③锚点 5284460→现行 a90e2e5、done=33→38。观察：b0ea8424 announce=last→no route（fail-closed）=headless 设计可接受（二审产物落 REVIEW/git，通知面本由巡检票承担），若二审拍需人工通知则周一批统一补 route；runway-watchdog abaa94c7=ok（1h 前拍）=23:3x Memos blocked 观察自愈销账；runway-backup 560d719d=idle 在册（04:3x 首拍待验，明日晨检）。
+- 下一步：17:1x wake 消费二审票→过则合入轮（cherry-pick -n 业务体+git rm failures 80 张+ignore+全量复跑+done/38→40+翻锚点+一条龙冒烟+新用户四任务走查前置）；RC 则按 R4 程序呈浩然。巡检下拍 :30 常规守场。
+- 决策模型：本轮无边界裁决，未调用。
+- 利益点自省（一行）：持平——零动作巡检轮守住裁A清障成果，让出 17:1x 二审点火窗口（¥ 一致性+手感动线两卡距合入仅一次独立二审）；计数 16:5x 更近→本轮持平，无「更远」、无 SilentBook 旧病同构。
