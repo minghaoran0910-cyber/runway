@@ -775,3 +775,16 @@
 - 决策模型第二意见（条款10·本轮唯一边界事项）：ahead 实测 90 较票推演 89 多 1——boolean 问"应否按簿记口径含糊（非漂移）处置（true）还是按疑似越权提交升级 P1（false）"，state=本轮全实测回显（980daa3..HEAD 仅 2 docs 票·90 提交全可归因·app diff=0·origin/main ref 29871c74 只读未动·本拍无 push/fetch）→ 返回 status=ok p=0.89≥0.75 → **按判落裁决：簿记口径含糊，非漂移，不 P1 不回滚不触碰 origin**；后续票口径统一为"提交后实测"记录 ahead。本项标『决策p=0.89』。
 - wake 拍号勘正（反虚构自纠）：上节票误写"20:15 拍合规自退·下拍 21:15"——cron get b0ea8424 实测 lastRunAtMs=1792154700076（=20:45:00·ok suppressed·exit 0·command ok with no output 空队列合规自退）、next=21:15。即 20:45 拍已跑自退合规，20:15 拍系 20:3x 票已录旧拍，此处以实测为准。其余各项（REQ<REVIEW+IDENTICAL/队列/锚点/漂移审计）不受影响。
 - 提示词三口径复核补记：runway-wake-dispatch.sh（66 行）实读无硬编码卡号/锚点，守卫=mtime 比较+WAITING_HUMAN 显式标记行（S0.6 机械修正版沿册），现行零 edit 结论维持。
+
+## 2026-10-16 21:3x 巡检票（零动作守场轮） [supervisor patrol]
+- 结论: 零动作轮。REQ(mtime 1792073389=10-15 22:09:49)<REVIEW(1792156052=10-16 21:07:32) stat 实测 + 盘上 vs git show HEAD:REVIEW_REQUEST.md diff=IDENTICAL 验真 + WAITING_HUMAN grep=0 → 零新审。
+- 队列: 活跃卡状态行 grep 实测与快照一致——SB-012 审查通过·代码闸门已合入（squash@b218a21；验收 1/2 真机/8/9 在飞=监工三端走查+浩然 7 天真人闸门，全验过才 tag v0.1.0=真 G5）/SB-021 挂起 v0.2；done/=42 git ls-tree 实测（末张 SB-046）；待办=0——裁A测试期无在册证据不空派，报修随报随合通道守备。队列零漂移不推。
+- 冒烟: 锚点 3a8c16e 在链，3a8c16e..HEAD=48 提交·签核 grep=48/48 全为 supervisor/docs 簿记口径·app diff=0 行实测 → 冒烟义务不发生，锚点维持。
+- 漂移与一致性审计（一行结论）: 全绿——禁词全库 9 行均元引用（achievement:13 禁词表本体/goal_ladder:7 注释/cooloff_test:183/experiment_test:148/goal_ladder_test:127 回归断言本体/DESIGN_SYSTEM:86+_inbox 副本=词表本体/REVIEW:505+771 自审票；本拍 sed 逐行核）用户可见文案命中=0；ui/theme+motion_spec 外裸 Color(0x=0、裸 Duration(ms=0；_LOCK find=0；PII(美团|工资|房贷|open_id) dart=0；手机号锚定排 UUID/epoch 新口径=0；红线扫描"余额"5行=grain_report 逻辑注释×3+done/SB-006/009 规格文案×2 均产品术语无真实账目数字→红线零触发；branch --show-current=main·分支=main+在册 feat×9+rescue×1 零 stray；worktree=7 在册；porcelain=0 行；main 头 commit 1eba876=上轮补记票对应 REVIEW 21:0x 节相符；ahead=92 提交后实测口径（上轮 p=0.89 测量时点含糊裁定在册，本拍按"后续票统一提交后实测"口径执行）。
+- 并发/调度: emulator=0/flutter build=0（pgrep 实测）·opencode 6=GUI Helper 口径㉑；wake b0ea8424 ok(suppressed) 21:15 拍实测（lastRun≈17m 前·下拍 21:45）；watchdog abaa94c7 ok；backup 560d719d ok(suppressed)；需求反思 6f3e81c0 21:30 拍 running（与本巡检同拍启动，正常）。
+- 注册表: progress.md 唯一真相；task_plan.md 8 行薄索引=读-only cache 在册，不据此判进度。
+- 决策模型: 本轮无新边界事项（ahead 口径=执行上轮 p=0.89 在册裁定，未重复触发）。
+- 提示词新鲜度: 三口径核查——最高卡号 SB-046（done/=42·ls-tree 实测）、冒烟锚点 3a8c16e、wake b0ea8424 :15/:45——均与括注相符零 edit；dispatch 脚本实读无硬编码沿册。
+- 利益点自省（一句话）: 本轮零动作守场=防在册状态腐烂，SB-012 真人闸门在飞是核心利益点第一次真用户验证，微更近。
+- 持平 ×48。堵点仍=SB-012 七天真人闸门（浩然侧）。周一批(10-19)挂账不变。
+- ⚡零推送（本轮无需浩然行动）。
