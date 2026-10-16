@@ -354,3 +354,18 @@
 - 巡检快照初写曾引「簿记@984cd45 自验三连实测」——该 hash 非实测回显（提交 exec 返回截断未及读数即落册，属 2026-10-10 事故同型违规，如实记 FAIL 簿记一笔）。
 - 勘误实测三连（本轮重跑真实回显）：`git log --oneline -2` 头=9df8904「docs(review): 08:0x 巡检票」✓ 含本票；`grep -c "supervisor patrol 10-16 08:0x" REVIEW.md`=1 ✓；`git ls-tree HEAD docs/tasks/done/ | wc -l`=42 ✓；工作树 0 行 ✓；branch=main ✓。票体内容与结论不受影响（hash 勘正不影响零动作轮判定）。
 [supervisor patrol 10-16 08:0x erratum]
+
+## 巡检票 10-16 08:3x（零动作轮·裁A守场）
+- 新审查义务：REQ mtime 1792073389(10-15 22:09:49) < REVIEW 1792109019(10-16 08:03:39)，零新审；盘上 REQ vs `git show HEAD:REVIEW_REQUEST.md` diff=IDENTICAL 实测回显 REQ_IDENTICAL（REQ 尾=SB-046 已审已合版勿重审）；WAITING_HUMAN grep=0 实测。
+- 队列：活跃卡=2（SB-012 真人闸门在飞/SB-021 挂起），docs/tasks 状态行 grep 实测与快照一致；done/=42 `git ls-tree HEAD docs/tasks/done/ | wc -l` 实测回显；最高卡号=SB-046（ls 实测，已归档）。待办=0：裁A冻结下不制造不可合入新打磨、无在册证据池新弹，不自派（沿 08:0x 口径）。
+- 冒烟义务：不发生。锚点 3a8c16e ANCESTOR_OK 实测（且 794bb4b 已含于锚点内）；3a8c16e..HEAD=21 提交、`git diff --name-only` 非 docs=0 实测→锚点维持，last_smoke_commit=3a8c16e 与快照一致。并发实测：emulator/flutter build/dart 前端全 0；worktree=main+reshoot×5+vC 在册。
+- 漂移与一致性审计（一行版）：禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7 注释+achievement.dart:13 禁词表本体，行号本轮实测一致，用户可见=0）；theme/motion 外裸 Color(0x=0/裸 Duration=0；美团|工资|房贷=0、open_id=0、锚定手机号=0（epoch 毫秒夹具排除沿①口径）；真实账目=0 红线零触发（3a8c16e 后码体零变更 diff=0 实测）；_LOCK find=0；工作树 0 行；main 头 117521d↔REVIEW 08:0x 勘误段✓（本票落定后新头↔08:3x 段✓）；origin 零触碰（无 push/fetch/ls-remote，只读 ref 29871c74 不变·ahead=65@117521d branch -vv 实测）；progress.md 唯一真相✓、task_plan 未据此判进度✓。
+- 分支计数勘正（数字勘正纪律）：本轮 `git branch` 实测 main+feat×9（033/034/037/038/039/040/041/043/045）+rescue×1=11 refs；前票 feat×8 计数与实测差 1，无新分支（全部 hash 对应已归档/在册素材卡），系计数口径差，以实测为准落册；删除仍待浩然一句话（pending_backfill④不变）。
+- cron 体检（实测回显）：巡检 19b5f29f running（本拍）；wake b0ea8424 ok·suppressed（18m 前拍=08:1x 合规自退，下拍 12m 后）；runway-watchdog abaa94c7 ok（45m 前拍，10-14 单红已恢复沿册）；统一看门狗 169be936 ok/需求反思 6f3e81c0 ok/runway-backup 560d719d ok·suppressed（04:30 拍）；老包装在册不重复。
+- 提示词新鲜度：沿 21:4x 裁定括注一次性上下文防 churn、周一（10-19）统一翻，本拍无 cron edit；现行口径复核——锚点 3a8c16e✓/done=42✓/最高卡号 SB-046✓/wake b0ea8424 现役✓/错峰 :00/:30 vs :15/:45 无失配✓；包名 com.zangou.runway 沿册（锚点后 app/=diff 零变更，无码体依据可过时）。
+- 视觉保真闸门：未触发（无新提审 UI 卡）。周规矩适配审查：周五非周一不做（周一批挂账不变：括注统翻/origin 归属核对/素材分支删除请示/走查帧补档/046 p=0.54 灰区复核/合入归属校验条款草案/载体行出帧诊断）。
+- 决策模型：本轮无新边界裁决不调用。
+- 利益点自省（一行）：持平——零动作审计轮守住 SB-046 取整+起步文案数据态成果（hero 金额不再分位假精确·3a8c16e 冒烟实证在册），裁A下不制造不可合入新打磨=不绕路，无 SilentBook 旧病同构；计数 更近(046@22:0x-22:5x)→持平×20(23:0x~本拍)，无『更远』信号不触发排期升级；推进堵点在浩然侧（SB-012 七天真人闸门→tag v0.1.0），监工侧无可施工增量，非『更远』。
+- 下一步：等 SB-012 真人闸门结论或浩然报修（报修类不受冻结随报随审随合）；周一批事项在册；wake 拍继续守空队列自退。
+- 簿记自验：branch=main 实测后提交——本票落 main 后以 `git log --oneline -2` 真实回显验新头含 08:3x·REVIEW 含本票节·done/=42 ls-tree 回显·工作树净（反虚构三连；原子写=cp 全量+追加 tmp+mv 沿 incident_1730 口径；hash 只从回显抄，验不过如实记 FAIL）。⚡零推送（非常规五类之外，不发明明）。
+[supervisor patrol 10-16 08:3x]
