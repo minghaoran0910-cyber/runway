@@ -335,3 +335,17 @@
 - 下一步：等 SB-012 真人闸门结论或浩然报修（报修类不受冻结随报随审随合）；周一批事项在册；wake 拍继续守空队列自退。
 - 簿记自验：branch=main 实测后提交——本票落 main 后 log 新头含 07:3x·REVIEW 含本票节·done/=42 ls-tree 回显·工作树净（反虚构三连+incident_0500 防呆：提交后复核只用只读命令；原子写=cp 全量+追加 tmp+mv 沿 incident_1730 口径）。⚡零推送（非常规五类之外，不发明明）。
 [supervisor patrol 10-16 07:3x]
+
+## 巡检票 10-16 08:0x（零动作轮·裁A守场）
+- 新审查义务：REQ mtime 1792073389(10-15 22:09:49) < REVIEW 1792107102(07:31:42)，零新审；盘上 REQ vs `git show HEAD:REVIEW_REQUEST.md` diff=IDENTICAL 验真实测（REQ 尾=SB-046 已审版勿重审）。
+- 队列：活跃卡=2（SB-012 真人闸门在飞/SB-021 挂起），与快照逐字一致；done/=42 `git ls-tree HEAD docs/tasks/done/ | wc -l` 实测回显 42（含磁盘 ls=42 双侧一致）。待办=0：裁A下不制造不可合入新打磨，无在册证据池新弹，不自派（沿 07:3x 口径）。
+- 冒烟义务：不发生。`git diff --stat 3a8c16e..HEAD`=三文件（REVIEW.md/progress.md/docs 走查 PNG）非 docs=0 实测→锚点 3a8c16e 维持。模拟器未起（pgrep emulator=0），builder=0，无并发撞道。
+- 漂移与一致性审计（一行版）：禁词 app/lib=2 行均元引用豁免（goal_ladder.dart:7 注释+achievement.dart:13 禁词表本体，沿 p=0.75）用户可见=0；theme/motion 外裸 Color(0x=0/裸 Duration=0；美团|工资|房贷=0、open_id/锚定手机号=0、真实账目=0 红线零触发；_LOCK find=0；工作树 0 行；branches=main+feat×8+rescue×1+reshoot worktree×5+vC 全在册零 stray（删除待浩然一句话沿册）；main 头 e76cdab↔REVIEW 07:3x 段✓（本票落定后新头↔08:0x 段✓）；origin 零触碰（ahead=63 实测·ref 29871c74 零变化只读·无 push/fetch/ls-remote）；progress.md 唯一真相✓、task_plan 未据此判进度✓。
+- cron 体检：巡检 19b5f29f running（本拍）；wake b0ea8424 ok·suppressed（07:45 拍合规自退）；runway-watchdog abaa94c7 ok（07:4x 拍）/统一看门狗 169be936 ok/需求反思 6f3e81c0 ok/backup 560d719d ok·suppressed（04:30 拍）；老包装×4 disabled 在册。
+- 提示词新鲜度：沿 21:4x 裁定括注防 churn、周一（10-19）统一翻，本拍无 cron edit；现行口径复核——com.zangou.runway+am start/锚点 3a8c16e/done=42/最高卡号 SB-046/wake=b0ea8424 现役/错峰 :00/:30 vs :15/:45 无失配。
+- 周规矩适配审查：周五非周一不做（周一批挂账不变：括注统翻/origin 归属核对/素材分支删除请示/走查帧补档/046 p=0.54 灰区复核/合入归属校验条款草案/载体行出帧诊断）。
+- 决策模型：本轮无新边界裁决不调用（046 灰区复核随周一批按规再探）。
+- 利益点自省（一行）：持平——零动作审计轮守住 SB-046 取整+起步文案数据态成果（hero 金额不再分位假精确·3a8c16e 冒烟实证在册），裁A下不制造不可合入新打磨=不绕路，无 SilentBook 旧病同构；计数 更近(046@22:0x-22:5x)→持平×19(23:0x~本拍)，无『更远』信号不触发排期升级；推进堵点在浩然侧（SB-012 七天真人闸门→tag v0.1.0），监工侧无可施工增量，非『更远』。
+- 下一步：等 SB-012 真人闸门结论或浩然报修（报修类不受冻结随报随审随合）；周一批事项在册；wake 拍继续守空队列自退。
+- 簿记自验：branch=main 实测后提交——本票落 main 后 log 新头含 08:0x·REVIEW 含本票节·done/=42 ls-tree 回显·工作树净（反虚构三连；原子写=cp 全量+追加 tmp+mv 沿 incident_1730 口径）。⚡零推送（非常规五类之外，不发明明）。
+[supervisor patrol 10-16 08:0x]
