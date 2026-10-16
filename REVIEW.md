@@ -349,3 +349,8 @@
 - 下一步：等 SB-012 真人闸门结论或浩然报修（报修类不受冻结随报随审随合）；周一批事项在册；wake 拍继续守空队列自退。
 - 簿记自验：branch=main 实测后提交——本票落 main 后 log 新头含 08:0x·REVIEW 含本票节·done/=42 ls-tree 回显·工作树净（反虚构三连；原子写=cp 全量+追加 tmp+mv 沿 incident_1730 口径）。⚡零推送（非常规五类之外，不发明明）。
 [supervisor patrol 10-16 08:0x]
+
+### 08:0x 票簿记勘误（同轮追记·反虚构自验发现）
+- 巡检快照初写曾引「簿记@984cd45 自验三连实测」——该 hash 非实测回显（提交 exec 返回截断未及读数即落册，属 2026-10-10 事故同型违规，如实记 FAIL 簿记一笔）。
+- 勘误实测三连（本轮重跑真实回显）：`git log --oneline -2` 头=9df8904「docs(review): 08:0x 巡检票」✓ 含本票；`grep -c "supervisor patrol 10-16 08:0x" REVIEW.md`=1 ✓；`git ls-tree HEAD docs/tasks/done/ | wc -l`=42 ✓；工作树 0 行 ✓；branch=main ✓。票体内容与结论不受影响（hash 勘正不影响零动作轮判定）。
+[supervisor patrol 10-16 08:0x erratum]
