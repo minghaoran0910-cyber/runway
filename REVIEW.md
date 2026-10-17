@@ -602,3 +602,16 @@
 - 环境/并发: 施工并发=0（pgrep flutter/gradle/qemu/emulator=0 · opencode 6 行=GUI Electron 进程树 1 app+helpers·㉑不计）· porcelain=0 · 分支 11（main+在册 feat×9+rescue×1）/worktree 7 零 stray · dispatch.log 1791706204 未翻 · _inbox 未翻
 - cron族（01:33 实测）: 本拍监工巡检 running · wake b0ea8424 01:15 拍 suppressed 合规（窗口外）下拍 01:45 · watchdog abaa94c7 ok · net-exp-probe ok(suppressed) · 需求反思 21:30 ok（未投递·沿册待周一批复核）· watchdog 族其余沿册前拍 ok
 - 沿册增量: ①01:15 票观察项（禁词 pattern-set 原文补录）的票文本体自含禁词词表，本拍实测禁词唯一命中即该元引用行——反向佐证「词表原文补录入册」必要性，维持随周一批；②wake 01:45 拍结果未及落票核对，下拍复核补记；③持平×107 · 堵点=SB-012 七天真人闸门浩然侧第 2 天 · 周日无周批 · 周一批(10-19)挂账不变 · ⚡零推送本拍静默
+
+
+## 2026-10-18 02:00 巡检票（零动作轮 · 持平×108）
+- 结论: PASS——无新审。三实测：REQ mtime 1792073389 < REVIEW 1792258771（01:3x 落票）· REQ 盘上/HEAD md5 双 b20674957747f032256011567066616f IDENTICAL（五票连号）· WAITING_HUMAN=0。
+- 队列零漂移: 活跃卡=SB-012（审查通过·闸门在飞：验收 1/2 真机/8/9=监工三端走查+浩然 7 天真人·day 2）+SB-021（挂起 v0.2）· done=42（盘 ls=42 / git ls-files=42 双测）· 待办=0（见底无据不空派·≤2 提醒口径沿册）。与快照 01:30（×107）完全一致 → 持平×108。
+- 冒烟义务不发生: 3a8c16e..HEAD=109（票前实测·本票落毕=110 簿记口径）· 非 docs diff=0（app/ packages/ 票前实测 0 行）· 业务头 794bb4b 在 main 内维持 · last_smoke_commit=3a8c16e 不动 · 3a8c16e..794bb4b 非 docs 无新增（21:30 票沿册·本拍无新业务提交）。
+- 漂移全绿: ui/theme 外裸 Color(0x=0 · 裸 Duration(milliseconds:=0 · 红线正则（.dart/.yaml）=0 · 手机号 17 行=wf1+pbx2+测试锚+票（均元引用/fixture）真号=0 · _LOCK 物理=0·app/=0·tracked 命中 4 文件全元文档（三测口径澄清沿册）· 节奏禁词非 md=0 · porcelain 票前=0 · 分支 11 · worktree list 7 行在册。
+- 环境并发: 施工并发=0（flutter/gradle/emulator/xcodebuild/java/adb pgrep 全空）· opencode 仅 GUI Electron 进程树（㉑口径不计）· dispatch.log mtime 1791706204 无外翻 · _inbox 未翻。
+- cron 族实测: 本巡检 19b5f29f running · wake b0ea8424 01:45 拍 ok suppressed（并发 0 合规·下拍 02:15）· watchdog abaa94c7 ok · 统一看门狗 169be936 ok（下拍 <1m）· backup 560d719d ok suppressed（日单拍 04:30·挂账⑧销账维持）· 需求反思 6f3e81c0 ok。wake 族全绿。
+- 半截自查: 本票 append-only（cp 基线→追加→numstat 核验）· commit 后自验三连（log 含新头/REVIEW 含 02:00 票/票后 porcelain 净）。
+- 沿册: 周日无周批 · 周一批（10-19）挂账不变（禁词词表原文补录 / wake 三易主翻 / 046 灰区裁决 / 043 适配下拍周一）· 今日真人闸门 day 2 单点登记（浩然侧堵点）。
+- 提示词三口径现行零 edit（done=42 / 锚点 3a8c16e / applicationId com.zangou.runway / REQ 已审版）。
+- ⚡零推送（本拍静默）[SB-012][supervisor patrol]
