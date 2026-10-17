@@ -457,3 +457,18 @@
 - 簿记观察登记：①19:0x-20:0x 三轮沿 10-15 起 queue_note/patrol_XXXX 字段嵌增量新约定未加 queue[] 顶行（snap_at/book/patrol 字段均已翻在册，判非半截），本票起加 ㊤ 顶行覆盖增量，不追责；②headroom_retrieve 本拍仍 not found=按 10-17 铁律②不重试不报错，基于可见内容照常收口；③监工本体 18:00 拍未达已由 18:30/19:00/19:30/20:00 四拍 ok 覆盖，无两连败，⚡⑤不触发。
 - 追加法合规：先 cp 基线后 append tmp→mv，numstat 核 deletions=0。
 - 持平 ×97。堵点仍=SB-012 七天真人闸门（浩然侧 1/7）；待办 0 见底无据不空派。⚡零推送（19:3x/20:0x 先例：今日收口由 20:00 汇报拍承担，本轮静默）。
+
+## 巡检票 2026-10-17 21:00 — 零动作轮
+
+- 结论：零动作轮·无新审无新卡无合入·⚡零推送（今日收口已由 20:00 汇报拍承担，沿 19:3x/20:0x/20:3x 先例本轮静默）。
+- 新审查闸门：REQ mtime=1792073389(10-15 22:09) < REVIEW mtime=1792240641(20:3x 册)——不重审；REQ 盘上 vs HEAD md5 双测一致=IDENTICAL；WAITING_HUMAN grep=0 实测。三实测一致，判定可靠。
+- 队列：状态行 grep 活跃卡=2（012 闸门在飞=浩然真人 7 天 1/7·D2-D8 10-18~10-24 / 021 挂起 v0.2），与快照沿册相符零漂移；待办(可执行)=0 见底无据不空派（裁A 口径不变）；done/=42 双测（git ls-tree=42+盘 ls=42）。
+- 冒烟义务不发生：main HEAD=81335de vs last_smoke_commit=3a8c16e——3a8c16e..HEAD=98 提交·diff app/=0 文件本拍实测，全 docs 簿记票→锚点维持 3a8c16e（业务码体=794bb4b）。无 G 里程碑新 PASS。
+- 漂移全绿：禁词十词=13 行全元引用（achievement:13-20 禁词表本体+goal_ladder:7/117 等，UI 真实文案 0）/红线（美团|工资|房贷|open_id）app+packages=0/手机号 lib=0·宽口径 13 行全为 test fixture epoch 时间戳(1760000000000 族)+iOS 工程 UUID 哈希，在册无新增/399900=2 行在册豁免（公开参考价）/裸 Color(0x=41 行全 theme 豁免区·豁免外 0/Duration(ms=0/_LOCK=0/分支 11+远端 3 零 stray/worktree 7/porcelain=0/origin 零触碰（29871c7 未动·ahead=142=98 票+44 锚前提交自洽）。
+- 并发全 0：qemu/emulator/flutter build/GradleDaemon（滤 Helper）实测 0；模拟器未起。
+- cron 族全绿：监工本体 19b5f29f 本拍 running（上拍 20:30 落册 ok·无连红）；wake b0ea8424 20:45 拍 ok suppressed·下拍 21:15；watchdog abaa94c7 ok·下拍约 21:4x；统一看门狗 169be936 ok·下拍约 23:0x；需求反思 6f3e81c0 ok·下拍 21:30；backup 560d719d 今日 04:30 ok 连续第七日·下拍明 04:30；20:00 汇报 fdd0b22d 今日收口已达；退役 wake×4 disabled 在册未动。
+- 三口径实测相符零 edit：appid=com.zangou.runway（build.gradle.kts:19 本拍 grep 实测）/SB-046 归档 done/=42/锚点 3a8c16e 现行。_inbox 无新消息（最新=dispatch.log mtime 1791706204=10-11 16:10 沿册）。golden 归档 docs/designaudit/ 沿册（2026-10-15 两件）。
+- 合规与决策：今日周六无适配审查义务；周一批（10-19）挂账不变（SB-046 灰区 p=0.54 随批复核）；决策模型未调用（无新边界裁决）。
+- 簿记观察登记：headroom_retrieve 本拍仍不在可用工具列（not found·沿册）——按 10-17 铁律②不重试不报错不中断，基于可见内容照常收口；交付卫生：落盘票入 git，投递正文与票分离，本票不外发。
+- 持平 ×98（97+本票）。堵点=SB-012 七天真人闸门（浩然侧 1/7，v0.1.0 预计 10-23/24）。
+- 下一步：21:30 需求反思照常；明日周日巡检沿册；真人闸门达 7/7 即触发 tag v0.1.0（G5）+一条龙冒烟重跑。
