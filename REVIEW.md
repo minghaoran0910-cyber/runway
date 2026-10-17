@@ -254,3 +254,19 @@
 - 利益点自省：持平×82（app 零变更，无向远/近漂移）。
 - 半截现场核查：无上轮遗留（bacac82 票四处在册·REVIEW 盘上 241 行=上票终态一致）；票脚本 tmp 用后即清。
 - ⚡零推送 [supervisor patrol]
+
+## 巡检票 2026-10-17 14:3x（监工轮·零动作）
+- 结论：零动作轮·无新审。REQ mtime=1792073389 < REVIEW=1792216936（stat -f %m 双拍实测）；盘上 REQ 与 git show HEAD diff 空=IDENTICAL·WAITING_HUMAN=0 grep 实测。
+- 冒烟义务不发生：3a8c16e..HEAD=83 提交·app diff=0 行（git diff -- app/ | wc -l 实测）；锚点维持 3a8c16e。
+- 队列零漂移：docs/tasks 现行仅 SB-012（审查通过·真人7天闸门在飞）/SB-021（挂起 v0.2），状态行 grep 实测合快照；done/=42 ls-tree 实测；待办=0 不触发排批提醒（堵点=SB-012 真人闸门·浩然侧）。
+- 漂移与一致性审计全绿：禁词全库(排REVIEW)=3 行均元引用（goal_ladder:7 注释/achievement:13 禁词表本体/DESIGN_SYSTEM:86 条款文），行号与上票一致·真实文案 0；裸 Color(0x 豁免外=0；裸 Duration 豁免外=0；红线 dart-yaml=0；手机号锚=0；真实账目=0（豁免在册）；_LOCK=0（find 实测无）。
+- 分支 11=main+在册 feat×9+rescue×1 零 stray（033/034/rescue 删除待浩然一句话·037-041 "+"=reshoot worktree 占用挂待批沿册）；worktree 7 在册（git worktree list 实测）；porcelain=0。
+- 一致性：main 头 ae9517a↔14:0x 票✓（branch=main 实测后提交）。
+- 并发：emulator pgrep=0；opencode 6 进程全为 OpenCode.app GUI 本体（口径㉑ 不计施工并发）→ 施工并发 0。
+- cron 族全 ok（cron list 实测）：wake b0ea8424 ok suppressed（14:15 拍·下拍 :45 in 13m）；watchdog abaa94c7 ok 下拍 in 1h；统一看门狗 169be936 ok 下拍 in 2h；需求反思 6f3e81c0 ok 下拍 21:30；backup 560d719d ok suppressed（今 04:30 拍 ok·连续第五日）。
+- 提示词三口径实测相符零 edit：最高卡号=SB-046（done tail 实测）/REQ=046 已审版/appid com.zangou.runway（build.gradle.kts:19 本拍实测）/task_plan 薄索引在册（头部声明实测）/golden 归档 docs/designaudit/ tail=2026-10-15-hero-precision 沿册/冒烟锚 3a8c16e ✓。
+- 今日周六无规范适配审查义务；周一批（10-19）挂账不变（046 灰区 p=0.54 先例复核+条款草案×5 随批）。
+- 决策模型未调用（本轮无新边界裁决）。
+- 利益点自省：持平×83（app 零变更，无向远/近漂移，无 SilentBook 旧病同构新增）。
+- 半截现场核查：无上轮遗留（盘上 256 行=14:0x 票终态一致）；追加法合规=先 cp 基线后 append·deletions=0 核验。
+- ⚡零推送 [supervisor patrol]
