@@ -548,3 +548,13 @@
 - 决策模型：decision_evaluate 未调用（本拍零新审零阻塞比较）。
 - 观察登记：headroom_retrieve 本session仍未注册（本拍实测 not found）——按铁律②不重试、不报错、照常收口；交付卫生：票(进git)与投递正文分离，投递正文仅结论摘要。
 - 持平：×103（23:00=102，+1）。堵点=SB-012真人闸门（浩然侧）。明日周日巡检照常；周一批10-19挂账不变（含SB-046灰区p=0.54随批复核）。⚡零推送（当日收口已由20:00汇报拍承担，本轮静默）。
+
+## 巡检票 2026-10-18 00:00
+- 结论：零动作轮（周日首拍）。REQ mtime 1792073389 < REVIEW mtime 1792251218（由23:30票翻）+ REQ md5 b2067495 合簿册 IDENTICAL + WAITING_HUMAN=0（本拍复测）——三实测零新审，无新审义务。
+- 队列：零漂移。SB-012 状态行实测「审查通过·代码闸门已合入 squash@b218a21；验收1/2真机/8/9在飞=监工三端走查+浩然7天真人，全验过才打tag v0.1.0」=闸门在飞；SB-021「挂起 v0.2（10-10浩然拍板）」；done/=42；待办=0，见底无据不空派（≤2提醒口径沿册）。
+- 冒烟：义务不发生。3a8c16e..HEAD 票前=104 全docs（非docs触及仅 REVIEW.md/progress.md 巡检记录行）、app diff=0文件实测；无G卡新PASS；锚点维持 3a8c16e=last_smoke_commit。
+- 漂移 grep 全绿（git grep 口径）：禁词（美团|工资|房贷|open_id）app+packages .dart=0行；手机号11行全test fixture锚（notification_identity/parse_test.dart，与历票一致零新增）；裸Color(theme/tokens/golden外)=0；_LOCK 全库4处命中均为 .gitignore/LOOP.md/REVIEW.md/progress.md 元引用行，app/packages 实测=0；porcelain终态=0。
+- 结构与并发：worktree=7；分支本地11+远端3 零stray；并发（qemu/emulator/flutter/gradle）=0；origin零触碰。
+- cron族全绿（只读实测）：本体19b5f29f running；wake b0ea8424 下拍 :45 ok suppressed；runway-watchdog abaa94c7 ok；统一看门狗 169be936 ok；backup 560d719d 下拍 04:30 排程 suppressed；需求反思 6f3e81c0 昨21:30已落 ok（下拍21:30）。
+- 交付卫生：上下文压缩标记出现，按铁律②未走retrieve不重试不报错，基于可见内容照常收口；票（正文进git）与投递正文分离。
+- 持平×104。堵点=SB-012 真人闸门（浩然侧 1/7，v0.1.0 预计 10-23/24）。今日周日无周批义务；周一批（10-19）挂账不变。⚡零推送本拍静默。
