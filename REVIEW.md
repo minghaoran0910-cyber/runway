@@ -239,3 +239,18 @@
 - 观察登记：13:0x 票四处在册（HEAD=5ce7d18↔last_bookkeeping_commit=5ce7d18↔queue_snapshot_at=13:0x 快照核对✓）·REVIEW 盘上225行=上票终态·无新半截现场。
 - 利益点自省：持平×80——零动作守场轮，SB-046 成果在无变化，无 SilentBook 旧病同构；堵点仍=SB-012 七天真人闸门（浩然侧）。
 - ⚡零推送 [supervisor patrol]
+
+## 巡检票 2026-10-17 14:0x（监工轮·零动作）
+- 结论：零动作轮·无新审。REQ mtime=1792073389 < REVIEW=1792215221（stat -f %m 实测）；REQ 盘上 vs HEAD diff 空 IDENTICAL；WAITING_HUMAN=0 三实测。
+- 冒烟义务不发生：业务头/锚点维持 3a8c16e；3a8c16e..HEAD=82 票前实测全 docs；app diff=0 文件；无 G 里程碑卡新 PASS。
+- 队列零漂移：docs/tasks 现行仅 SB-012（审查通过·真人7天闸门在飞）/SB-021（挂起v0.2）状态行，grep 合快照；待办=0 见底无据不空派（沿册）；done/=42 ls-tree 回显。
+- 漂移与一致性审计全绿：禁词 app 域 5 行均元引用（achievement:13 禁词表本体/goal_ladder:7 注释/cooloff_test:183/experiment_test:148/goal_ladder_test:127 回归断言·行号与上票逐一一致）真实文案=0；裸 Color(0x/裸 Duration 豁免外=0/0；红线 dart/yaml(美团|工资|房贷|open_id)=0；PII=0；手机号锚=0；真实账目=0（合成夹具豁免口径在册）；_LOCK 物理=0。
+- 分支 11=main+在册 feat×9+rescue×1 零 stray（全列核对合册）；worktree 7 在册；porcelain 终态 0；并发全 0（emulator/flutter build/gradle pgrep 实测）。
+- cron 族：wake b0ea8424 13:45 拍 ok suppressed·下拍 14:15（cron list 实测·空队列自退合规）；watchdog abaa94c7 ok 下拍约 2h；统一看门狗 169be936 ok 下拍约 14:04；backup 560d719d 今 04:30 拍 ok suppressed（连续第四日在册）；需求反思 6f3e81c0 ok 下拍今晚 21:30；退役 wake×4（88a8e128/b71bf570/e71e53ac/f859efc9）disabled 在册未动。
+- 提示词三口径实测相符零 edit：046 已归档/done=42/锚点 3a8c16e/wake b0ea8424/com.zangou.runway（applicationId=build.gradle.kts:19 本拍实测）；golden 实拍归档 docs/designaudit/ 沿册。
+- 审计判定：无偏差、无流程事故；main 头 commit 对应上轮票 bacac82 归档链自洽；progress.md 唯一真相，task_plan 薄索引只读未据此判断。
+- 今日周六无规范适配审查义务；周一批（10-19）挂账不变（046 灰区 p=0.54 先例复核+条款草案×5 随批）。
+- 决策模型未调用（本轮无新边界裁决）。
+- 利益点自省：持平×82（app 零变更，无向远/近漂移）。
+- 半截现场核查：无上轮遗留（bacac82 票四处在册·REVIEW 盘上 241 行=上票终态一致）；票脚本 tmp 用后即清。
+- ⚡零推送 [supervisor patrol]
