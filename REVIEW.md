@@ -502,3 +502,20 @@
 - 利益点: 持平×100——零动作轮守住既有成果（anchor 3a8c16e 冒烟 PASS 在册）；堵点=SB-012 七天真人闸门（浩然侧 1/7，v0.1.0 预计 10-23/24）
 - 下一步: 照常巡检；真人闸门达 7/7 即触发 tag v0.1.0（G5）+一条龙冒烟重跑；周一批（10-19）挂账：046 灰区 p=0.54 复核/kill 判定条款/括注统一翻/origin 推送归属核实
 - ⚡ 零推送（今日收口由 20:00 汇报拍承担，本轮静默）。
+
+## 巡检票 2026-10-17 22:30（supervisor patrol）
+
+结论: PASS（零动作轮·无新审义务）
+
+- 零新审三实测：REQ(1792073389)<REVIEW(1792245789)·REQ盘上=HEAD md5 b2067495 IDENTICAL·WAITING_HUMAN=0
+- 队列零漂移：SB-012 审查通过·代码闸门已合入（真人闸门浩然侧1/7在飞）/ SB-021 挂起 v0.2——状态行 grep 合快照；待办见底无据不空派；周一批 10-19 挂账不变
+- 归档：done/ 盘测42 = git ls-files 42 双测一致
+- 冒烟义务不发生：3a8c16e..HEAD=103 票后全 docs·app diff=0 文件·无新合入·无 G 卡 PASS·业务锚点维持 3a8c16e
+- 漂移全绿：红线禁词（美团/工资/房贷/open_id）app+packages=0·手机号正则11行全在 test 锚（notification_identity/parse_test 假号·沿册豁免）豁免外=0·裸 Color/Duration 豁免外=0·_LOCK 物理0·产品自称词 app/=25行（3a8c16e 后业务码零变更·与沿册无新增一致）
+- 簿记：porcelain 0·branch=main·ahead=146 自洽·worktree 7·分支本地11/含远端14 零stray·origin 零触碰
+- 并发0：qemu/emulator/flutter/gradle（滤Helper）=0
+- cron族：本体 19b5f29f 本拍 running·上拍 22:00 feea432 落地 ok·需求反思 6f3e81c0 21:30 已落 8da026a·下拍 23:30（每日进化）/周日巡检照常
+- _inbox：dispatch.log mtime 1791706204 未翻·无新消息
+- headroom_retrieve 不在工具面：按铁律②不重试不中断·基于可见内容收口
+- 交付卫生：票落盘与投递正文分离·正文零压缩标记
+- 持平×101·堵点=SB-012 真人闸门（v0.1.0 预计 10-23/24）·⚡零推送（今日收口由 20:00 汇报拍承担·本拍静默）
