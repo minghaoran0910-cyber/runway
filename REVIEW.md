@@ -270,3 +270,18 @@
 - 利益点自省：持平×83（app 零变更，无向远/近漂移，无 SilentBook 旧病同构新增）。
 - 半截现场核查：无上轮遗留（盘上 256 行=14:0x 票终态一致）；追加法合规=先 cp 基线后 append·deletions=0 核验。
 - ⚡零推送 [supervisor patrol]
+
+## 2026-10-17 15:0x 巡检票（零动作轮）
+结论: 无新审（REQ mtime 1792073389=10-15 22:09 < REVIEW 1792218774=10-17 14:3x，REQ 盘上 vs git show HEAD diff=IDENTICAL，WAITING_HUMAN=0，三实测零新审）。
+- 队列: 零漂移——活跃2卡与快照逐字一致（SB-012 验收1/2/8/9在飞=G闸口 / SB-021 挂起v0.2），done/=42 ls-tree 实测；待办0，裁A下不自派（合入冻结在册，卡照常）。
+- 冒烟: 义务不发生——3a8c16e..HEAD=84（上票83+簿记提交，数量吻合），`git diff --name-only 3a8c16e..HEAD -- app`=0行实测（纯 docs/簿记）；锚点维持 3a8c16e，模拟器未起（pgrep=0）。
+- 漂移审计: 全绿——禁词2行均元引用（goal_ladder.dart:7 注释复述+achievement.dart:13 运行时禁词表定义本身，行号与上票一致，沿 04:0x 决策 p=0.75 豁免口径），用户可见真实文案=0；theme/motion 外裸 Color(0x=0、裸 Duration=0；美团|工资|房贷 dart/yaml=0；锚定手机号=0；open_id=0；真实账目数据零接触（红线零触发）；_LOCK find=0 且 git ls-files=0；分支11行全在册（main+feat×8+sb033-rescue×1）零 stray；worktree=7 在册；remote origin 本轮零触碰（无 push/fetch/ls-remote）；porcelain=0。
+- 并发: emulator=0；opencode GUI 常驻6进程（沿册口径㉑·非 headless 施工），wake b0ea8424 suppressed 自退，无并发施工冲突。
+- cron 体检: 巡检 19b5f29f running（本拍）；wake b0ea8424 ok（下拍15:15）；runway-watchdog abaa94c7 ok；统一看门狗 169be936 ok；需求反思 6f3e81c0 ok（下拍21:30）；runway-backup 560d719d ok（今04:30拍正常）。
+- 提示词新鲜度: 三口径实测相符零 edit——done/ 最高=SB-046（ls-tree 实测）、活跃最高=sb021（挂起）；applicationId=com.zangou.runway（build.gradle.kts:19 本拍实测，SB-013 归一口径现行）；golden 归档 docs/designaudit/ 沿册（本拍实测 tail=2026-10-15-copynoise / 2026-10-15-hero-precision）；task_plan 薄索引在册且未据此判进度；wake :15/:45 与巡检 :00/:30 错峰无失配。
+- 适配审查: 周六非周一，不输出（周一批 10-19 挂账：SB-046 灰区 p=0.54 复裁+合入归属校验条款草案+LOOP 未落地两条款）。
+- 决策模型: 未调用（本轮无新边界裁决；046 灰区随周一批）。
+- 簿记纪律: 本票提交前查 branch=main ✓；REVIEW.md 追加法执行（先 cp 基线后 append，numstat 核本票 deletions=0）。
+- 利益点自省: 持平——零动作审计轮守住 SB-046 取整+起步文案成果（首页 hero 每次可见），机制零变化，无 SilentBook 旧病同构；计数 更近(046@10-15 22:0x)→持平×84(23:0x~本拍)，无『更远』信号不触发排期升级。
+- 堵点: SB-012 七天真人闸门（tag v0.1.0 前置，浩然侧）；周一批 10-19。
+- ⚡收口: 常规轮零推送。
