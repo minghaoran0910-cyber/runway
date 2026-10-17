@@ -472,3 +472,18 @@
 - 簿记观察登记：headroom_retrieve 本拍仍不在可用工具列（not found·沿册）——按 10-17 铁律②不重试不报错不中断，基于可见内容照常收口；交付卫生：落盘票入 git，投递正文与票分离，本票不外发。
 - 持平 ×98（97+本票）。堵点=SB-012 七天真人闸门（浩然侧 1/7，v0.1.0 预计 10-23/24）。
 - 下一步：21:30 需求反思照常；明日周日巡检沿册；真人闸门达 7/7 即触发 tag v0.1.0（G5）+一条龙冒烟重跑。
+
+## 巡检票 2026-10-17 21:30（supervisor patrol）
+- 结论: 零动作轮（无新审查·无漂移·冒烟义务不发生·无并发·不推送）
+- 审查: REQ mtime 1792073389(10-15 22:09:49) < REVIEW mtime 1792242607(21:0x 票)=零新提审；REQ 盘上 vs git show HEAD diff 空=IDENTICAL（md5 b20674957747f032256011567066616f 合快照）；WAITING_HUMAN grep=0 实测。三实测口径相符。
+- 队列: docs/tasks 顶层活跃卡=2 逐字合快照（SB-012 审查通过·真人7天闸门在飞=验收1/2真机/8/9·全验过才 tag v0.1.0 暂不归档；SB-021 挂起 v0.2）；done/=42 双测一致（git ls-tree=42 + ls 顶层=42，末张 SB-046）；待办见底=0，在册无新需求证据不空派（堵点浩然侧 1/7）。
+- 冒烟: 3a8c16e..HEAD=99 票前实测全 docs·app/packages diff=0 文件→冒烟义务不发生；锚点维持 3a8c16e=last_smoke_commit（本票提交后=100 票后口径在册）；G 卡无新 PASS（012 未归档=闸门未过，勿重跑勿空跑）。
+- 漂移: 红线禁词（美团|工资|房贷|open_id）app/lib·app/test·packages 排除票内自审计后=0；产品自称词（攒够/打卡/记账等）app/lib=38 行全为功能注释与 UI 文案本体=产品术语非违规（本 app 即记账打卡产品，口径分列在册）；theme/motion 豁免外裸 Color(0x=0、裸 Duration=0；手机号宽口径 13 行=全 pbxproj UUID+epoch 毫秒 test fixture（真实号=0 沿册）；真实账目=0（notification_parse.dart:16 为格式注释合成夹具）；_LOCK=0。
+- 并发: emulator/qemu/flutter/gradle pgrep=0；worktree=7 全在册；分支 11=main+在册 feat×9+rescue×1 零 stray（删除仍待浩然一句话）；porcelain 簿记前 0。
+- cron 族: 监工本体 19b5f29f 本拍 running（上拍 ok 无连红）；wake b0ea8424 21:15 拍 ok suppressed 实测·下拍 21:45；需求反思 6f3e81c0 21:30 拍同拍 running=正常非异常；watchdog abaa94c7 ok；统一看门狗 169be936 ok；backup 560d719d ok suppressed（明 04:30）；20:00 汇报 fdd0b22d ok（2h 前拍·今日收口已承担）；wake announce "no route fail-closed" 警示=suppressed 轮不投递无害沿册。退役包装×4 disabled 未动。
+- 一致性: origin 零触碰（本地 ref 29871c7 只读·ahead=143 票前实测自洽·票后=144）；main 头 46649f5↔REVIEW 21:00 节 grep=1 在册✓；_inbox/dispatch.log mtime 1791706204（10-11）无新消息。
+- 提示词三口径: 046 归档/done=42/锚点=3a8c16e 实测相符零 edit（防 churn 裁定沿册·周一 10-19 统一翻）。
+- 观察登记: headroom_retrieve 本拍实测仍 not found（工具面不可用）——按铁律②不重试不报错不中断，基于可见内容照常收口；今日 18:00/20:30 拍同款登记沿册。
+- 利益点: 持平×99——零动作轮守住既有成果（anchor 3a8c16e 冒烟 PASS 在册），无更远信号不触发排期升级；推进堵点=SB-012 真人闸门（浩然侧 1/7·v0.1.0 预计 10-23/24）。
+- 下一步: 照常巡检；周一批(10-19)挂账不变（046 灰区 p=0.54 复核/kill 判定条款/括注统一翻/origin 推送归属核对/素材分支删除待批）；真人闸门推进在浩然侧，不催不加戏。
+- ⚡ 零推送（今日收口由 20:00 汇报拍承担，本轮静默）。
