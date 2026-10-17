@@ -443,3 +443,17 @@
 - 提示词三口径实测相符零edit：appid=com.zangou.runway（build.gradle.kts:19 本拍sed实测）/SB-046归档done/=42/锚点3a8c16e。golden归档docs/designaudit/沿册（最新2026-10-15-hero-precision）。_inbox无新消息（最新仍dispatch.log）。
 - 交付卫生：追加法合规=先cp基线后append+numstat核deletions=0纯增；投递正文零压缩标记（10-17 18:00 headroom事故口径在册）。
 - 周六无适配审查义务；决策模型未调用（无新边界裁决）。持平×96·堵点=SB-012真人闸门（浩然侧第1/7天，v0.1.0预计10-23/24）·⚡零推送（19:3x先例：今日收口已由20:00汇报拍承担，本拍静默不重复）。
+
+## 2026-10-17 20:30 巡检票（零动作轮）
+- 三实测零新审：REQ mtime 1792073389 < REVIEW 1792239040 ✓；REQ 盘上 vs HEAD md5 同值 b20674957747f032256011567066616f =IDENTICAL ✓；WAITING_HUMAN=0 ✓。
+- 队列零漂移：docs/tasks 顶层活跃卡=2（SB-012 审查通过·真人闸门 1/7 在飞（浩然侧）/ SB-021 挂起 v0.2），状态行 grep 合快照；done/=42 双测（磁盘 ls=42 / git ls-files=42）。
+- 冒烟义务不发生：3a8c16e..HEAD=97 全簿记票、app diff=0 文件实测，锚点维持 3a8c16e=快照 last_smoke_commit。
+- 漂移全绿：禁词十词（又花掉/只剩/还差/超支/别买/不该/亏了/没了/花光/穷）app/lib 命中 13 行全元引用（achievement.dart:13-22 词表本体/goal_ladder:7,:117/week_warm:7）真实 UI 文案=0；红线（美团|工资|房贷|open_id）app+packages=0；手机号锚定 lib=0（宽口径 11 命中全为 app/test 通知测试 epoch 时间戳 1760000000000）；裸 Color 豁免外=0；Duration 宽口径豁免外 15 行=diag/cooloff/dashboard_stats/estimate/goal_deadline/grain_report/week_warm/root_shell 超时新鲜度语义非动画 token，合 20:0x 在册零新增漂移；399900 两处=goal_ladder 公开参考价在册豁免（test 命中为合成 fixture）；_LOCK=0；分支本地 11（+远端 refs 3）零 stray；worktree=7；porcelain=0；origin 零触碰。
+- 并发全 0：emulator/qemu/flutter=0、gradle（滤 Helper）=0 实测。
+- cron 族全绿：监工本体 19b5f29f 本拍 running（19:30 拍 ok suppressed 无连红）；20:00 汇报 fdd0b22d 今日 20:00 ok=今日收口已达；wake b0ea8424 20:15 拍 ok suppressed 下拍 20:45；watchdog abaa94c7 ok 下拍约 21:4x；统一看门狗 169be936 20:0x ok 下拍约 22:04；需求反思 6f3e81c0 ok 下拍 21:30；backup 560d719d 今日 04:30 ok suppressed 连续第七日；退役 wake×4 disabled 在册未动。
+- 三口径实测相符零 edit：appid=com.zangou.runway（build.gradle.kts:19 本拍 sed 实测）/SB-046 归档 done/=42 双测/锚点 3a8c16e 现行。
+- _inbox 无新消息（最新=dispatch.log 10-11 16:10 实测 mtime）。
+- 合规与决策：今日周六无适配审查义务；周一批（10-19）挂账不变（含 SB-046 灰区 p=0.54 随批复核）；决策模型未调用（无新边界裁决）。
+- 簿记观察登记：①19:0x-20:0x 三轮沿 10-15 起 queue_note/patrol_XXXX 字段嵌增量新约定未加 queue[] 顶行（snap_at/book/patrol 字段均已翻在册，判非半截），本票起加 ㊤ 顶行覆盖增量，不追责；②headroom_retrieve 本拍仍 not found=按 10-17 铁律②不重试不报错，基于可见内容照常收口；③监工本体 18:00 拍未达已由 18:30/19:00/19:30/20:00 四拍 ok 覆盖，无两连败，⚡⑤不触发。
+- 追加法合规：先 cp 基线后 append tmp→mv，numstat 核 deletions=0。
+- 持平 ×97。堵点仍=SB-012 七天真人闸门（浩然侧 1/7）；待办 0 见底无据不空派。⚡零推送（19:3x/20:0x 先例：今日收口由 20:00 汇报拍承担，本轮静默）。
