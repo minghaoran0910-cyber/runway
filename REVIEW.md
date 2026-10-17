@@ -615,3 +615,15 @@
 - 沿册: 周日无周批 · 周一批（10-19）挂账不变（禁词词表原文补录 / wake 三易主翻 / 046 灰区裁决 / 043 适配下拍周一）· 今日真人闸门 day 2 单点登记（浩然侧堵点）。
 - 提示词三口径现行零 edit（done=42 / 锚点 3a8c16e / applicationId com.zangou.runway / REQ 已审版）。
 - ⚡零推送（本拍静默）[SB-012][supervisor patrol]
+
+
+## 2026-10-18 02:30 巡检票（零动作拍 · 持平×109）
+- 结论: PASS——无新审。三实测：REQ mtime 1792073389 < REVIEW 1792260308（02:0x 落票）· REQ 盘上/HEAD md5 双 b20674957747f032256011567066616f IDENTICAL（六票连号）· WAITING_HUMAN=0。
+- 队列零漂移: SB-012（审查通过·闸门在飞 day 2）+SB-021（挂起 v0.2）· docs/tasks=2 张 · done=42（docs/tasks/done 盘 ls=42/git ls-files=42 双测）· 待办=0（见底无据不空派·≤2 提醒口径沿册）。与快照 02:00（×108）完全一致 → 持平×109。
+- 冒烟义务不发生: 3a8c16e..HEAD=110（含 02:0x 票）· app/ packages/ diff=0 · 业务头 794bb4b 维持 · last_smoke_commit=3a8c16e 不动 · 本拍无新业务提交。
+- 漂移全绿: 裸 Color(0x=0 · 裸 Duration(ms=0 · 红线(.dart/.yaml)=0 · open_id(.dart)=0 · 手机号排 UUID/epoch=0 · _LOCK 物理 find=0 · app/ 禁词文案=0 · porcelain=0 · 分支 11（main+在册 feat×9+rescue×1）· worktree 7 在册 · 零 stray。
+- 环境并发: builder（flutter/gradle/Java/Dart）=0 · emulator/qemu=0 · avd Booted=0 · opencode 6 行=GUI Electron 进程树（㉑不计）· dispatch/_inbox mtime 未翻 · 施工并发=0。
+- cron 族实测(02:3x): 本巡检 19b5f29f running · wake b0ea8424 02:15 拍 ok suppressed（并发 0 合规 · 沿册②销账 · 下拍 02:45）· watchdog abaa94c7 ok · net-exp-probe ok · 需求反思 6f3e81c0 ok（昨夜 21:30 未投递沿周一批复核）。
+- 半截自查: 本票 append-only（cp 基线→追加→numstat deletions=0 核验）· commit 后自验三连（log 含新头/REVIEW 含 02:30 票/progress 含本拍行）· 工具自纠登记一条：本拍首轮 done 计数误用不存在路径 docs/done 得 0，即时以正确路径 docs/tasks/done 复测 ls/git 双 42——非仓库漂移、票面唯一路径固定为 docs/tasks/done。
+- 沿册: 周日无周批 · 周一批（10-19）挂账不变（禁词词表原文补录/wake 三易主翻/046 灰区裁决/043 适配）· SB-012 七天真人闸门 day 2 浩然侧单点沿册。
+- ⚡零推送（本拍静默）[SB-012][supervisor patrol]
