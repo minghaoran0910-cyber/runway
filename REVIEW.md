@@ -574,3 +574,23 @@
 - 沿册增量㉛：簿记头=0250c8e→本票（commit 回显实测·自验三连：log 含新头/本票标记唯一/porcelain=0·cp HEAD 基线 cmp 一致防并发票+numstat 删 0+tmp 追加 mv 原子）。
 - 下一拍目标：01:00 巡检照常——REQ 翻动/队列漂移/合入动作三信号，无事零动作沿册。本拍⚡零推送静默。
 - 交付卫生：本拍上下文含压缩标记，按铁律②未走 headroom_retrieve、不重试不报错，全部盘上复测收口；票（正文进 git）与投递正文分离，投递正文仅结论摘要。
+
+## 2026-10-18 01:15 巡检票（周日凌晨拍 · 零新审零动作 · ⚡零推送）
+
+结论: PASS（本拍无新审 · 守场巡检 · 队列零漂移 · 持平×106）
+
+检查项:
+- [x] 零新审三实测：REQ mtime 1792073389 < REVIEW 1792256045（旧两天持续）；REQ 盘上 vs HEAD diff=0 IDENTICAL；md5 b2067495 三连票维持；WAITING_HUMAN=0
+- [x] 队列零漂移：SB-012 闸门在飞（验收 1/2 · 七天真人第 2 天）/ SB-021 挂起 / 待办 0（见底无据不空派沿册口径）/ done=42（ls+ls-files 双测）→ 无变化不推浩然
+- [x] 冒烟义务不发生：3a8c16e..HEAD=107 实测全簿记、non-docs diff=0、业务头 794bb4b 维持、G5 未达 → 锚点维持=last_smoke_commit
+- [x] 漂移全绿：裸 Color(0x)=0 / 裸 Duration(豁免外)=0 / 红线=0 / _LOCK tracked=0 / porcelain=0；手机号 17 行=测试锚 11(identity3+parse8)+workflows1+pbxproj2+票 3（较上票+1 为票文自引用）真号=0
+- [x] 结构在册：本地分支 11 / 远端 3 零 stray / worktree 7；dispatch.log mtime 1791706204 未翻
+- [x] 并发：施工进程=0；OpenCode.app GUI 驻留（framework 进程，口径㉑不计施工）
+- [x] cron 族只读：wake b0ea8424 00:45 拍 suppressed 合规（01:15 拍恰本票起算窗口边界）；watchdog / backup / req-reflect 全 ok；本巡检 running→done
+
+⚠️ 观察登记（沿册增量 · 本轮 0 号撞实测）:
+1. 节奏禁词 pattern-set 口径不一致：本拍以四词 pattern（快做完了/两天推完/快推完/马上搞定）全库 git grep=0 行，与历史票「全库 39 行均元引用」pattern 集不一致——39 行词表本体位于台账压缩段，按铁律②不重试不臆测，复测以盘上实测+test 闸门（week_warm 禁词零命中断言在册）双重证据落票；建议周一批将禁词 pattern-set 原文补录入册，消除口径漂移
+2. _LOCK 口径注：文件系统 grep=51 行全落 app/ 下 ignored 构建产物（tracked 实测=0 在册），落票口径以 tracked 为准，周一批可一并入册
+3. head 维持 5d6a752（上票）· range 计数 107 与上票自洽 · md5 三连维持
+
+下一步: 今日周日无周批；周一批（10-19）挂账不变（SB-046 灰区 p=0.54 随批复核 + 新增上述①②两项）；堵点=SB-012 七天真人闸门（浩然侧第 2 天）；决策模型未调用（无新边界裁决）。
