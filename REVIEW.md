@@ -223,3 +223,19 @@
 - 利益点自省：持平×79——零动作守场轮守住 SB-046 成果，产品机制零变化无 SilentBook 旧病同构；堵点仍=SB-012 七天真人闸门（浩然侧）。
 - 补记（本轮事故如实登记）：本票初稿 append 失手——首次追加未先 cp 全量即写 REVIEW.md.tmp，mv 覆盖丢主体 203 行（首票 05f9dca diff=+12/-203 回显暴露）；发现后立即 git show 1429904 恢复主体+重追加+amend 自愈，盘上主体与 HEAD 基线逐行同源零丢失；教训入册：tmp 追加法必须先 cp 基线再写，追加后必须 git diff --stat 核删除行数为 0 才可提交。
 - ⚡零推送 [supervisor patrol]
+
+## 巡检票 2026-10-17 13:3x（监工·零动作轮）
+
+- 审查：REQ(mtime 1792073389)<REVIEW(1792213671·stat -f %m 双拍实测)+盘上vs git show HEAD diff 空=IDENTICAL 验真+WAITING_HUMAN=0 grep 实测，三实测零新审（REQ head=SB-046 已审结提审单勿重审）。
+- 队列：零漂移（SB-012 闸门在飞/SB-021 挂起·状态行 grep 实测合快照）；done/=42 ls-tree 实测回显（末张=SB-046）；待办=0 见底无据不空派（裁A在册）。
+- 冒烟：义务不发生（3a8c16e..HEAD=81 提交·app diff=0 文件实测）；锚点维持 3a8c16e=last_smoke_commit。
+- 漂移审计全绿：禁词全库(排REVIEW/done)=7行均元引用（_inbox:86/achievement:13/goal_ladder:7/cooloff_test:183/experiment_test:148/goal_ladder_test:127/DESIGN_SYSTEM:86·行号与上票逐一一致）真实文案=0；裸Color/Duration 豁免外(app/lib 排ui/theme)=0/0 实测（命中全在 tokens.dart/motion_spec.dart 豁免域+tokens_test 等测试夹具）；红线 dart/yaml=0（美团|工资|房贷|ou_ 正则实测）；手机号锚(排UUID/epoch)=0；真实账目=0（3a8c16e 后码体零变更沿合成夹具豁免在册）；_LOCK 物理=0；分支11=main+在册feat×9+rescue×1 零stray；worktree 7 在册；porcelain=0。
+- 并发：全0（pgrep flutter/gradle/emulator 实测=0）。
+- 一致性：main 头 5ce7d18↔13:0x 票✓（branch=main 实测）；ahead 票前125实测·origin 零触碰。
+- cron 族全 ok：wake b0ea8424 ok suppressed（下拍13m·cron list 实测）·watchdog abaa94c7 ok（2h·下拍16m）·统一看门狗 169be936 ok（下拍33m）·backup 560d719d 今04:30拍 ok suppressed（连续第四日）·需求反思 6f3e81c0 昨21:30拍 ok（下拍8h）·退役wake×4(88a8e128/b71bf570/e71e53ac/f859efc9) disabled 在册未动。
+- 提示词三口径：applicationId=com.zangou.runway=上拍 build.gradle.kts:19 实测+本轮 app 零变更沿用·046归档/done42/锚点3a8c16e/wake b0ea8424/golden=docs/designaudit/（tail=2026-10-15-hero-precision 本拍实测）相符零edit。
+- 今日周六无适配审查义务；周一批(10-19)挂账不变（含 046 灰区 p=0.54 复核、kill判定条款草案、归属核对）。
+- 决策模型：未调用（本轮无新边界裁决）。
+- 观察登记：13:0x 票四处在册（HEAD=5ce7d18↔last_bookkeeping_commit=5ce7d18↔queue_snapshot_at=13:0x 快照核对✓）·REVIEW 盘上225行=上票终态·无新半截现场。
+- 利益点自省：持平×80——零动作守场轮，SB-046 成果在无变化，无 SilentBook 旧病同构；堵点仍=SB-012 七天真人闸门（浩然侧）。
+- ⚡零推送 [supervisor patrol]
