@@ -672,3 +672,18 @@
 - 今日周日无周批/无适配审查；周一批（10-19）挂账不变（046 灰区复核+合入归属校验条款+禁词词表补录+key 续期停摆风险+SB-012 轮单核对）。
 - 利益点自省：持平×112——零动作守场守住 SB-046 取整成果（锚点冒烟 PASS 在册），无 SilentBook 旧病同构；堵点=SB-012 七天真人闸门（浩然侧·跨日第 3 天）+builder key 停摆（浩然侧续期）。
 - ⚡零推送（上拍已告警不重复） [supervisor patrol]
+
+## 巡检票 2026-10-18 04:3x（有人监工 · 零动作轮 · 持平×113 · 🔴wake key过期七连拍）
+- 审查：三实测零新审——REQ mtime 1792073389(10-15 22:09) < REVIEW 1792267391(04:00票) stat 实测；REQ 盘上 vs git show HEAD diff 空=IDENTICAL、md5 b2067495 十票连号、WAITING_HUMAN=0 复测。无新提审票，REQ 仍停 SB-046 首审态。
+- 队列：零漂移——docs/tasks 活跃仅 SB-012（真人闸门在飞·跨日第3天·堵点①）/SB-021（挂起），状态行 grep 合快照；done=42 双测（ls=42·git ls-files=42）；待办0 见底无据不空派（裁A四三·决策日志本拍实测相符）；周一批(10-19)挂账不变。
+- 冒烟：义务不发生——3a8c16e..HEAD=114 票前实测·app/ packages/ diff=0 行；锚点维持 3a8c16e·业务头 794bb4b(SB-046)·G 卡无新 PASS；视觉保真闸门不触发（无 UI 新审）。
+- 漂移 grep 全绿：裸Color=0·Duration app/lib 18行全在 motion_spec.dart=域时长常量在册（排该文件后=0·沿上票口径非新漂移）·手机号 app=13行=test锚11+pbxproj UUID2 真号0·禁词全库=1行=REVIEW.md:592 自引用元行（合在册⑤）·_LOCK tracked=0·porcelain=0。
+- 并发0：pgrep flutter/gradle/emulator/qemu 实测空（opencode GUI 口径㉑不计）。
+- 🔴 wake 点火：日志尾实测 04:15 拍仍点火即败『API key has expired』=01:15~04:15 七连拍（上票六连拍+1）；20:00「恢复」误判撤销维持；03:3x 轮已推送告警本拍不重复；builder 唤醒链停摆持续至浩然 OpenCode Console 换 key（周一批点火前置项）。
+- cron 族：wake b0ea8424 :15/:45（cron list 实测）04:15拍 ok suppressed 表面·日志体停摆（两层口径⑦）；backup 560d719d 今 04:30 拍 ok suppressed 实测=⑨销账（下拍到点明 04:30）；统一看门狗 169be936 04:0x 拍 ok·runway-watchdog abaa94c7 ok·需求反思昨 21:30 ok；22:00 错误回顾今晚到点；heartbeat:main/investment 凌晨 skipped 沿册观察。
+- 一致性：簿记头 cc4eb54↔04:00 票✓（log 头实测）；REVIEW 盘上 674 行含 04:00 节=1、progress 04:00 行=1、快照 04:00 翻转✓——上轮无半截现场；簿记观察🟡：快照 decision_log 于 04:0x 写盘预登记 04:3x/05:3x 两笔（裁A四三/四四），本拍 04:3x 实测相符、05:3x 待下拍核；ahead=158 合快照自洽，本票提交后 159。
+- 提示词三口径：046 归档/done=42/锚点 3a8c16e/wake b0ea8424 :15/:45（cron list 实测）/com.zangou.runway（app 零变更沿册）相符零 edit；golden 归档 docs/designaudit/ 沿册；task_plan 薄索引未据此判进度。
+- Headroom：retrieve 本拍实测 tool not found（被拦）——按铁律②不重试不报错不中断，基于可见内容+盘上复测收口。
+- 决策模型：未调用（无新边界裁决；046 灰区 p=0.54 随周一批）。
+- 今日周日无周批/无适配审查；周一批（10-19）挂账不变（046 灰区复核+合入归属校验条款+禁词词表补录+key 续期+SB-012 轮单核对）。
+- ⚡零推送（key 过期 03:3x 拍已告警不重复·队列零漂移无推送触发） [SB-012][supervisor patrol]
