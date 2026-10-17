@@ -403,3 +403,4 @@
 - 提示词三口径：appid=com.zangou.runway本拍sed实测build.gradle.kts:19·零edit；golden归档docs/designaudit/沿用；周六无适配审查（周一批10-19挂账含SB-046灰区p=0.54随批复核）；决策模型未调用。
 - 追加法合规：先cp基线后append·numstat核deletions=0（REVIEW/progress双实测）。
 - 持平×93·堵点=SB-012七天真人闸门（浩然侧）·⚡零推送（origin未动）。
+- 18:30票勘正（纯增不改原文）：观察登记②中「092f7e2实为17:15 Reapply票」勘正为——092f7e2日期戳实测=2026-10-14 15:13（当日Reapply票·且为3a8c16e之祖先[pre-anchor merge-base实测]），wake 18:15票引用陈旧哈希而非当日新commit，观察结论不变（wake簿记未落main/报错型登记维持）。
