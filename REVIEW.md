@@ -71,3 +71,24 @@
 - 决策模型未调用（无新边界裁决；046 灰区 p=0.54 随周一批 10-19 挂账不变）。
 - 利益点自省：零动作轮持平（连续×70）——产品未更远；唯一主线=SB-012 浩然 7 天真人闸门（浩然侧）。
 - 今日周六无适配审查义务；周一批(10-19)挂账。⚡零推送。
+
+---
+
+# REVIEW — 2026-10-17 09:0x 巡检票（周六·零动作轮）
+结论: 无新审查·全绿（本轮巡检登记，非卡审）
+检查项:
+- [x] 审查触发：REQ mtime=1792073389 < REVIEW mtime=1792197185（stat -f %m 实测）→ 零新审；REQ 盘上 vs git show HEAD diff 空=IDENTICAL 实测；WAITING_HUMAN=0 grep 实测。
+- [x] 队列同步：活跃卡状态行 grep 实测 SB-012（审查通过·代码闸门已合入·7天真人闸门在飞·暂不归档）/SB-021（挂起 v0.2）与快照口径一致→零漂移；docs/tasks/ 活跃卡 ls=2（012/021）；done/=42 ls-tree 实测回显；done 内最高卡号=SB-046；待办=0，见底无在册新证据不空派。
+- [x] 冒烟义务：不发生——3a8c16e..HEAD=72 票前实测全 docs，app diff=0 行实测；锚点维持 3a8c16e，last_smoke_commit 不翻。
+- [x] 漂移与一致性审计：禁词（没省|又花|喝掉|罪恶|浪费钱）git grep 排 done=8 行均元引用（REVIEW:67 票自引用+_inbox:86 词表+achievement:13 禁词表本体+goal_ladder:7 注释+cooloff_test:183/experiment_test:148/goal_ladder_test:127 回归断言+DESIGN_SYSTEM:86 条款·行号与上票一致）真实用户文案=0；裸 Color(0x 主题外=0；裸 Duration(ms 动效册外=0；红线（美团|工资|房贷|open_id）=0；手机号锚定=0；_LOCK find=0；分支 11=main+在册 feat×9+rescue×1 零 stray；worktree 7 在册；porcelain=0；簿记头 4902ef5↔08:3x 票对应（log 实测）；origin 零触碰，ahead=116 提交后实测口径自洽（p=0.89 簿记口径在册沿执）。
+- [x] 真实账目扫描新口径入册：金额正则命中 1 行=notification_parse.dart:16 解析格式 doc 注释（`12.34元`格式示例·合成）非真实账目，按元引用豁免；真实账目=0 红线零触发。
+- [x] 提示词新鲜度自审（每轮一步）：三口径本拍实测相符零 edit——最高卡号=SB-046（done/ ls-tree 实测）、锚点=3a8c16e、wake=b0ea8424（:15/:45 现役 cron list 实测）、applicationId=com.zangou.runway（build.gradle.kts:19 本拍实测）、task_plan 薄索引/REQ 验真/冻结裁A 条款沿册无失配。
+- [x] cron 族全 ok：wake b0ea8424 08:45 拍 ok suppressed 实测（cron list·下拍 09:15·空队列自退合规）·watchdog abaa94c7 ok（下拍约 09:47）·统一看门狗 169be936 ok（下拍 10:04）·backup 560d719d 今 04:30 拍 ok suppressed（连续第三日在册）·需求反思 6f3e81c0 昨 21:30 拍 ok；退役 wake×3 disabled 在册未动。
+- [x] 并发：emulator/flutter build/gradle pgrep 实测=0，不与 opencode 并发起模拟器核查通过。
+- [x] 反虚构自验三连：本票落盘后 log --oneline -2 含新 head、REVIEW 含本 09:0x 节=1、progress 含同串=1、done/=42 回显、porcelain 终态 0（见票 commit 回显）。
+- [!] 观察：08:3x 轮票已提交（4902ef5 实测）但快照 json queue_snapshot_at 仍 08:0x=该轮快照更新未落地（半截收尾·REVIEW/progress 三件套已齐不违规章11 底线）——本轮已补更新至 09:0x，登记不追责。
+下一步: 守场——SB-012 七天真人闸门在浩然侧；周一批（10-19）挂账不变（046 灰区 p=0.54 先例复核+kill 判定条款+wake 括注统翻+素材分支×3 删除待批）。
+模拟器冒烟：本轮义务不发生（锚点 3a8c16e 起 app 零变更实测）。
+利益点自省：零动作轮持平——产品未更远；主线仍=SB-012 真人闸门（浩然侧）。
+决策模型：本轮未调用（无新边界裁决）。
+今日周六无适配审查义务。⚡零推送。
