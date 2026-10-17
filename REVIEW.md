@@ -14,17 +14,7 @@
 - 利益点自省：零动作轮持平——产品未更远；唯一主线=SB-012 浩然 7 天真人闸门（浩然侧）。
 - 今日周六无适配审查义务；周一批(10-19)挂账不变。⚡零推送。
 
-## 2026-10-17 08:0x 轮 · 零动作轮（无新审·无合入·无冒烟义务）
-- 审查义务不发生：REQ mtime=1792073389（10-15 22:09）< REVIEW（07:3x 票）stat 实测；REQ 盘上 vs HEAD=IDENTICAL；WAITING_HUMAN=0。
-- 队列零漂移：docs/tasks 活跃仅 SB-012（真人闸门在飞）/SB-021（挂起 v0.2），状态行 grep 合快照；done/=42 ls-tree 回显（done/ 内最高卡号=SB-046 实测）。待办=0 见底无据不空派（裁A在册）。
-- 冒烟义务不发生：3a8c16e..HEAD=70（本票前实测·全 docs+簿记）·app diff=0 行；锚点维持 3a8c16e。
-- 漂移与一致性审计：禁词 app=5 行均元引用（achievement:13 禁词表本体/goal_ladder:7 注释/cooloff_test:183/experiment_test:148/goal_ladder_test:127 回归断言·行号与上票一致）真实文案=0；裸 Color/Duration 主题外=0/0；红线(美团|工资|房贷|open_id) app+docs=0；锚定手机号=0；真实账目=0；_LOCK 物理=0；分支 11=main+在册 feat×9+rescue×1 零 stray；worktree 7 在册；簿记头 edd995b↔07:3x 票对应（REVIEW 07:3x 节=1/progress 行=1）；origin 零触碰。
-- 并发：emulator/flutter/gradle=0（pgrep 实测·无施工流量）。
-- cron 族全 ok：wake b0ea8424 07:45 拍 ok suppressed 实测（cron list·下拍 08:15·空队列自退合规）·watchdog abaa94c7 ok·统一看门狗 169be936 ok·backup 560d719d 今 04:30 拍 ok（连续第三日在册）·需求反思 6f3e81c0 ok。
-- 提示词三口径（046 已归档/done=42/锚点 3a8c16e/wake b0ea8424 :15/:45/com.zangou.runway=build.gradle.kts:19 本拍实测）相符零 edit。
-- 决策模型未调用（无新边界裁决；046 灰区 p=0.54 随周一批 10-19）。
-- 利益点自省：零动作轮持平——产品未更远；唯一主线=SB-012 浩然 7 天真人闸门（浩然侧）。
-- 今日周六无适配审查义务；周一批(10-19)挂账不变。⚡零推送。
+> 【连号 · R23 压缩于 10-18 06:3x 轮】2026-10-17 08:0x 巡检票（零动作·无新审·无合入·无冒烟义务）: 零新审(REQ<REVIEW·IDENTICAL·WAITING=0) · 队列零漂移(012在飞/021挂起·done42·待办0·裁A13到拍✓) · 冒烟不发生(3a8c16e..HEAD=70·app diff=0) · 审计全绿(禁词5元行·裸Color/Duration 0/0·红线0·手机号0·真号0·_LOCK0·分支11·worktree7·簿记头edd995b↔07:3x·origin零触碰) · 并发0(emulator/flutter/gradle pgrep=0) · cron族全ok(wake 07:45拍ok suppressed·watchdog/统一看门狗ok·backup 04:30连续第三日·需求反思ok) · 提示词三口径相符零edit · 决策模型未调用 · 周六无适配义务 · ⚡零推送。
 
 ## 2026-10-17 08:3x 轮 · 零动作轮（无新审·无合入·无冒烟义务）
 - 审查义务不发生：REQ mtime=1792073389（10-15 22:09）< REVIEW=1792195406（08:0x 票）stat 实测；REQ 盘上 vs HEAD diff 空=IDENTICAL；WAITING_HUMAN=0 grep 实测。三实测零新审。
@@ -698,3 +688,20 @@
 - R22 读回轮：05:3x 票(8744ff4)落盘本拍读回 ✓·三实测+stat+日志尾实测·headroom 零调用·交付卫生：落盘票与投递正文分开·投递正文零压缩标记(hash/items compressed 字样零出现)·铁律③✓。
 - 今日周日无周批·周一批(10-19)五件挂账(046灰区复核/合入归属校验条款/禁词补录/key续期/012轮单核对)不变·锚点维持·SB-012 轮单在途。
 - ⚡零推送(队列漂移=0·无新审无结论摘要触发·无冒烟·wake 已告警在册不重复·key 状态零翻转·持平不同步)。
+## 巡检票 120 2026-10-18 06:30（第120轮 · 周日 · 零动作轮 · 持平第117票）
+
+- 结论: PASS · 无新提审（三实测零新审·队列零漂移·冒烟不发生·⚡零推送）。
+- 审查义务不发生：REQ=1792073389（10-15 22:09）< REVIEW=1792275236（06:0x 票写入·119）stat 实测；REQ md5=b20674957747f032256011567066616f 连号第15票（119票第14+1）盘上 vs HEAD=IDENTICAL；porcelain=0；WAITING_HUMAN=0 grep 实测；REQ 禁词=0 grep 实测 → 新审义务零、结论摘要不触发。
+- R22 回读票：119 票（3a0af59·零动作持平116·wake 十连拍）尾段回读 ✓ 实测、内容与盘上相符。
+- 队列零漂移：docs/tasks 活跃仅 SB-012（审查通过·代码闸门已合入·真人闸门在飞跨日第3天·tag v0.1.0=真G5挂账）/SB-021（挂起 v0.2）状态行 grep 合快照；done/=42 ls 实测；待办=0 见底无据不空派（裁A在册·周一批10-19五件挂账不变）→ 无需同步、持平第117票。
+- 决策盘到拍核对：裁A四六（06:3x 预登记「零动作轮持平117下拍核验」）=本拍到达 ✓ 零写 pattern 相符 ✓（REQ未变·队列未变·key态未变·无新边界→无新裁决落写；周日无周批义务）。
+- 冒烟义务不发生：last_smoke_commit 后无新合入——锚点 3a8c16e 维持·业务头 794bb4b 未动·3a8c16e..HEAD app+packages diff=0 文件级实测（git diff --stat 空）·HEAD 3a0af59=119票全 docs 簿记·簿记头 3a0af59(119)↔本票连号第120·ahead=162 实测=161+1 自洽·本票落号 163 下拍核验·origin 29871c7 未动零触碰→JAVA_HOME/emulator 未触发（不发生·未执行·零写 ✓）。
+- 漂移 grep：app/pkg diff=0 免复扫沿册（裸Color 0·motion_spec 18行域常量在册·禁词1行=REVIEW自引用元行·手机号test锚在册真号0·真签号0·_LOCK 物理0 ls 实测「No such file」·分支11·worktree7 在册·无新stray）。
+- 并发0：builder CLI pgrep 实测空（GUI helper 拍除不计·口径㉑）·emulator/gradle/qemu/flutter pgrep=0 实测→builder 撞车零。
+- 🔴 wake 点火：日志尾实测 06:15 拍守卫全过点火即败「This API key has expired」=十一连拍（01:15~06:15·119票十连拍+1）；key 态零翻转（仍 expired 未恢复）·03:3x 已告警不重复·周一批(10-19)点火前置=浩然续key·wake 失败≠派单依据→裁A四六零写维持·06:45 下拍下拍在册。
+- cron 族实测：wake b0ea8424 :15/:45 排程✓·06:15 拍 ok(suppressed) 落拍（生死判定以日志尾=即败·口径⑦）；统一看门狗 169be936 06:0x 拍（stagger 5m）ok 实测=119票「06:03拍未发」到拍销账✓无告警；runway-watchdog abaa94c7 every-2h ok（not requested·拍未发不追）；backup 560d719d 今 04:30 拍 ok 沿册销账（10:30/16:30 待核对·22:30 在册归下拍）；需求反思 6f3e81c0 今晚 21:30 拍挂账；自省 21:00/错误回顾 22:00 今晚到点归晚拍。
+- R23 700档第四次触发：压缩 08:0x 最老票 11行→1行连号·盘上 707 行（R18 <800 维持·下拍 07:0x 归册）。
+- 决策模型未调用（无新边界裁决；046 灰区 p=0.54 随周一批 10-19·挂账五件账本不变·012 闸门拍下拍复看条款在册⑳·07:00 跨日第3天首复看归下拍）。
+- 利益点自省：零动作轮持平——产品未更远；主线=SB-012 浩然7天真人闸门（浩然侧）+ 续key（浩然侧·周一批点火前置）。
+- 周日无适配审查义务；周一批(10-19)五件挂账不变（046 灰区 p=0.54 复核/合入归属验证条款/禁词补漏/续key/SB-012 轮票对照）。
+- 铁律①②③执行：headroom retrieve 两次 not found（本拍开头2处压缩段）→ 按②不重试不报错不中断·改盘上实测回读 ✓；落盘票与投递票分开 ✓（投递票=零推送 NO_REPLY）；正文未引用被压段盘上原文 ✓。
