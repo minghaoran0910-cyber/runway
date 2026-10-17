@@ -432,3 +432,14 @@
 - _inbox 无新霞（ls -t 头=dispatch.log）；今日周六非周一无周审义务（SUPERVISOR 口径）；决策模型未调用（零动作轮无边界裁决·046 灰区仍挂周一批）。
 - 堵点=SB-012 真人闸门（浩然侧七天制·第1轮 1/7 在飞·19:15 wake 拍零动符合预期）；持平×95。
 - 簿记：本票追加法合规（先 cp 全文 /tmp→append→mv 覆回·git diff --numstat deletions=0 核）；progress 追加唯一行「2026-10-17 19:3x」；快照双字段（drift_audit_1930_1017/benefit_1930_1017）脚本文件法落盘（stdin 直喂 Non-UTF-8 旧坑规避）；簿记头 7ffb6de（19:00 票）→本票（自验三连以 commit 回显为准）。零推送（⚡条款·6h 无推送线=18:3x 已补投，距本拍 <6h 看门狗不触发）。
+
+## 2026-10-17 20:00 监工巡检票（零动作·裁A守场）[supervisor patrol]
+- 零新审：REQ(1792073389/10-15 22:09:49)<REVIEW(1792236906/19:35) stat 实测；盘上 vs HEAD:REVIEW_REQUEST.md diff=0行 IDENTICAL；grep WAITING_HUMAN=0——三验相符不重审。
+- 队列零漂移：SB-012 状态行实测「审查通过·代码闸门已合入·7天真人闸门在飞1/7（全验过才tag v0.1.0·暂不归档）」；SB-021 挂起v0.2；done/=42 双测（git ls-files 42/磁盘 ls 42）。待办≤2无据不空派在册；周一批(10-19)挂账含SB-046灰区p=0.54随批复核。
+- 冒烟义务不发生：3a8c16e..HEAD=96 全簿记票·锚定范围非docs文件=0实测·app diff=0文件实测；main 无新合入、G 里程碑卡无新PASS。锚点维持3a8c16e（码体=794bb4b）。
+- 漂移体检全绿：禁词十词 grep app/lib=13行全在3枚元引用文件（achievement.dart词表本体+goal_ladder注释+week_warm:7注释），UI真实文案=0；红线(美团|工资|房贷|open_id) app+packages=0；手机号 lib=0（命中11处全在test假号fixture，在册口径）；399900=2处全goal_ladder PriceRef/LadderRung公开参考价在册豁免零新锚；Color(0x 41行全token豁免区豁免外=0；Duration宽grep 33行豁免外15=logic/diagnostics日历与连接超时语义+ui/root_shell:38数据新鲜度判定（非动画token）——宽grep口径登记，锚范围app diff=0与在册一致无新增漂移；_LOCK物理0。
+- 并发全0：emulator/qemu/flutter build/GradleWrapperMain pgrep实测无命中；OpenCode.app GUI闲置驻留非CLI构建不占闸。
+- cron族全绿：wake b0ea8424 19:45拍ok suppressed下拍20:15自退合规；watchdog abaa94c7 19:4x拍ok（15:46单红已销账）下拍约21:4x；统一看门狗169be936 20:0x拍ok；需求反思6f3e81c0下拍21:30；backup 560d719d今04:30拍ok连续第七日下拍明04:30；★20:00汇报fdd0b22d本拍ok已达=今日收口完成；监工本体19:30拍ok suppressed（无连红⚡⑤未触发）；退役wake×4 disabled在册未动。
+- 提示词三口径实测相符零edit：appid=com.zangou.runway（build.gradle.kts:19 本拍sed实测）/SB-046归档done/=42/锚点3a8c16e。golden归档docs/designaudit/沿册（最新2026-10-15-hero-precision）。_inbox无新消息（最新仍dispatch.log）。
+- 交付卫生：追加法合规=先cp基线后append+numstat核deletions=0纯增；投递正文零压缩标记（10-17 18:00 headroom事故口径在册）。
+- 周六无适配审查义务；决策模型未调用（无新边界裁决）。持平×96·堵点=SB-012真人闸门（浩然侧第1/7天，v0.1.0预计10-23/24）·⚡零推送（19:3x先例：今日收口已由20:00汇报拍承担，本拍静默不重复）。
