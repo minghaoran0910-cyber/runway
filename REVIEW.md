@@ -641,3 +641,20 @@
 - 周日无适配审查义务（昨日 10-17 六项全过已登记）；周一批（10-19）挂账不变（含 046 灰区决策裁决 p=0.54、wake三易主括注统翻、headless 截图入库路径等）。
 - 落票方式: 本轮全量重写（cat 拼接+原子 mv），半截自查条款不适用（历5次半截均为 append 轮·沿册）。
 - ⚡零推送本拍静默（队列零漂移·无新审·无冒烟义务·非周一）。
+
+## 巡检票 2026-10-18 03:3x（无人监工 · 零动作轮 · 持平×111 · 🔴wake点火纠偏）
+
+结论: PASS（无新提审，守场轮；另发一条点火链路告警）
+
+- 零新审三实测: REQ mtime 1792073389(10-15 22:09:49) < REVIEW mtime(03:02 本票前)；REQ md5 b2067495… 八票连号；WAITING_HUMAN grep=0；盘上 REVIEW_REQUEST 未提交 diff 空。
+- 队列零漂移: docs/tasks 根=2 卡实测（SB-012 真人闸门在飞/SB-021 挂起，状态行合快照）；done/=42 ls 实测、done 头=SB-046 ls-tree 实测；待办 0 见底无据不派（裁A 在册，周一批 10-19 挂账）。
+- 冒烟不发生: 3a8c16e..HEAD=112 拍全审查记录（docs 110 + REVIEW.md/progress.md 白名单 2），app/pkg diff=0 行，业务头=794bb4b 维持，锚点维持→无新业务合入，模拟器验收不触发。
+- 漂移审计全绿: 裸Color 0/裸Duration 0（git grep 口径）·禁词 app/lib=0（全库仅 REVIEW.md 自引用元行）·红线 0·手机号 E 宽松式 0 真实命中·真实账目 0·PII 0·done=42 复核。
+- 📌 口径归并: runway-dispatch.log 盘上已不存在（旧登记 1791706204 无外翻作废），主体并入 runway-wake.log（13.6MB/8.6万行，03:15 拍）；外翻巡检此后以 wake 日志尾部为准。
+- 🔴 告警（本轮新见·即推）: wake 日志体实测，01:15/01:45/02:15/02:45/03:15 五连拍点火「守卫全过」但 builder（opencode）唤起即败 "This API key has expired. Create a new API key in OpenCode Console"（行 85990–86014，每拍 6 行错误块）。纠偏: 02:00 票「01:45 执行成功·key 已恢复·首现ok」系误判——该拍读的是 cron lastStatus=ok(suppressed) 表面态（cron 本体正常完成），未核日志体，01:45 实已在报错。影响: 冻结+空队列下实时损失=0；但周一批（10-19）全部卡依赖 wake→builder 点火链，key 不续=批整体停摆，属前置修复项。行动（浩然侧）: OpenCode Console 换新 key 并更新 builder 配置；巡检侧: 每拍加检 wake 日志尾三连拍同错，错停=点火恢复再登记。
+- 🟡 漂移登记: 历史机制锁文件（docs/tasks/SB-009-rework-*.lock、docs/merge-queue.lock）已不存在（ls 实测+git ls-files 无档）——机制已由单一执行者+wake :15/:45 替代，无功能影响；快照「2 _LOCK 仍在」口径作废，本票清账。
+- 并发 0: emulator/flutter/gradle/openjdk 实测 0；opencode CLI 进程 0（GUI 面板不计，口径㉑）；REQ 盘验 diff=0 无并发写。
+- 簿记: HEAD=7d8f3aa（03:00 票）·origin=29871c7 未动·ahead=156=44+112 自洽（本票后 157=44+113）·porcelain=0·分支 11（main+在册feat×9+rescue×1）零stray·远端 3·worktree 7 在册。
+- cron族: wake b0ea8424 表面态 ok(suppressed)（03:15 拍·下拍 03:45）·watchdog abaa94c7 ok·统一看门狗 169be936 ok——见上 🔴，wake「ok」≠点火成功，巡检口径拆两层「cron 表面态/日志体」。
+- 周日无适配审查义务（10-17 六项全过在册）；周一批（10-19）挂账不变（046 灰区裁决 p=0.54、wake 三易主括注统翻、headless 截图入库路径、＋新增: builder key 续期确认）。
+- 持平×111。堵点=SB-012 真人闸门（浩然侧跨日第3天）＋新增 builder key 过期（浩然侧）。⚡本轮推送一条（点火失败告警+纠偏）。
