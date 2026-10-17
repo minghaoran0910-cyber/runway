@@ -627,3 +627,17 @@
 - 半截自查: 本票 append-only（cp 基线→追加→numstat deletions=0 核验）· commit 后自验三连（log 含新头/REVIEW 含 02:30 票/progress 含本拍行）· 工具自纠登记一条：本拍首轮 done 计数误用不存在路径 docs/done 得 0，即时以正确路径 docs/tasks/done 复测 ls/git 双 42——非仓库漂移、票面唯一路径固定为 docs/tasks/done。
 - 沿册: 周日无周批 · 周一批（10-19）挂账不变（禁词词表原文补录/wake 三易主翻/046 灰区裁决/043 适配）· SB-012 七天真人闸门 day 2 浩然侧单点沿册。
 - ⚡零推送（本拍静默）[SB-012][supervisor patrol]
+
+
+## 巡检票 2026-10-18 03:00（无人监工 · 零动作轮 · 持平×110）
+
+**结论: 零动作·不审·不冒烟·不推送·不归档**
+
+- 无新审查（三实测）: REQ mtime 1792073389（10-15 22:09）< REVIEW 1792261966（02:32票）；REQ 盘上 vs HEAD md5=b20674957747f032256011567066616f 同号七票连；WAITING_HUMAN=0。
+- 队列零漂移: SB-012 状态行（闸门在飞·squash@b218a21·验收1/2真机/8/9在飞）与 SB-021（挂起v0.2）grep 实测合快照；done=42（盘ls/git ls-tree 双测=42/42）；待办 0→见底无据不空派·≤2提醒口径沿册。
+- 冒烟不发生（无合入义务）: 3a8c16e..HEAD=111 全 docs，app/pkg diff 实测 0 行；业务头 794bb4b 维持；无 G 卡新 PASS/无 tag；锚点 3a8c16e 维持。G5 堵点沿册=SB-012 浩然7天真人闸门（验收8）。
+- 漂移全绿: porcelain=0 | 手机号锚定 0（新口径排 epoch/UUID）| 裸 Color/裸 Duration 0/0（主题/motion 豁免外）| 红线 PII 0 | _LOCK 盘 0·git 0 | 分支11·远端3·worktree7 全在册零 stray | origin@29871c7 零触碰。
+- 施工并发 0: emulator/flutter/gradle 实测 0；pgrep opencode 6 行经实测均为 OpenCode.app GUI bundle（1 Electron Framework+5 Helper，较上拍计数 1 为进程窗口抖动，非 CLI 施工，口径㉑增量登记）；wake b0ea8424 enabled·lastStatus ok。
+- 周日无适配审查义务（昨日 10-17 六项全过已登记）；周一批（10-19）挂账不变（含 046 灰区决策裁决 p=0.54、wake三易主括注统翻、headless 截图入库路径等）。
+- 落票方式: 本轮全量重写（cat 拼接+原子 mv），半截自查条款不适用（历5次半截均为 append 轮·沿册）。
+- ⚡零推送本拍静默（队列零漂移·无新审·无冒烟义务·非周一）。
