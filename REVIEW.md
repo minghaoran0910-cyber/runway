@@ -558,3 +558,19 @@
 - cron族全绿（只读实测）：本体19b5f29f running；wake b0ea8424 下拍 :45 ok suppressed；runway-watchdog abaa94c7 ok；统一看门狗 169be936 ok；backup 560d719d 下拍 04:30 排程 suppressed；需求反思 6f3e81c0 昨21:30已落 ok（下拍21:30）。
 - 交付卫生：上下文压缩标记出现，按铁律②未走retrieve不重试不报错，基于可见内容照常收口；票（正文进git）与投递正文分离。
 - 持平×104。堵点=SB-012 真人闸门（浩然侧 1/7，v0.1.0 预计 10-23/24）。今日周日无周批义务；周一批（10-19）挂账不变。⚡零推送本拍静默。
+
+
+## 巡检票 2026-10-18 00:30
+
+- 触发：巡检 cron 19b5f29f 00:30 拍（周日凌晨拍）。动作：只读巡检+本票+快照，未动业务代码，origin 零触碰，零合入。
+- 新审查：无。REQ mtime 1792073389 < REVIEW mtime 1792253011（00:00 票翻）+ REQ 盘上 md5=HEAD md5=b20674957747f032256011567066616f IDENTICAL（三票连号）+ WAITING_HUMAN=0 复测——三实测零新审、零审请求（G 卡无新 PASS），无审查义务，无「审后结论摘要」义务。
+- 任务卡同步：零漂移，不推送（凌晨拍按沿册零推送口径）。docs/tasks 顶层=2：SB-012 状态行实测「审查通过·代码闸门已合入（squash@b218a21；验收1/2真机/8/9在飞=监工三端走查+浩然7天真人，全验过才打 tag v0.1.0）」=闸门在飞合快照；SB-021「挂起 v0.2」合册；done/=42（ls=42·git ls-files=42 双测）；待办卡=0（≤2 提醒口径沿册：见底无据不空派——dispatch.log mtime 1791706204 未翻=无新素材，周一批 10-19 开卡依据挂账不变）。
+- 模拟器验收：义务不发生。3a8c16e..HEAD=106（024ff5a 后=105·0250c8e 后=106 实测；较 00:00 票「票前104」差+1=簿记口径含糊·沿 21:0x 裁决先例判非漂移销账·后续票统一提交后实测口径）全 docs：git diff --name-only 3a8c16e..HEAD -- app packages=0 文件·非(md/png/json/txt)改动=0 文件 → 无新合入、无 G 新 PASS；冒烟锚点维持 3a8c16e=last_smoke_commit，不起模拟器。
+- 漂移 grep（全实测）：禁词表（又花掉|只剩|还差|超支|别买|不该|亏了|没了|花光|穷）全库命中 39 行（含票+PNG）均元：achievement.dart:13-22 禁词表本体 10 行·goal_ladder:7/:117·week_warm:7 注释复述 3 行·test 回归断言 15 行（achievement1/budget4/goal_ladder6/grain_report2/week_warm2·在册）·规范原文 DESIGN_SYSTEM 2+_inbox 宪法 2·归档票 reviews/done 5·REVIEW 票内 1（本票追加 regex 复述 1 行·皆元）·golden PNG 二进制字节假阳 1（排 PNG 沿册口径）；app/lib 排表本体与注释行实测=0=真实 UI 文案零命中（沿册行号 achievement:13/goal_ladder 系）。手机号锚 regex 全库=16 行=test epoch 锚 11（identity×3/parse×8 精确合册）+ workflows DIAG_EXPIRY_MS=1793109600000 epoch×1 + pbxproj Xcode hex 33E51914231749380026EE4D×2（UUID 口径在册）+ 票/册引用×2，真号=0。红线（美团|工资|房贷|open_id）非 md 与 app+packages+tool=0/0。裸 Color（排 ui/theme|ui/motion）=0；Duration 毫秒字面量（排 ui/theme|ui/motion）=0——域常量 Duration(seconds/hours/days)（cooloff 24h·root_shell 节流 2s·diag 心跳 5s/30s·dashboard/estimate 日期算术等）=业务时长在册豁免不变。_LOCK：find 物理=0，命中仅 LOOP/.gitignore/票元引用。porcelain 终态=0。
+- 结构与并发：分支=11（main+在册 feat×9：033/034/037/038/039/040/041/043/045+rescue×1：sb033-rework-rescued-3e4918c）零 stray，C2 全列合册；worktree=7 合册；pgrep opencode（排 Helper）=0·emulator/adb=0·窗口外无施工拍 → 并发全 0；origin 零触碰（本地 only，HEAD=0250c8e，业务锚点 3a8c16e 维持；origin/main=29871c7 归属核对=周一批挂账沿册）。
+- cron 族（只读实测）：本体 19b5f29f running=本拍；wake b0ea8424 ok (suppressed)——00:15 拍 suppressed 合规（07:30-23:30 窗口外守卫）、下拍 00:45 仍窗口外 suppressed；runway-watchdog abaa94c7 ok（57m 前）；统一看门狗 169be936 ok（40m 前）；runway-backup 560d719d ok (suppressed) 下拍 04:30；需求反思 6f3e81c0 ok——昨 21:30 已落（not delivered=无新下发，dispatch.log 未翻互证）。
+- 审查结论：本拍无新判定（零新审），无逐条理由产出；decision_evaluate 未调用（无新边界裁决）。堵点不变=SB-012 七天真人闸门（浩然侧第 2 天：10-18 轮登记在飞，轮单核对=周一批 10-19 在册项）；G5 tag v0.1.0 预计 10-23/24 维持。
+- 持平与风险：持平×105（00:00=104，+1）。主要变化=无。沿册风险不变（周一批 10-19 挂账：wake 三易主括注统翻·origin ref 位移归属核对·kill 判定条款草案·LOOP 原子写条款草案·headless 截图入库路径条款·SB-046 灰区 p=0.54 随批复核）。
+- 沿册增量㉛：簿记头=0250c8e→本票（commit 回显实测·自验三连：log 含新头/本票标记唯一/porcelain=0·cp HEAD 基线 cmp 一致防并发票+numstat 删 0+tmp 追加 mv 原子）。
+- 下一拍目标：01:00 巡检照常——REQ 翻动/队列漂移/合入动作三信号，无事零动作沿册。本拍⚡零推送静默。
+- 交付卫生：本拍上下文含压缩标记，按铁律②未走 headroom_retrieve、不重试不报错，全部盘上复测收口；票（正文进 git）与投递正文分离，投递正文仅结论摘要。
