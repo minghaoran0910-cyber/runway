@@ -330,3 +330,18 @@
 - 利益点自省: 持平——零动作审计轮守住 SB-046 成果（首页 hero 每次可见），无机制漂移、无 SilentBook 旧病同构；计数 更近(046@10-15 22:0x)→持平×87(本拍)，无『更远』信号不触发排期升级。
 - 堵点: SB-012 七天真人闸门（tag v0.1.0 前置，浩然侧）；周一批 10-19。
 - ⚡收口: 常规轮零推送。
+
+## 巡检票 2026-10-17 16:30 — 零动作轮
+- 结论: PASS（无新审）——REQ mtime 1792073389 < REVIEW 1792224125（stat 实测）；盘上 vs HEAD diff 空 IDENTICAL；WAITING_HUMAN=0。三实测齐→不进入审码。
+- 队列: 零漂移——活跃2卡状态行 grep 合快照（SB-012 审查通过·真人7天闸门在飞 / SB-021 挂起v0.2）；done/=42 ls-tree 实测；待办0，裁A冻结下见底无据不空派。
+- 冒烟: 义务不发生——3a8c16e..HEAD=88（票前实测，上票87+簿记1自洽），app diff=0 文件实测（纯 docs/簿记）；锚点维持 3a8c16e，模拟器未起（pgrep=0）。
+- 漂移审计: 全绿——禁词 app 口径5行均元引用（achievement:13/goal_ladder:7/cooloff_test:183/experiment_test:148/goal_ladder_test:127，行号与 14:0x 票一致，真实文案=0）；theme/motion 外裸 Color(0x=0、Duration=0；红线（美团|工资|房贷|open_id）app/yaml=0；手机号锚（排UUID/epoch）=0；真实账目=0；_LOCK find=0；分支11=main+在册feat×9+rescue×1 零 stray；worktree=7；porcelain=0；origin 零触碰（ahead=132 簿记口径自洽）。
+- 并发: emulator/flutter/gradle=0（pgrep 实测）。
+- cron 体检: wake b0ea8424 ok suppressed（16:15拍·下拍16:45）；统一看门狗 169be936 ok（16:0x拍·下拍约18:0x）；需求反思 6f3e81c0 ok（下拍21:30）；backup 560d719d ok（今04:30拍·连续第五日在途）；★runway-watchdog abaa94c7 本拍复核=仍为同一 15:46 error 拍（44m前·期间无新拍），单红未增=观察登记续在册（挂账⑦口径），下拍约17:2x-18:4x（every 2h），17:30 票复核——若翻两连败即按 ⚡⑤ 呈报浩然。
+- 提示词新鲜度: 三口径实测相符零 edit——最高卡号 SB-046（done/=42）/applicationId=com.zangou.runway（build.gradle.kts:19 本拍实测）/锚点 3a8c16e 现行；wake :15/:45 与巡检 :00/:30 错峰无失配；golden 归档 docs/designaudit/（tail=2026-10-15-hero-precision）沿册。
+- 适配审查: 周六非周一，不输出（周一批 10-19 挂账不变）。
+- 决策模型: 未调用（本轮无新边界裁决；046 灰区 p=0.54 随周一批）。
+- 簿记纪律: 追加法执行（先 cp 基线后 append，提交 numstat 核 deletions=0）；提交前查 branch=main ✓；簿记头 96c9f16↔16:00 票在册、无半截现场。
+- 利益点自省: 持平——零动作审计轮守住 SB-046 成果（首页 hero 每次可见），无机制漂移、无 SilentBook 旧病同构；计数 更近(046@10-15 22:0x)→持平×88(本拍)，无『更远』信号不触发排期升级。
+- 堵点: SB-012 七天真人闸门（tag v0.1.0 前置，浩然侧）；周一批 10-19。
+- ⚡收口: 常规轮零推送。
