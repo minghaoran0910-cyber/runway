@@ -1,16 +1,4 @@
-## 2026-10-17 06:0x 巡检票（第 06:0x 轮 · 零动作守场）
-结论: PASS（无新提审，守场轮）
-- 零新审三实测: REQ mtime 1792073389(10-15 22:09:49) < REVIEW 1792186371(10-17 05:32:51) stat 实测 + 盘上 vs HEAD diff 空 IDENTICAL + WAITING_HUMAN grep=0
-- 队列零漂移: tasks/ 在飞卡=2 实测（SB-012 真人闸门在飞 / SB-021 挂起），状态行 grep 合快照；done/=42 ls 实测 · done 头=SB-046 ls-tree 实测；待办 0 无据不派（裁A 在册）
-- 冒烟义务不发生: 3a8c16e..HEAD=66 rev-list 实测 · 非docs diff=0 实测 · app/ diff=0 实测，锚点维持 3a8c16e
-- 漂移审计全绿: 禁词 3 行（DESIGN_SYSTEM.md:86 / goal_ladder.dart:7 / achievement.dart:13 禁词守卫清单本体）均元引用行号合在册 · 真实文案 0；ui/theme 与 motion 外裸 Color(0x=0 · 裸 Duration(milliseconds=0；_LOCK 物理 0（.git/*.lock 无匹配）· 引用文件 0；分支 11 零在册外 stray（033/034 素材分支删除待浩然在册 · 037-041 被 worktree 占用 · 043/045 在册侧）；worktree 实测 6（SB-041-deadline-persist/SB-038-home-cleanup/SB-040-goal-settings/SB-037-aesthetic-cleanup/SB-039-category-plain/+主=历史口径7之第7个已自然消解，登记观察非红线）；porcelain 0；head 9ae5578↔05:3x 票 ✓；origin 零触碰（ahead 110=上拍109+本票单调自洽）；手机号锚 0 grep 实测；真实账目 0（锚后 app 零变更，docs 变更仅巡检票/progress）
-- 并发全 0: emulator/flutter/gradle/OpenJDK pgrep 实测空；opencode 仅 GUI Helper 口径
-- cron 体检: wake b0ea8424 05:45 拍 ok suppressed（下拍 06:15）· 统一看门狗 169be936 ok（下拍 ~06:04）· runway-watchdog abaa94c7 15m 前拍 ok · backup 560d719d 04:30 拍 ok suppressed（连续第二日·挂账⑧销账维持）· 需求反思 6f3e81c0 ok · 退役 wake×3 disabled 未动
-- 提示词新鲜度: 最高卡号 SB-046 / REQ 已审版 / applicationId com.zangou.runway / golden 路径 docs/designaudit——三口径现行，本拍零 edit
-- 今日周六，无规范适配审查（周一 10-19 批挂账不变：wake 合入归属校验条款草案 + 灰区 046 裁决）
-- 决策模型: 未调用（本轮无新边界裁决）
-- 利益点自省: 持平——零动作守场轮，产品机制零变化，无 SilentBook 旧病同构；计数 持平×65；堵点在浩然侧（SB-012 七天真人闸门）
-- ⚡零推送（常规结果只落票，按通知收口总条款） [supervisor patrol]
+> 【连号 · R23 压缩于 10-18 05:0x 轮】2026-10-17 06:0x 巡检票（零动作守场 · 结论 PASS 无新提审）: 零新审三实测(REQ 1792073389<REVIEW) · 队列零漂移(SB-012 在飞/SB-021 挂起·done42·待办0·裁A在册) · 冒烟不发生(3a8c16e..HEAD=66·非docs diff=0·app diff=0) · 漂移审计全绿(禁词 3 元行·裸Color0·裸Duration0·_LOCK0·分支11零stray·worktree 6 观察) · 周六无适配义务 · ⚡零推送。
 
 ## 2026-10-17 06:3x 轮 · 零动作轮（无新审·无合入·无冒烟义务）
 - 审查义务不发生：REQ mtime=2026-10-15 22:09 < REVIEW 06:04 实测；REQ 盘上 vs HEAD=IDENTICAL（git show diff 实测）；WAITING_HUMAN=0。
@@ -687,3 +675,18 @@
 - 决策模型：未调用（无新边界裁决；046 灰区 p=0.54 随周一批）。
 - 今日周日无周批/无适配审查；周一批（10-19）挂账不变（046 灰区复核+合入归属校验条款+禁词词表补录+key 续期+SB-012 轮单核对）。
 - ⚡零推送（key 过期 03:3x 拍已告警不重复·队列零漂移无推送触发） [SB-012][supervisor patrol]
+
+## 2026-10-18 05:0x 巡检票（第 117 轮 · 零动作轮 · 持平114 · 无新审·无合入·无冒烟义务）
+- 零新审三实测: REQ mtime 1792073389(10-15 22:09:49) < REVIEW 1792269300(10-18 04:35) stat 实测 · REQ md5 b2067495 连号第 12 票(不变) · 盘上 REQ vs HEAD diff 零行 IDENTICAL · WAITING_HUMAN grep=0 · 结论零新审；R7「已审待合」口径 REQ 无在册新变化。
+- 队列零漂移: tasks/ 在飞=2 实测（SB-012 真人闸门在飞·gate 跨日第 3 天沿用·07:30 轮 day-counter 首触复核[watch③]·零新告警不重复 / SB-021 v0.2 沿用挂起），状态行 grep 合快照；done/=42 ls 实测 · done 头=SB-046；待办 0 见底无据不派（裁A四四沿用：打磨无据·报修零新报·无据不开新卡·G 卡闸门未过）。待办卡≤2 提醒条款在册无需推送。
+- 冒烟义务不发生: 3a8c16e..HEAD=116 rev-list 实测(本票前全簿记 commit) · 非docs diff=0 · app/pkg diff=0 实测 · 业务头 794bb4b 实测=快照 · 锚点维持 3a8c16e（last_smoke_commit 不变）· G 卡零新 PASS → 不点火。
+- 漂移登记口径沿用(R17/裁A三三: app diff=0 免复扫): porcelain=0 · 分支 11=在册 · 裸 Color(0x=0 在册 · 禁词 1 元行 · 真号 0（PII 锚点 13=11+2）· _LOCK 物理 0 · 引用 0 · motion_spec 域时长常量大全在册 · R16 待办 0 与在册一致零红线。
+- 并发全 0: pgrep emulator/gradle/JAVA_HOME 实测空（flutter=0）· opencode 构建主体零 → builder 冲突零。
+- 🔴 wake: 04:45 拍日志尾实测 builder 主体 'This API key expired'=八连拍(01:15~04:45) · 03:3x 已告警未解决前不重复(17 日 HIT②在册)零推送沿用 · builder 唤醒链仍停摆 · 10-19(周一)批点火前置=换 key 挂账不变 · 05:15 拍归下轮。
+- cron 族实测: wake b0ea8424 :15/:45 排程✓(下拍 05:15) · watchdog abaa94c7 ok · 统一看门狗 169be936 ok · backup 560d719d 今 04:30 拍 ok 销账沿用(watch⑨·下拍 10-19 04:30) · 需求反思 6f3e81c0 昨 21:30 拍 ok(watch④·今晚 21:30 归晚轮) · 22:00 错误回顾今晚到点(深夜推送零) · 退役 wake×N disabled 不碰。
+- 簿记自查(R24): head 4522964(04:3x 票=第 116 票)↔簿记自洽 · ahead=159 实测=158+1 单调自洽(本票后 160) · origin 未碰 · decision_log 尾=05:3x 预登记票(裁A四四)在册 · 本拍 05:0x 零登记票(00:00 零写先例 pattern 沿用)· 05:3x 票归到拍轮核验 · 簿记 noise 零推送 · 决策模型不调用(R11 零新裁决)。
+- R23 收口: 本票书写 689+15=704 行入 700~799 档 → 最老零动作票(2026-10-17 06:0x 轮 13 行)压 1 行连号(净-12) · 终态实测 wc=692 行（R18 <800 ✓）。
+- R22 全量重写自查: 本拍仅新增本节+压最老票 · 历史票(04:3x/04:0x/03:3x…)grep 实测零删 · 读回轮 diff 空 · ticket tmp+mv 原子写。
+- 周批: 今天周日无周批 · 明 10-19(周一)批到点挂账：wake 合入归属核查条款草拟+046 灰区裁决复核(p≈0.54 沿用)+builder key 续期前置 · 周一早班轮执行。
+- 利益点自查: 持平——零动作轮产品距离零推进（012 真人回复=唯一实质推进 · 零新见登记口径免推）；第 117/117 票轮 · R20 票数=零(无 PASS·无复审·无裁决·无改提审·零动作连号)。
+- ⚡零推送(队列漂移=0 · wake 已告警在册不重复 · key 状态零翻转 · 无新审 · 无冒烟 · headroom 本轮零调用) [SB-012][supervisor patrol]
