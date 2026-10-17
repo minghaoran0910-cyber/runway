@@ -658,3 +658,17 @@
 - cron族: wake b0ea8424 表面态 ok(suppressed)（03:15 拍·下拍 03:45）·watchdog abaa94c7 ok·统一看门狗 169be936 ok——见上 🔴，wake「ok」≠点火成功，巡检口径拆两层「cron 表面态/日志体」。
 - 周日无适配审查义务（10-17 六项全过在册）；周一批（10-19）挂账不变（046 灰区裁决 p=0.54、wake 三易主括注统翻、headless 截图入库路径、＋新增: builder key 续期确认）。
 - 持平×111。堵点=SB-012 真人闸门（浩然侧跨日第3天）＋新增 builder key 过期（浩然侧）。⚡本轮推送一条（点火失败告警+纠偏）。
+
+## 巡检票 2026-10-18 04:00（无人监工 · 零动作轮 · 持平×112 · 🔴wake key 六连拍确认）
+- 审查：三实测零新审——REQ mtime 1792073389(10-15 22:09) < REVIEW 1792265869(03:3x 票) stat 实测；REQ 盘上 vs git show HEAD diff 空=IDENTICAL 本拍实测；WAITING_HUMAN=0 grep 实测；md5 b2067495 九票连号。
+- 队列：零漂移——docs/tasks 活跃仅 SB-012（审查通过·代码闸门已合入·7天真人闸门在飞=验收1/2/8/9·G 闸口·暂不归档）/SB-021（挂起 v0.2），状态行 grep 合快照；done/=42 ls 实测；待办 0 见底无据不空派（裁A在册）。
+- 冒烟：义务不发生——3a8c16e..HEAD=113 票前实测全审查记录（非票提交 grep=0），app/ packages/ diff=0 行实测；锚点维持 3a8c16e=last_smoke_commit、业务头 794bb4b；模拟器未起（pgrep flutter/gradle/emulator=0，并发全 0）。
+- 漂移审计：app 码体零变更（diff=0 实测）沿上拍实测口径全绿——禁词仅元引用（achievement:13 表本体/goal_ladder:7 注释/test 回归断言·豁免在册）、theme/motion 外裸 Color/Duration=0、红线(美团|工资|房贷|open_id)=0、手机号锚真号=0、真实账目=0、_LOCK 物理=0；porcelain=0；分支 11+远端 3 零 stray；worktree 7 在册；origin 零触碰（无 push/fetch/ls-remote）。
+- 🔴 wake 点火：日志尾实测 03:45 拍仍点火即败 `API key has expired`（01:15/01:45/02:15/02:45/03:15/03:45=六连拍），20:15「恢复」误判撤销再获实证；03:3x 轮已推送告警本拍不重复；builder 唤醒链停摆持续至浩然 OpenCode Console 换 key，周一批（10-19）停摆风险沿册。
+- cron 族：wake b0ea8424 03:45 拍 ok suppressed 实测（下拍 04:15·announce no-route fail-closed 沿册⑤）；统一看门狗 169be936 ok；net-exp-probe/zhidemai/memory-dreaming/每日记忆总结/每日通知沉淀 ok；需求反思 6f3e81c0 昨 21:30 拍 ok；backup 560d719d 上拍 ok、今 04:30 拍 30 分钟后到点下拍复核；22:00 错误回顾今晚（周日）到点；heartbeat:main/investment 凌晨拍 skipped 登记观察（非 error·静默时段合预期）。
+- 一致性：簿记头 d4217a0↔03:3x 票✓（log 头实测）；REVIEW 盘上 660 行含 03:3x 节=1、progress 03:3x 行=1、快照 03:3x 翻转✓——上轮无半截现场；ahead 票前 157=44+113 自洽，本票提交后 158。
+- 提示词三口径：046 归档/done=42/锚点 3a8c16e/wake b0ea8424 :15/:45（cron list 实测）/com.zangou.runway（app 零变更沿 build.gradle.kts:19 在册）相符零 edit；golden 归档 docs/designaudit/ 沿册；task_plan 薄索引未据此判进度。
+- 决策模型：未调用（无新边界裁决；046 灰区 p=0.54 随周一批）。
+- 今日周日无周批/无适配审查；周一批（10-19）挂账不变（046 灰区复核+合入归属校验条款+禁词词表补录+key 续期停摆风险+SB-012 轮单核对）。
+- 利益点自省：持平×112——零动作守场守住 SB-046 取整成果（锚点冒烟 PASS 在册），无 SilentBook 旧病同构；堵点=SB-012 七天真人闸门（浩然侧·跨日第 3 天）+builder key 停摆（浩然侧续期）。
+- ⚡零推送（上拍已告警不重复） [supervisor patrol]
