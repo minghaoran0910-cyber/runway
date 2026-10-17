@@ -360,3 +360,15 @@
 - **观察登记：** 本轮无新半截现场（16:30 票 b25ee0c 四处在册实测、快照上拍已翻无滞后）。
 - 持平×89。堵点仍=SB-012 七天真人闸门（浩然侧）。
 - ⚡收口: 常规轮零推送。
+
+## 巡检票 2026-10-17 17:34（零动作轮）
+
+- 结论：零动作轮。REQ mtime=1792073389（10-15 22:09）< REVIEW=1792227807（17:00 票）+ 盘上↔git show HEAD diff=IDENTICAL + WAITING_HUMAN=0 三实测 → 零新审（REQ 盘上=SB-046 已审版勿重审·在册）。
+- 队列：零漂移。活跃卡仅 SB-012（状态：审查通过·代码闸门已合入，待 7 天真人闸门）/SB-021（挂起 v0.2），与快照 queue 一致；done/=42（git ls-tree 实测回显）；卡号计数器=46；待办=0（裁A 下只冻合入但现无新卡可开·沿册不自派）。
+- 冒烟：义务不发生——3a8c16e..HEAD=90 提交（git log 计数实测），`git diff --name-only 3a8c16e..HEAD -- app/`=0 文件 → 锚点维持 3a8c16e（REVIEW 10-15 22:5x PASS 在册），模拟器未起。并发核查：emulator=0/gradle=0/opencode=0（pgrep 实测），零互踩。
+- 漂移与一致性审计（全绿）：禁词 app/lib 命中 2 行=均元引用豁免（achievement.dart:13 运行时禁词表定义本身 + goal_ladder.dart:7 注释复述禁令，行号本轮实测与历票一致，沿 04:0x 决策 p=0.75 口径），用户可见文案=0；app/test 3 行均禁词回归断言（cooloff_test:183/experiment_test:148/goal_ladder_test:127）。theme/motion 外裸 Color(0x=0、裸 Duration(milliseconds:=0。红线 美团|工资|房贷(*.dart/*.yaml)=0、open_id=0、锚定手机号=0、真实账目=0（app diff=0 零新增）。_LOCK find=0；工作树 0 行（status --porcelain 实测）；分支 11=main+feat×9（033/034/037-041/043/045）+sb033-rescue 全在册零 stray，origin 零触碰（无 push/fetch，remotes/origin/feat/SB-038 为在册历史镜像不动）。main 头 b882fad↔REVIEW 17:00 票节✓；task_plan 未据此判进度✓。
+- cron 族：巡检 19b5f29f running（本拍）；wake b0ea8424 ok suppressed（17:15 拍下拍 17:45）；★runway-watchdog abaa94c7 复测=cron list 实测 status=error/Last≈15:46 红拍/Next≈17:4x——本票（17:34）仍早于下拍、期间无新拍，单红续挂账第七项不变；若下拍再败即两连败 → 按 16:30 票裁「⚡⑤呈报」。统一看门狗 169be936 ok；20:00 汇报 fdd0b22d ok；需求反思 6f3e81c0 ok；runway-backup 560d719d ok（今晨 04:30 拍·第六日）。
+- 提示词新鲜度：三口径实测相符零 edit——①最高卡号：docs/tasks/ 顶层仅存 012/021 两卡+done/=42（ls-tree），卡号计数器 46 ✓；②applicationId=com.zangou.runway（build.gradle.kts:19 sed 实测）✓；③golden 归档路径 docs/designaudit/ 沿用（最新目录 2026-10-15-hero-precision）✓。括号批次按 21:4x 裁防 churn 不逐票改写，留周一 10-19 随适配审查统一更新。
+- 周六非周一：无规范适配审查（周一批 10-19 挂账）；决策模型未调用（本轮无边界裁决，SB-046 灰区 p=0.54 随周一）。
+- 利益点自省：持平——零动作审计轮守住 SB-046 取整+起步文案成果（用户可见：hero 金额不再分位假精确），机制零变化无 SilentBook 旧病同构；堵点仍在浩然侧（SB-012 七天真人闸门→tag v0.1.0），监工侧无可施工增量，非「更远」。
+- 簿记：提交前 `git branch --show-current`=main 已核（在册条款）；先 cp 基线再追加（R7 原子化），numstat 核 deletions=0。
