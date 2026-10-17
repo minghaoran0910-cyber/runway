@@ -372,3 +372,18 @@
 - 周六非周一：无规范适配审查（周一批 10-19 挂账）；决策模型未调用（本轮无边界裁决，SB-046 灰区 p=0.54 随周一）。
 - 利益点自省：持平——零动作审计轮守住 SB-046 取整+起步文案成果（用户可见：hero 金额不再分位假精确），机制零变化无 SilentBook 旧病同构；堵点仍在浩然侧（SB-012 七天真人闸门→tag v0.1.0），监工侧无可施工增量，非「更远」。
 - 簿记：提交前 `git branch --show-current`=main 已核（在册条款）；先 cp 基线再追加（R7 原子化），numstat 核 deletions=0。
+
+## 2026-10-17 18:00 巡检票（监工巡检 · 零动作轮 · 持平×92）
+
+- **新审**：REQ mtime 1792073389（10-15 22:09）< REVIEW 1792229625（17:34票）实测；REQ 盘上 vs HEAD diff 空=IDENTICAL（porcelain=0 互证）；WAITING_HUMAN=0 实测 → 零新审。视觉保真闸门未触发（无 ui/** 提审票）。
+- **冒烟**：3a8c16e..HEAD=91 提交，app diff=0 文件实测 → 冒烟义务不发生；锚点与快照 last_smoke_commit=3a8c16e 一致维持。
+- **队列**：活跃仅 SB-012（代码闸门已合入·真人7天闸门在飞·浩然侧堵点）/ SB-021（挂起 v0.2）两卡，docs/tasks/ 状态行实测=快照=零漂移；done/=42（git ls-tree + 盘上 ls 双实测）；待办=0 见底无据不空派（裁A下无卡可派沿册）；卡号计数器 46。
+- **漂移**：禁词 app/lib=11行均元引用（achievement.dart:13-20 禁词表自身定义 + goal_ladder.dart:7/117、week_warm.dart:7 注释复述禁令），用户可见文案=0；test 命中5文件均回归断言；theme/motion 外裸 Color(0x=0 / 裸 Duration=0；红线（美团|工资|房贷|open_id）=0；手机号数字串 app/lib dart=0（宽口径 grep 仅命中 pbxproj/测试 fixture/gradle 缓存，非 lib）；真实账目=0；_LOCK=0；分支11=main+在册 feat×9+rescue×1 零 stray；worktree=7 在册；porcelain=0。
+- **并发**：emulator=0 / flutter=0；宽口径 pgrep 另命中 OpenCode.app 桌面 GUI 闲置进程×6 + openjdk 空闲守护×1（pid 66514·CPU 0.0%·驻留48min）——均非活动构建/验收任务，判不占闸。
+- **Cron 族**：wake b0ea8424 17:45拍 ok（suppressed）下拍18:15 · ★runway-watchdog abaa94c7 17:4x拍=**ok，15:46 单红解除**（挂账⑦销账注记·未两连败·⚡⑤未触发）· 统一看门狗 169be936 ok（18:0x拍）下拍约20:0x · 需求反思 6f3e81c0 下拍21:30 · backup 560d719d 今04:30拍 ok（连续第六日） · 20:00 每日汇报 fdd0b22d 在册下拍。
+- **提示词三口径**：最高卡 SB-046 归档 / done/=42 / 锚点 3a8c16e 实测相符零 edit；applicationId build.gradle.kts:19=com.zangou.runway 本拍 sed 实测；golden 归档 docs/designaudit/ 沿用（最新 2026-10-15-hero-precision）。
+- **簿记**：提交前 git branch --show-current=main 已核（在册条款）；追加法=先 cp 基线（/tmp/rv_1800_base.md）后 append（R7·17:30 事故条款），提交后 numstat 核 deletions=0，tmp 用毕 rm。
+- **观察登记**：17:34 轮（902745d）已更新 last_bookkeeping_commit/patrol_1734 但未追加 queue 沿册行且 queue_snapshot_at 未翻（15:0x/15:3x 先例同型·不追责），本票补登㊡/㊢两行。
+- 周六无规范适配审查（周一批 10-19 挂账，含 SB-046 灰区 p=0.54 呈复核）；决策模型未调用。
+- 利益点自省：持平——零动作审计轮守住既有成果；堵点仍在浩然侧（SB-012 七天真人闸门→tag v0.1.0），监工侧无可施工增量，非「更远」。
+- ⚡零推送（零新审·队列零漂移·watchdog 单红解除，无呈报义务）。
