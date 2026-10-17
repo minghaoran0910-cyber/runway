@@ -404,3 +404,17 @@
 - 追加法合规：先cp基线后append·numstat核deletions=0（REVIEW/progress双实测）。
 - 持平×93·堵点=SB-012七天真人闸门（浩然侧）·⚡零推送（origin未动）。
 - 18:30票勘正（纯增不改原文）：观察登记②中「092f7e2实为17:15 Reapply票」勘正为——092f7e2日期戳实测=2026-10-14 15:13（当日Reapply票·且为3a8c16e之祖先[pre-anchor merge-base实测]），wake 18:15票引用陈旧哈希而非当日新commit，观察结论不变（wake簿记未落main/报错型登记维持）。
+
+
+## 2026-10-17 19:00 巡检票（零动作轮）
+- 三实测：REQ(10-15 22:09) < REVIEW(10-17 18:44) · REQ盘上md5==HEAD md5（b2067495…IDENTICAL）· WAITING_HUMAN=0 → 零新审。
+- 队列：活跃卡 SB-012（审查通过·代码闸门已合入·真人7天闸门在飞1/7，全验过才tag v0.1.0=真G5）+ SB-021（挂起v0.2）状态行grep合快照 → 零漂移；done/=42（ls-tree+磁盘双实测）。
+- 冒烟：义务不发生——3a8c16e..HEAD=94拍全docs · app diff=0行实测；锚点维持3a8c16e（last_smoke_commit不变）。
+- 漂移全绿：禁词app/lib=0行 · 全库（除票/登记）=0行 · 红线=0 · 手机号/open_id=0 · 真实账目=0（399900公开参考价在册豁免）· 裸Color/Duration 59行全落theme/tokens豁免区、豁免外=0/0 · _LOCK物理0/git0 · 分支11（main+在册feat×9+rescue×1）零stray · worktree7在册 · porcelain=0 · 簿记头edb744e（18:30勘正）↔上票✓ · 查branch后提交（main✓）。
+- 并发：emulator 0 / flutter 0 / gradle仅openjdk守护0.2%CPU判不占闸。
+- cron族：wake b0ea8424 18:45拍ok suppressed（下拍19:45）· ★watchdog abaa94c7上拍实测ok→单红解除、挂账⑦销账（下拍约19:4x）· 统一看门狗169be936 ok（下拍约20:0x）· 需求反思21:30在册 · backup今04:30拍ok第六日 · 20:00汇报fdd0b22d在册（约58分后）。
+- 提示词三口径实测相符零edit：appid=com.zangou.runway（build.gradle.kts:19本拍sed实测）· 最高卡SB-046 done/实测在册 · 锚点3a8c16e实测。
+- golden归档docs/designaudit/沿册 · 周六无适配审查义务（周一10-19批挂账含SB-046灰区p=0.54，决策模型未调用）。
+- _inbox无新霞消息（最新=dispatch.log）。
+- 交付卫生：本票追加法合规（先cp基线后append）· numstat核deletions=0 · 投递正文零压缩标记（10-17 18:00拍delivery error追修口径沿用）。
+- 持平×94 · 堵点=SB-012七天真人闸门（浩然侧，第1/7天在飞，v0.1.0预计10-23/24）· 待办卡≤2：见底无据不空派 · ⚡零推送（origin未动，ahead=138）。
