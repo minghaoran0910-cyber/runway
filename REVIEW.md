@@ -40,20 +40,7 @@
 > 【连号 · R23 压缩于 10-19 03:0x 轮】2026-10-17 14:3x 巡检票（监工轮·零动作·PASS 无新审·持平×83）: 三实测零新审(REQ1792073389<REVIEW1792216936·盘上vs HEAD=IDENTICAL·WAITING0) · 冒烟不发生(3a8c16e..HEAD=83提交·app diff=0·锚点维持) · 队列零漂移(SB-012真人闸门在飞/SB-021挂起·done42·待办0·堵点=浩然侧) · 漂移审计全绿(禁词3行均元引用·裸Color/Duration豁免外0·红线/PII/手机号/真账0·_LOCK0·分支11零stray·worktree7·porcelain0·并发0=GUI常驻口径) · applicationId三口径相符零edit · 本票行13曾逐字保留03:30票体(笔误级重复·自纠在册不回改历史票) · cron族全ok · 决策模型未调用 · 周六无适配义务 · 周一批(10-19)挂账不变 · ⚡零推送 · 原16行。
 【连号 · R23 压缩于 10-19 04:0x 轮】2026-10-17 15:0x 巡检票（零动作轮·PASS无新审·队列零漂移(012真人闸门十三连/021挂起/done42/待办0)·冒烟不发生(3a8c16e..HEAD=84·app diff=0)·漂移审计全绿(禁词2行元引用豁免·裸Color0·_LOCK0·分支11·worktree7)·并发零冲突·cron体检全绿·提示词保鲜复核零edit·适配评审35/35·决策模型未调用(0.5灰区无新边界)·⚡零推送）
 > 【连号 · R23压缩于10-19 04:3x票163轮】2026-10-17 15:3x巡检票（零动作轮·REQ<REVIEW·队列零漂移·冒烟不发生·审计全绿·⚡零推送）原15行→1行
-## 2026-10-17 15:30 巡检票（零动作轮·15:3x 位第二拍；上票"15:3x"实际提交于 15:09:59，簿记标注与时位差异常登记不追责，本票起用精确分位防重名）
-结论: 无新审（REQ mtime 1792073389=10-15 22:09 < REVIEW 1792220999=15:0x票落盘实测，REQ 盘上 vs git show HEAD diff=IDENTICAL，WAITING_HUMAN=0，三实测零新审）。
-- 队列: 零漂移——活跃2卡与快照逐字一致（SB-012 审查通过·真人7天闸门在飞 / SB-021 挂起v0.2，状态行 grep 合快照），done/=42 ls-tree 实测；待办0，裁A冻结下不自派。
-- 冒烟: 义务不发生——3a8c16e..HEAD=86（上票85+簿记1自洽），`git diff --stat 3a8c16e..HEAD -- app/`=0行实测（纯 docs/簿记）；锚点维持 3a8c16e，模拟器未起（pgrep=0）。
-- 漂移审计: 全绿——禁词全库8行均元引用（REVIEW:67/:83 票自引用+_inbox:86 词表+achievement:13 禁词表本体+goal_ladder:7 注释+test×3 回归断言+DESIGN_SYSTEM:86 条款，行号与 10:0x 以来各票一致，沿 p=0.75 豁免口径）用户可见真实文案=0；theme/motion 外裸 Color(0x=0、裸 Duration=0；红线（美团|工资|房贷|open_id）app/yaml=0；真实账目零接触（红线零触发）；_LOCK find=0；分支11=main+在册feat×9+rescue×1 零 stray（本拍 grep 面已核，rescue 全名 sb033-rework-rescued-3e4918c 在册）；worktree=7 在册；porcelain=0；origin 零触碰。
-- 并发: emulator/flutter/gradle=0（pgrep 实测）；wake b0ea8424 15:15拍 ok suppressed，下拍 15:45，无并发施工冲突。
-- cron 体检: 巡检 19b5f29f running（本拍）；wake b0ea8424 ok；runway-watchdog abaa94c7 ok（下拍约16:07）；统一看门狗 169be936 ok（下拍约16:04）；需求反思 6f3e81c0 ok（下拍21:30）；runway-backup 560d719d ok（今04:30拍 suppressed 正常，连续第四日在册）。
-- 提示词新鲜度: 三口径实测相符零 edit——最高卡号 SB-046（done/=42 口径）/applicationId=com.zangou.runway（build.gradle.kts:19 本拍 sed 实测）/冒烟锚点 3a8c16e 现行；wake :15/:45 与巡检 :00/:30 错峰无失配；golden 归档 docs/designaudit/ 沿册。
-- 适配审查: 周六非周一，不输出（周一批 10-19 挂账不变）。
-- 决策模型: 未调用（本轮无新边界裁决；046 灰区 p=0.54 随周一批）。
-- 簿记纪律: 追加法执行（先 cp 基线 /tmp/review_base_1530.md 后 append，提交 numstat 核 deletions=0）；提交前查 branch=main ✓；自验三连见提交后回显。
-- 利益点自省: 持平——零动作审计轮守住 SB-046 取整+起步文案成果（首页 hero 每次可见），机制零变化，无 SilentBook 旧病同构；计数 更近(046@10-15 22:0x)→持平×86(23:0x~本拍)，无『更远』信号不触发排期升级。
-- 堵点: SB-012 七天真人闸门（tag v0.1.0 前置，浩然侧）；周一批 10-19。
-- ⚡收口: 常规轮零推送。
+> 【连号 · R23压缩于10-19 06:0x票166轮】2026-10-17 15:30巡检票（零动作轮·15:3x位第二拍·上票15:09:59簿记时位差登记不追责起用精确分位防重名·无新审REQ 1792073389<REVIEW 1792220999·REQ盘vs HEAD=IDENTICAL·WAITING 0·队列零漂移活跃2卡逐字合快照done 42待办0裁A·冒烟义务不发生3a8c16e..HEAD=86全docs app diff=0锚点维持模拟器未起·漂移审计全绿禁词8行均元引用红线零触发·并发emulator/flutter/gradle=0·wake b0ea8424 15:15拍suppressed ok·cron体检巡检running/wake/watchdog/backup全ok·提示词三口径相符零edit·适配审查周六非周一零输出周一批10-19挂账·决策模型未调用046灰区p=0.54·簿记追加法cp基线·利益点自省持平·堵点SB-012七天真人闸门tag v0.1.0前置·⚡常规轮零推送）原14行→1行
 
 ## 巡检票 2026-10-17 16:00 — 零动作轮
 - 结论: PASS（无新审）——REQ mtime 1792073389 < REVIEW 1792222320（stat 实测）；盘上 vs HEAD diff 空 IDENTICAL；WAITING_HUMAN=0。三实测齐→不进入审码。
@@ -699,3 +686,12 @@
 - 冒烟义务不发生（3a8c16e..HEAD app/packages/pubspec diff=0文件实测·ui新提交0·业务头794bb4b持平·HEAD仍票164本体零新提交·G零新PASS·模拟器未起·视觉闸门未触发·无UI卡审查）｜wake正位（log mtime 05:15:00=票164口径04:45+1拍健在·21:45→05:15十六连拍每拍S0.4业务脏退出实测·builder点火末错仍10-18 21:15拍行86224/86230·21:45后日志尾零新增'API key has expired'与164「此后零新增」口径持平·历史累计grep -c expired=74行·续key=浩然侧前置在册·17 HIT②已告警不重复）。
 - 观察入册：pgrep opencode命中6=OpenCode.app桌面GUI（Electron v1.18.35·crashpad/gpu/network/node/renderer/audio辅助进程组）·CLI opencode=0·盘上零提交零新脏=无人实际干活仅GUI常驻·不触发抢占（S0.4抢占判定仍以盘dirty+提交为准）。
 - 审计全绿（禁词app/lib dart 0·_LOCK 0·分支11·worktree 7·progress 116行持平·opencode CLI 0·R22不代提交·wc 694<700 R23未触发预票实测·票后wc约700下拍R23边界预检实测预警）。结论：零变化轮→零推送⚡本拍静默。
+
+## 2026-10-19 06:0x 巡检票166（监工·零动作轮·持平165·R23压缩执行轮·三测链反转登记）
+- 三实测零新审（REQ mtime 1792073389=10-15 22:09 旧于 REVIEW 1792359459=票165 05:37落盘·REQ盘上 vs git HEAD=IDENTICAL·md5 b2067495连号62零翻转 size 2898持平·WAITING 0·porcelain 1仅反思档docs/reviews/2026-10-18.md 21:34:37持平=S0.4在册不代提交·票165兑现HEAD b92c784/ahead 209=165+44实测自洽·本票提交→应=210=166+44）。
+- 队列零漂移逐字持平（盘上SB卡2·012/021状态行grep合快照·012真人闸门四十六连零反转跨日第4天距10-22剩3天·tag实测3项均diag/ci-snapshot v0.1.0未打不归档·021挂起v0.2·done 42 ls实测·待办0裁A在册无据不派·提醒已呈不重复·周一批票155已全销不重复投递R26·快照queue逐字一致未更新）。
+- 冒烟义务不发生（3a8c16e..HEAD app/packages/pubspec diff实测=0·业务头794bb4b持平·G零新PASS）。
+- 🔴新发现·三测链反转UNKNOWN（cron 6485452d全表含--all 64作业实测零命中=消失非停用·_inbox/攒够-方向锁定-三校验.txt盘上缺失find全库=0且git从未跟踪·票155~165历票持续在册『05:00 ok』口径于05:37~06:0x间断档·原因不明不猜测在册观望浩然侧·本票审查义务三实测=REQ mtime/HEAD一致/WAITING不受影响仍全绿）。
+- wake正位（b0ea8424 05:45拍 ok suppressed实测·下拍06:15·watchdog abaa94c7 ok·backup 560d719d 04:30拍 ok suppressed·反思 6f3e81c0 昨21:30拍 ok·key末错=10-18 21:15拍零新·票141口径不重复报续key浩然侧在册）。
+- 审计全绿（禁词app/lib dart 0·_LOCK 0·分支11 worktree 7在册·opencode施工进程0 OpenCode.app GUI 7进程非CLI无人干活口径沿用·progress 116行 task_plan SB 2行持平·提示词三口径相符零edit·决策模型未调用本轮无新边界裁决·R23写票前实测wc 701≥700触发→压缩15:30第二拍票14行→1=688+本票9行=697/700 <700 ✓ tmp+mv原子替换·下拍≈700预警线）。
+- ⚡推送: 本票仅推三测链反转登记+零动作轮持平结论。
