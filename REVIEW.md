@@ -999,3 +999,16 @@ remote,零写入,ls-remote origin/main=29871c74 未变（只读核验）；本�
 利益点自省,持平,守场轮，产品距核心利益点不动（无新卡无新码）；连续未远轮次=0
 
 结论：零新审守场·全项持平·漂移零问题·NO_PUSH。决策模型：本轮零边界裁决事项（灰区 0），未调用 decision_evaluate。监工签字：老油条 [supervisor patrol]
+
+## 票217,2026-10-20 07:3x,零新审（REQ mtime 1792073389(10-15 22:09)<REVIEW 1792450988(10-20 07:03)+盘上 md5 b20674957747f032256011567066616f=git show HEAD:REVIEW_REQUEST.md 实测逐字同值 IDENTICAL 双实测+WAITING_HUMAN grep=0，三实测一致）
+字段,理由,裁决
+审查义务,REQ 盘上=HEAD 一致（md5 双实测同值）；REQ 零新提审,不发生
+冒烟义务,3a8c16e..HEAD app diff=0 实测（git diff --stat -- app/ 输出 0 行）；无 G 卡状态变化；锚点 3a8c16e 维持；模拟器未起（pgrep emulator=0/qemu=0）,不发生
+队列漂移,docs/tasks 仅 SB-012/SB-021 两卡在册+done ls-tree=42/盘上=42 双实测（首 SB-001.md 末 SB-046.md）；与快照 queue 零漂移；待办 0 见底=R26 已呈不重投,0
+漂移与一致性审计,禁词 app/lib=2 行皆元引用（goal_ladder.dart 口径注释+achievement.dart 禁词清单）·app/test=3 行皆测试断言·真词零；裸 Color(ui/theme 外)=0·裸 Duration(motion 外)=0；_LOCK 泄漏=0·stash=0·emulator/qemu=0；main 头 404889a 对应票216 归档轮·链上非 docs 提交=0 无未审先合；branch --show-current=main 票前实测；--merged 仅 SB-034 沿册在册；worktree=7 持平；脏源一件 docs/reviews/2026-10-18.md（10-18 反思档）持平未动；ahead=261 持平自洽；remote 零写入·ls-remote 只读核对 origin/main=29871c74 未变；task_plan.md 头 12 行薄索引口径持平；applicationId=com.zangou.runway 现行,零问题
+计数兑现,git rev-list --count HEAD=559 与票216 预登记 217/559 吻合·下拍预期 218/560,吻合
+新鲜度自审,最高卡 SB-046=done 末位·REQ 锚 md5 合·冒烟锚 3a8c16e·am start 口径 com.zangou.runway/.MainActivity·巡检 07:30 准点（上拍 07:0x 票216 已落地 404889a）·无过时项,零 edit
+周批,周二，无规范适配审查输出义务,不适用
+automations,上拍 07:0x 票216 正常落地（head=404889a 实测）·本拍 07:30 准点,正常
+通知收口,零新审/零状态变化/见底与待拍板面（素材分支清理·watchdog 条款·012 闸门·SB-012 七天真人闸门距 10-22 满 7 天约剩 1.5 天=浩然侧沿册不催）均已呈过不重投；三件套本轮提交落地,NO_PUSH
+利益点自省,守场轮，产品距核心利益点不动（无新卡无新码）；连续未远轮次=0,持平
