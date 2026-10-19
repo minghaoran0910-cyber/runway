@@ -695,3 +695,16 @@
 - cron族全绿: wake ok 07:45拍suppressed自退·watchdog 07:51拍ok·统一看门狗169be936 08:0x running·backup ok·需求反思今晚21:30到点·22:00错误回顾ok·key expired末错10-18 21:15今晨两拍零新增(续key浩然侧在册不重复报)。
 - headroom铁律②: 本拍SUPERVISOR正文见压缩标记→未调retrieve不重试不报错·基于可见正文继续✓·全拍零调用。决策模型未调用(watchdog判定=D2机械规则·无新裁决)。
 - 交付卫生: 落盘票(本文件进git)与投递正文分离·投递零标记。⚡推送=watchdog告警复核结论(等待人工非卡死)+零动作轮持平。
+
+## 巡检 2026-10-19 08:30（票171·零动作轮·持平票170·watchdog闭环续）
+- 结论: 无新审。三实测: REQ mtime 1792073389=10-15 22:09旧于REVIEW 1792368977(票170落笔)·REQ md5 b2067495六十七连零翻转size 2898持平·盘vs HEAD diff空=IDENTICAL·WAITING_HUMAN=0。
+- 票170兑现: HEAD=5a7a196票170票commit·ahead实测214=170+44自洽✓; 本票合入后预期215=171+44下票核。
+- watchdog闭环续: progress.md 117行·mtime 1792367485=07:51拍告警行(票170 D2只读复核=等待人工非卡死·结论持续有效·本拍零新事件不重复打扰)。
+- wake正位: runway-wake b0ea8424 last 08:15拍 ok(suppressed)业务脏S0.4不抢自退合规; 旧重复唤醒job 4个均disabled归档·单实例无复活。
+- 队列零漂移: SB-012状态行逐字同(真人闸门五十一连复看零反转·跨日第4天·tag v0.1.0实测未打=0不归档·距10-22满7天剩3天)·SB-021挂起v0.2逐字同·done 42·待办0(见底无据不派·裁A在册·提醒已发·周一批票155已全销R26不重复投递)·快照queue逐字同沿前例不更新。
+- 冒烟不发生: 3a8c16e..HEAD app/packages/pubspec实测diff 0文件·业务head 794bb4b持平·G零新PASS→视觉保真闸门不触发(无app/lib/ui/**改动卡)。
+- 审计全绿: 禁词票外0·_LOCK 0·分支11·worktrees 7·opencode run 0·task_plan 8行持平·决策模型未调用(无新边界裁决)·headroom零检索(铁律②处置不中断)。
+- 3测链: 6485452d cron list --all实测零命中·_inbox/*.txt缺失(0)·UNKNOWN在册待浩然侧裁·不重建避免第二个UNKNOWN。
+- 账上: porcelain=2(progress.md M+docs/reviews/2026-10-18.md ??未入账源码S0.4不代提交·10-18复盘归档已实done不重复)。
+- R23: 票前wc697<700不触发正常落票·票后≈709≥700→预警下票R23压缩执行轮·交付卫生: 本票正文进git与投递正文分开·零标记零占位符。
+- ⚡推送=零(无新审·队列持平·watchdog闭环无新事件)·本拍静默。
