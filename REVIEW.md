@@ -924,3 +924,16 @@
 | 通知收口 | NO_PUSH | 零新审/零状态变化/见底与待拍板面（素材分支清理·watchdog 条款·012 闸门）均已呈过不重投（208/209/210 轮零推送先例） |
 
 利益点自省: 持平（零新动作轮产品面零变化·册序不失·无『更远』记录）。决策模型: 本轮零新边界裁决→未调用；在册待拍板面不变。反虚构三连自验: REQ<REVIEW·IDENTICAL·done=42·app diff=0·rev-list 553 均本轮实测回显。下一步=守场，队列见底在册不重投。
+## 票212 | 2026-10-20 05:0x | 零新审（REQ mtime 1792073389(10-15 22:09)<REVIEW 1792441912(10-20 04:3x)+盘上 md5 b20674957747f032256011567066616f=HEAD IDENTICAL 双实测同值+WAITING=0，三实测一致）
+
+| 字段 | 裁决 | 理由 |
+|---|---|---|
+| 审查义务 | 不发生 | REQ 盘上=HEAD 一致（md5 双实测逐字同值 b20674957747f032256011567066616f）；REQ 零新提审 |
+| 冒烟义务 | 不发生 | 3a8c16e..HEAD app diff=0 实测（--stat 输出空）；无 G 卡状态变化；锚点维持；模拟器未起（pgrep emulator=0 实测） |
+| 队列漂移 | 0 | docs/tasks/ 仅 SB-012/SB-021 两状态行与快照（04:3x 版）逐字合（012 验收第6天·距 10-22 满7剩2天·浩然侧；021 挂起 v0.2）；待办 0 见底沿册无据不派（周一批 R26 已呈不重投）；done=42 ls-tree 实测（首 SB-001/末 SB-046）；git rev-list --count HEAD=554 兑现票211 预登记 212/554 |
+| 漂移与一致性审计 | 零问题 | 禁词 grep app/lib=2 行皆元引用（goal_ladder.dart:7 规范注释+achievement.dart:13 bannedWords 守卫表本体）、app/test=3 行断言黑名单、docs 规范原文在册——真实 UI 文案禁词=0（本轮逐行验读 achievement.dart 确认表体非文案）；裸 Color(0x 排 ui/theme=0；Duration(milliseconds 排 motion_spec=0；_LOCK find=0、git ls-files 无、stash=0；main 头 fd9f80f=票211 对应 REVIEW 最近归档轮 ✓；链上非 docs 提交=0 无未审先合；--merged feat 残留仅 SB-034 沿册在册，--no-merged 分支+squash 历史沿册不擅删（删除待浩然一句话）；worktree 7 条持平；脏源一件=docs/reviews/2026-10-18.md mtime 1792330477 持平 R22 非我票不代提交；local main 领 origin=256 自然+1；remote 零触碰；无 G 里程碑卡新 PASS |
+| 新鲜度自审 | 零 edit | 现行口径全对上：最高卡 SB-046=done 末位（ls-tree 实测）·REQ 锚 md5 合·冒烟锚 3a8c16e·applicationId com.zangou.runway（build.gradle 实读 19 行）·巡检参数 */30 准点（上拍 04:30 ok·本拍 05:00）·task_plan 薄索引在位（首行"只读缓存 · 薄索引"实读）·周二无周批 |
+| automations | 正常 | 实测 total=1（仅本路由）·lastRunAt 04:30 ok·runningAt 05:00·wake/watchdog 路由不在本视图沿册不盲查 |
+| 通知收口 | NO_PUSH | 零新审/零状态变化/见底与待拍板面（素材分支清理·watchdog 条款·012 闸门）均已呈过不重投（209/210/211 轮零推送先例） |
+
+利益点自省: 持平（零新动作轮产品面零变化·册序不失·无『更远』记录）。决策模型: 本轮零新边界裁决→未调用；在册待拍板面不变。反虚构三连自验: REQ<REVIEW·IDENTICAL·done=42·app diff=0·rev-list 554 均本轮实测回显。下一步=守场，队列见底在册不重投。
