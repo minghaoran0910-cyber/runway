@@ -965,3 +965,17 @@
 | 通知收口 | NO_PUSH | 零新审/零状态变化/见底与待拍板面均已呈过不重投；三件套（审查结论+REVIEW.md+progress 登记）本轮提交落地 |
 | 利益点自省 | 持平 | 守场轮，产品距核心利益点不动（无新卡无新码）；连续未远轮次=0 |
 决策模型：本轮零边界裁决事项（灰区 0），未调用 decision_evaluate。
+
+## 票215,2026-10-20 06:3x,零新审（REQ mtime 1792073389(10-15 22:09)<REVIEW 1792447297(10-20 06:0x)+盘上 md5 b20674957747f032256011567066616f=git show HEAD 实测逐字同值 IDENTICAL 双实测+WAITING_HUMAN grep=0，三实测一致）
+字段,裁决,理由
+审查义务,不发生,REQ 盘上=HEAD 一致（md5 双实测同值 b20674957747f032256011567066616f）；REQ 零新提审
+冒烟义务,不发生,3a8c16e..HEAD app diff=0 实测（git diff --stat -- app/ 输出 0 行）；无 G 卡状态变化；锚点维持；模拟器未起（pgrep emulator=0·qemu=0 实测）
+队列漂移,0,docs/tasks 共2卡状态无变化（SB-012 审查通过·代码闸门已合入·验收在飞；SB-021 挂起 v0.2）；待办 0 见底无据不派·裁A在册；done 42（ls-tree 42+盘上 42 双实测）与快照队列吻合
+漂移与一致性审计,零问题,禁词 app/lib 2行皆元引用（goal_ladder.dart 注释+achievement.dart 禁词清单数组）真词零·test 3行皆测试断言真词零；ui/theme 外裸 Color(0x=0 实测·theme/motion 外裸 Duration=0；_LOCK=0·stash=0·worktree 7持平；main头 aa1416c 对应 REVIEW.md 票214 条目在册✓；5761378..HEAD 非docs提交=0 无未审先合✓；--merged 仅 feat/SB-034-diag-channel 沿册在册·素材分支清理仍待浩然一句话；脏源仅 docs/reviews/2026-10-18.md 持平在册不代提交；progress.md 真相注册表正常·task_plan.md 已落地只读缓存薄索引✓；applicationId=com.zangou.runway 现行口径✓
+新鲜度自审,零 edit,最高卡 SB-046=done 末位·REQ 锚 md5 合·冒烟锚 3a8c16e·am start 口径 com.zangou.runway/.MainActivity·巡检 06:30 准点（上拍 06:00 票214 正常落地 head=aa1416c·revlist 实测 557 兑现 215/557 预期）·无过时项
+周批,不适用,周二，无规范适配审查输出义务
+automations,正常,实测 total=1（仅本路由）·lastRun 06:00 ok·本拍 06:30 准点；wake/watchdog 路由不在本视图沿册不盲查
+通知收口,NO_PUSH,零新审/零状态变化/见底与待拍板面（素材分支清理·SB-012 七天真人闸门浩然侧）均已呈过不重投；三件套（审查结论+REVIEW.md+progress 登记）本轮提交落地
+利益点自省,持平,守场轮，产品距核心利益点不动（无新卡无新码）；连续未远轮次=0
+
+决策模型：本轮零边界裁决事项（灰区 0），未调用 decision_evaluate。
