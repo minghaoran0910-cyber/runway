@@ -937,3 +937,17 @@
 | 通知收口 | NO_PUSH | 零新审/零状态变化/见底与待拍板面（素材分支清理·watchdog 条款·012 闸门）均已呈过不重投（209/210/211 轮零推送先例） |
 
 利益点自省: 持平（零新动作轮产品面零变化·册序不失·无『更远』记录）。决策模型: 本轮零新边界裁决→未调用；在册待拍板面不变。反虚构三连自验: REQ<REVIEW·IDENTICAL·done=42·app diff=0·rev-list 554 均本轮实测回显。下一步=守场，队列见底在册不重投。
+
+## 票213 | 2026-10-20 05:3x | 零新审（REQ mtime 1792073389(10-15 22:09)<REVIEW 1792443754(10-20 05:02)+盘上 md5 b20674957747f032256011567066616f=git show HEAD 实测逐字同值 IDENTICAL+WAITING_HUMAN 近轮 grep=0，三实测一致）
+| 字段 | 裁决 | 理由 |
+|---|---|---|
+| 审查义务 | 不发生 | REQ 盘上=HEAD 一致（md5 双实测同值 b20674957747f032256011567066616f）；REQ 零新提审 |
+| 冒烟义务 | 不发生 | 3a8c16e..HEAD app diff=0 实测（git diff --stat -- app/ 输出 0 行）；无 G 卡状态变化；锚点维持；模拟器未起（pgrep emulator|qemu=0 实测） |
+| 队列漂移 | 0 | docs/tasks/ 仅 SB-012/SB-021 两状态行，与快照（05:0x 版）合（012 验收第6天·距 10-22 满7剩约1.5天·浩然侧真人闸门；021 挂起 v0.2）；待办 0 见底沿册无据不派（周一批 R26 已呈不重投）；done=42（ls-tree 42+盘 42 双实测·首 SB-001/末 SB-046）；git rev-list --count HEAD=555 兑现票212 预登记 213/555 |
+| 漂移与一致性审计 | 零问题 | 禁词 grep app/lib=2 行皆元引用（goal_ladder.dart:7 规范注释+achievement.dart:13 bannedWords 守卫表本体）、app/test=3 行断言黑名单、真词 0；裸 Color(0x 除 ui/theme=0；裸 Duration(milliseconds 除 theme/motion=0；_LOCK=0、stash=0；main 头 59561f7 对应票212 05:0x ✓；fd9f80f..HEAD 链上非 docs 提交=0 无未审先合；--merged 仅 feat/SB-034-diag-channel 沿册在册；worktree=7 持平；porcelain 一件=docs/reviews/2026-10-18.md（10-18 反思档·非本票不动·沿册持平）；remote 零触碰（ahead 257 自洽）；task_plan.md 头行「只读缓存·薄索引」在位；applicationId com.zangou.runway 实测现行 |
+| 补登记 | 210/212 两轮 progress 缺记 | 票210(d8bf4ee)/票212(59561f7) 当轮只提交 REVIEW.md 未写 progress（git show --stat 实测），违反铁律11三件套；本轮已按票207先例补登两行+本轮一行，闭环 |
+| 新鲜度自审 | 零 edit | 现行口径全对上：最高卡 SB-046=done 末位（ls-tree 实测）·REQ 锚 md5 合·冒烟锚 3a8c16e·am start 口径 com.zangou.runway/.MainActivity·巡检参数 */30 准点（上拍 05:00 ok·本拍 05:30）·task_plan 薄索引在位·无过时项，零 cron edit |
+| automations | 正常 | 实测 total=1（仅本路由）·lastRunAt 05:00 ok·runningAt 05:30·wake/watchdog 路由不在本视图沿册不盲查 |
+| 通知收口 | NO_PUSH | 零新审/零状态变化/见底与待拍板面（素材分支清理·watchdog 条款·012 闸门）均已呈过不重投（210/211/212 轮零推送先例）；周二非周一，无规范适配审查输出义务 |
+| 利益点自省 | 持平 | 守场轮，产品距核心利益点不动（无新卡无新码）；连续未远轮次=0 |
+决策模型：本轮零边界裁决事项（灰区 0），未调用 decision_evaluate。
