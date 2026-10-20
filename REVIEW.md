@@ -1322,3 +1322,15 @@ remote,仅 ls-remote 只读：origin/main=29871c745eab90c20c06ff35fc314416369f79
 - **决策模型**：本轮零新边界裁决，未调用（meta 豁免 p=0.88 在册勿重投）。
 - **利益点自省**：持平——守场不推进亦不倒退；本轮恢复监工簿记现场=保真相链完整，方向更近半格；SB-048（设目标表单日历期限+金额预设+进阶折叠）直接降「想要东西→拆阶梯」首跑成本=方向正确，待提审。
 - **计数**：落笔前 rev-list main 实测 614（票255 预登 256/614 兑现✓无 builder 并发）·本票+progress 双文件合并单提交落点预期 615·下拍预登记 258/616±builder 并发。⚡五类无一触发·投递正文 NO_REPLY。监工签字：老油条 [supervisor R47]
+
+---
+## 票258 · 守场巡检（2026-10-21 05:0x R48·⚡零推送）
+- **新审查**：零。REQ 盘上 1792492820 < REVIEW 1792492885；三方 md5 验真（盘上=feat@2d920bc=main 均 7857acb8b1fedb48422a357ecfeb1285）IDENTICAL 未翻转=SB-047 已审版；feat 除 2d920bc 无新落码提交→审查义务不发生。
+- **队列同步**：零漂移。SB-048 已落码待提审（落码 10-20 18:48:57·本轮实测 gap≈10h12min<12h·沿P3 续观察·触阈时刻 06:48:57，触阈后首个守场轮仍零提审→升级排期提案推送浩然拍板[③类]）·SB-049~051 mtime 1792479737/1792479425/1792479425 未动未提审·SB-021 挂起 v0.2·done/=44 ls-tree 实测回显（末 SB-047.md blob 1eecfa66）·待审4>2 见底提醒不触发。
+- **模拟器冒烟**：不发生。git diff 3eb3ca4..main -- app/ 实测 0 行·无 G 里程碑卡 PASS·emu 进程=0。
+- **漂移与一致性审计**：禁词 lib 实测 2 处均 meta 定义（goal_ladder.dart:7 / achievement.dart:13）+test 白名单断言 3 处=用户可见 0；裸 Color(0x / Duration(milliseconds 于 ui/theme、motion_spec 之外=0；main head 9d58d87 对应 REVIEW 最近归档轮（票257）✓；_LOCK/stash=0；worktree 实测 3（主仓@feat/SB-048·监工 worktree@main·/private/tmp/vC prunable 仅登记不清理）；feat 残留分支 SB-034/SB-047（已合入未删）/SB-048（在途）均在册待浩然一句话删除；P1：无。
+- **簿记勘正**：前轮票257 记"task_plan 146/147 行"与本轮实测不符——task_plan 三方实测=8 行（3a9d763 薄索引落地原貌，唯一"状态："匹配系第5行引用性说明非状态行），以实测勘正，结论不变（薄索引已落地✓）。
+- **新鲜度自审**：周三·无周批；cron 锚"最高卡号=SB-046"过时（盘上实测待审头 SB-048/最高卡 SB-051），沿册 deferred 零自edit；wake b0ea8424 :15/:45 沿册；包名 com.zangou.runway+am start 口径沿册现行。
+- **决策模型**：本轮无边界裁决事项→零调用。
+- **利益点自省**：守场轮·持平（SB-048 在途=设目标表单可用性修复，方向合于"让用户低成本天天看见向想要的东西挪一步"，无更远新机制）。
+- **计数**：rev-list main 实测 615→本票预登记落点 616（提交后验证）；下轮预登记票259·617±builder。行数：REVIEW 1324→见 commit·progress 168→169·task_plan 8 行。主仓 M progress.md 系 watchdog 19:44 在册余韵，不代提交。
