@@ -1071,3 +1071,18 @@ automations,wake/看门狗/本巡检/反思/备份六项票218（08:02，28 分�
 | 结论 | NO_PUSH | 零动作轮持平×221·四实测防翻转 IDENTICAL·漂移审计零问题·冒烟/审查义务均不发生·remote 只读 origin/main=29871c74 未变零写入。监工签字：老油条 [supervisor patrol]
  |
 【票222 · 10-20 10:0x 轮】巡检票（监工·零动作轮·结论 PASS 无新提审·持平×222）: 零新审四实测(REQ mtime 1792073389<REVIEW 1792459984·盘上 md5 b20674957747f032256011567066616f=git show HEAD 逐字同值双实测+diff 0行+WAITING=0) · 计数兑现564与票221预登记222/564吻合·下拍预期223/565 · 队列零漂移(SB-012真人闸门第6天距10-22满剩约2天·浩然侧/SB-021挂起v0.2·done42 ls-tree实测·待办0见底无据不派·裁A在册) · 冒烟不发生(3a8c16e..HEAD 非docs提交=0+app diff=0实测·锚点3a8c16e不动·模拟器未起emulator/qemu=0) · 漂移审计零问题(禁词 app/lib 2行皆元引用: goal_ladder.dart:7注释+achievement.dart:13禁词表常量·真词零; test 3行=断言元引用; theme/motion外裸Color 0裸Duration 0; _LOCK 0 stash 0; main头0cd63a2↔票221归档轮✓; 链上非docs提交0无未审先合; 分支11零stray(SB-033@69deccb/SB-034@e576624/sb033-rescue@3e4918c删除待浩然一句话在册); --merged仅SB-034沿册) · 红线(金额命中5行全meta: REQ种子金样帧差声明+notification_parse注释示例+diag_mask脱敏逻辑·真实账目零命中) · 卫生(porcelain一件=docs/reviews/2026-10-18.md反思档mtime 1792330477持平不代提交·ahead266自洽·remote零写入·ls-remote只读origin/main=29871c74未变) · 周二无周批(周一07:0x已呈R26)·无新审=无视觉闸门义务 · automations实测total=1巡检拍lastRunStatus=ok准点·新鲜度自审: REQ盘=SB-046已审版在册·最高卡号=SB-046在册·applicationId com.zangou.runway实测现行(build.gradle.kts:19)·task_plan薄索引在位·冒烟am start口径在册·闸门倒计时尚符·唤醒/巡检参数无失配→零edit · 决策模型本轮无边界裁决未调用 · 利益点持平(守场: 产品距核心利益点不变·无SilentBook旧病信号) · ⚡零推送(常规轮NO_PUSH·闸门明日起若仍无动静按d-6承诺报浩然)。
+
+## 巡检票 223 · 2026-10-20 10:3x（监工·零新审守场轮）
+结论: 无新审（REQ mtime 1792073389 < REVIEW mtime，盘上 md5 b20674957747f032256011567066616f = HEAD 逐字 IDENTICAL 双实测 + diff 0 行 + WAITING=0 四实测，非假翻转）。冒烟义务不发生（3a8c16e..HEAD app/ diff=0 实测，模拟器 pgrep=0，锚点 3a8c16e 不动）。
+
+- 计数勘正在册: HEAD=794d0f7 实测 count=565（票222 预登记 222/564 系 off-by-one 虚高，HEAD 态实测应为 565=票222 自身落盘态）；本轮 commit 预期=566 第 566 枚；下拍预登记 224/567。
+- 队列: 零漂移。docs/tasks 仅 SB-012（闸门第6天，10-22 满，剩约 2 天，浩然侧）、SB-021（挂起 v0.2，不抢跑）。done/=42（ls-tree 42 + 盘上 42 双实测）。待办≤2 沿册不重催（HOLD=10-19 浩然确认）。
+- 分支/worktree: 本地 11（git branch 实测）与快照吻合；merged 仅 feat/SB-034-diag-channel；在册保留 feat/SB-033@69deccb、sb033-rework-rescued-3e4918c 不擅删；SB-037~041 五卡 worktree 在 /private/tmp/reshoot/*（prunable 残留，非 main 越权合入，登记待周批）。
+- remote: 红线守零。本轮仅 ls-remote 只读一次 origin/main=29871c74 未变，零写入；origin=GitHub（https）入观察项待周批重报。
+- 漂移审计（禁词/裸值/锁）: app/lib 命中 2 行皆元引用（goal_ladder.dart:7 口径注释 + achievement.dart:13 禁词表定义=在册白名单）；app/test 命中 3 行皆禁词表断言（cooloff_test:183、experiment_test:148、goal_ladder_test:127=元引用）。ui/theme 与 motion_spec 外裸 Color(0x = 0、Duration(milliseconds: = 0。红线金额 app/lib 实测 4 行全 meta（grain_report:174 合成阈值注释、category_rules:66-67 合成口径注释、notification_parse:16 格式文档；勘正：上轮口径 5 行，本轮同模式实测 4 行）；真实账目零命中。LOCK/stash 零。脏源仅 docs/reviews/2026-10-18.md（反思档，不代提交，沿册）。
+- 新鲜度自审: 三件套锚点全现行（最高卡号 SB-046 归档、REQ=已审版、包名 com.zangou.runway 实测 build.gradle.kts:19、task_plan 薄索引在位、golden/sb0XX 口径不变）→ 零 edit。本巡检 job automations 实测 enabled=cron */30 lastRunStatus=ok。wake b0ea8424 直接复核受阻: automations total=1 不含 wake、~/.openclaw/cron/jobs.db 与 cron.db 实测均 0 字节（在册记录文件现为空，wake 载体不在此库）；沿册口径（票218 全量实测 ok）维持，异常入观察项待周批核查，本轮不擅改唤醒参数。
+- 利益点自省: 零动作守场=持平（既未更近亦未更远；堵点仍=SB-012 七天真人闸门浩然侧）。
+- 决策模型: 本轮零边界裁决事项（灰区 0），未调用。
+- 明日口径: 若闸门侧仍无动，按 d-6 承诺（10-22 满期前）给浩然发一句话提醒。
+
+零动作轮持平×223·四实测防翻转 IDENTICAL·漂移审计零问题·计数勘正 565 落册·冒烟/审查义务均不发生·remote 只读零写入。监工签字：老油条 [supervisor patrol]
