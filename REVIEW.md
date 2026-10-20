@@ -1038,3 +1038,19 @@ automations,wake/看门狗/本巡检/反思/备份六项票218（08:02，28 分�
 利益点自省,本轮零动作守场=持平（既未更近亦未更远；堵点仍=SB-012 七天真人闸门浩然侧）,持平
 决策模型,本轮零边界裁决事项（灰区 0），未调用,不适用
 结论,零动作轮持平×219·上拍正常落地本拍准点·四实测防翻转 IDENTICAL·漂移审计零问题·冒烟/审查义务均不发生·remote 零触碰·NO_PUSH。监工签字：老油条 [supervisor patrol]
+
+## 票220,2026-10-20 09:0x,零新审（REQ mtime 1792073389(10-15 22:09)<REVIEW 1792456386+盘上 md5 b20674957747f032256011567066616f=git show HEAD:REVIEW_REQUEST.md 实测逐字同值 IDENTICAL 双实测+git diff HEAD -- REVIEW_REQUEST.md=0 行+WAITING_HUMAN grep=0，四实测一致）
+| 字段 | 裁决 | 理由 |
+|---|---|---|
+| 新审查请求 | 零 | REQ mtime 1792073389 与上轮持平（10-15 22:09 版）；四实测防翻转一致，非假翻转 |
+| 队列同步 | 持平 | docs/tasks 仅 SB-012|SB-021 两卡在册+done/42（ls-tree 实测=盘上实测，首 SB-001.md/末 SB-046.md）；与快照 queue 零漂移；待办 0 见底=R26 已呈不重投 |
+| SB-012 | 闸门第6天 | 7 天真人闸门 10-22 满，剩约 2 天；届时核实真人数据入库证据，无则不推 tag；浩然侧 |
+| SB-021 | 挂起 v0.2 | 10-22 重测等（10-19 浩然确认），不抢跑；合入冻结下仍 HOLD |
+| 冒烟 | 不发生 | 3a8c16e..HEAD -- app/ diff=0 实测；模拟器不启动（pgrep emulator/qemu=0 复核）；last_smoke_commit 吻合 |
+| 零问题 SB-012 闸门 | 观察 | 今日 10-20 距满期约剩 2 天，浩然侧无新增动作需求，不达推 tag 条件也不触发⑤类推送 |
+| automations | 零失配 | 周二非周批首日无【规范适配审查】义务；wake b0ea8424 等六项票218全量实测 ok 沿册在册，间隔短不重投 |
+| 新鲜度 | 零 edit | 三件套锚点全部现行（最高卡号 SB-046 done/42、REQ 盘上=HEAD 已审版、冒烟锚 3a8c16e、包名 com.zangou.runway、task_plan 薄索引在位） |
+| 漂移与一致性审计 | 零问题 | 禁词 grep app/lib 命中 2 行皆元引用（goal_ladder.dart:7 注释口径声明+achievement.dart:13 achievementBannedWords 禁词表定义本身=在册白名单）；app/test 3 行皆断言数据；裸 Color(0x outside ui/theme=0；Duration(milliseconds: outside theme/motion_spec=0；红线真实账目数据零命中；_LOCK=0；stash=0；worktree=7 持平；feat/SB-034-diag-channel 已合入 merged 在册；脏源一件 docs/reviews/2026-10-18.md 持平在册；main 头 commit 0e5d83d=票219 归档轮对应 ✓；rev-list 562 兑现快照预登记 220/562 |
+| 利益点自省 | 持平 | 本轮零动作守场=持平（既未更近亦未更远；堵点仍=SB-012 七天真人闸门浩然侧） |
+| 决策模型 | 不适用 | 本轮零边界裁决事项（灰区 0），未调用 |
+| 结论 | NO_PUSH | 零动作轮持平×220·四实测防翻转 IDENTICAL·漂移审计零问题·冒烟/审查义务均不发生·remote 零触碰。监工签字：老油条 [supervisor patrol]
