@@ -11,6 +11,8 @@ import '../logic/role_resolver.dart';
 import 'theme/app_theme.dart';
 import 'theme/tokens.dart';
 import 'price_card.dart';
+import 'category_role_wall.dart';
+import 'widgets/progress_ring.dart';
 
 // SB-005 · 类目管理页（规则引擎落地页：其他占比 + 六类目合计 + 手工纠正回写入口）.
 // SB-019 · 角色轴：头部本月弹性占比（首页不放）+ 每类目角色三选（编辑必选，未选必提示）
@@ -109,38 +111,85 @@ class CategoryPage extends StatelessWidget {
                     Container(
                       decoration: AppTheme.heroCard(),
                       padding: const EdgeInsets.all(RunwaySpacing.cardInner),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      // SB-047 · 页首占比可视化：左文案 + 右复用首页 ring.
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Text(
-                            elasticShareText(
-                              share: month.elasticShare,
-                              elasticFen: month.elasticFen,
-                            ),
-                            // SB-027 · 弹性占比句是说明性长句，禁套跑道大数字
-                            // 字号（RunwayHero.numberSize=28）：降至标题档，
-                            // 溢出与"一句话顶标题大"实锤即此修.
-                            // SB-027 ①b · 渐变卡内文字一律高对比档：ink 系深色
-                            // 在 hero 深青渐变上对比度不足，改用 RunwayHero 白系.
-                            style: theme.textTheme.titleLarge?.copyWith(
-                              color: RunwayHero.number,
-                              fontFeatures: const <FontFeature>[
-                                FontFeature.tabularFigures(),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  elasticShareText(
+                                    share: month.elasticShare,
+                                    elasticFen: month.elasticFen,
+                                  ),
+                                  // SB-027 · 弹性占比句是说明性长句，禁套跑道大数字
+                                  // 字号（RunwayHero.numberSize=28）：降至标题档，
+                                  // 溢出与"一句话顶标题大"实锤即此修.
+                                  // SB-027 ①b · 渐变卡内文字一律高对比档：ink 系深色
+                                  // 在 hero 深青渐变上对比度不足，改用 RunwayHero 白系.
+                                  style: theme.textTheme.titleLarge?.copyWith(
+                                    color: RunwayHero.number,
+                                    fontFeatures: const <FontFeature>[
+                                      FontFeature.tabularFigures(),
+                                    ],
+                                  ),
+                                  key: const Key('elasticShare'),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  '能省的钱是可优化的空间 · 预算与冷静期只压能省的',
+                                  // SB-047 · 副句提级 bodyMedium（可读主文案）.
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    color: RunwayHero.sub,
+                                  ),
+                                  key: const Key('elasticHint'),
+                                ),
                               ],
                             ),
-                            key: const Key('elasticShare'),
                           ),
-                          Text(
-                            '能省的钱是可优化的空间 · 预算与冷静期只压能省的',
-                            // SB-027 ①b · 同上：bodySmall 次灰改 hero 副白.
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: RunwayHero.sub,
+                          const SizedBox(width: 12),
+                          ProgressRing(
+                            fraction: month.elasticShare,
+                            key: const Key('elasticRing'),
+                            center: Text(
+                              '${(month.elasticShare * 100).toStringAsFixed(0)}%',
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                color: RunwayHero.number,
+                                fontFeatures: const <FontFeature>[
+                                  FontFeature.tabularFigures(),
+                                ],
+                              ),
                             ),
-                            key: const Key('elasticHint'),
                           ),
                         ],
                       ),
                     ),
+                    // SB-047 · 空态重设计：零记录只出一张引导卡，角色墙隐藏.
+                    if (rows.isEmpty)
+                      const SizedBox(height: RunwaySpacing.section),
+                    if (rows.isEmpty)
+                      Card(
+                        child: Padding(
+                          padding: EdgeInsets.all(RunwaySpacing.cardInner),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                '去记一笔，占比与角色在这里等你',
+                                style: theme.textTheme.titleMedium,
+                                key: Key('emptyCatHint'),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                '记下第一笔后，这里会显示本月类目占比与角色解释',
+                                style: theme.textTheme.bodySmall,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     if (diningHits > 0) ...<Widget>[
                       const SizedBox(height: RunwaySpacing.section),
                       Card(
@@ -167,81 +216,24 @@ class CategoryPage extends StatelessWidget {
                         ),
                       ),
                     ],
-                    const SizedBox(height: RunwaySpacing.section),
-                    Text('角色 · 每类必选', style: theme.textTheme.titleMedium),
-                    const SizedBox(height: 8),
-                    for (final String c in cats)
-                      Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(
-                            RunwaySpacing.cardInner,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    // SB-039 ① · 标题取全称（key 沿用引擎短名，零迁移）.
-                                    child: Text(
-                                      categoryDisplayName(c),
-                                      style: theme.textTheme.titleMedium,
-                                    ),
-                                  ),
-                                  Text(
-                                    formatFenYuan(
-                                      summary.fenByCategory[c] ?? 0,
-                                    ),
-                                    style: theme.textTheme.titleMedium,
-                                    key: Key('catTotal-$c'),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 8),
-                              Wrap(
-                                spacing: 8,
-                                children: <Widget>[
-                                  for (final CategoryRole r
-                                      in CategoryRole.values)
-                                    ChoiceChip(
-                                      label: Text(roleLabel(r)),
-                                      selected: resolveRole(c, overrides) == r,
-                                      onSelected: (_) async {
-                                        await db.setCategoryRole(
-                                          category: c,
-                                          role: roleName(r),
-                                        );
-                                      },
-                                      key: Key('role-$c-${roleName(r)}'),
-                                    ),
-                                ],
-                              ),
-                              if (!overrides.containsKey(c) &&
-                                  !defaultCategoryRoles.containsKey(c))
-                                Text(
-                                  '请选择角色：要花的 / 能省的 / 固定的',
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                    color: theme.colorScheme.error,
-                                  ),
-                                  key: Key('rolePrompt-$c'),
-                                ),
-                            ],
-                          ),
-                        ),
+                    // SB-047 · 角色墙默认折叠（记录>0 才出现）；未选行红点引导.
+                    if (rows.isNotEmpty) ...<Widget>[
+                      const SizedBox(height: RunwaySpacing.section),
+                      CategoryRoleWall(
+                        cats: cats,
+                        overrides: overrides,
+                        fenByCategory: summary.fenByCategory,
+                        onPick: (String c, String role) =>
+                            db.setCategoryRole(category: c, role: role),
                       ),
+                    ],
                     // SB-039 ③ · 其他占比 + 内置规则行已搬"我的"关于诊断区，
                     // 本页只留用户语言（走查"钱花哪了+哪能省"两步直达）.
-                    const SizedBox(height: RunwaySpacing.section),
-                    Text('近期记录（可纠正）', style: theme.textTheme.titleMedium),
-                    const SizedBox(height: 8),
-                    if (rows.isEmpty)
-                      Text(
-                        '还没有记录',
-                        // SB-039 ④ · 占位说明降 bodySmall.
-                        style: theme.textTheme.bodySmall,
-                        textAlign: TextAlign.center,
-                        key: const Key('emptyCatHint'),
-                      ),
+                    if (rows.isNotEmpty) ...<Widget>[
+                      const SizedBox(height: RunwaySpacing.section),
+                      Text('近期记录（可纠正）', style: theme.textTheme.titleMedium),
+                      const SizedBox(height: 8),
+                    ],
                     for (final Transaction r in rows)
                       Builder(
                         builder: (BuildContext itemCtx) {

@@ -115,6 +115,9 @@ void main() {
     await tester.pumpAndSettle();
 
     // 默认类有选中态（食=必要）.
+    // SB-047 · 角色墙默认折叠：先展开.
+    await tester.tap(find.byKey(const Key('roleWall')));
+    await tester.pumpAndSettle();
     expect(find.byKey(const Key('role-食-必要')), findsOneWidget);
     // 自建类无默认无覆盖 → 必提示.
     expect(find.byKey(const Key('rolePrompt-自建类')), findsOneWidget);
@@ -141,6 +144,9 @@ void main() {
     expect(find.byKey(const Key('diningGuide')), findsOneWidget);
     expect(find.byKey(const Key('diningCount')), findsOneWidget);
     // 不强制：食仍解析为必要.
+    // SB-047 · 角色墙默认折叠：先展开.
+    await tester.tap(find.byKey(const Key('roleWall')));
+    await tester.pumpAndSettle();
     expect(find.byKey(const Key('role-食-必要')), findsOneWidget);
 
     await _unmountAndFlush(tester);
