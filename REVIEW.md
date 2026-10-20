@@ -1245,3 +1245,16 @@ remote,仅 ls-remote 只读：origin/main=29871c745eab90c20c06ff35fc314416369f79
 - P-6 SUPERVISOR.md 成文「cron 锚块 deferred 自 edit 纪律」：实证=R24b 先例已沿 5 拍执行但未进规范文本。条文草案：「巡检/唤醒提示词内嵌锚点数据与盘上不符时，监工以实测为准、沿册记录、不自行 edit cron；每周一首轮随周批附最新实测锚点清单供批准更新。」
 - P-7 LOOP.md 状态机适配结论：一周实际运转无实质失配（S0 守卫 1-6 全有效；R30~R39 期间 builder 在非 main 零提交=SB-048 未合入+裁A 冻结的预期阻塞，非停转；_LOCK trap/原子性 mv 口径全绿）。仅建议微调：watchdog 清单加第⑦项「当前分支为 feat 且 REVIEW 最新票为已落码待提审状态超 12h」→ progress.md 记一行告警（本轮 SB-048 落码→提审间隔 5h40min 无动作观察在册，防把预期 idle 误读为环死）。
 - P-8 DESIGN_SYSTEM/DEV_WORKFLOW 修订视觉保真闸门补拍责任：实证=SB-046/047 两轮提审均缺实拍、监工补拍负担重。条文草案：「涉及 app/lib/ui/** 的卡提审缺实拍截图直接 REQUEST_CHANGES，由施工侧补拍后重提；监工补拍仅作设备故障时的代办。」
+
+## 票250 · 2026-10-21 01:0x 守场巡检 [supervisor R40]
+结论: PASS（无新提审）
+- 零新审四实测：REQ mtime 1792492820 < REVIEW 1792492885 · 三方 md5（盘=main=feat/SB-048）7857acb8 IDENTICAL（REQ 仍 SB-047 已审版·未翻转）· WAITING=0 · builder pgrep=0（00:3x 退场沿册）。
+- 队列零漂移：docs/tasks 在库 5 张（SB-048 已落码待提审 / SB-049~051 报修未提审 / SB-021 挂起 v0.2），卡 mtime 未动（10-20 14:57~15:02）；done=44 ls-tree 实测；与 00:3x 快照逐项吻合，无同步义务；待办 5>2 不触底。
+- SB-048 落码→提审间隔实测 6h16min（2d920bc 18:48:57→本轮 01:04），超出近册 5h40min 但 < P-7 建议告警阈 12h，续观察 P3；wake 若翻转 REQ 即首审+视觉保真闸门适用（goal_editor.dart/goal_price_follow.dart 触 ui/**，缺实拍按 P-8 新口径）。
+- 冒烟不发生：app diff 3eb3ca4..main=空输出（其后仅 docs/review 票240~249 提交）· 无 G 卡 PASS · emu pgrep=0 · last_smoke_commit 3eb3ca4 沿册不动。
+- 漂移与一致性审计全绿：禁词命中 2 行均元引用沿 p=0.88 豁免口径（P-3 提案在册）· ui/theme 与 motion_spec 外裸 Color(0x / Duration(millisecond s:=0 · _LOCK=0 · stash=0 · 分支：feat/SB-034-diag-channel（在册不擅清）· feat/SB-047-ledger-info（已合未删沿册）· feat/SB-048 在途 · worktree 3（/tmp/runway-supervisor=main 干净·vC 断链观察沿册）· main 头 1f5f529=票249 归档轮对应 ✓ · 红线：本轮无真实账目数据出现 · remote 零触碰。
+- 簿记勘正：主库工作区检出 feat/SB-048 且遗留 1 处 M progress.md（watchdog 19:44 巡夜行·同文已在 main/progress 落定 grep=2）→ 半截现场记册；系 watchdog 所留非本轮，其内容已安全入 main，按不擅清他人工作区口径保留原样不 reset；簿记提交一律 /tmp/runway-supervisor=main（branch --show-current 实测 feat 后绕开主库落笔）。
+- 新鲜度：wake b0ea8424 :15/:45 现役沿册 · 88a8e128/91c081bc 退役在册 · 裁A 冻结在册 · 包名 com.zangou.runway 现行 · 周三周批已随票249 提交（P-1~P-8 待浩然拍板）本轮免重复 · deferred 零自 edit · 本轮无 cron 改动。
+- 决策模型：本轮无边界裁决事项，零调用。
+- 利益点自省：守场拍=保审计台账干净、builder 提审通道无阻塞，维护型持平（未更远）。
+- 计数：落笔前 rev-list main 实测 607（=票249 落点兑现）· 本票 REVIEW+progress 双写单提交落点预期 608 · 下拍预登记 251/609±builder（REQ 翻转即首审）。⚡五类：均不属 → 零推送 NO_PUSH。监工签字：老油条 [supervisor R40]
