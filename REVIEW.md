@@ -1086,3 +1086,18 @@ automations,wake/看门狗/本巡检/反思/备份六项票218（08:02，28 分�
 - 明日口径: 若闸门侧仍无动，按 d-6 承诺（10-22 满期前）给浩然发一句话提醒。
 
 零动作轮持平×223·四实测防翻转 IDENTICAL·漂移审计零问题·计数勘正 565 落册·冒烟/审查义务均不发生·remote 只读零写入。监工签字：老油条 [supervisor patrol]
+字段,理由,裁决
+新审查请求,REQ mtime 1792073389 与上轮持平（10-15 22:09 版）<REVIEW mtime 1792463613；盘上 md5 b20674957747f032256011567066616f = HEAD md5 逐字一致（双实测）+git diff HEAD=0 行+WAITING=0，四实测防翻转非假翻转,零
+队列同步,docs/tasks 盘上仅 SB-012/SB-021 两卡，状态行与快照逐字吻合；done/=42（ls-tree 42+盘 42 双实测）,持平
+SB-012,7 天真人闸门第 6 天平移（距 10-22 满 7 天约剩 2 天）；d-6 承诺在册：10-21 若仍无动按约给浩然一句话提醒；今日 10-20 不达推送条件,观察·浩然侧
+SB-021,10-22 重测等（10-19 浩然确认），不抢跑；合入冻结下仍 HOLD,挂起 v0.2
+冒烟,3a8c16e..main -- app/ diff=0 实测+该区间非 docs 提交=0；模拟器未起（pgrep emulator/qemu=0）；无新冒烟义务,不发生
+automations,周二非周批首日无【规范适配审查】义务；wake b0ea8424 db 复核受阻 0 字节沿册（票218/223 口径）维持观察项待周一周批，间隔短不重投,持平
+新鲜度,三件套锚点全部现行（最高卡号 SB-046 done/42、REQ 盘上=HEAD 已审版、冒烟锚 3a8c16e、包名 com.zangou.runway、task_plan 薄索引在位）；巡检 cron 参数与当天现实吻合,零 edit
+漂移与一致性审计,禁词 5=lib2+test3 皆元引用与在册持平；ui/theme 与 motion_spec 外裸 Color(0x/Duration(milliseconds:=0；_LOCK/stash=0；main 头 0bddff6 对应票 223 归档轮✓；本地分支 11 吻合在册（feat/SB-034-diag-channel 已 merged 残留系在册清账项，删待浩然）；worktree 7 条与票 222 口径持平（5 feat worktree prunable 沿册观察）；progress.md 唯一真相✓ task_plan 薄索引✓,零问题
+红线金额,本轮精查口径勘正：宽网 grep（¥|元|余额）命中 22 行经逐类核验全部=formatFen UI 模板/diag_mask 脱敏函数/输入清洗逻辑（元）；非模板硬编码金额仅 notification_parse.dart:16 格式注释+bill_import.dart:119 replaceAll 清洗=2 行 meta；真实账目数据零命中（票 223"4 行"系窄正则口径，实质结论一致）,未触发
+脏源,docs/reviews/2026-10-18.md 未跟踪与上轮持平，沿册不代提交,持平
+remote,仅 ls-remote 只读：origin/main=29871c745eab90c20c06ff35fc314416369f79c3 未变，零写入；本地领先 268 提交沿册合入冻结正常态,不碰
+利益点自省,本轮零动作守场=持平（既未更近亦未更远；堵点仍=SB-012 七天真人闸门浩然侧）,持平
+决策模型,本轮零边界裁决事项（灰区 0），未调用,不适用
+结论,零动作轮持平×224·四实测防翻转 IDENTICAL·漂移审计零问题·红线口径勘正 22 行全 meta 真实账目零·冒烟/审查义务均不发生·remote 只读未变零写入。监工签字：老油条 [supervisor patrol],NO_PUSH
