@@ -1161,3 +1161,17 @@ remote,仅 ls-remote 只读：origin/main=29871c745eab90c20c06ff35fc314416369f79
 - 决策模型：本轮零新边界裁决，未调用。
 - 利益点自省：持平微近——SB-048（设目标表单日历化+自定义下拉+进阶折叠）直击「首记认知摩擦」，提审过审后即更近一步；守场轮不倒退。
 - 计数：落笔前 rev-list main 实测 599 · 本票+progress 双文件单提交落点预期 600 · 下拍预登记 243/601±builder 并发。⚡五类无一触发·投递正文 NO_REPLY。监工签字：老油条 [supervisor R33]
+
+## 巡检票 243 · 2026-10-20 20:3x（R34 守场轮·零新审零冒烟·漂移审计含禁词行级证据）
+结论: PASS（无新提审）
+- 零新审四实测：REQ mtime 1792492820 < REVIEW 1792492885（与票242 登记值逐位吻合·未翻没翻转）· 盘上 REQ ↔ git show main:REVIEW_REQUEST.md diff=IDENTICAL（SB-047 已审版勿重审）· REQ 内 WAITING=0 · feat/SB-048@2d920bc（18:48 落码）未碰 REQ=提审义务不发生。
+- 队列零漂移：SB-048 已码交待提审 · SB-049~051 待施工/待提审 · SB-021 挂起 v0.2（10-22 重测沿浩然确认不抢跑）· done/=44 ls-tree 实测回显 · 待办 4>2 不触底提醒 · 队列快照与票242 逐字吻合不推送。
+- 并发/在场实测：OpenCode GUI pid 98894 存活 · gradle daemon 驻留无进行中 build · flutter build 0 · emulator 0 · _LOCK=0（watchdog 19:44 清后未再生）· stash=0 · 主仓 worktree 仍占 feat/SB-048。
+- 卫生观察（P3·不阻塞不追责）：①watchdog 19:44 追加的 progress.md 一行长期未提交（实测盘上仅领先 main 该行·porcelain=M progress.md）——watchdog 应自提交渠道，本轮已并票补登销账；②feat/SB-048 基线=9cb6d5c 落后 main 头 4814c1e（差一 docs 提交）·merge-base 实测 feat 不含 4814c1e=提审时须 rebase/合 main，届时审基线。
+- 冒烟：不发生。3eb3ca4..main -- app diff=0 实测（4814c1e 纯 docs）· 锚点维持 3eb3ca4 · 无 G 卡 PASS · 未起模拟器（不与 opencode 并发口径不破）。
+- 漂移与一致性审计（行级证据）：禁词 app/lib=2 命中（goal_ladder.dart:7 注释复述+achievement.dart:13 禁词表本体）·app/test=3 命中（cooloff_test.dart:183/experiment_test.dart:148/goal_ladder_test.dart:127 均为断言黑名单词表数据，assert-not 语境）——合计 5 处全元引用·用户可见违例=0·沿票234 决策p=0.88 豁免勿重投；SB-048 增量（main..feat 已落码）新增违例实测=0；裸 Color(0x（ui/theme 外）=0 · 裸 Duration(milliseconds:（motion_spec 外）=0；branch 实测4：main@4814c1e↔票242 归档轮闭环✓ · feat/SB-034-diag-channel@e576624 素材在册零触碰✓ · feat/SB-047-ledger-info@5093505 已合未删=P2 残支沿册待浩然一句话✓ · feat/SB-048 在途合法✓；worktree 实测2→本票起+1 临时簿记支（/tmp/rw-sup-243·提交后即除）；vC@092f7e2 prunable=浩然侧余韵零触碰；红线采样（美团|工资|房贷）app/lib+app/test grep 实测=0 命中·真实账目零=无 FAIL✓；main 头 commit↔REVIEW 最近归档轮（票242）吻合·无跳审代码提交✓；progress.md=唯一真相续登✓·task_plan.md 薄索引实测 8 行头注明「只读缓存非真相」现行（盘上 mtime 17:03 与票242 近册同位·非真相误用风险=0）✓；origin=a73f90c 仅在册·本轮 remote 零触碰✓。
+- 提示词新鲜度自审：job 锚块「最高卡号=SB-046/REQ=SB-046 已审版」过时（实测最高卡号=SB-051·REQ 盘上=SB-047 已审版·done=44·main 头链 9cb6d5c→4814c1e·冒烟锚 3eb3ca4·包名 com.zangou.runway 实测 build.gradle 现行·golden/sb0XX 归档路径实测现行·-no-snapshot-load/am start 口径现行）——沿 R24b「cron 文更新 deferred 待浩然批准」+工具侧仅可读当前 job 无 edit 能力·本轮零自 edit。
+- 周二非周一：无【规范适配审查】义务；周一批挂账不变（046 灰区 p=0.54 复核+条款草案+SB-047 残支删除请示+锚块更新请示）。
+- 决策模型：本轮零新边界裁决，未调用（meta 豁免 p=0.88 在册勿重投）。
+- 利益点自省：持平微近——SB-048（showDatePicker 日历化实测 2 处+自定义/进阶折叠 9 处实现在码·全表单零数字键入方向）直击「首记认知摩擦」，卡待提审、过审即更近；守场轮不倒退。
+- 计数：落笔前 rev-list main 实测 600（票242 预登 243/601±builder 兑现·builder 18:48 后零新落点·无并发）· 本票+progress 双文件单提交落点预期 601 · 下拍预登记 244/602±builder（SB-048 REQ 翻转即首审+视觉保真闸门：实拍缺则按 SB-046/047 先例监工补拍）。⚡五类无一触发·投递正文 NO_REPLY。监工签字：老油条 [supervisor R34]
