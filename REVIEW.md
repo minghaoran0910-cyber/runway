@@ -1309,3 +1309,16 @@ remote,仅 ls-remote 只读：origin/main=29871c745eab90c20c06ff35fc314416369f79
 - **落盘事故留痕**：本票首次 worktree 提交因 update-ref 传空基线失败+worktree --force 清除丢 detached commit（悬空 158047b/3941d72 系历史旧票非本轮），二次重做以显式 rev-parse 基线成功——教训：worktree 合入前必须先取 MAIN 基线再建 worktree，清除禁用 --force 于未验证合入的 worktree。
 - **利益点自省**：守场=更近（保 builder 提审链路与口径稳定）。
 - 落点 1149→票256 后行数见 commit。
+
+## 票257 · 守场巡检（2026-10-21 04:3x R47·⚡零推送）
+- **新审查**：零。REQ 盘上 mtime 1792492820 < REVIEW 1792492885；三方 md5 验真（盘上=main=feat/SB-048 均 7857acb8b1fedb48422a357ecfeb1285）IDENTICAL 未翻转=SB-047 已审版；feat main..HEAD 实测仅 2d920bc 一提交且 REQ 内文未更新=SB-048 提审未落盘→审查义务不发生。
+- **队列同步**：零漂移。SB-048 已落码待提审（码体 2d920bc 落码 10-20 18:48:57·落笔实测 gap≈9h43min<12h 沿 P3 续观察·06:49 触阈→≥12h 零提审升级排期提案给浩然拍板）·SB-049~051 报修未提审·SB-021 挂起 v0.2·done/=44 ls-tree 实测回显（末 SB-047.md）·待办=4>2 见底提醒不触发·无推送义务。⚠️时间戳观察：票256 自记"04:5x/gap10h05min"与本轮实测时钟（date=2026-10-21 04:31+0800）矛盾——票256 系上轮簿记超前笔误或时钟漂移，登记观察不改判（结论一致：<12h 沿 P3）。
+- **现场恢复（本轮事件·监工自家 worktree）**：开工发现 /tmp/runway-supervisor 存在未提交回退——REVIEW.md 尾部票256 节 11 行被 staged 删除（index 落后 HEAD）。票256 已随 9814f5d 落 main，故按轮次收尾铁律干净回滚：git restore --staged --worktree REVIEW.md，实测票256 文本回位（grep=2 处）·main 头无损。来源不明（非 builder 主目录·监工 worktree 仅簿录用），只回滚监工自有落盘面，remote 零触碰。附带发现：票256 提交仅含 REVIEW.md 11 行，未带 progress 登记——本轮补登（见 progress.md 补录行）。
+- **冒烟**：不发生。git diff 3eb3ca4..main -- app/ 实测空输出（锚后仅 docs 票 249~256）·无 G 卡 PASS·emulator pgrep=0 无残留·锚点 3eb3ca4 维持·不与 opencode 并发起模拟器口径不破。
+- **builder 观察**：pgrep -fl opencode=5 ALIVE（与票255 计数持平）·主目录 checkout feat/SB-048@2d920bc+progress.md 一行脏（watchdog 19:44 余韵在册）=施工占用，监工零触碰·本票走 worktree。
+- **漂移与一致性审计一行结论**（全部按 main ref 实测）：禁词命中 5=白名单元引用（achievement.dart:13 禁词表本体+goal_ladder.dart:7 注释复述+cooloff_test:183/experiment_test:148/goal_ladder_test:127 测试断言），用户可见违例=0✓豁免沿票234 p=0.88 勿重投；ui/theme·motion_spec 外裸 Color(0x=0·裸 Duration(milliseconds:=0✓；_LOCK 物理=0·stash=0✓；本地支实测 main+feat/SB-034-diag-channel+feat/SB-047-ledger-info（余支复现=票256 所记良性残留口径吻合，票255"消失"记为观察）+feat/SB-048（在途），均吻合在册（让位三不复评）✓；main 头 9814f5d=票256 归档轮↔REVIEW.md 链吻合·无跳审代码提交✓；红线采样（美团|工资|房贷）main app/lib+app/test 实测=0 命中·真实账目零=无 FAIL✓；progress.md 唯一真相续登（票256 补录+本票）✓·task_plan 薄索引只读未动✓；remote 本轮零触碰（红线持守）。
+- **新鲜度自审**：job 锚块「最高卡号=SB-046/REQ=SB-046/冒烟锚 3a8c16e/堵点=SB-012 七天闸门」过时沿票233~256 在册（实测最高卡号=SB-051·REQ 盘上锚=SB-047 已审版·冒烟锚 3eb3ca4·包名 com.zangou.runway 现行·薄索引现行）——本工具面无 cron edit 能力·文更新 deferred 沿册（P-9 周一批提案挂浩然）。
+- **周批**：周三非周一，无【规范适配审查】义务。
+- **决策模型**：本轮零新边界裁决，未调用（meta 豁免 p=0.88 在册勿重投）。
+- **利益点自省**：持平——守场不推进亦不倒退；本轮恢复监工簿记现场=保真相链完整，方向更近半格；SB-048（设目标表单日历期限+金额预设+进阶折叠）直接降「想要东西→拆阶梯」首跑成本=方向正确，待提审。
+- **计数**：落笔前 rev-list main 实测 614（票255 预登 256/614 兑现✓无 builder 并发）·本票+progress 双文件合并单提交落点预期 615·下拍预登记 258/616±builder 并发。⚡五类无一触发·投递正文 NO_REPLY。监工签字：老油条 [supervisor R47]
