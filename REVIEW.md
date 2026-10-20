@@ -1282,3 +1282,15 @@ remote,仅 ls-remote 只读：origin/main=29871c745eab90c20c06ff35fc314416369f79
 - 决策模型：本轮无边界裁决事项（禁词命中系既有 p=0.88 裁决范围，不重复调用），零调用。
 - 利益点自省：守场维护拍——零推送+闸门口径稳定=机制不偏离『接近零成本天天看见挪一步』，持平。
 - 计数：rev-list main 实测 609，本票落点 610，下拍预登记 253/611±builder。⚡零推送 NO_PUSH
+
+## 票253 · 2026-10-21 02:3x 守场巡检 [supervisor R43] 结论: PASS（零新审，无提审请求）
+- mtime 实测：REQ 1792492820（10-20 18:40:20）< REVIEW 1792492885 → 无新提审。
+- 验真：REQ 盘上=main工作区=HEAD=feat 四方 md5 7857acb8 IDENTICAL 未翻转（本轮 main 侧实测回显 7857acb8）。
+- 队列同步：docs/tasks/ 在盘 5 卡（SB-021 挂起v0.2 / SB-048 已落码待提审 / SB-049~051 报修待提审），done/ ls-tree 44，rev-list main 610——与快照零漂移。新登记：SB-048~051 卡体无"状态："行（grep 实测 0 命中），归 P-4 卡文实测前置提案包待浩然拍板，监工不代补。
+- builder gap：SB-048 落码 2d920bc 18:48:57 → 本轮 02:3x ≈ 7h41min，<12h 阈（破线≈06:49），沿 P3 续观察；GUI pid98897 实测 ALIVE。
+- 模拟器：3eb3ca4..main app diff 实测为空（其后仅 docs 票249~252）·无 G 卡 PASS·无冒烟义务·emu pgrep=0 未起。
+- 漂移与一致性审计：禁词命中 2（achievement.dart:13 '又花掉'=禁词表 meta 引用、goal_ladder.dart:7 注释）系既有 p=0.88 裁决豁免在册，口径外命中 0；ui/theme、motion_spec 之外裸 Color(0x=0、Duration(milliseconds:=0；main 头 87b3ea0=票252 落点 ✓ 对应 REVIEW 最近归档轮；分支：feat/SB-034@e576624（素材待浩然亲裁）、feat/SB-047-ledger-info@5093505（已合未删=P2 挂账）、feat/SB-048@2d920bc（builder 现役检出）均在册无新残支；_LOCK=0、stash=0；/private/tmp/vC 断链 prunable 沿册不擅动；主库 feat 检出遗留 M progress.md 沿册不擅清。
+- 提示词新鲜度：cron 指令体内 wake 锚（最高卡号 SB-046/done=42/冒烟锚 3a8c16e/wake b0ea8424）已过时——现实=最高卡号 SB-051、done=44、冒烟锚 3eb3ca4；指令自称"以 docs/tasks/ 最高卡号与快照队列对照为准"故误导无害；本工具面无 cron edit 能力，刷新诉求随周一批提案（P-9）挂浩然，记册。
+- 决策模型：本轮无边界裁决事项（禁词命中系既有 p=0.88 裁决范围，不重复调用），零调用。
+- 利益点自省：守场维护拍——零推送+闸门口径稳定=机制不偏离『接近零成本天天看见挪一步』，持平。
+- 计数：rev-list main 实测 610，本票落点 611，下拍预登记 254/612±builder。⚡零推送 NO_PUSH
