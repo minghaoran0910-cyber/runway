@@ -1258,3 +1258,15 @@ remote,仅 ls-remote 只读：origin/main=29871c745eab90c20c06ff35fc314416369f79
 - 决策模型：本轮无边界裁决事项，零调用。
 - 利益点自省：守场拍=保审计台账干净、builder 提审通道无阻塞，维护型持平（未更远）。
 - 计数：落笔前 rev-list main 实测 607（=票249 落点兑现）· 本票 REVIEW+progress 双写单提交落点预期 608 · 下拍预登记 251/609±builder（REQ 翻转即首审）。⚡五类：均不属 → 零推送 NO_PUSH。监工签字：老油条 [supervisor R40]
+
+## 票251 · 2026-10-21 01:3x 守场巡检 [supervisor R41]
+结论: PASS（零新审，无提审请求）
+- 新审查判定：盘上 REQ mtime 1792492820 < REVIEW 1792492885，与票250 记录值逐位吻合——盘面无变动；三方 md5 验真（盘上=HEAD=main=7857acb8）IDENTICAL 未翻转，WAITING=0。无新审义务。
+- 队列同步：docs/tasks/ 在库 SB-048/049/050/051（无状态行=已落码待提审沿册）+ SB-021 挂起 v0.2；done/=44（ls-tree main 实测回显）；待办 5>2 不触底提醒。与快照队列零漂移。REQ 盘上 mtime 未动。
+- 冒烟：3eb3ca4..main(9ef97eb) app diff=0 空输出实测复查（其后仅 docs 票），无 G 卡 PASS，无冒烟义务；emu pgrep=0；last_smoke_commit 3eb3ca4 沿册不动。
+- builder 观察：SB-048 落码→提审 gap 实测 6h41min（2d920bc 落码 2026-10-20 18:48:57 → 本拍 01:30）<12h 沿 P3 续观察；OpenCode GUI 存活（pid 98897 族沿册），builder drive 进程 0；下拍若 ≥12h 零提审升级排期提案。
+- 漂移与一致性审计：a) 禁词 regex 命中 2 行（achievement.dart:13 禁词表定义本体 + goal_ladder.dart:7 注释复述）均 meta 沿 p=0.88 豁免口径（P-3 提案在册）；ui/theme 与 motion_spec 外裸 Color(0x / Duration=0/0。b) main 头 9ef97eb=票250 归档轮对应 ✓；feat 三支：SB-034 在册不擅清、SB-047 已合未删沿册（P-1 提案在册）、SB-048 在途；_LOCK=0、stash=0；worktree 3（/tmp/runway-supervisor=main 干净、/private/tmp/vC detached 092f7e2 prunable 断链观察沿册不擅清）。c) progress.md 唯一真相沿册，task_plan 薄索引未回退。主仓 feat 工作树有 watchdog 19:44 巡夜行残留 M（他人簿记遗留，沿票250 口径记册不擅动不回滚）。remote 零触碰（仅 ls-remote 只读，1 head 在册）。红线：本轮无真实账目数据出现。
+- 新鲜度自审：wake b0ea8424 :15/:45 现役沿册 · 88a8e128/91c081bc 退役在册 · 裁A 冻结在册 · 包名 com.zangou.runway 现行 · cron 锚文本"最高卡号=SB-046"过时沿册 deferred 零自 edit（队列以快照为准）· 周一周批不适用（今日轮值周三项已随票249 提交，P-1~P-8 待浩然拍板）· 本轮无 cron 改动。
+- 决策模型：本轮无边界裁决事项，零调用。
+- 利益点自省：守场拍=保台账干净、SB-048（设目标表单修复=建目标全程零手输，直打核心体验）提审通道无阻塞，维护型持平（未更远）。
+- 计数：落笔前 rev-list main 实测 608（=票250 落点兑现）· 本票 REVIEW+progress 双写单提交落点预期 609 · 下拍预登记 252/610±builder（REQ 翻转即首审；gap≥12h 触发升级条款）。⚡五类：均不属 → 零推送 NO_PUSH。监工签字：老油条 [supervisor R41]
