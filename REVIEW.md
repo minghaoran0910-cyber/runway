@@ -1494,3 +1494,25 @@ REVIEW 2026-10-21 SB-051（§6动效体系全页落地）
 下一步：等浩然对裁①拍板（批监工补拍→三卡一批实拍复审→合格即合·仍守裁A）；builder 复审重提时修正问题2措辞。主库已恢复 main（本轮入场时停 feat/SB-051·与票277 同款 P2 观察再记一次）。
 
 > 【守场 · R70】2026-10-21 20:3x 巡检票（监工轮·零动作·结论 PASS 无新审）: 零新审双实测防翻转(REQ mtime 1792584465<REVIEW 1792584501·盘 md5 0642d792≡HEAD 恒等·WAITING0) · 队列零漂移(SB-049/050/051 待复审三卡全卡裁①·票279 已并呈提醒未回不重推·SB-021 挂起v0.2·done/=45·卡文件 mtime 全部沿册未动) · 冒烟不发生(main 123844d↔票279 闭环·2f3e3dd..HEAD app diff=0 实测·锚维持) · 漂移与一致性审计(条款6)全绿(禁词 03f02ac..HEAD 新增0·本轮无 ui 新合入裸值不适用·_LOCK物理0·stash0·porcelain0·分支6 零stray·worktree3 沿册·并发0=emu pgrep 实测·origin零触碰·main 639 口径自洽) · 决策模型未调用(零新审) · 下一步：等裁①拍板(一句话解三卡)或 builder 复审重提；21:37 builder 票照常落盘不波及。
+
+## 票281 · 2026-10-21 21:0x · R71 · SB-051 复审第2轮（零改码重提·措辞勘正）
+
+REVIEW 2026-10-21 SB-051（复审第2轮） 结论: REQUEST_CHANGES（维持·仅待裁①实拍）
+
+**审查对象**：feat/SB-051-motion@acb24ce（REQ 盘 md5 8178cf1f516f413f9dba7a13e8288ddb ≡HEAD 恒等·真翻转：REQ 1792586886 > REVIEW 1792586850 且盘 REQ ≠ main 旧版 0642d79）。**零改码验真（本轮实测）**：git diff 03f02ac..acb24ce --stat = 仅 REVIEW_REQUEST.md+progress.md 2 文件，app 零变更 → 票279 实测质量结论（flutter test 501/501·format/analyze/hygiene 三闸·MotionSpec 收口）沿册承接，本轮未重跑全量（builder 并发 test 在飞 21:0x 实测 4 flutter_tester 进程，避构建产物互踩）。
+
+**问题②勘正验真·闭环**：REQ 第15行实读「reduce 四构件全分支仅系统级 MediaQuery.disableAnimations（…未绑定设置store——首审"与设置store"措辞勘正…）」✓；全库代码复证 grep disableAnimations：motion_kit.dart:10/34/41/83 + achievement_card.dart:170 全为 MediaQuery 系统级、零 store 绑定 ✓。措辞不实记账销账。
+
+**问题①实拍·闸门维持**：REQ 明示「复审仍待裁①落定，请求监工在补实拍轮一并补拍」。视觉保真闸门条文「缺提审截图直接 REQUEST_CHANGES」仍生效；裁①（报修卡豁免附图监工补拍）浩然在飞未回，监工无自批权。**决策模型本轮实调**：hold_request_changes p(true)=0.90 ≥0.75 按判落——维持打回，不 PASS、不自行补拍放行；裁①批复后 SB-049/050/051 三卡一批补实拍+冒烟一条龙。
+
+**冒烟**：不发生——本轮零新合入 main（main 尾两 commit 7df5eae/96f5eae 全 docs），实测 2f3e3dd..main app diff 行数=0，锚维持 2f3e3dd。
+
+**漂移与一致性审计**：禁词 diff 03f02ac..acb24ce app 新增=0（grep 实测）·_LOCK=0·stash=0·主仓树净·done/=45（ls-tree 实测）·分支 feat/SB-051-motion@acb24ce 对 current main ahead=2（含 acb24ce docs 票）余支沿册零 stray·origin 零触碰·主库停 feat/SB-051-motion=builder 施工在飞现场，监工不切回 main（避并发覆盖 builder 工作树）——R70 挂账口径维持。⚠️ 下轮防翻转口径：主库停 feat 期间 REQ 盘文件为复审版（md5 8178cf）而 REVIEW 盘为旧版，mtime 将持续显示"翻转"——下轮入场先验 REQ 盘 md5 ≡8178cf 则零新审，勿被 mtime 假翻转骗审。
+
+**队列（本轮快照）**：SB-049|待复审（裁①在飞）· SB-050|待复审（裁①在飞）· SB-051|复审第2轮再打回（仅待裁①实拍，其余全闭环）· SB-021|挂起 v0.2。待办>2 见底提醒不触发。
+
+**提示词时效登记**：cron 锚线「截止10-16 09:3x 最大卡号=SB-046」实测过期（真实最大=SB-051）；本轮无 cron edit 工具可用，挂周一规范适配审查一并修订，零误伤不擅动。
+
+**利益点自省**：builder 本轮只改单据不改码，勘正句与代码逐行互证——监工验的是"话有没有变成事实"（落票/销账），不是话本身；p=0.90 与票279 p=0.87 同判收束，裁①仍是 SB-051 唯一阻塞。
+
+（⚡零推送：裁①三卡并呈已在飞未回·本票结论=维持打回无新增浩然动作项·不重推）[supervisor R71]
