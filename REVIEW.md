@@ -1472,3 +1472,23 @@ REVIEW 2026-10-21 15:3x R64 票274 守场——零新审（REQ mtime 1792556537<
 - **决策模型**: 本轮零边界裁决，未触发。
 - **利益点自省（一句话）**: 更近——两卡退回均系视觉保真守门，拦住"没动效/草率"合入；本轮无新增机制偏移。
 - **下一步**: 等浩然豁免/裁①（附图监工补拍 vs builder 补截图管线）→ 随复审轮 SB-049+SB-050 一条龙补实拍+冒烟；SB-051 在队列待 wake 施工。
+
+---
+
+## 票279 · 2026-10-21 20:0x · R69 · SB-051 首审
+
+REVIEW 2026-10-21 SB-051（§6动效体系全页落地）
+结论: REQUEST_CHANGES
+
+- **审查对象**：feat/SB-051-motion@03f02ac（基于 main@96d628b·单 feat commit·业务+测试文件 8 ≤10 ✓·lib5+widgets套件1+test2·零禁区·依赖0）
+- **监工实测**：flutter test **501/501 全绿**（与提审单一致·含新增 sb051_motion_test 8/8）｜dart format 0 改动 ✓｜flutter analyze --fatal-infos --fatal-warnings app No issues ✓｜check-repo-hygiene OK ✓｜MotionSpec 收口走查：motion_kit 四套件（Pressable/CountUp/Stagger/TabSwitch）时长/曲线/位移/间隔全部引用 MotionSpec.*（press/state/transition/stagger 80/reducedMotion 80/listRise/emphasizedDecelerate）·改动文件内裸 Color(0x=0·裸 Duration 仅测试 pump 豁免（沿历轮口径）✓｜reduce 降级绑 MediaQuery.disableAnimations ✓｜golden _settle 300→800ms 取终态系测试参数·golden 501 内含全过（终态零变更与提审单相符）✓
+- **§6 申报合规**：按压/状态/转场三档落点齐·Sheet 豁免（未新增弹层·sheetIn/Out 常量在位）成立·shared-element 转场按 DEV_WORKFLOW §8.5 中途豁免申报流程走（沿 SB-050 同口径·不新开裁）
+- **问题列表**：
+  1. 🔴 主因（闸门）：**缺提审动效实拍**——视觉保真闸门（2026-10-13 浩然条款）：改 app/lib/ui/** 缺实拍直接 REQUEST_CHANGES，无审美审计小节不得判 PASS。builder 无设备申报监工补拍，与 SB-049/SB-050 同一"监工补拍可否代实拍"豁免裁决（裁①）并呈，**现三卡同闸待裁**。决策模型：p=0.87 ≥0.75 按判落——裁①未决期维持打回，不判 PASS、不监工自补放行。
+  2. 🟡 提审单措辞不实：申报"reduce 绑 MediaQuery.disableAnimations **与设置 store**"，实测全库无设置 store reduce 字段、root_shell 无 MediaQuery 覆盖，仅系统级 disableAnimations 生效。功能本身合规（规范只要求降级行为），但复审提审单措辞须与实现一致（P3 簿记问题·记账·不另开卡）。
+- **模拟器冒烟**：不发生——main 新合入仅 docs（2f3e3dd..main app/ diff=0 实测·638 rev-list 口径），锚维持 2f3e3dd；动效实拍补拍随裁①落定统一执行（SB-049/050/051 三卡一批）。
+- **漂移与一致性审计（条款6）**：a) 禁词(没省|又花|喝掉|罪恶|浪费钱) app/lib 命中 2 行均元引用在册（goal_ladder 注释/achievement 黑名单常量）·本 diff 新增=0 ✓；ui/theme+motion_spec 外裸 Color(0x=0、裸 Duration 仅测试 pump ✓；b) main head 6c742f7↔票278 归档对应 ✓·feat/SB-049/050/051 系待复审在裁A冻结在册（非残留）·rescue/素材分支在册零触碰·_LOCK 物理 0 ✓；c) progress.md 唯一真相·task_plan 薄索引只读 ✓。红线：真实账目数据 0 ✓·remote 零触碰 ✓。
+- **队列同步**：SB-049 待复审｜SB-050 待复审｜SB-051 本轮打回待复审（同闸同裁）｜SB-021 挂起 v0.2｜done/=45。三张待复审全部卡裁①（一句话可全解）；无其他可派新卡前建议浩然先落裁①或批监工补拍试点。
+- **利益点自省（一句话）**: 持平偏近——§6 动效是"每天看见自己挪一步"的体感核心，本卡技术面已全绿只差实拍；但三卡同闸说明闸门流程成本正在上升，裁①拖一天，打磨队列堵三张。
+
+下一步：等浩然对裁①拍板（批监工补拍→三卡一批实拍复审→合格即合·仍守裁A）；builder 复审重提时修正问题2措辞。主库已恢复 main（本轮入场时停 feat/SB-051·与票277 同款 P2 观察再记一次）。
