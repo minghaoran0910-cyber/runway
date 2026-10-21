@@ -1536,3 +1536,17 @@ REVIEW 2026-10-21 守场 结论: PASS（无新提审·持平）
 - 下一步：等裁①批复→一批补实拍+一条龙冒烟；wake 连续失败若再现下轮升级提醒。
 
 （⚡零推送：无新增浩然动作项·裁①在飞不重推）[supervisor R73]
+
+---
+
+## 巡检票 284 · 2026-10-22 00:0x（监工·守场零新审·结论 PASS·R74）
+
+- **零新审判据（防翻转双实测）**：盘上 REQ mtime 1792586886(10-21 20:48:06)>盘上 REVIEW 1792586850(20:47:30) 系 mtime 伪翻转——主仓停 checkout feat/SB-051-motion@acb24ce，盘上 REVIEW 为该分支旧版（止于票278 19:33 登记）；按票281 R71 补记口径以 md5 为准：盘上 REQ md5 8178cf1f516f413f9dba7a13e8288ddb ≡ HEAD(acb24ce) ≡ R71 票281 已审版 → SB-051 复审第2轮审查义务已于票281 履行（REQUEST_CHANGES 维持·裁 p=0.90 沿册不重裁），审查义务不发生。
+- **队列同步**：与 R73 快照零漂移——SB-049@3b717f2 待复审(裁①待批)/SB-050@be8b5be 待复审(裁①待批)/SB-051@acb24ce 复审第2轮打回(仅待裁①实拍·last_reviewed_head=acb24ce≡分支头·ahead=2)/SB-021 挂起 v0.2；done/=45 ls-tree 实测；待办卡 3>2 见底提醒不触发。裁①三卡并呈①类已推在飞未回不重推；R61 三件事与残留支清理一句话仍挂浩然侧，本轮无新增浩然动作项、无推送义务。
+- **冒烟（条款4）**：不发生——git diff 2f3e3dd..main -- app packages 实测空·无 G 卡 PASS·锚维持 2f3e3dd；裁①批复后三卡一条龙补实拍+冒烟。qemu/emulator pgrep=0 零残留；builder flutter_tester×4 在飞（wake 点火轮测试·非监工并发）。
+- **漂移与一致性审计（条款6·一行结论）**：禁词 main 命中 5 全在册 meta/test 白名单（achievement.dart:13 禁词表本体+goal_ladder.dart:7 规则注释+cooloff:183/experiment:148/goal_ladder:127 反向断言·沿票234 p=0.88 豁免勿重裁）·用户可见违例=0✓；主题+motion_spec 外裸 Color(0x=0·裸 Duration(milliseconds:=0✓；红线采样（美团|工资|房贷|账单明细）app/lib+app/test=0·真实账目零✓；_LOCK find=0·stash=0·主仓 porcelain=0（停 feat 沿册不切回）✓；本地支六支吻合在册零 stray（SB-034/048 余支删除待浩然一句话零触碰）✓；worktree 实测=3（主仓+sb048-verify+sb049-shot）与快照吻合·rw-sup 本轮临时启用即用即删✓；main 头 9f041b3=票283 归档轮↔main:REVIEW.md 票283 命中 1 链吻合·无跳审代码提交✓。【簿记缺口登记并补账】票282/283 progress.md 行 R72/R73 轮漏登（实测命中=0·REVIEW.md 票文俱在），本轮按票文原样补登零内容改动；条款11教训入册：簿记三件套必须同轮完成，下轮起自查。
+- **cron 族观察**：wake b0ea8424 上拍(23:45) finished ok——R73 登记的 22:45/23:15 连续失败实测恢复，闭环销账✓；runway-watchdog abaa94c7 23:4x 拍 ok；统一看门狗 169be936 22:09 拍 error=watchdog.sh rc=10（仅翻转无红项·前拍 20:05 ok·非连败·按 R70 册面记完即闭环，00:0x 拍若 skipped 自退合规）；本巡检轮正常。
+- **新鲜度自审（条款8）**：cron 锚线「最高卡号=SB-046/冒烟锚 3a8c16e」仍过时（实测最高卡号 SB-051·done=45·锚 2f3e3dd·包名 com.zangou.runway）——沿 R24b+票249 款6 监工不自改 cron/提示词·本轮零自 edit，三件套勘正挂 10-26 周一规范适配审查批提案（P-9）。今日周四非周一，无【规范适配审查】义务。首页空白胶囊卡 P3 归属观察沿票275 挂账待查。
+- **决策模型（条款10）**：零调用——无新边界裁决（复审裁决沿册 p=0.90·簿记补账系卫生动作不入裁）。
+- **利益点自省（条款9）**：持平——守场轮；动效/实验文案/iconfont 三卡齐候浩然裁①一句话（豁免监工补实拍）即进验收，不推进不倒退。
+- **计数**：落笔前 rev-list main 实测 644（=R73 预登 284/645±兑现·builder 零并发 main）·本票+progress（含补登两行）合并单提交落点预期 645·下拍预登记票285/646±builder 并发。⚡五类核对：①在飞不重推·②无新堵点·③周四无周批·④无冒烟并发·⑤簿记闭环（rw-sup 用毕即删+progress 补登）。投递正文 NO_REPLY（⚡零推送）。监工签字：老油条 [supervisor R74]
