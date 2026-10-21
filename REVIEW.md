@@ -1417,3 +1417,18 @@ REVIEW 2026-10-21 07:5x R52 票262 首审（代提审）——SB-048 设目标�
 - 结论：零新审巡检轮·冒烟不发生·队列零漂移·漂移审计全绿·R61 结案·wake 堵点解除。监工签字：老油条 [supervisor R63]
 
 REVIEW 2026-10-21 15:3x R64 票274 守场——零新审（REQ mtime 1792556537<REVIEW 1792567134·盘≡HEAD md5 恒等 4cb5e13b 双实测防翻转·票272 已覆盖受审版）·队列零漂移（SB-049/050/051 未动·SB-021 挂起 v0.2·done/=45 ls-tree 实测·待办3>2 不触底）·冒烟零义务（git diff 2f3e3dd..HEAD -- app packages =0，仅簿记两拍 9fc847d/3bc0792·last_smoke_commit 不动）·漂移审计全绿：亏欠禁词命中2=meta 沿册（goal_ladder.dart:7 规则注释+achievement.dart:13 禁词清单·沿 p=0.88 裁）·节奏禁词0·裸 Color/Duration 0·_LOCK 0·stash 0·工作树净·无 emulator 残留·分支观察：feat/SB-048-goal-editor main..=3（squash 合入 60b121b 后原割史残留·在册待浩然一句话删除）·feat/SB-034-diag-channel main..=0（全合残留同前处置）·main 无残留·新鲜度：golden/ 归档目录实测止于 sb022（10-13 后 sb0XX 目录零新增·现行 golden 基线在 app/test 随卡维护——登记观察，是否回写规范挂周一规范适配审查）·wake 15:45 首拍复工验证留票275·R61 已结案不重审·票273 观察项（先票后合治理提案）沿册挂周一·周中无周批·决策零调用（本轮无边界裁决）·利益点：持平（守场轮·SB-048 中文弹层为建目标核心环节修复已入库）·计数实测 632·本票落点预登 633·下拍预登记 275/634±builder 并发·⚡零推送
+
+## 巡检票 275 · SB-049 首审（监工 R65 · 2026-10-21 16:4x）
+结论: REQUEST_CHANGES（视觉保真闸门第1条·缺提审实拍）
+**闸门裁决**：REQ 未附模拟器实拍截图（builder 无设备在册）→ 按闸门原文"缺图直接 REQUEST_CHANGES 不进入审码"。边界裁决 decision_evaluate typesafe/jev-1.13-20260917 · gateSubstitute p=0.66<0.75 → 监工实拍补证不采信为等效替代。
+**本轮监工实测（登记供复审，非 PASS 判定）**：
+- 全量 `flutter test` 监工亲跑：`01:13 +500: All tests passed!`（500/500 与提审单相符；sb049_experiment_copy_test 7 例绿）
+- 模拟器冒烟（runway_api36·APK=3b717f2 构建）：BOOT_OK(54s)·install Success·am start·pid 2333 前后存活·logcat FATAL=0·退场 pkill ALIVE=0
+- 目标页补拍失败：底部 tab 点按 (900,2120) 未切页，3 拍均首页，实验卡实拍未获得；下拍 uiautomator bounds 定位重试
+- 漂移审计全绿：禁词 2 行均元引用在册（goal_ladder.dart 注释/achievement.dart 禁词表·本卡 diff 零新增）·裸 Color(0x) 主题外 0·裸 Duration 0·_LOCK 0·真账数字 0
+- 提审单完整性：REQ 全部数字与监工实测相符（commit 12 files +221/-5·7/7·500/500·golden 10 帧·experiment_card 276→367 行），无虚号 ✓（对照票271 虚号虚证口径）
+- 代码预检（非判定）：文案与 REQ 逐字一致·配色全 tokens·bodySmall=12pt 在字号阶梯·4/8 网格·折叠/展开状态机无死角（selectedInRest 自动展开合理）·P3 观察：dailyHint 与 chip Wrap 间无显式间距（靠 runSpacing 8），实拍待核
+**问题列表**：
+1.（闸门·阻塞）缺提审实拍——builder 无设备形成客观死锁，需浩然裁决：①报修卡豁免附图（下拍监工目标页实拍+本票预检补证判审）或②builder 补截图管线
+2.（P3·观察·非本卡）首页"今日"与"最近3笔"之间空白色胶囊卡（零内容·4 拍一致），疑似既有空态，下拍查归属
+**下一步**：分支 feat/SB-049-experiment-copy@3b717f2 保持待复审（不合入；报修卡随报随合豁免未触发——闸门未过）；队列=SB-050 未施工+SB-051 未施工+SB-021 挂起（待办≤2 排批提醒触发·挂周一规范适配审查）；冒烟锚不动 2f3e3dd；last_reviewed_head=3b717f2（REQUEST_CHANGES 版）；⚡本票属①类推送（需浩然裁决豁免与否）。

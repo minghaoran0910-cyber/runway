@@ -1,29 +1,33 @@
-# REVIEW_REQUEST — SB-048 设目标表单控件修复（重提审·票262 打回后二审）
+# REVIEW_REQUEST — SB-049 月度小实验语义收口（首审）
 
-**卡**：docs/tasks/SB-048.md ｜ **分支**：feat/SB-048-goal-editor@b7dcfd2（基于打回点 2d920bc 的修复提交）｜ **性质**：票262 REQUEST_CHANGES 双 P1 修复重提审（报修卡·浩然同批反馈②）。
-- **执行体说明**：builder 打回后 16h 盘上零产出（2d920bc 后无新提交、无新 REQ），浩然催办，监工悬钟（今晚 19:5x）前由代偿执行体接管修复+重提审。接管前 _LOCK find=0、porcelain=0、零并发实证。
+**卡**：docs/tasks/SB-049.md ｜ **分支**：feat/SB-049-experiment-copy@3b717f2（基于 main@af62e12）｜ **性质**：报修卡·浩然同批反馈③（监工票232落卡，SB-047/048 同批）。
+- **执行体说明**：wake 守卫全过（main/无锁/树净/REQ 已审版）后建锁施工，一卡一轮。`_LOCK` find=0 起步，退场删锁。
 
-## 票262 P1 → 修复对照
+## 卡 → 落地对照（采用卡内 14:50 勘正后方案，原监控指标 chip 清单失实已弃）
 
-- **① showDatePicker 全英文（P1）**：根因按票面=main.dart MaterialApp 无 localizationsDelegates/supportedLocales、pubspec 未引 flutter_localizations。修复=pubspec 增 `flutter_localizations: {sdk: flutter}`；main.dart 具名导出 `runwayLocalizationsDelegates`（Global Material/Widgets/Cupertino 三 delegate）+ `runwaySupportedLocales: [zh_CN]` 挂入 MyApp，并供测试复用同一组。回归=新用例「SB-048 日历弹层中文」：点 `goalDeadlinePick` 开弹层，断言「选择日期/确定/取消」各恰一命中、「OK/Cancel/Select date」零命中，点确定后期限字段回填 `^\d{4}-\d{2}-\d{2}$`——「零数字键入+人话」验收口径进测试固化。
-- **② golden_price_test 全量红（P1）**：实测红项非 light/dark 像素不符，而是交互用例「SB-020 目标单价跟随常买中位数（手改优先）」Bad state: No element——2d920bc 把 `goalFollowKey` 移进默认折叠「进阶」ExpansionTile，旧测试未展开即 enterText（栈顶 WidgetController.state→enterText≈155 行）。最小修复=进 sheet 后先 `scrollUntilVisible`+tap `goalAdvanced` 展开再操作（沿册 sb048 用例同法），不碰 lib 业务码；golden light/dark 经 `--update-goldens` 重渲染与盘上基线字节一致（git status golden/=0 变更），基线两图已肉眼复核中文文案无截断无破损。
-- **③ initialDate 越界（P2 建议随修）**：`_pickDeadline` 的 initial 改 clamp 进 [firstDate,lastDate]（替代仅挡 DateTime(2000) 的旧防护），手输越界日期不再触发 debug assert。
-- **④ P3 登记项不动**：goalTargetPresets 派生自 defaultLadder+chipGap token 曾实现，按最小改动原则回退，仍留票面登记待后续。
+- **① 页首一句话解释**：`experimentIntro`——“选一个 7 天小实验，每天 3 秒打个卡，断卡不罚——省多少到时候按你实际打卡天数算给你看”（7 天制/3 秒打卡/断卡不罚/按实际打卡天数算，四机制全点名）。
+- **② 日省额微提示**：`experimentDailyHint`——“日省额是建议值，可改”（仅提示语，不动计价逻辑；引擎 `dailySaveFen` 口径未动）。
+- **③ 推荐置顶+折叠**：`recommendedExperimentIds`=[无奶茶周/自带午饭/不点外卖周] 默认常显 3 chip（≤4），其余 5 折叠进「看全部 8 个」/「收起推荐」（同 key `experimentShowAll` 复用 SB-048 控件规格口径）；选中项在折叠区时自动展开，避免选中态不可见。
+- **④ 7 天打卡预览条**：开始钮上方 `experimentPreviewLabel`+`experimentPreview`（Row 7 段 Expanded，首段 accent 系高亮、后 6 段 surface2 灰；圆角走 `RunwayRadius.control`，颜色走 tokens 明暗两套；零动画=零裸 Duration/Curves，SB-018 动效审计用例仍绿）。
 
 ## 自检三件套 + 全量 + ci.sh 记录
 
-- dart format --set-exit-if-changed . = 0 changed ｜ flutter analyze --fatal-infos --fatal-warnings app = No issues ｜ tool/check-repo-hygiene.sh = OK
-- 目标测试 sb048_goal_editor_test + golden_price_test = 13/13 绿（含新增中文弹层回归）
-- 全量 flutter test = **493/493 全绿**
-- tool/ci.sh 四闸 = **EXIT=0 ALL GREEN**（format/analyze/smoke test/macos debug+apk debug 双 build ✓）
+- dart format --set-exit-if-changed . = 0 改动 ｜ flutter analyze --fatal-infos --fatal-warnings app = No issues ｜ tool/check-repo-hygiene.sh = OK
+- 新回归 app/test/sb049_experiment_copy_test.dart = **7/7 绿**（解释句四关键词/建议值提示/默认3 chip+点开展示8/折叠区选中自展/预览条7段/开始钮在位/新增文案零禁词零说教）
+- 全量 flutter test = **500/500 全绿**（基线 493 + 新增 7）
+- tool/ci.sh 四闸门 = **EXIT=0 ALL GREEN**（format/analyze/smoke test/macos debug+apk debug 双 build ✓）
 
-## 实拍附页
+## golden 基线变更清单（10 帧，均系本卡选择卡改版所致）
 
-runway-shots/2026-10-21-sb048-fix/（runway_api36 无头模拟器实测）：01_home 首页 / 02_editor 定一个目标 sheet（核心三项常显+预设 chips+期限日历钮+进阶折叠，全中文）/ 05_picker_try3 表单稳态。
-**偏差如实申报**：中文日期弹层开屏实拍未竟——模拟器连发两轮 ANR 对话框（runway/System UI isn't responding，swiftshader 负载）处置后恢复，第三轮点按后 emulator 进程被 SIGKILL，未再重启（避免继续烧悬钟前时间窗）；弹层中文效果以新回归用例断言（选择日期/确定/取消+英文零命中）为证，请监工下拍补拍复核。
+- golden/sb018/experiment_light_select.png + experiment_dark_select.png（选择态：解释句/3 chip/提示/折叠入口/预览条/开始钮，目检无截断无溢出）
+- golden/sb007/goal_light_empty+dark_empty+light_data+dark_data+light_done+dark_done.png（目标页内嵌 ExperimentZone 同步变化）
+- golden/sb012/budget_home_light+dark.png（预算首页内嵌实验区同步变化）
+- 成因链：改前 main 基线 `golden_goal`+`golden_home_budget` 实测全绿（stash 验证），排除预存红；新基线已逐张目检（选择态单卡+目标空态整页）：中文 tofu 系无字体测试环境常态，布局=标题/解释/3 chip/提示/折叠入口/预览 label+7 段条/开始钮依次排布，无贴边裁切。
 
 ## 声明
 
-不 merge、不动 main、不 push origin；docs/tasks/SB-048.md 未动（沿 5093505 先例=提审不动卡）。改单曾称「picker 中文化已在 2d920bc」——与盘上事实不符（2d920bc 的 main.dart 无 delegates、pubspec 无 flutter_localizations，票262 P1① 判的正是它，监工票263~269 七轮均记「修复在途未重提审」），本单以票面为准完成修复。
+- 不 merge、不动 main、不 push origin；docs/tasks/SB-049.md 未动（沿 5093505 先例=提审不动卡）。
+- 文件数 2≤10（app/lib/ui/experiment_card.dart 改 276→367 行≤400 + app/test/sb049_experiment_copy_test.dart 新 125 行；golden 10 帧按 D1 裁决不计数）；零禁区（tokens/pubspec/schema/规范/CI 配置均未碰）；依赖变更 0。
+- 偏差申报：卡验收“用户能用一句话复述”需真人验证，测试以四关键词断言代替，请监工走查时复核；卡“开跑表单控件沿 SB-048 规格”——本卡选择页控件 key/ChoiceChip/中文断言口径与 SB-048 同法，折叠用 TextButton（SB-048 用 ExpansionTile 处为进阶表单，本卡为列表折叠，形态差异已在对照③说明）。
 
-**R 申报**：SB-048 重提审（二审），请求按票262 检查项复审。
+**R 申报**：SB-049 首审，请求按卡检查项验收。
