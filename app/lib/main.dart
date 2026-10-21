@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart'; // SB-048 票262问题① · 中文弹层本地化
 
 import 'data/app_db.dart';
 import 'diagnostics/diag_hook.dart';
@@ -16,6 +17,16 @@ import 'ui/theme/app_theme.dart';
 TextScaler clampTextScaler(TextScaler input) {
   return input.clamp(maxScaleFactor: 1.3);
 }
+
+// SB-048 票262问题① · 中文本地化配置（具名导出供 widget 测试复用同一组，
+// 断言 showDatePicker 弹层确为中文）.
+const List<LocalizationsDelegate<dynamic>> runwayLocalizationsDelegates =
+    <LocalizationsDelegate<dynamic>>[
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ];
+const List<Locale> runwaySupportedLocales = <Locale>[Locale('zh', 'CN')];
 
 /// MaterialApp.builder 具名封装（供回归测试直测同一函数）.
 Widget textClampBuilder(BuildContext ctx, Widget? child) {
@@ -43,6 +54,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Runway',
+      // SB-048 票262问题①：补中文本地化 delegates，修 showDatePicker 等
+      // Material 弹层全英文（Select date/Cancel/OK）破坏「零数字键入+人话」验收。
+      localizationsDelegates: runwayLocalizationsDelegates,
+      supportedLocales: runwaySupportedLocales,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
       builder: textClampBuilder,

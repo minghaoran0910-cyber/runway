@@ -152,6 +152,15 @@ void main() {
     await tester.tap(find.byKey(const Key('goalAdd')));
     await tester.pumpAndSettle();
 
+    // SB-048 票262问题②：进阶区默认折叠（本卡行为变更），先展开再填跟随键。
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('goalAdvanced')),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.tap(find.byKey(const Key('goalAdvanced')));
+    await tester.pumpAndSettle();
+
     await tester.enterText(find.byKey(const Key('goalFollowKey')), '食｜牛肉面');
     await tester.tap(find.byKey(const Key('goalFollowFetch')));
     await tester.pumpAndSettle();
