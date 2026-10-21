@@ -1443,3 +1443,20 @@ REVIEW 2026-10-21 15:3x R64 票274 守场——零新审（REQ mtime 1792556537<
 - 决策模型：零调用（本轮无边界裁决）。
 - 利益点自省：持平（守场轮·SB-049 实验卡文案改动停待豁免裁决，未推进亦未偏离）。
 - 计数：落笔前 rev-list main 实测 634·本票+progress 双文件合并单提交落点预期 635·下拍预登记 277/636±builder 并发。⚡五类核对：无新增浩然行动项（票275 裁决呈报仍在飞），零推送。监工签字：老油条 [supervisor R66]
+
+
+【票277 · 10-21 19:0x 轮 · 监工 R67】SB-050 首审 REQUEST_CHANGES（视觉闸门第1条·与票275 同闸共裁决）
+
+- **审查对象**：feat/SB-050-iconfont@be8b5be（基于 main@ea64677·单 feat commit·业务文件 7 ≤10 ✓·golden 16 帧与提审单清单逐一对应 ✓·REQ/progress 簿记另计）
+- **监工实测**：flutter test = **497/497 全绿**（与提审单一致·含新增 runway_icons_test 4/4）｜dart format --set-exit-if-changed = 0 改动 ✓｜flutter analyze --fatal-infos --fatal-warnings app = No issues ✓｜check-repo-hygiene = OK ✓｜runway_icons.dart 枚举 26 值实测 ✓｜Icons.* 残留全库实测 **14 处 = 白名单申报数**（goal_editor 4/goal_timeline 3/home_page 3/goal_page 1/root_shell 1/achievement_card 1/weekly_page 1·零越名单）
+- **代码走查**：五页 13 处替换 1:1 语义正确（导航 6 含 filled 选中态/home inbox/settings 4 项/category tune/goal 设置入口）·CustomPainter currentColor 透传·24 网格/描边 1.7/默认 19px §4 口径注释合规·授权注释 26 枚全 original·未碰 tokens/pubspec/schema/CI ✓
+- **漂移与一致性审计（条款6）**：a) 禁词(没省|又花|喝掉|罪恶|浪费钱) diff 新增=0·ui/theme 与 motion_spec 外裸 Color(0x=0·裸 Duration=0 ✓；b) main head ea64677 对应票276 归档轮 ✓·在审 feat 两支（049@3b717f2/050@be8b5be）系在审非残留·在册素材分支零触碰·_LOCK=0·stash=0 ✓；c) progress 唯一真相沿册 ✓
+- **偏差裁决（条款10）**：①②（CustomPainter 单文件注册表替代 .svg 资产管线+零 flutter_svg 依赖）——decision_evaluate **p=0.72 灰区**＝不编判决·**留浩然拍板**（选项 A：接受注册表方案·真需 .svg 导出另卡；B：强制 SvgPicture 管线·+flutter_svg+26 资产超限需浩然批）；④ 与 SB-049 并行施工不同域无冲突 ✓ 合入顺序由监工定
+- **问题列表**：
+  1.（闸门·阻塞·第1条）**缺提审实拍**——偏差③申报 builder 无设备；按 10-13 视觉保真闸门「无实拍不得 PASS」+票275 在册裁决「监工补拍不采信（decision p=0.66·让位三不复评）」→ 与 SB-049 共享同一浩然待裁事项：①报修卡豁免附图（监工下轮补拍 SB-049 目标页+SB-050 五页实拍后复审）或②builder 补截图管线。两卡同闸·一裁即通；票275 呈报在飞不重推，本票并入同一待裁事项呈报。
+  2.（P2·流程观察）本轮 builder 施工落在主库 checkout（主库停在 feat/SB-050-iconfont），而 SB-049 系独立 worktree（/tmp/sb049-shot）——两拍施工口径不一，且主库停 feat 将挡 wake 守卫 S0.1（SB-048 十三小时教训沿册）。监工落票后已恢复 main（tree clean·零损失）。建议 DEV_WORKFLOW 增条款「施工一律独立 worktree·主库 checkout 恒 main」→ 挂周一规范适配审查汇总。
+  3.（P3·沿册）票275 首页空白色胶囊归属排查可与 SB-050 豁免后补拍并轮执行（home_page 本轮含 inbox 改动·实拍顺带核验）。
+- **模拟器冒烟**：不发生（main 零新合入·diff 2f3e3dd..ea64677 app=0 实测·锚维持 2f3e3dd）；待豁免裁决通过后随复审轮一条龙补实拍+冒烟。
+- **下一步**：队列=SB-050 待裁在飞/SB-049 待裁/SB-051 未施工/SB-021 挂起 v0.2（待办>2 见底提醒不触发）；分支 feat/SB-050-iconfont@be8b5be 保持待复审不合入（报修随报随合豁免未触发——闸门未过）。
+- **利益点自省**：更近——26 枚原创图标替换 13 处系统图标是"值得天天打开"视觉质感的地基，记账传感器零新增负担不变；唯实拍闸门卡在浩然侧一句话，产品距验收一步之遥。
+- **计数**：落笔前 rev-list main 实测 **635**·本票+progress 双文件单提交落点预期 **636**·下拍预登记 278/637±builder 并发。⚡五类核对：①类 REQUEST_CHANGES 需浩然行动（与票275 同一裁决合并呈报·不重复轰炸）。监工签字：老油条 [supervisor R67]
