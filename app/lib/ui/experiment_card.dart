@@ -13,7 +13,7 @@ import 'theme/tokens.dart';
 // 开关默认开可关；形状只用 r16（内容卡）；颜色只用 tokens.
 // 本文件零裸时长/曲线（无动画，纯展示 + 落库）；成就复用 SB-008（禁新造动效）.
 
-class ExperimentSelectCard extends StatelessWidget {
+class ExperimentSelectCard extends StatefulWidget {
   const ExperimentSelectCard({
     super.key,
     required this.templates,
@@ -28,8 +28,39 @@ class ExperimentSelectCard extends StatelessWidget {
   final VoidCallback? onStart;
 
   @override
+  State<ExperimentSelectCard> createState() => _ExperimentSelectCardState();
+}
+
+// SB-049 · 默认推荐 3 项（置顶常显；其余折叠进“看全部”）.
+const List<String> recommendedExperimentIds = <String>[
+  'no-milk-tea',
+  'homemade-lunch',
+  'no-takeout',
+];
+
+class _ExperimentSelectCardState extends State<ExperimentSelectCard> {
+  bool _showAll = false;
+
+  @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final bool isDark = theme.brightness == Brightness.dark;
+    final List<ExperimentTemplate> top = <ExperimentTemplate>[];
+    final List<ExperimentTemplate> rest = <ExperimentTemplate>[];
+    for (final ExperimentTemplate t in widget.templates) {
+      if (recommendedExperimentIds.contains(t.id)) {
+        top.add(t);
+      } else {
+        rest.add(t);
+      }
+    }
+    // 选中项在折叠区时自动展开，避免选中态不可见.
+    final bool selectedInRest = rest.any(
+      (ExperimentTemplate t) => t.id == widget.selectedId,
+    );
+    final List<ExperimentTemplate> visible = (_showAll || selectedInRest)
+        ? <ExperimentTemplate>[...top, ...rest]
+        : top;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(RunwaySpacing.cardInner),
@@ -41,23 +72,83 @@ class ExperimentSelectCard extends StatelessWidget {
               style: theme.textTheme.titleMedium,
               key: const Key('experimentTitle'),
             ),
+            const SizedBox(height: 4),
+            // SB-049①：页首一句话解释（机制透明：7 天制/3 秒打卡/断卡不罚/按实算）.
+            Text(
+              '选一个 7 天小实验，每天 3 秒打个卡，断卡不罚——省多少到时候按你实际打卡天数算给你看',
+              style: theme.textTheme.bodySmall,
+              key: const Key('experimentIntro'),
+            ),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
               runSpacing: 8,
               children: <Widget>[
-                for (final ExperimentTemplate t in templates)
+                for (final ExperimentTemplate t in visible)
                   ChoiceChip(
                     label: Text('${t.name} · ¥${formatFen(t.dailySaveFen)}/天'),
-                    selected: selectedId == t.id,
+                    selected: widget.selectedId == t.id,
                     key: Key('experimentTpl-${t.id}'),
-                    onSelected: (_) => onSelect(t.id),
+                    onSelected: (_) => widget.onSelect(t.id),
+                  ),
+              ],
+            ),
+            // SB-049②：日省额建议值微提示.
+            Text(
+              '日省额是建议值，可改',
+              style: theme.textTheme.bodySmall,
+              key: const Key('experimentDailyHint'),
+            ),
+            // SB-049③：默认推荐置顶，其余折叠.
+            if (!_showAll && !selectedInRest && rest.isNotEmpty)
+              TextButton(
+                onPressed: () => setState(() => _showAll = true),
+                key: const Key('experimentShowAll'),
+                child: Text('看全部 ${widget.templates.length} 个'),
+              ),
+            if ((_showAll || selectedInRest) && rest.isNotEmpty)
+              TextButton(
+                onPressed: () => setState(() => _showAll = false),
+                key: const Key('experimentShowAll'),
+                child: const Text('收起推荐'),
+              ),
+            const SizedBox(height: 8),
+            // SB-049④：开始按钮上方 7 天打卡预览条（今天亮、后 6 天灰）.
+            Text(
+              '7 天打卡预览',
+              style: theme.textTheme.bodySmall,
+              key: const Key('experimentPreviewLabel'),
+            ),
+            const SizedBox(height: 4),
+            Row(
+              key: const Key('experimentPreview'),
+              children: <Widget>[
+                for (int i = 0; i < experimentDays; i++)
+                  Expanded(
+                    child: Container(
+                      height: 8,
+                      margin: EdgeInsets.only(
+                        right: i == experimentDays - 1 ? 0 : 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: i == 0
+                            ? (isDark
+                                  ? RunwayDark.accent
+                                  : RunwayLight.accentStrong)
+                            : (isDark
+                                  ? RunwayDark.surface2
+                                  : RunwayLight.surface2),
+                        borderRadius: BorderRadius.circular(
+                          RunwayRadius.control,
+                        ),
+                      ),
+                    ),
                   ),
               ],
             ),
             const SizedBox(height: 8),
             FilledButton(
-              onPressed: onStart,
+              onPressed: widget.onStart,
               key: const Key('experimentStart'),
               child: const Text('开始 7 天实验'),
             ),
