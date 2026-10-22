@@ -1811,3 +1811,25 @@ REVIEW 2026-10-22 票301 守场（R91·无新审）
 - **决策模型**：本轮无新边界裁决（裁①已落档），零调用。
 - **利益点自省**：更近一格——两卡真合入主库且模拟器实测通过；但 golden 红暴露"合入后未在合并头跑全量"的验收缺口，已按②类上报派单，不加戏。
 - **簿记**：落笔前 rev-list main 实测 **682** · 本票落点预期 **683** · 下拍预登记 票318/684±builder 并发。⚡通知：②类测试红＋④队列见底各一条并入本拍呈报。
+
+---
+
+## R108 · 2026-10-22 20:0x 守场巡检（票318）
+
+REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
+结论: 守场·零新审（不适用 PASS/REQUEST_CHANGES；本轮无新提审）
+
+- **新审判定**：REQ mtime **1792626392** vs REVIEW **1792626383**（REQ 仅新 9s）；md5 与 HEAD 差异经逐行比对＝末尾 `WAITING_HUMAN` 段（票300 基线留痕），无任何新提审内容；git 工作树除该文件外干净，feat/SB-051-motion 头仍 **acb24ce**（23h 前）。
+- **队列同步**：open **2**（SB-051 返工·SB-021 挂起 v0.2）｜done **47**｜与快照一致，零漂移；待办 ≤2 → 见底提醒维持（下一批排卡仍待浩然回音）。
+- **冒烟**：`git diff --stat e61e0f7..main -- app` = **空**（main 仅 REVIEW/progress 两条 docs 提交）→ 模拟器验收**不发生**，锚维持 **e61e0f7**（上轮 BOOT 34s / FATAL 0 / PASS 有效）。
+- **漂移全绿**：stash 0 · 本地支 4 · worktree 3 · `Color(0x` **41 处全部在 ui/theme/tokens.dart** · `Duration(milliseconds` **18 处全部在 ui/theme/motion_spec.dart** · origin/main 零触碰（a73f90c）· 主仓无业务改动。
+- **8 帧 golden 差分人工实证（本轮新增证据，替代"盲重刷"）**：调取 `app/test/failures` 的 masterImage（＝已提交基线）/testImage/isolatedDiff 逐帧比对（goal_dark_done 取 3 图，budget_home_light 取 3 图）：
+  - 差异**不是**图标像素级替换，而是**预算弹性区出现 baseline 所无的"7 天打卡预览条"**——该条由 **fd2a2c0（SB-049）** 引入 experiment_card，目标页复用。
+  - 交叉验证：8661bf8 的 parent 确为 fd2a2c0，但提交信息自述「golden 取 SB-050 再生版」，即基线是在 **SB-050 分支（base 早于 SB-049）** 上再生的；同批 sb019 两帧（纯图标）未红，反证差分区确在 SB-049 新增元素。
+  - 结论：**R107 归因成立**（再生基线基于旧树），**修法＝在 main 头重刷这 8 帧**，非回滚、非改业务码；不得在 feat 分支重刷。
+- **机械阻塞（新发现，已处置）**：LOOP S0.2「分支非 main 即退」＋ S0.6「REQ 含 WAITING_HUMAN 即退」→ builder 每次唤醒都会在**读授权之前**退出，R107 的"派 builder 重刷"实际不可执行（实测：主仓 checkout 在 feat/SB-051-motion，REQ 末尾 WAITING_HUMAN 仍字面在册；12h 零 commit 印证）。处置见下条。
+- **S0.1 续做授权（一次性·本轮唯一范围）**：授权 **main**（目标分支 main，非 feat）执行——**授权含分支切换动作**：由当前 feat/SB-051-motion 切至 main 施工，做完留在 main（feat 头 acb24ce 不得移动）。动作——① 在 main 头 re-generate 上述 8 帧（sb007 6 帧 + sb012 2 帧）；② 立即 `flutter test` 全量复测，须 **≥504 全绿**；③ 提交信息 `[supervisor R108]` 标注；④ **禁止**改 app/lib 任何业务码、禁止动 tokens/pubspec/schema/CI、禁止 push、禁止顺手重刷 sb019。产出须附前后裁图各 1 帧（budget_home_dark / goal_dark_done）作为基线变更视觉凭证。
+- **REQ 守卫状态勘正**：`WAITING_HUMAN` 段的"等裁①"前提已被票316 裁①=1B 覆盖（浩然已拍板），字面留存正导致上述死锁；本轮将该段替换为 SUPERVISOR 注记（**唯一非 REVIEW.md 的文件改动**，不提交、不改码，特此留痕）。SB-051 截图管线授权**下一轮单独发**（一轮一事，不与 golden 重刷同轮）。
+- **决策模型**：本轮无新边界裁决，零调用。
+- **利益点自省**：更近一格——不是又多审一轮，而是把"报了红的红在哪、谁去修、怎么修"钉成可执行的三件事；同时拆掉一个会让项目静默卡 12h 的机械死锁。
+- **簿记**：落笔前 rev-list main＝**683**，本票**684**；下拍预登记票319/685±builder 并发。
