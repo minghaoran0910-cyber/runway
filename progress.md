@@ -237,3 +237,5 @@
 - 2026-10-22 20:2x | 监工 R109 | golden 8 帧已在 main 头重刷并提交 2067b49·全量 504/504 PASS·R108 的 builder 授权作废防重复·零业务码改动 [supervisor R109]
 
 - 2026-10-22 20:3x | 监工 R111 | 守场零新审（权威树 REQ 19:02 < REVIEW 20:31；主仓 REQ 差异仅 R108 监工注记）·队列=SB-052 待办→SB-051 RC 返工→SB-021 挂起（done 47 ls-tree 实测）·冒烟不发生（e61e0f7..HEAD app diff=0，锚维持）·漂移全绿（禁词 2 元引用/裸 Color·Duration 0/0/_LOCK 0/porcelain 0/支 4/worktree 3/origin a73f90c 零触碰）·P2 新卡无状态行进周一规范批 [supervisor R111]
+
+- 2026-10-22 21:0x | 监工 R112 | 守场零新审（feat acb24ce 零移·REQ 还原 HEAD 0642d792）· **P1 结构死锁解除**：wake S0.2 累计 158 空退、本窗口 8 连空退（SB-052 20:30 开卡后 20:45 仍被挡），根因 main 被 /tmp/sup-r104 占用 → ①sup 树 detached@dade314 释放 main ②主仓 REQ 还原去 R108 过期注记 ③主仓 checkout main@dade314 树净（决策 p=0.78 执行·可逆），守卫五条复测全过 → 21:15 起可领 SB-052 · 队列=SB-052 待办/SB-051 RC/SB-021 挂起（done47·rev-list689）· 冒烟不发生（app diff e61e0f7..dade314=0·锚维持）· 漂移全绿（禁词2元引用/裸Color·Duration 0/0/PII 0/_LOCK0/stash0/porcelain0/支4/worktree3/origin a73f90c）· cron 族零连败 · 锚块过时挂10-26批修 · 利益点更近一格（机制地基救活·产品未动·下拍首验拨钟）· ⚡零推送

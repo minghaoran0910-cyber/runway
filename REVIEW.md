@@ -1851,3 +1851,17 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 - **决策模型**：本轮无边界裁决（裁①/裁A 均已于票316/320 落档），零调用。
 - **利益点自省**：更近一格——本轮确认项目卡点不在产品而在交付管线，并把管线卡（SB-052）排在首位；但管线只服务"验收有人看图"，落地后下一步仍需回到「用户天天看见自己挪一步」，否则只是内部工具变精致。
 - **簿记**：落笔前 `rev-list --count HEAD` = **688**，本票预期 **689**（提交后复核）。
+
+## 票322 · 10-22 21:0x · 监工 R112 — 守场零新审 + S0.2 死锁解除（主仓回 main）
+
+- **新审：零**。权威实测：REQ 盘上 md5 `0642d7922e44b6ce7f73c4ef8beafa87` = main@dade314 版（本轮主仓切 main 后同版）；feat/SB-051-motion 头仍 **acb24ce**（10-21 20:50 起零新提交）；主仓此前唯一差异 = R108 监工注记（旧授权，已由 R109@2067b49 兑现并明文作废）→ 已还原为 HEAD 版，零 builder 内容丢失、零业务码触碰。
+- **队列（快照吻合·零漂移）**：SB-052 待办（6be415c 20:30 开卡，尚无分支、`tool/shots.sh` 未生成）/ SB-051 REQUEST_CHANGES@acb24ce / SB-021 挂起 v0.2；done=**47**（ls-tree 实测）、rev-list=**689**、可派 0。待办 2≤2 见底提醒已于 R107 呈报、浩然 20:29 拍 A 开 052，本轮不重复推送。
+- **P1 结构死锁解除（本轮核心事实）**：wake 派发器 `runway-wake-dispatch.sh` 实测 S0.2「分支非 main 即退」——日志累计 **158 次** 空退，本轮 17:15/17:45/18:15/18:45/19:15/19:45/20:15/20:45 **连续 8 拍全空退**（SB-052 20:30 开卡后 20:45 拍即被挡）。根因 = main 分支被监工簿记工作树 `/tmp/sup-r104` 占用，主仓只能停在 feat/SB-051-motion。处置三步：①sup-r104 改 **detached HEAD@dade314** 释放 main；②主仓 `REVIEW_REQUEST.md` 还原 HEAD（移除 R108 过期授权注记）；③主仓 `git checkout main`@dade314，`porcelain=0`。解冻后守卫五条复测：分支 main ✓ / `_LOCK` 0 ✓ / 业务脏 0 ✓ / REQ 不新于 REVIEW（本票提交后）✓ / 无 WAITING_HUMAN 标记 ✓ → 21:15 拍起 builder 可领 SB-052。裁决：decision_evaluate **p=0.78 ≥ 0.75 拍板线** → 执行；动作可逆（切回 feat 即还原）。
+- **模拟器冒烟：不发生** — `git diff --name-only e61e0f7..dade314 -- app packages` = **0**；锚维持 **e61e0f7**（票317 PASS：BOOT 34s/pid 2435/FATAL 0/ALIVE 0 仍有效）。
+- **漂移与一致性审计（一行）**：全绿 — 禁词 app/lib=**2** 均元引用（`achievement.dart:13` 禁词表本体 / `goal_ladder.dart:7` 规则注释）用户可见 0；ui 非 theme 裸 `Color(0x`=**0**；motion_spec 外裸 `Duration(milliseconds:`=**0**；PII/真实账目采样(app/lib+app/test)=**0**；`_LOCK`=0；stash=0；porcelain=0；本地支 4（main + SB-051 在飞 + 素材 SB-034@e576624 / SB-048@3ae7522 在册待浩然一句话）；worktree=3（主仓 main / sup-r104 detached / sb048-verify）；origin/main **a73f90c** 零触碰；progress 唯一真相续登、task_plan 薄索引只读未动。
+- **Cron 族实测**：本巡检 running；wake b0ea8424 ok(suppressed)；runway-watchdog abaa94c7 ok；统一看门狗 169be936 ok；runway-backup ok——零连败，升级条款不触发。
+- **提示词新鲜度**：cron 锚块仍写 SB-046/锚 3a8c16e/SB-012 堵点 = **过期**；沿册挂 **10-26 周一**统一修订，本轮零自 edit；今日周四无规范适配义务。
+- **决策模型**：1 次（解冻边界裁决 p=0.78 见上）。
+- **利益点自省**：**更近一格**——SB-052 是"提审必须带实拍"的机制地基，本轮把它从"开了卡但永远唤不醒"里救出来；但产品仍未动一寸，下一格取决于 builder 21:15 是否真能领卡（下拍首验）。
+- **簿记**：落笔前 rev-list main **689** · 本票+progress 单提交落点 **690** · 下拍预登记 票323/**691**±builder 并发。
+⚡五类核对：无新增浩然行动项（见底已呈、裁 A 已落）→ **零推送**。监工签字：老油条 [supervisor R112]
