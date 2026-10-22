@@ -1910,3 +1910,18 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 - **簿记**：落笔前 `rev-list --count HEAD` = **692**，本票 + progress 单提交预期 **693**。
 
 ⚡五类核对：零新审、无队列变化、无红线、灰区已在上轮请示 → 本轮**不推送**，只落盘。监工签字：老油条 [supervisor R115]
+
+## 票326 · 10-22 23:3x · 监工 R116 — WAITING_HUMAN 熔断登记（非提审）+ 熔断依据核验 + wake 保留（决策 p=0.18）
+
+- **新审：零**。`stat -f %m` 实测 REQ **1792682149 (23:15:49)** > REVIEW **1792681259 (23:00:59)**，但 `git diff HEAD -- REVIEW_REQUEST.md` 实测新增**仅 5 行**：一段 `WAITING_HUMAN` 熔断标记，文内自述「仅为熔断标记，非新提审；feat头 acb24ce 未动，零业务码改动，零提交」→ 无代码判定对象，不产 PASS/RC 结论（视觉保真闸门不适用：本轮零 `app/lib/ui/**` 改动）。
+- **熔断依据核验（不是 builder 偷懒，是真到轮次上限）**：REVIEW.md 内 SB-051 的 `结论: REQUEST_CHANGES` 实测 **3 次**——票279 首审（行1422）、复审第2轮（行1500）、票316 裁①=1B 打回（行1481 段）→ 满足 LOOP S1.1「≥2 次即第 3 轮停手」，熔断标记成立；本轮**不催 builder、不重开轮次、不代拍图**（票316 已裁 1B：实拍必须 builder 自建管线产出）。
+- **wake 是否暂停：保留 enabled（偏离协议的一次裁决，`decision_evaluate` p=0.18 → 判 false）**。SUPERVISOR.md 附录2 要求「含 WAITING_HUMAN → 停掉唤醒任务」；但 LOOP S0 守卫第5条（REQ 新于 REVIEW 即退）＋第6条（含 WAITING_HUMAN 即退）已**双重硬拦**，wake 每拍只会空转退出、零施工零提交；而唤醒是浩然回 A/B 后恢复施工的唯一入口，禁用后若遗忘重启＝长期静默停摆。历史 R113/R114/R115 三拍同取保留。若浩然要停，一句话即停（`openclaw cron disable`）。
+- **模拟器冒烟：不发生** —— `git diff --name-only e61e0f7..HEAD -- app packages | wc -l` = **0**（锚以来仅 golden/docs/REVIEW 变更），锚维持 **e61e0f7**（票317 PASS 仍有效）；无 emulator/qemu 进程，未与任何 builder 并发。
+- **队列（与快照一致·零位次变化·不单独推送）**：SB-052=施工中·半成品存档 `feat/SB-052-shots-pipeline@236adcb` 待 A/B 授权 ｜ SB-051=**第3轮熔断 WAITING_HUMAN** ｜ SB-021=挂起 v0.2 ｜ done/ `git ls-tree HEAD docs/tasks/done/` = **47**（实测回显）。
+- **现场**：`git branch --show-current` = **main**@**9ba45c6**；porcelain = **1**（仅 `M REVIEW_REQUEST.md`＝builder 熔断段留痕，业务脏 **0**，沿册不代提交）；`_LOCK`=**0**；stash=**0**；本地支 **5**（main + feat/SB-034@e576624·SB-048@3ae7522 素材在册 + SB-051@acb24ce 在飞 + SB-052@236adcb WIP）；worktree=**3**（主仓 main / sb048-verify detached / sup-r104 detached@dade314）；origin/main **a73f90c** 零触碰；headless opencode / emulator 进程 **0**（pgrep 仅命中 OpenCode 桌面 GUI）。
+- **漂移与一致性审计（一行）**：全绿 —— 禁词 `(没省|又花|喝掉|罪恶|浪费钱)` app/lib=**2** 均元引用（goal_ladder.dart:7 规则文案本体 / achievement.dart:13 禁词字典），用户可见 **0** · ui 非 theme 裸 `Color(0x`=**0** · motion_spec/theme 外裸 `Duration(milliseconds:`=**0** · `真实账目|real_account`=**1** 为规则注释、真实账目 **0** · `_LOCK`=0 · stash=0 · main 头 9ba45c6 ↔ REVIEW 最近归档轮（票325）吻合、无跳审代码提交 · `feat/*` 五支全在册零 stray · origin 零触碰 · progress.md 唯一真相已续登 · `task_plan.md` diff=**0**（薄索引只读，未当真相用）。
+- **Cron 族实测**：本巡检 `19b5f29f` running；wake `b0ea8424` ok(suppressed)；runway-watchdog `abaa94c7` ok；统一看门狗 `169be936` ok；runway-backup `560d719d` ok(suppressed)——零连败。（族外 `heartbeat:main a7676bb2` 显示 error(10x)，非 runway 环，按统一看门狗口径观察，不并入本票。）
+- **提示词新鲜度自审**：cron 锚块仍写「现行最高卡 SB-046 / 冒烟锚 3a8c16e」= **过期**（现行最高卡 **SB-052**、锚 **e61e0f7**），沿册挂 **10-26 周一**批量修订，本轮零自 edit（防 churn）；三项现行口径实测相符：applicationId=`com.zangou.runway`、冒烟一条龙四参数、wake `:15/:45`。今日周四，无【规范适配审查】义务。
+- **决策模型**：1 次调用 → 「是否停掉 runway-wake」p=**0.18**（≤0.25）→ 按判落：**不停**，理由与反转条件见上；非灰区，不留拍板。
+- **利益点自省**：原地半格 —— 今晚产品没往前挪一寸，卡点是「证明改动看得见」的截图管线而非功能本身；A 一放行，下一轮就能把假图换成真图，否则 052/051 继续双堵、整晚零产出。
+- **簿记**：落笔前 `git rev-list --count HEAD` = **693**，本票 + progress 单提交预期 **694**；下拍预登记 票327/**695**±builder 并发。
