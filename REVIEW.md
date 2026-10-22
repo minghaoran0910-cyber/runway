@@ -1796,3 +1796,18 @@ REVIEW 2026-10-22 票301 守场（R91·无新审）
 【票315 · 10-22 17:0x 轮 · 监工 R105】守场零新审·REQ恒等十四拍·裁①在飞不重推 **结论: PASS（无新提审）** 审查对象：无——REQ盘上亲测 md5=dc900943bfe972e2c649fa27c62c5666·mtime=1792626392≡票300已审基线（R91~R104十四拍恒等·与REVIEW 9秒差系07:45提审拍簿记常态）·feat tip acb24ce零移·main@7940291（票314落点）后零新提交→裁①+排期仍无回音·R100催合前半未成立不触发。队列零漂移：非done4（SB-021挂起·SB-049@3b717f2/SB-050@be8b5be已审待合·SB-051@acb24ce已审候复测·全冻裁①闸门后）·done=45（ls-tree实测）·可派0（④类已呈不重推）·待办3>2无排批义务。模拟器冒烟：不发生（diff 2f3e3dd..main app/packages实测0行·全簿记·锚2f3e3dd维持·orphan emulator实测0）。漂移与一致性审计一行：禁词app/lib命中2均元引用白名单（achievement禁词表+goal_ladder注释·用户可见0）·裸Color(ui/theme外)=0·裸Duration(theme/motion外)=0·_LOCK=0·stash=0·main头7940291↔票314链吻合·本地支零新增（034@e576624/048@3ae7522素材支删待浩然一句话·在册）·worktree4含sup-r104监工簿记用·porcelain仅M REQ=builder WAITING_HUMAN常态留痕·task_plan薄索引mtime1791623015只读未动·PII采样0·remote零触碰·applicationId com.zangou.runway三口径相符。cron族实测：本巡检running✓·wake b0ea8424 ok(suppressed·16:45拍·no-route显示口径挂册)·runway-watchdog abaa94c7本轮16:0x拍首次skipped(not requested=看门狗自判无翻转设计态·单拍观察不升格·18:0x下拍复验)·统一看门狗169be936仍为16:00拍同一无增skipped（非连拍·下拍18:00复验·再异常登记）·升级条款均不触发。新鲜度自审：job锚块过时沿册（SB-046 vs SB-051·锚3a8c16e vs 2f3e3dd·堵点SB-012 vs 裁①实拍闸门）挂10-26周一批次修待浩然批·本轮零自edit·周四无规范适配义务。决策模型：零新边界裁决零调用。利益点自省：更远（连续十一拍）——三卡全过审躺闸门候浩然一句话·破局钥匙=裁①批复·排期提案已呈按册不重推不加戏。计数：落笔前rev-list main实测=677（票314落点兑现·builder零并发）·本票+progress双文件单提交落点预期678·下拍预登记票316/679±builder并发。⚡五类无一触发·投递正文NO_REPLY。监工签字：老油条 [supervisor R105]
 
 【票316 · 10-22 19:1x · 监工 R106】浩然拍板落档（19:06 私聊原话「1B 2合」）——①裁①=**1B 打回**：SB-051 缺提审实拍不接受监工代拍，builder 必须自建截图管线（模拟器/真机实拍随提审单附），本轮结论 REQUEST_CHANGES；②裁A=**2合 已执行**：SB-049@3b717f2 squash→fd2a2c0、SB-050@be8b5be squash→8661bf8（golden 取 SB-050 再生版；REVIEW_REQUEST 保留 main 侧 SB-051 版），两卡 git mv done/（done=47）；SB-044 早在 main 历史 eb59495 已合，无需再合。下一步：builder 补截图管线后重提 SB-051；监工下轮按新票据复审。
+
+## 票317 · 2026-10-22 19:5x · 监工 R107（裁①落档后首轮）
+**结论: PASS（无新提审）· 模拟器冒烟 PASS · ⚠️ P1 main 全量回归红（8 帧 golden）**
+
+- **零新审**：盘上 `REVIEW_REQUEST.md` mtime 1792626392 本轮亲测未变（≡票300 已审基线，第十五拍恒等），builder 的 WAITING_HUMAN 三段文本属该基线在册内容，非新提审。且该段"等裁①"前提已被票316 覆盖：裁①=1B——SB-051 不接受监工代拍，builder 自建截图管线后重提；复审单不再按"待豁免"理解。
+- **队列同步（快照 R105→R107）**：SB-049（fd2a2c0）/SB-050（8661bf8）已合入并归档 done/（ls-tree 实测 47）；open 实测 **SB-051（RC·待补截图管线返工）/ SB-021（挂起 v0.2）** = 待办卡 2 ≤ 2 → 见底提醒触发，本轮向浩然呈"排下一批"提案。
+- **模拟器验收（main 新合入，锚 2f3e3dd → e61e0f7 更新）**：APK 由 main@e61e0f7 构建；runway_api36 **BOOT_OK 34s** · install **Success** · am start 成功 · pid **2435** 于 35s/38s 两测同值存活 · logcat **FATAL=0**（crash buffer＋全缓冲双测）· force-stop 后 pkill **ALIVE=0**、无残留进程。功能冒烟 **PASS**。
+- **⚠️ P1 全量回归红**：`flutter test` 实测 **496 passed / 8 failed（504）**，失败全部为 golden 像素：sb007 目标页（空态/有数据/达成态 × light/dark 共 6 帧）＋ sb012 我的页预算区（light/dark 2 帧），diff 恒为 **8.04% / ≈208k px**；实测差异区 y=1019–1474（类目卡区域，非导航栏）。
+  - **归因实测**：同两测试文件在**合入前 main@50f8df0 全绿（12/12）** → 系 8661bf8（SB-050 合入）携带的"再生版 golden"基于旧基线（feat base）生成，非本轮代码回归、非环境漂移。
+  - **处置**：不代改业务码、不擅自回滚合入；派 builder 在 main 头重刷这 8 帧后复测 **504/504** 为准（一卡一轮）。属②类"构建/测试红"，需浩然知悉。
+- **漂移与一致性审计（一行）**：禁词 app/lib=2 全白名单 meta（achievement 禁词表本体 / goal_ladder 规则注释）用户可见 0 · ui/theme 与 motion_spec 外裸 `Color(0x`=0 · 裸 `Duration(milliseconds:`=0 · PII 采样(app/lib+app/test)=0 · stash=0 · `_LOCK` 物理文件 0（14 个 .lock 均为依赖锁）· 本地支 4（main + SB-034/SB-048 素材支在册 + SB-051；049/050 合后分支已删 ✓）· worktree=3 · main 头 e61e0f7 ↔ 票316 链（8420026 归档 → 8661bf8 合入）吻合 · task_plan 薄索引只读未动 · progress 唯一真相续登 · remote 零触碰。
+- **新鲜度自审**：job 锚块（最高卡号 SB-046 / 冒烟锚 3a8c16e）过期在册，挂 10-26 周一批修，本轮零自 edit；今日周四无规范适配义务。
+- **决策模型**：本轮无新边界裁决（裁①已落档），零调用。
+- **利益点自省**：更近一格——两卡真合入主库且模拟器实测通过；但 golden 红暴露"合入后未在合并头跑全量"的验收缺口，已按②类上报派单，不加戏。
+- **簿记**：落笔前 rev-list main 实测 **682** · 本票落点预期 **683** · 下拍预登记 票318/684±builder 并发。⚡通知：②类测试红＋④队列见底各一条并入本拍呈报。
