@@ -1895,3 +1895,18 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 - **簿记**：落笔前 `rev-list --count HEAD` = **691**，本票 + progress 单提交预期 **692**。
 
 ⚡五类核对：零新审、无队列变化、无红线 → 本轮**不推送**，只落盘。监工签字：老油条 [supervisor R114]
+
+## 票325 · 10-22 23:0x · 监工 R115 — 守场零新审（等浩然 A/B 一句话），漂移全绿
+
+- **新审：零**。实测 `stat -f %m`：REVIEW_REQUEST **1792674172 (21:02:52)** < REVIEW **1792679465 (22:31:05)**；`md5 -q REVIEW_REQUEST.md` = **0642d7922e44b6ce7f73c4ef8beafa87**，与 `git show HEAD:REVIEW_REQUEST.md` 同值 → 无新提审，无判定对象。main 头 **35301e4**（票324 归档）与 REVIEW 最近轮吻合。
+- **现场**：`git branch --show-current` = **main**；porcelain = **0**；`_LOCK` 实测 **0**；stash **0**；headless opencode / emulator / qemu 进程 **0**（`pgrep` 仅命中 OpenCode 桌面 GUI 自身，非施工会话）；本地支 **5**（main + feat/SB-034·SB-048 素材在册 + feat/SB-051-motion@acb24ce 在飞 + feat/SB-052-shots-pipeline@236adcb WIP 存档）；worktree **3**；origin/main **a73f90c** 零触碰。
+- **队列（与快照一致·无位次变化·不推送）**：SB-052=施工中·半成品存档待 A/B 授权 ｜ SB-051=REQUEST_CHANGES（1B，等截图管线）｜ SB-021=挂起 v0.2 ｜ done/ `git ls-tree HEAD docs/tasks/done/` = **47**。两卡同堵同一前置（截图管线/授权），属结构性停等，R113 已请示，本轮不重复催。
+- **模拟器冒烟：不发生** —— `git diff --name-only e61e0f7..HEAD -- app packages | wc -l` = **0**，锚维持 **e61e0f7**（票317 PASS 仍有效）。
+- **漂移与一致性审计（一行）**：全绿 —— 禁词 `app/lib`=**2** 均元引用（goal_ladder.dart:7 规则文案本体 / achievement.dart:13 禁词字典），用户可见 **0** · ui 非 theme 裸 `Color(0x`=**0** · motion_spec/theme 外裸 `Duration(milliseconds:`=**0** · `真实账目|real_account`=**8** 全为规则/合成数据注释，真实账目 **0** · `_LOCK`=0 · stash=0 · porcelain=0 · 本地支 5（全部在册）· worktree 3 · origin/main a73f90c 零触碰 · progress 唯一真相已续登 · `task_plan.md` diff=**0**（薄索引，未当真相用）· 视觉保真闸门不适用（本轮零 UI 改动）。
+- **Cron 族实测**：隶属 wake `b0ea8424` ok(suppressed)、runway-watchdog `abaa94c7` ok、统一看门狗 `169be936` ok、runway-backup `560d719d` ok——零连败。
+- **提示词新鲜度自审**：cron 锚块仍写「最高卡 SB-046 / 冒烟锚 3a8c16e」= **过期**（现行 SB-052 / e61e0f7），沿 R113 挂 **10-26 周一**批量修订，本轮零自 edit（防 churn）；applicationId=`com.zangou.runway`、冒烟一条龙四参数、wake `:15/:45` 三项实测相符。今日周四，无规范适配审查义务。
+- **决策模型**：本轮无边界裁决，0 次调用。
+- **利益点自省**：原地半格 —— 产品今晚仍未挪，环在等浩然一句话（A 续做 236adcb / B 从 main 重开）；A 落地后下一轮就能把「提审要看的图」变成真图，否则 051/052 继续双堵、整晚零产出。
+- **簿记**：落笔前 `rev-list --count HEAD` = **692**，本票 + progress 单提交预期 **693**。
+
+⚡五类核对：零新审、无队列变化、无红线、灰区已在上轮请示 → 本轮**不推送**，只落盘。监工签字：老油条 [supervisor R115]
