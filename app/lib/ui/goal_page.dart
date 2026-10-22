@@ -18,6 +18,7 @@ import 'goal_card.dart';
 import 'goal_editor.dart';
 import 'goal_timeline.dart';
 import 'grain_card.dart';
+import 'runway_icons.dart';
 import 'settings_page.dart';
 import 'weekly_page.dart';
 import 'theme/app_theme.dart';
@@ -151,7 +152,7 @@ class GoalPageState extends State<GoalPage> {
         title: const Text('我的'),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.settings_outlined),
+            icon: const RunwayIcon(RunwayIconKind.settings),
             tooltip: '设置',
             key: const Key('settingsEntry'),
             onPressed: () => Navigator.of(context).push<void>(

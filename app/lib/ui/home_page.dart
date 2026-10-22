@@ -13,6 +13,7 @@ import '../logic/week_warm.dart';
 import 'dashboard_cards.dart';
 import 'pending_page.dart';
 import 'quick_add_page.dart';
+import 'runway_icons.dart';
 import 'theme/app_theme.dart';
 import 'theme/tokens.dart';
 import 'today_saved_row.dart';
@@ -110,7 +111,7 @@ class HomePage extends StatelessWidget {
         title: const Text('攒够'),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.markunread_mailbox),
+            icon: const RunwayIcon(RunwayIconKind.inbox),
             tooltip: '待确认',
             key: const Key('pendingEntry'),
             onPressed: () => Navigator.of(context).push<void>(

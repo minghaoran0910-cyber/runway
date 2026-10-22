@@ -6,6 +6,7 @@ import 'category_page.dart';
 import 'goal_page.dart';
 import 'home_page.dart';
 import 'quick_add_page.dart';
+import 'runway_icons.dart';
 
 // SB-027 · 底部导航壳（P0 急救）：三 tab（首页/账本/我的），现有页面全挂进去.
 // 首页=HomePage（内层记一笔 FAB 让位外层统一 FAB）；账本=CategoryPage；
@@ -76,20 +77,20 @@ class RootShellState extends State<RootShell> {
         bottomNavigationBar: NavigationBar(
           selectedIndex: index,
           onDestinationSelected: (int i) => setState(() => index = i),
-          destinations: const <Widget>[
+          destinations: <Widget>[
             NavigationDestination(
-              icon: Icon(Icons.home_outlined),
-              selectedIcon: Icon(Icons.home),
+              icon: RunwayIcon(RunwayIconKind.home),
+              selectedIcon: RunwayIcon(RunwayIconKind.homeFilled),
               label: '首页',
             ),
             NavigationDestination(
-              icon: Icon(Icons.book_outlined),
-              selectedIcon: Icon(Icons.book),
+              icon: RunwayIcon(RunwayIconKind.book),
+              selectedIcon: RunwayIcon(RunwayIconKind.bookFilled),
               label: '账本',
             ),
             NavigationDestination(
-              icon: Icon(Icons.person_outlined),
-              selectedIcon: Icon(Icons.person),
+              icon: RunwayIcon(RunwayIconKind.user),
+              selectedIcon: RunwayIcon(RunwayIconKind.userFilled),
               label: '我的',
             ),
           ],

@@ -12,6 +12,7 @@ import 'theme/app_theme.dart';
 import 'theme/tokens.dart';
 import 'price_card.dart';
 import 'category_role_wall.dart';
+import 'runway_icons.dart';
 import 'widgets/progress_ring.dart';
 
 // SB-005 · 类目管理页（规则引擎落地页：其他占比 + 六类目合计 + 手工纠正回写入口）.
@@ -259,7 +260,7 @@ class CategoryPage extends StatelessWidget {
                               ),
                               trailing: PopupMenuButton<String>(
                                 tooltip: '纠正',
-                                icon: const Icon(Icons.tune),
+                                icon: const RunwayIcon(RunwayIconKind.tune),
                                 onSelected: (String v) => _fix(itemCtx, r, v),
                                 itemBuilder: (_) => <PopupMenuEntry<String>>[
                                   for (final String c in ruleCategories)

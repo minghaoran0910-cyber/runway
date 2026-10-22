@@ -7,6 +7,7 @@ import '../data/app_db.dart';
 import 'bill_import_page.dart';
 import 'diagnostics_card.dart';
 import 'pending_page.dart';
+import 'runway_icons.dart';
 import 'theme/app_theme.dart';
 import 'theme/tokens.dart';
 
@@ -66,7 +67,7 @@ class SettingsPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   ListTile(
-                    leading: const Icon(Icons.notifications_outlined),
+                    leading: const RunwayIcon(RunwayIconKind.bell),
                     title: const Text('通知导入'),
                     subtitle: const Text('待确认入账与账单文件导入'),
                     key: const Key('settingsImport'),
@@ -78,7 +79,7 @@ class SettingsPage extends StatelessWidget {
                   ),
                   const Divider(height: 1),
                   ListTile(
-                    leading: const Icon(Icons.markunread_mailbox_outlined),
+                    leading: const RunwayIcon(RunwayIconKind.inboxOutline),
                     title: const Text('待确认'),
                     subtitle: const Text('通知采集的每一笔先过目再入账'),
                     key: const Key('settingsPending'),
@@ -102,7 +103,7 @@ class SettingsPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   ListTile(
-                    leading: const Icon(Icons.ios_share_outlined),
+                    leading: const RunwayIcon(RunwayIconKind.share),
                     title: const Text('数据导出'),
                     subtitle: const Text('全部记录导出为 CSV（合成口径）'),
                     key: const Key('settingsExport'),
@@ -110,7 +111,7 @@ class SettingsPage extends StatelessWidget {
                   ),
                   const Divider(height: 1),
                   ListTile(
-                    leading: const Icon(Icons.info_outlined),
+                    leading: const RunwayIcon(RunwayIconKind.info),
                     title: const Text('关于'),
                     subtitle: const Text('攒够 Runway · $kAppVersion'),
                     key: const Key('settingsAbout'),
