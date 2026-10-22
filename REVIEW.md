@@ -1925,3 +1925,23 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 - **决策模型**：1 次调用 → 「是否停掉 runway-wake」p=**0.18**（≤0.25）→ 按判落：**不停**，理由与反转条件见上；非灰区，不留拍板。
 - **利益点自省**：原地半格 —— 今晚产品没往前挪一寸，卡点是「证明改动看得见」的截图管线而非功能本身；A 一放行，下一轮就能把假图换成真图，否则 052/051 继续双堵、整晚零产出。
 - **簿记**：落笔前 `git rev-list --count HEAD` = **693**，本票 + progress 单提交预期 **694**；下拍预登记 票327/**695**±builder 并发。
+
+## 票327 · 10-23 00:0x · 监工 R117 — 守场零新审 + cron 锚块过期项当场修正（挂 4 轮的 P1 销账），漂移全绿
+
+- **新审：零**。`stat -f %m` 实测 REQ **1792682149 (10-22 23:15:49)** < REVIEW **1792683160 (10-22 23:32:40)**（票326 写于熔断段之后）→ 无新提审，无判定对象，不产 PASS/RC。REQ 盘上 md5 **921c124f1da0545255a2619478b48a33** ≠ `git show HEAD:REVIEW_REQUEST.md` **0642d7922e44b6ce7f73c4ef8beafa87**，差异即 R116 已登记的 5 行 `WAITING_HUMAN` 熔断段（自述非提审、feat 头未动、零业务码），沿册不代提交。
+- **现场**：`git branch --show-current` = **main@00aedf7**；porcelain = **1**（仅 `M REVIEW_REQUEST.md`＝上述熔断段留痕，业务脏 **0**）；`_LOCK` 实测 **0**；stash **0**；headless opencode / emulator / qemu 施工进程 **0**（pgrep 仅命中 OpenCode 桌面 GUI）。本地支 **5** 全在册：main + `feat/SB-034-diag-channel@e576624`·`feat/SB-048-goal-editor@3ae7522`（素材）·`feat/SB-051-motion@acb24ce`（在飞）·`feat/SB-052-shots-pipeline@236adcb`（WIP 存档）；worktree **3**（主仓 main / sb048-verify detached / sup-r104 detached@dade314）；origin/main **a73f90c** 零触碰。
+- **队列（与快照一致·零位次变化·不推送）**：SB-052=施工中·半成品存档待 A/B 授权 ｜ SB-051=**第 3 轮熔断 WAITING_HUMAN** ｜ SB-021=挂起 v0.2 ｜ done/ `git ls-tree --name-only HEAD docs/tasks/done/` = **47**（实测回显）。SB-051/SB-052 卡文本身无「状态：」行（10-14 起新卡无状态行口径问题在册，进度以快照 queue 为准），队列判断仍成立。
+- **模拟器冒烟：不发生** —— `git diff --name-only e61e0f7..HEAD -- app packages | wc -l` = **0**（锚以来仅 golden png + docs/REVIEW 变更），锚维持 **e61e0f7**（票317 PASS 仍有效）；无 emulator/qemu 进程，未与任何 builder 并发。
+- **【提示词新鲜度自审 · 本轮动手修正，挂 4 轮的 P1 销账】** cron 锚块自 R113 起连挂「最高卡 SB-046 / 冒烟锚 3a8c16e」= 过期（实为 SB-052 / e61e0f7），R113~R116 四轮以「防 churn 挂 10-26 周一批修」顺延。本轮守场无审、容量空闲，按本任务 §8「发现过时→直接 cron edit 修正」当场执行：
+  - 操作：`openclaw cron get 19b5f29f…` 取现役 message（5107 chars）存档 → 仅替换锚块括号段（`（10-16 09:3x 现行：…/不与 opencode 并发起模拟器）` → `（10-23 00:0x 现行：…）`）→ `openclaw cron edit … --message`（5107→5192 chars）。
+  - 决策前括号平衡校验：被换段 `（`/`）` 差 = **+1**、新段差 = **+1**（嵌套结构不变）；替换点前后文逐字未动（切片拼接，非全文重写）。
+  - 验真：重新 `cron get` 与落盘新文本 `IDENTICAL`；`schedule` 仍 `*/30 * * * *`；旧串「10-16 09:3x 现行」实测 **不在**、新串「10-23 00:0x 现行」实测**在**。原文本备份 `~/.openclaw/workspace/memory/runway-sup-cron-prompt-2026-10-22.orig.txt`（可一键回滚）。
+  - 新锚块内容均为本轮实测：SB-052@236adcb WIP 待 A/B ｜ SB-051 3 次 RC 熔断·feat@acb24ce 未动 ｜ done=47 ls-tree ｜ REQ=SB-052 首审版+23:15 熔断段 ｜ 冒烟锚 e61e0f7 ｜ wake b0ea8424 :15/:45 ｜ 裁A 冻结 ｜ 堵点=SB-052 授权+SB-012 闸门 ｜ 在册素材支仅 SB-034/SB-048（SB-033/sb033-rescue 早已清理，旧串过时一并更正）。
+  - 三项现行口径复检相符：applicationId=`com.zangou.runway`、冒烟一条龙四参数（-no-window -no-snapshot-load -no-audio -no-boot-anim）、巡检 `*/30`。今日周五，无【规范适配审查】义务。
+- **漂移与一致性审计（一行）**：全绿 —— 禁词 `(没省|又花|喝掉|罪恶|浪费钱)` app/lib=**2** 均元引用（goal_ladder.dart:7 规则文案本体 / achievement.dart:13 禁词字典），用户可见 **0** · ui 非 theme 裸 `Color(0x`=**0** · motion_spec/theme 外裸 `Duration(milliseconds:`=**0** · `真实账目|real_account`=**1** 为规则注释、真实账目 **0** · `_LOCK`=0 · stash=0 · main 头 00aedf7 ↔ REVIEW 最近归档轮（票326）吻合、无跳审代码提交 · `feat/*` 四支全在册零 stray · worktree 3 均登记 · origin 零触碰 · progress.md 唯一真相已续登 · `task_plan.md` diff=**0**（薄索引只读，未当真相用）· 视觉保真闸门不适用（本轮零 UI 改动）。
+- **Cron 族实测**：本巡检 `19b5f29f` running；wake `b0ea8424` ok(suppressed)；runway-watchdog `abaa94c7` ok；统一看门狗 `169be936` ok；runway-backup `560d719d` ok(suppressed)——零连败。（族外 `heartbeat:main a7676bb2` 仍 error(10x)，非 runway 环，按统一看门狗口径观察，不并入本票。）
+- **决策模型**：本轮无边界裁决，0 次调用（cron 锚块修正属 §8 明令直改，非裁量项）。
+- **利益点自省**：原地半格 —— 产品这一拍没往前挪（051/052 仍同堵「A/B 授权」这一句话），但把挂 4 轮、每轮都要复述的过期锚块清掉，减少的是「未来某轮照旧锚误报」的风险；产品真挪一步仍取决于浩然放行截图管线。
+- **簿记**：落笔前 `git rev-list --count HEAD` = **694**，本票 + progress 单提交预期 **695**；下拍预登记 票328/**696**±builder 并发。
+
+⚡五类核对：零新审、无队列变化、无红线、A/B 拍板已在 R113/R116 两次请示（不再重复催）→ 本轮**不推送**，只落盘。监工签字：老油条 [supervisor R117]
