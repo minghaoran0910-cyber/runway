@@ -2148,3 +2148,32 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 **簿记**：落笔前 `rev-list --count HEAD`=**703**，本票 + progress 单提交预期 **704**；下拍预登记 票337/**705**±builder 并发。
 
 ⚡五类核对：零新审、无队列位次变化、无红线、A/B 已两轮请示、P1 已自修闭环 → 本轮**不推送**，只落盘（S0.6 修复随 20:00 日报口径带出）。监工签字：老油条 [supervisor R126]
+
+---
+
+## 票337 · 2026-10-23 05:0x 巡检轮（R127 · 守场零新审 · S0.6 修复实测闭环）
+
+**结论**: PASS（无新提审对象，守场）
+
+**审查义务判定**：`stat -f %m` 实测 `REVIEW_REQUEST.md`=1792682149（10-22 23:15:49）< `REVIEW.md`=1792701175（10-23 04:32:55）→ **无新活，零审查**。盘上 REQ md5 `921c124f…` ≠ `git show HEAD:REVIEW_REQUEST.md` md5 `0642d792…`，差 5 行为 10-22 23:15 熔断段追加（非提审、无判定对象），**沿册不代提交**。`git show HEAD:REVIEW_REQUEST.md` 仍为 SB-052 首审版，未被翻转。
+
+**队列（与快照 queue 逐项比对，零位次变化 → 不更新 queue）**：`docs/tasks/` 盘上 3 张 — **SB-052** 待 A/B 授权（半成品存档 `feat/SB-052-shots-pipeline@236adcb`，tool/shots.sh+4 帧实拍全为 splash 不可用）、**SB-051** 第 3 轮熔断 WAITING_HUMAN（feat 头 `acb24ce` 未动）、**SB-021** 挂起 v0.2；done/=`git ls-tree HEAD docs/tasks/done/` **47** 实测。两卡同堵浩然 A/B 一句话，R113 首请+R116 复核已两轮请示，**不重复催**。队列未真正见底，不触发见底自派。
+
+**模拟器冒烟：不发生（锚维持 e61e0f7）**。`git diff --stat e61e0f7..HEAD -- app packages tool pubspec.yaml` = **空输出**，自锚起无任何业务码/packages/tool/pubspec 变更 → 不启动 emulator，不虚报 PASS。
+
+**【P2 上轮观察项 · 实测销账】wake S0.6 正则修复已生效**
+- 04:15 拍日志仍为 `点火：守卫全过，唤起 builder`（修复前旧守卫）；**04:45 拍实测 `[2026-10-23 04:45:00 dispatch] 退出：REQ 含 WAITING_HUMAN 显式标记（S0.6，等人工）`** —— 新正则首拍即命中，零 builder 点火。
+- 佐证：04:45 前后日志无 `点火完成`，builder 进程 pgrep=0；`## WAITING_HUMAN（…）` 与 `WAITING_HUMAN：…` 两种形态均已覆盖。
+- 结论：R126 P1 修复闭环，观察项解除，无需再挂。
+
+**【提示词新鲜度自审 · 通过 · 零 edit】**：① 巡检 `19b5f29f` `cron */30` running；② wake `b0ea8424` enabled（`15,45 * * * *` Asia/Shanghai，command 架构走 `runway-wake-dispatch.sh`），脚本内 SB 卡号命中仅 `:38` 注释（SB-024 先例引用，非参数），无过时卡号/锚参数；③ watchdog `abaa94c7` ok（2h）、统一看门狗 `169be936` ok、backup `560d719d` ok；④ `applicationId = "com.zangou.runway"` 实测在 `app/android/app/build.gradle.kts:19`，与冒烟口径一致；⑤ `task_plan.md` **8 行**薄索引（非真相），`progress.md` 为唯一注册表；⑥ golden 归档路径 `app/test/goldens/sb0XX/` 在册无漂移；⑦ 巡检 :00/:30 与 wake :15/:45 错峰在位，无时间参数失配。→ 本轮 cron **零 edit**。
+
+**漂移与一致性审计（一行）**：全绿 —— 禁词 `(没省|又花|喝掉|罪恶|浪费钱)` 命中 3 处均为规则本体/文档禁令元引用（`goal_ladder.dart:7`、`achievement.dart:13` 禁词数组、`DESIGN_SYSTEM.md:86`），用户可见文案 **0**；`ui/theme` 外裸 `Color(0x` **0**；`Duration(milliseconds: 0` **0**；真实账目数据 **0**；`_LOCK` 0 / `stash` 0 / worktree 3（主 + 2 临时只读副本在册）；feat 分支 4 支全在册零 stray（034/048 待浩然一句话删，051/052 施工档）；main 头 `2d77c6f`=R126 票336 归档轮，可对应；`origin/main` 零触碰（头仍 `a73f90c`）。
+
+**决策模型**：0 次调用（本轮无边界裁决）。
+
+**利益点自省**：**持平** —— 本轮无施工动作，产品未移动；阻塞点仍是浩然 A/B 一句话（052 续做路径），监工侧已无合法可推进事项，不擅自代拍。
+
+**簿记**：落笔前 `rev-list --count HEAD`=**704**；本票 + progress + 快照单提交预期 **705**。
+
+**五类核对**：零新审 / 无队列变化 / 无灰区裁决 / 待办卡 3 张未见底 / 无红线 → ⚡**零推送**，仅落盘。签字：老油条 [supervisor R127]
