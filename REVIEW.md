@@ -2117,3 +2117,34 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 **簿记**：落笔前 `rev-list --count HEAD`=**702**，本票 + progress 单提交预期 **703**；下拍预登记 票336/**704**±builder 并发。
 
 ⚡五类核对：零新审、无队列位次变化、无红线、A/B 已两轮请示 → 本轮**不推送**，只落盘。监工签字：老油条 [supervisor R125]
+
+## 票336 · 2026-10-23 04:3x 巡检（守场零新审 · **P1 守卫修复** · R126）
+
+**结论: PASS（无新判定对象 · 守场；另修一处唤醒守卫 P1 缺陷）**
+
+**新审判定**：`stat -f %m` 实测 `REVIEW_REQUEST.md`=**1792682149**（10-22 23:15:49）< `REVIEW.md`=**1792699270**（10-23 04:01:10）→ **无新提审，零审查对象**。REQ 盘上 md5=`921c124f` ≠ HEAD `0642d792`，`git diff --stat` = **1 file / 5 insertions**，内容即 10-22 23:15 WAITING_HUMAN 熔断段（非提审·无判定对象），沿册**不代提交**。
+
+**现场三实测**：`git log --oneline -1` → main 头 **158fb45**（票335）；`git status --short` → 仅 `M REVIEW_REQUEST.md`，业务脏 **0**；`git ls-tree HEAD docs/tasks/done/` = **47** 条；`_LOCK` **0**、stash **0**、本地支 **5**（feat SB-034@e576624 / SB-048@3ae7522 / SB-051@acb24ce / SB-052@236adcb）、worktree **3**、origin/main **a73f90c 零触碰**；`pgrep -fl 'emulator|flutter build|qemu'` 空。
+
+**队列（与快照 queue 逐项比对，零位次变化 → 不更新 queue）**：`docs/tasks/` 盘上 **3** 张 — SB-052 待 A/B 授权（半成品档 236adcb）、SB-051 第 3 轮熔断 WAITING_HUMAN、SB-021 挂起 v0.2；done/=**47**。待办卡口径仍为「052 先行 → 051 返工」，两者同堵浩然 A/B 一句话；**不重复催**（R113 首请 + R116 复核已两轮请示）。队列未真正见底（3 张在册），不触发见底自派。
+
+**模拟器冒烟：不发生（锚维持 e61e0f7）**。`git diff --stat e61e0f7..HEAD -- app packages tool pubspec.yaml` = **空**（自锚起唯一非 docs 变更为 `golden/sb0*/**.png` 8 件基线图，票319 亲刷已入册），无新合入业务码 → 不启动 emulator，不虚报 PASS。
+
+**【P1 新发现·已修】wake 派发器 S0.6 守卫正则漏判 → 每 30 分钟空转点火**
+- 症状：`/Users/dada561/.openclaw/logs/runway-wake.log` 实测 `[2026-10-23 04:15:00 dispatch] 点火：守卫全过，唤起 builder`；builder 自行读到 REQ 熔断段后零写入退出，日志内 `S0.6 命中` 自退累计 **15** 次。
+- 根因：`runway-wake-dispatch.sh:39` 旧式 `^状态[:：].*WAITING_HUMAN|^WAITING_HUMAN[[:space:]]*$` 只认「行首纯 WAITING_HUMAN」；本轮 REQ 实际形态为 `## WAITING_HUMAN（…）` 与 `WAITING_HUMAN：SB-051…`，两条**全不命中** → shell 守卫放行，靠 builder 语义兜底。
+- 修法（decision p=0.81 → 按判落）：改为 `^状态[:：].*WAITING_HUMAN|^#*[[:space:]]*WAITING_HUMAN([[:space:]]|[：:]|$)`；备份 `runway-wake-dispatch.sh.bak-20261023-S06`；`sh -n` 通过。
+- 双向实证：盘上 REQ → **命中（正确退出）**；`git show HEAD:REVIEW_REQUEST.md`（SB-052 首审原版）→ **不命中（正确点火）**；SB-024 句中叙述形 → **不命中（无误判）**。
+- 语义：仅恢复「显式熔断标记 → 停止唤醒」的本意，状态机 R 条款未动；回滚=`cp` 备份覆盖。
+
+**【提示词新鲜度自审 · 通过 + 1 处 self-edit】**：① 巡检 `19b5f29f` `cron */30` running（last 31m ago）；② wake `b0ea8424` enabled（`15,45 * * * *` Asia/Shanghai，last ok/suppressed）走 command 架构 `sh runway-wake-dispatch.sh`，脚本 66 行、SB 卡号命中仅 `:38` **注释内** SB-024 先例引用（非参数），其余卡号/锚 `e61e0f7`/`10-23 00:0x 现行` 均由 cron 锚块承载且现行；③ watchdog `abaa94c7` ok、统一看门狗 `169be936` ok、backup `560d719d` ok；④ applicationId 实测 `com.zangou.runway`（`app/android/app/build.gradle.kts:19`），与本轮口径一致；⑤ `task_plan.md` **8 行**薄索引只读；⑥ 本轮 self-edit 仅上述 S0.6 正则一处（属监工所有，已入 infra）。
+
+**漂移与一致性审计（一行）**：全绿 —— 禁词 `(没省|又花|喝掉|罪恶|浪费钱)` app/lib 命中 **2**，均为规则本体/禁词清单元引用（`goal_ladder.dart:7`、`achievement.dart:13`），用户可见文案 **0**；`Color(0x` 在 `app/lib/ui` 仅 **41** 处且 **全部在 `ui/theme/tokens.dart`**（token 定义，豁免位），token 外裸色 **0**；`Duration(milliseconds:[1-9]` 于 `motion_spec` 外 **0**；真实账目数据 **0**；`_LOCK` **0**、`stash` **0**、stray 分支 **0**；main 头 158fb45 对应本文件票335 归档轮、无 feat 残留于 main。
+
+**决策模型**：1 次调用（S0.6 直接修 vs 留拍板）→ `approve_direct_fix` **p=0.81**（≥0.75 落裁决，已执行并双向验证）。
+
+**利益点自省**：**更近半格** —— 修掉空转点火不直接让用户看见价值，但把「人工熔断」变成系统真听命令，避免 builder 在等授权期间乱动把已冻结的 051/052 越改越远；产品真挪一步仍卡浩然 A/B 一句话。
+
+**簿记**：落笔前 `rev-list --count HEAD`=**703**，本票 + progress 单提交预期 **704**；下拍预登记 票337/**705**±builder 并发。
+
+⚡五类核对：零新审、无队列位次变化、无红线、A/B 已两轮请示、P1 已自修闭环 → 本轮**不推送**，只落盘（S0.6 修复随 20:00 日报口径带出）。监工签字：老油条 [supervisor R126]
