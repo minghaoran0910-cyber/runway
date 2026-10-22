@@ -1837,3 +1837,17 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 【票319 · 10-22 20:2x · 监工 R109】golden 重刷已由监工本人执行完毕（R108 给 builder 的一次性授权**作废**，builder 唤醒后勿重复）：main 头 @2067b49 重刷 SB-007 目标页 6 帧 + SB-012 预算区 2 帧（SB-049 打卡预览条入基线），全量 flutter test **504/504 PASS**，零业务码改动、零 push。R107/R108 报的 496/504 红项销账。
 
 【票320 · 10-22 20:3x · 监工 R110】浩然拍 A 落档：新开 **SB-052 提审截图管线**（`docs/tasks/SB-052.md`，提交 6be415c）。队列顺序=SB-052 先行（builder 自建 `tool/shots.sh` + 提审单实拍清单段 + DEV/GIT 规范条款）→ 再返工 SB-051（票316 的 1B，附实拍重提）。SB-052 验收：一条命令产出 ≥4 张浅/深实拍、提审模板生效、全量绿、零业务码改动。
+
+## R111 · 2026-10-22 20:3x 守场巡检（票321）
+
+**结论：守场 · 零新审（无 PASS/REQUEST_CHANGES 判定对象）**
+
+- **新审判定（两处实测）**：权威簿记树 `/tmp/sup-r104` 内 REQ mtime **1792666922（19:02）** < REVIEW **1792672305（20:31）**；主仓 feat 树 REQ mtime 1792670927 系 R108 监工注记（未提交），`git diff HEAD -- REVIEW_REQUEST.md` 逐行比对仅新增该注记段、零 builder 内容。feat/SB-051-motion 头仍 **acb24ce**（零新提交）。
+- **队列同步（快照 R108→R111）**：open = **SB-052（待办·6be415c 开卡）→ SB-051（REQUEST_CHANGES·feat@acb24ce 待返工）｜SB-021 挂起 v0.2**；done = **47**（`git ls-tree --name-only HEAD docs/tasks/done/ | wc -l` 实测）。有效待派 1（SB-052）+ 返工 1 → 未空派；见底提醒已于 R107 呈报、浩然 20:29 以裁 A 落地（开 052 先行），本轮不重复推送。
+- **模拟器验收**：`git diff --name-only e61e0f7..HEAD -- app packages | wc -l` = **0**（锚以来仅 8 帧 golden png + REVIEW/progress/docs 变更，零业务码）→ 冒烟义务不发生，锚维持 **e61e0f7**（票317 实测：BOOT 34s / pid 2435 / FATAL 0 / 收口 ALIVE 0）。SB-052 的 `tool/shots.sh` 首跑将自然覆盖下一次真机验证。
+- **漂移与一致性审计（一行）**：禁词 `app/lib`=2 均元引用（`achievement.dart:13` 禁词表本体 / `goal_ladder.dart:7` 规则注释），用户可见 0 · ui 非 theme 裸 `Color(0x`=**0** · motion_spec/theme 外裸 `Duration(milliseconds:`=**0** · 真实账目/红线 0 · `_LOCK`=0 · porcelain=0 · stash=0 · 本地支 4（main + SB-051 在飞 + SB-034/SB-048 素材支在册，无 stray）· worktree=3 · main 头 **e751944** ↔ REVIEW 票320 相邻吻合 · progress 唯一真相已续登 · task_plan 8 行薄索引只读未动 · origin/main **a73f90c** 零触碰 · 并发面仅 gradle/kotlin daemon（idle）+ OpenCode GUI，无 emulator/无 headless 构建。
+- **P2 簿记缺口（新观察，不自行改卡）**：SB-051/SB-052 卡面**无「状态：」行**（新卡模板自 SB-047 起省略），第 3 条机械比对无法只读卡面判定；本拍改以 REVIEW 票 + 分支头 + done 实测为准。建议 10-26 规范批二选一：①卡模板恢复机读状态行；②明文「状态以 REVIEW.md 为准，卡面无状态行属正常」。
+- **提示词新鲜度自审**：cron 锚块仍写「10-16 09:3x 现行最高卡 SB-046」= **过期**（现行最高卡 SB-052）；沿 R107/R108 决议挂 **10-26 周一批**统一修订，本轮零自 edit（防 churn）。三项现行口径实测相符：applicationId=`com.zangou.runway`、冒烟一条龙（`-no-window -no-snapshot-load -no-audio -no-boot-anim` → install → am start → 35s → pkill）、wake `b0ea8424 :15/:45` 在位。今日周四，无周一规范适配义务。
+- **决策模型**：本轮无边界裁决（裁①/裁A 均已于票316/320 落档），零调用。
+- **利益点自省**：更近一格——本轮确认项目卡点不在产品而在交付管线，并把管线卡（SB-052）排在首位；但管线只服务"验收有人看图"，落地后下一步仍需回到「用户天天看见自己挪一步」，否则只是内部工具变精致。
+- **簿记**：落笔前 `rev-list --count HEAD` = **688**，本票预期 **689**（提交后复核）。
