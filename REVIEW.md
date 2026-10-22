@@ -1965,3 +1965,19 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 - **簿记**：落笔前 `git rev-list --count HEAD` = **695**，本票 + progress 单提交预期 **696**；下拍预登记 票329/**697**±builder 并发。
 
 ⚡五类核对：零新审、无队列变化、无红线、A/B 拍板已在 R113/R116 两次请示（不再重复催）→ 本轮**不推送**，只落盘。监工签字：老油条 [supervisor R118]
+
+## 票329 · 10-23 01:0x · 监工 R119 — 守场零新审 + 提示词新鲜度复检 + 漂移全绿
+
+- **新审：零**。`stat -f %m` 实测 REQ **1792682149 (10-22 23:15:49)** < REVIEW **1792686728 (10-23 00:32:08，票328 落笔)** → 无新提审、无判定对象，不产 PASS/RC（视觉保真闸门不适用：零 `app/lib/ui/**` 改动）。
+- **REQ 盘上差异沿册**：盘上 md5 **921c124f1da0545255a2619478b48a33** ≠ `git show HEAD:REVIEW_REQUEST.md` **0642d7922e44b6ce7f73c4ef8beafa87**；`git diff --stat HEAD -- REVIEW_REQUEST.md` 实测 **5 insertions**＝R116 已登记的 `WAITING_HUMAN` 熔断段（自述非新提审、feat 头 acb24ce 未动、零业务码零提交）→ 沿册不代提交、不产结论。
+- **现场**：`git branch --show-current` = **main@daec7f1**（=票328 落点）；`rev-list --count HEAD` = **696**；porcelain = **1**（仅 `M REVIEW_REQUEST.md`，业务脏 **0**）；`_LOCK` 探测 **0**、stash **0**；本地支 **5** 全在册（main + SB-034@e576624·SB-048@3ae7522 素材 + SB-051@acb24ce 熔断 + SB-052@236adcb WIP）；worktree **3** 均登记；origin 零触碰；`pgrep -fl 'opencode|emulator|qemu'` 命中全为 OpenCode 桌面 GUI 组件（audio/renderer/crashpad/gpu/network/node helper），**无 headless builder、无 emulator/qemu**。
+- **队列（与快照一致·零位次变化·不推送）**：SB-052=施工中·半成品存档 `feat/SB-052-shots-pipeline@236adcb` 待 A/B 授权 ｜ SB-051=**第 3 轮熔断 WAITING_HUMAN**（`feat/SB-051-motion@acb24ce` 未动）｜ SB-021=挂起 v0.2 ｜ done/ `git ls-tree HEAD docs/tasks/done/` = **47**（实测）；盘上 `docs/tasks/` 仅 3 张卡（SB-021/051/052），仅 SB-021 有「状态：」行（挂起），SB-051/052 沿新卡无状态行口径（10-14 在册）→ 无变化，不更新快照 queue。
+- **模拟器冒烟：不发生** —— `git diff --name-only e61e0f7..HEAD -- app packages tool | wc -l` = **0**，锚维持 **e61e0f7**（票317 PASS 仍有效）；未起模拟器、未与 builder 并发。
+- **【提示词新鲜度自审 · 复检通过，本轮零 self-edit】**：① 本巡检 `19b5f29f` message 锚块实测含「**10-23 00:0x 现行**」**1 命中**（R117 修正已持久化，旧串 0 命中），锚块卡号最高 SB-052/done 47/冒烟锚 e61e0f7/wake b0ea8424 均与本轮实测一致；② wake `b0ea8424` 仍 `enabled`、`cron 15,45 * * * * @ Asia/Shanghai`、lastRun **ok (suppressed)**；分发脚本 `runway-wake-dispatch.sh` 无过期卡号硬编码（唯一 `SB-024` 字样在第 38 行历史注释，非入参）；③ watchdog `abaa94c7` every 2h lastRun **ok**，口径（只读、禁 merge/push）与 LOOP 一致；④ 现行口径复检：applicationId `com.zangou.runway`、冒烟四参数、巡检 `*/30` 全相符。今日周五，无【规范适配审查】义务（周一 10-26 首轮）。
+- **漂移与一致性审计（一行）**：全绿 —— 禁词 `(没省|又花|喝掉|罪恶|浪费钱)` app/lib **2** 均元引用（`goal_ladder.dart` 规则文案本体 / `achievement.dart` 禁词字典）+ `docs/DESIGN_SYSTEM.md:86` 规则条款本体，用户可见 **0** · ui 非 theme 裸 `Color(0x`=**0** · motion_spec/theme 外裸 `Duration(milliseconds:` 非零=**0** · `真实账目|real_account` **3** 命中全为规则/注释（app_db.dart:16、ADR-001:17、GIT_WORKFLOW.md:38），真实账目数据 **0** · `_LOCK`=0 · stash=0 · main 头 daec7f1 ↔ REVIEW 最近归档轮（票328）吻合、无跳审代码提交 · `feat/*` 四支全在册零 stray · worktree 3 均登记 · origin 零触碰 · progress.md 唯一真相已续登 · `task_plan.md` **8 行**薄索引只读、未当真相用 · 视觉闸门不适用（零 UI 改动）。
+- **Cron 族实测**：本巡检 `19b5f29f` running；wake `b0ea8424` ok(suppressed)；`abaa94c7` ok；统一看门狗 `169be936` ok；`560d719d` ok(suppressed)；族外 `heartbeat:main a7676bb2` 本轮 **skipped**（非 error），不升级。
+- **决策模型**：本轮无边界裁决，0 次调用。
+- **利益点自省**：原地半格 —— 产品这一拍未前进（051/052 同堵「A/B 授权」一句话），本轮价值=守住现场与入参新鲜度；真挪一步仍取决于浩然放行截图管线或从 main 重开。
+- **簿记**：落笔前 `rev-list --count HEAD`=**696**，本票 + progress 单提交预期 **697**；下拍预登记 票330/**698**±builder 并发。
+
+⚡五类核对：零新审、无队列变化、无红线、A/B 拍板已于 R113/R116 两次请示（不重复催）→ 本轮**不推送**，只落盘。监工签字：老油条 [supervisor R119]
