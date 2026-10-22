@@ -1865,3 +1865,19 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 - **利益点自省**：**更近一格**——SB-052 是"提审必须带实拍"的机制地基，本轮把它从"开了卡但永远唤不醒"里救出来；但产品仍未动一寸，下一格取决于 builder 21:15 是否真能领卡（下拍首验）。
 - **簿记**：落笔前 rev-list main **689** · 本票+progress 单提交落点 **690** · 下拍预登记 票323/**691**±builder 并发。
 ⚡五类核对：无新增浩然行动项（见底已呈、裁 A 已落）→ **零推送**。监工签字：老油条 [supervisor R112]
+
+## 票323 · 10-22 22:2x · 监工 R113 — 守场零新审 + builder 崩溃现场收口 + 续做授权留灰区
+
+- **新审：零**。实测 REQ mtime **21:02:52** < REVIEW mtime **21:04:14**；`md5 -q REVIEW_REQUEST.md` = **0642d7922e44b6ce7f73c4ef8beafa87**，与 `git show HEAD:REVIEW_REQUEST.md` 同值 → 无 builder 新提审，无判定对象。main 头 **a932587**（票322 归档）与 REVIEW 最近轮相邻吻合。
+- **崩溃现场（builder 21:15 领卡 → 21:25 中断，watchdog 21:48 已留档）**：切 `feat/SB-052-shots-pipeline@a932587`（零提交）后产出 `tool/shots.sh`（3662B）+ `shots/SB-052/` 4 PNG + manifest（21:22–23），末步读 `/tmp/app_home.png` 撞工作区外权限拒绝 → 会话终止；`_LOCK`(pid 21753) 已死、watchdog 删锁。若不处置，下轮 wake 先被 S0.2（分支非 main）再被 S0.4（未跟踪文件判脏）双挡，环静默停转。
+- **本轮实测核心缺陷（决定 SB-052 不可提审）**：4 张实拍**全部是 Flutter 启动页 splash，非目标页** —— 监工亲眼核对：`home_dark.png` = 黑底白 Flutter 圆标、`home_light.png` = 白底蓝标，均无 App 内容；`home_dark` 与 `ledger_dark` **md5 完全相同 = 5234d89624f8dd4f1f39564d98ff89a9**（同一帧冒充两页），两张 light 仅差 11 字节（44976 vs 44987，同为 splash、仅状态栏像素差）→ 不满足卡验收①「≥2 页面×浅/深 ≥4 张且内容与 golden 可肉眼对应」。判因＝**截图未做首帧/页面就绪判定**（盲等固定秒数），非 App 故障：22:13 实测 `pidof com.zangou.runway` = **4006**、`mCurrentFocus` = `com.zangou.runway/.MainActivity`、`logcat FATAL EXCEPTION` = **0**，监工当场实拍为**正常首页**（本月支出卡/今日 0 笔/最近 3 笔示例数据/底三 tab 齐全，light 正常渲染）。
+- **收口动作（零业务码改动、零 push）**：① 半成品在 feat 分支存档 **236adcb** `chore(tool): SB-052 截图管线半成品存档（builder 21:25 中断·监工 R113 收口，未审）[SB-052]` trailer `Agent: supervisor`——仅含 `tool/shots.sh` + `shots/SB-052`，**不合入、不可当验收依据**；② 主仓 `git checkout main`@a932587，业务脏 **0**（porcelain 仅 progress.md 流程文件）；③ 孤儿 emulator pid 23508 已 pkill，实测在跑 emulator/qemu 进程 **0**。
+- **续做授权：留浩然拍板（决策模型灰区，不自行判）**：`decision_evaluate`（typesafe/jev-1.13）boolean「监工代存 builder 半成品并给一次性 S0.1 续做授权」= **p=0.64**，落在 0.25–0.75 灰区 → 按总条款标『留浩然拍板』进简报，本轮**不写续做授权、不点名分支放行**。可选两路（已在简报请示）：**A** 给一次性 S0.1 授权，builder 回 `feat/SB-052-shots-pipeline@236adcb` 续做三步——(a) 修 `tool/shots.sh` 首帧就绪轮询（禁盲 sleep 定值，失败非零退出）、(b) 重出 ≥4 张实拍并自检四图 md5 互不相同且与 golden 可肉眼对应、(c) 落 docs 三条款（REQ 模板实拍清单段 + DEV_WORKFLOW 提审必附截图 + GIT_WORKFLOW shots 口径）+ `tool/ci.sh` ≥504 全绿后写 REQ 提审；**B** 不授权，走常规 S2 从 main 重开卡，半成品留档作证据。本轮已执行的存档提交可逆（`git branch -D` 即还原现场）。
+- **模拟器冒烟：不发生** —— `git diff --name-only e61e0f7..HEAD -- app packages | wc -l` = **0**（锚以来仅 golden/review/docs 变更），锚维持 **e61e0f7**。**顺带发现冒烟判据缺口（P2·挂 10-26 周一批）**：现行 PASS 口径＝「30s 内进程存活 + logcat 无 FATAL」，本轮 splash 截图证明该口径抓不到「进程活着但首帧未出/卡启动页」——建议加一条首帧判据（如截图内容非 splash 基线 md5 即失败）。
+- **漂移与一致性审计（一行）**：全绿 —— 禁词 `app/lib`=**2** 均元引用（goal_ladder.dart:7 禁词表本体 / achievement.dart:13 禁词字典）用户可见 0 · ui 非 theme 裸 `Color(0x`=**0** · motion_spec/theme 外裸 `Duration(milliseconds:`=**0** · `real_account|真实账目` 命中 8 条**全为规则/合成数据注释**、真实账目=**0** · `_LOCK`=0 · stash=**0** · porcelain=**1**（仅 progress.md 流程文件，业务脏 **0**）· 本地支 **5**（main + SB-034/SB-048 素材支在册 + SB-051 在飞 + SB-052 新建）· worktree=**3**（主仓 main / sup-r104 detached@dade314 / sb048-verify detached）· origin/main **a73f90c** 零触碰 · progress 唯一真相已续登 · task_plan 薄索引 diff=**0**（未被当真相用）· 视觉保真闸门不适用（本卡只动 `tool/`+`docs/`，零 `app/lib/ui/**`）。
+- **提示词新鲜度自审**：cron 锚块仍写「现行最高卡 SB-046 / 锚 3a8c16e」= **过期**（现行最高卡 **SB-052**、冒烟锚 **e61e0f7**），沿册挂 **10-26 周一**统一修订，本轮零自 edit（防 churn）；三项现行口径实测相符：applicationId=`com.zangou.runway`、冒烟一条龙参数（`-no-window -no-snapshot-load -no-audio -no-boot-anim`）、wake `b0ea8424 :15/:45`。今日周四，无规范适配审查义务。
+- **决策模型**：1 次 → p=0.64 灰区（见上），留浩然拍板。
+- **利益点自省**：更近半格——本轮没让产品动一寸，而是把「提审要看的图」从假图里拽出来（四张全是启动页等于审了个寂寞），并钉住了冒烟判据看不见首帧这个盲区；下一半取决于浩然是否放行 A，否则退回 B 重开（多烧一轮但不返工）。
+- **簿记**：落笔前 `rev-list --count HEAD` = **690**，本票 + progress 单提交预期 **691**；下拍预登记 票324/**692**±builder 并发。
+
+⚡五类核对：命中 ②决策灰区（p=0.64 续做授权留拍板）→ 发一条；队列（052 施工中→051 返工→021 挂起，done=47）无位次变化不单独推送。监工签字：老油条 [supervisor R113]
