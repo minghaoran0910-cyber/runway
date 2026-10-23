@@ -3227,3 +3227,46 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 落笔前 `git rev-list --count main`=**737**，本票预期 **738**。
 
 监工签字：老油条 [supervisor R152]
+
+---
+
+# 巡检票 364 · R153 — 2026-10-23 17:3x（守场零新审 · 环停转第 3 个空拍 · 无新动作）
+
+结论: **PASS（守场 · 零新审 · 零合入 · 零冒烟义务）** — SB-053 仍未提审；环自 15:51 起连续 3 个 :15/:45 空退，等浩然 A/B。
+
+## 检查项
+- [x] **新审判定（实测）**：活树 `stat -f %m` → `REVIEW_REQUEST.md`=**1792740028**（Oct 23 15:20:28）< `REVIEW.md`=**1792740932**（15:35:32）→ 非新审。`grep -c SB-053 REVIEW_REQUEST.md` = **0**，REQ 首行仍为「SB-051 §6动效体系四页落地」→ 未提审，按规则**不审、不预读**。
+- [x] **builder 提交面复核**：`git show --name-only a322a5b` = `app/lib/ui/home_page.dart` / `app/lib/ui/today_saved_row.dart` / `app/test/sb053_today_saved_card_test.dart` 三文件，**未触碰 REVIEW_REQUEST.md** → 与本轮「未提审」判定互证，非漏判。
+- [x] **队列比对（卡面状态行实测）**：SB-053=**待办**（R149 自派）· SB-052=**已审待合**（R148/票359 PASS）· SB-051=**挂起**（10-23 14:07 裁B）· SB-021=**挂起 v0.2** → 与快照 queue 逐条一致，**零漂移**（⚡不推送）。
+- [x] **冒烟义务**：`git diff --stat e61e0f7..main -- app packages tool pubspec.yaml` = **空** → **不发生**，锚维持 **e61e0f7**；本轮未起模拟器（`pgrep -fl emulator` = 0，命中仅 OpenCode GUI 常驻进程=口径⑳）。
+- [x] **done 计数**：`git ls-tree --name-only main docs/tasks/done/` = **47**。
+- [x] **漂移审计全绿**：亏欠框架禁词 app 域命中 **5** 处全为元引用——`goal_ladder.dart:7`（注释声明禁用）、`achievement.dart:13-14`（`achievementBannedWords` 禁词清单 `'又花掉'`）、`sb049_experiment_copy_test.dart:111` / `cooloff_test.dart:183` / `experiment_test.dart:148`（禁词断言夹具）→ 用户可见违规 **0**；裸 `Color(0x` 越界 **0**；裸 `Duration(milliseconds:` 越界 **0**；真实账目/卡号/PII **0**；porcelain **0**；stash **0**；`_LOCK` **0**；分支册 **7**（main+5 feat+archive）零 stray；worktree 主库 + `/private/tmp/sb048-verify` 在册；`origin/main`=**a73f90c** 零 fetch / 零 push / 零触碰。
+- [x] **真相注册表**：`progress.md`=285 行（main 侧 287）；`task_plan.md` 前 3 行为「只读缓存 · 薄索引」声明 → 本轮未据此判进度。
+- [x] **main 头对应**：main 头 **bdd6d7c** = 上一轮票363/R152 落点，`REVIEW.md` 内 `R152` 命中 → 对应成立。
+
+## 本轮发现（无新增 P1，沿册 2 条）
+1. **P1 沿册 · 环停转进入第 3 个空拍（证据实测）**：`~/.openclaw/logs/runway-wake.log` 三行——
+   `16:15:00 / 16:45:05 / 17:15:00 dispatch 退出：分支=feat/SB-053-today-saved-card 非 main（S0.2，等监工合入）`。
+   builder 最后一次落笔停在 `a322a5b`（15:51，3 文件 +148 行，树净）。根因不变：派发器第 12–13 行分支守卫先于第 16–23 行锁清理、全文无 S0.1 续做授权 grep → 树在 feat 时 S0.1 不可达。**A/B 已于 R151 呈报（p=0.69 灰区），本拍不重复推送**（⚡自检：这条消息没有浩然也能过 → 不发明明）。
+2. **P1 沿册 · 合入回退风险量化复核**：`git diff --stat main HEAD` = **REVIEW.md −125 / progress.md −2**（R152 记 −84/两票；本轮 main 又落两票 R151/R152，缺口扩大到 125 行）→ **合入前必须 rebase 到最新 main 或只挑三个业务文件**。数值随轮增长，属时间敏感项：若 A/B 长期不决，该分支的业务价值不变但合入成本单调上升，建议 A/B 回复时一并定「只挑业务文件」为默认路径。
+
+## 提示词新鲜度自审（每轮一步）
+- 本轮实收 prompt 锚块已从 R152 修正前的「`_LOCK` 80886 在役」翻为「**已死残留（17:1x 实测 PID 不存在·本轮已清）**」→ **R152 的 cron edit 生效已在本轮机内实证**，无回退。
+- 对现实逐项核验：最高卡号 SB-053 ✓ · done 47 ✓ · 冒烟锚 e61e0f7 ✓ · 冒烟命令口径 `com.zangou.runway`（SB-013 归一）✓ · wake `b0ea8424` cron `15,45` enabled、lastRunStatus=ok ✓ · watchdog `abaa94c7` 为 agentTurn 指向 LOOP.md watchdog 节、无卡号锚 ✓ · golden/designaudit 归档路径 `docs/designaudit/` ✓ · 时间参数（巡检 */30、wake :15/:45）无失配 ✓。
+- 新增过时 **0 处** → 本轮 **cron edit 0 次**（防 churn）。
+
+## 决策模型
+本轮无边界裁决（A/B 已于 R151 判为灰区 p=0.69 挂浩然侧；本轮只做记录复核）→ `decision_evaluate` 调用 **0 次**。
+
+## 反虚构自验
+- 本票所有 commit / mtime / 计数 / 日志行均来自本轮终端回显：`bdd6d7c`、`a322a5b`、`1792740028`/`1792740932`、`47`、`738`、三行 dispatch 日志、`git diff --stat main HEAD` 的 −125/−2。
+- 本票**不含**任何「已合入 / 已归档 / 冒烟 PASS」声明——本轮无此类动作，done/ 仍 47。
+- 记账经临时 main worktree `/tmp/sup-r153`（活树停在 feat，直接在主库写会把票记进分支，R144 教训），收轮删除。
+
+## 利益点自省
+**原地（第三轮原地）**：产品仍未向「让用户以接近零成本天天看见自己挪一步」靠近一步；且连续原地暴露一个机制性隐患——**环的恢复依赖浩然回一句 A/B，这本身就是「要用户自律才运转」的同构旧病**。不立即升级，但设闸：**若 19:00 前 A/B 仍无回音，下一轮转为排期提案**（派发器增 S0.1 落孤授权：feat 分支静默 N 个空拍且树净时自动归档分支并回 main，附卡面状态回写），届时作为第 ③ 类「需拍板」正式呈报。
+
+## 簿记
+落笔前 `git rev-list --count main`=**738**，本票预期 **739**。
+
+监工签字：老油条 [supervisor R153]
