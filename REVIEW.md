@@ -3454,3 +3454,58 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 **原地（第 7 轮）**：守场保证已过审成果不被误领，但用户端零变化；能让用户「一眼看见自己在攒」的首页空壳卡修法仍卡在提审链与环停转后面。升级已于 R155 完成，等浩然拍 A/B，机制侧不再新增动作。
 
 监工签字：老油条 [supervisor R157]
+
+---
+
+# 票369 · R158 守场巡检（2026-10-23 20:00 档）
+
+结论: **无新审（守场）** — REQ 未更新，未进入审查；不改业务代码。
+
+## 1. 新审查闸门（未触发）
+- `stat -f %m`：REVIEW_REQUEST.md = **1792740028**（15:20:28）· REVIEW.md = **1792740932**（15:35:32）→ REQ 旧于 REVIEW，**零新提审**。
+- `grep -c SB-053 REVIEW_REQUEST.md` = **0**；REQ 首行仍为「SB-051 §6动效体系四页落地（重开首审）」；feat/SB-053 head 仍 `a322a5b`（3 文件 +148 行，树 clean），未触达 REQ → 按「未提审不审不预读」执行。
+- feat/SB-052 head 仍 `dd1d835`（已审待合·裁A 冻结），无新提交。
+
+## 2. 队列同步（零漂移，不推送）
+卡面「状态」行 vs 快照 queue 逐条一致（实测 grep docs/tasks/SB-*.md）：
+- SB-053 = 待办（施工在分支 · 提审链断于 /tmp 权限墙）
+- SB-052 = 已审待合（R148/票359 PASS · 裁A 冻结）
+- SB-051 = 挂起（R146 裁B）
+- SB-021 = 挂起 v0.2
+- 可施工待办卡 = 0（R149 见底自派已开 SB-053，无新卡可派，不重复提醒）
+
+## 3. 模拟器冒烟（不发生）
+- `git diff --stat e61e0f7..main -- app tool pubspec.yaml pubspec.lock` → **空回显（0 行）**，main 无 app 侧新合入 → 锚点规则冒烟义务不触发；`pgrep -f emulator` = 0。
+- `git ls-tree main docs/tasks/done/ --name-only | wc -l` = **47**（实测回显，尾部 SB-050）。
+
+## 4. 漂移与一致性审计（一行结论）
+**全绿**：亏欠框架禁词 7 行全为元引用（app/test 夹具 4 + logic 源码注释/黑名单 2 + docs 规范 1，零用户可见文案）；`Color(0x` 仅 `app/lib/ui/theme/tokens.dart`（白名单）；`Duration(milliseconds:` 18 处**全部**在 `app/lib/ui/theme/motion_spec.dart`；PII/手机号/真账 grep = 0；porcelain 空、stash 0、`_LOCK` 0；分支 7 支零 stray（5 feat + 1 archive + main），worktree 2→本轮收为 1；`task_plan.md` 8 行薄索引（禁据此判进度）在册；applicationId `com.zangou.runway` 与 SB-013 归一后口径一致；`pgrep -f 'opencode run'` = 0（无并发双开）。
+
+## 5. 环停转第 8 拍（P1·已在册）
+- wake 日志实测：16:15 / 16:45 / 17:15 / 17:45 / 18:15 / 18:45 / 19:15 / **19:45** 八拍均「退出：分支=feat/SB-053-today-saved-card 非 main（S0.2）」。
+- 根因不变：`~/.openclaw/tools/runway-wake-dispatch.sh` 第 13 行 `[ "$BR" = "main" ]` 守卫早于第 16–23 行锁清理与 S0.4/S0.5 判定 → S0.1/S0.3–S0.5 不可达。
+- 提案状态不变：R155 A/B 已呈报待拍板、R156 补 p=0.26 灰区证据；**本轮无翻转故不重复推送**（通知收口条款）。下一拍 20:15。
+- 附带实证沿册：LOOP.md 顶部「权限实测结论」已明写工作区外（/tmp 等）一律拒绝，builder 提审链被 /tmp 墙截断属**违规操作**而非规范缺口 → 不改唤醒语（避免 churn）。
+
+## 6. 三件套新鲜度自审（零过时）
+- `openclaw cron list` 实测：巡检 19b5f29f（*/30，running）· runway-wake b0ea8424（`15,45 * * * *` Asia/Shanghai，command 型派发器，lastStatus=ok/suppressed，diagnostic `command ok with no output`）· runway-watchdog abaa94c7（every 2h，ok）· 统一看门狗 169be936（`0 */2`，ok）。
+- 唤醒入参全文 = `读 LOOP.md，按状态机只做一件事，做完就退出；_LOCK 存在则直接退出`，与 LOOP.md 第 4 行「期望的唤醒语」逐字一致，无硬编码卡号/包名/路径。
+- applicationId 口径 `com.zangou.runway` 与卡面/冒烟命令一致；当天无超时连败需改时间参数。
+
+## 7. 【本轮新发现·P1】progress.md 漏登记 R155/R156/R157 三轮
+- 实证：`/tmp/sup-r158`（main@5fd9f57）`progress.md` 尾部最后一条 = 「18:0x 监工巡检轮（R154·票365）」，`grep -n 'R15[5-8]' progress.md` = **0 命中**，但 REVIEW.md 内 R155/R156/R157 三票齐备。
+- 判性：违反「轮次收尾优先铁律」三件套（审查结论+REVIEW.md 提交+progress 登记）之第三项；本轮作补登记处理（下条同 commit 追加合并条目），不追责历史票、不删减其内容。
+- 纪律沿册：簿记提交前先 `git branch --show-current` 核分支、记账走临时 main worktree、done/ 计数须 ls-tree 实测回显 —— 本轮三条均执行。
+
+## 8. 决策模型
+本轮零新审、零合入、卡面零变化，无 D 级偏差/返工/验收冲突类边界裁决 → **未调用 decision_evaluate**（A/B 提案 p=0.26 灰区结论沿用 R156，不回炉重算）。
+
+## 9. 反虚构自验
+- 本票所有数字（1792740028 / 1792740932 / 47 / 7 / 18 / 0）均为本轮终端回显，无叙述生成。
+- 本票**不含任何「已合入 / 已归档 / 冒烟 PASS」声明**；无 git remote 触碰、无业务代码修改。
+- 自验三连：提交后 `git -C /tmp/sup-r158 log --oneline -1` = 本票；`git ls-tree HEAD docs/tasks/done/` = 47；本文件含票369。
+
+## 10. 利益点自省
+**原地（第 8 轮）**：守场与簿记修补保证已过审成果不被误领、账不再漏记，但用户端零变化；让人「一眼看见今天攒到了什么」的首页空壳卡修法仍卡在提审链与环停转之后。升级动作已于 R155 完成，机制侧等浩然拍 A/B，本轮不再新增。
+
+监工签字：老油条 [supervisor R158]
