@@ -3186,3 +3186,44 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 落笔前 `git rev-list --count main`=**736**，本票预期 **737**。
 
 监工签字：老油条 [supervisor R151]
+
+---
+
+# 巡检票 363 · R152 — 2026-10-23 17:1x（守场零新审 + 死锁已清 + 合入回退风险新发现）
+
+结论: **PASS（守场 · 零新审）** — 无提审、无合入、无冒烟义务；清掉一处死锁，另列 P1「分支落后导致的合入回退风险」。
+
+## 检查项
+- [x] **新审判定（实测）**：`stat -f %m` → `REVIEW_REQUEST.md`=**1792740028** < `REVIEW.md`=**1792740932** → 非新审。`grep -c SB-053 REVIEW_REQUEST.md` = **0**，REQ 正文仍为「SB-051 §6动效体系四页落地」→ SB-053 未提审，按规则不审、不预读。
+- [x] **队列比对（卡面状态行实测）**：SB-053=**待办**（R149 自派，裁A 冻结口径在位）· SB-052=**已审待合**（R148/票359 PASS）· SB-051=**挂起**（10-23 14:07 裁B）· SB-021=**挂起 v0.2** → 与快照 queue 逐条一致，**零漂移**。待办卡=1，未触发「≤2 提醒」；**不推送**（⚡收口条款）。
+- [x] **冒烟义务**：`git diff --stat e61e0f7..main -- app packages tool pubspec.yaml` = **空** → **不发生**，锚维持 **e61e0f7**；本轮未起模拟器（`pgrep -f emulator` = 0）。
+- [x] **归档对应**：main 头 **411b48c** = 上一轮（票362/R151）落点，`REVIEW.md` 内 `R151` 命中 **2** 处 → 对应成立；`origin/main`=**a73f90c**，本轮零 fetch / 零 push / 零触碰。
+- [x] **done 计数**：`git ls-tree --name-only main docs/tasks/done/` = **47**。
+- [x] **漂移全绿**：亏欠框架禁词命中 **3** 处，全为元引用——`app/lib/logic/goal_ladder.dart:7`（注释声明禁用）、`app/lib/logic/achievement.dart:13`（禁用词清单）、`docs/DESIGN_SYSTEM.md:86`（规范条文）→ 实际违规 **0**；裸 `Color(0x` 越界 **0**；裸 `Duration(milliseconds:` 越界 **0**；porcelain **0**；stash **0**；worktree **2**（主库 + `/private/tmp/sb048-verify`）；分支册 7 支（main + 5 feat + archive 1）与快照一致。
+- [x] **progress.md 真相注册表**：`task_plan.md` 首 6 行为「只读缓存 · 薄索引」声明（10-10 降级），本轮未据此判进度。
+
+## 本轮处置
+1. **P1 已消除 · 死锁**：`_LOCK` 内容 `80886 2026-10-23 15:45:52 SB-053`；`ps -p 80886` 空回显、`pgrep -fl "opencode run"` 空 → PID 已死。按 LOOP.md S0.3「PID 已死 → 删锁继续」与 watchdog 分级处置「死锁（③命中）→ 删锁」，本轮 `rm -f _LOCK`，回验 `ls _LOCK` = No such file。
+2. **P1 仍在 · 环停转根因**：工作树停 `feat/SB-053-today-saved-card@a322a5b`；派发器 `/Users/dada561/.openclaw/tools/runway-wake-dispatch.sh` 实测顺序为 **第 12–13 行分支守卫**（`[ "$BR" = "main" ] || exit`）**先于第 16–23 行锁清理**，且全文无 LOOP S0.1「续做授权」grep → 树在 feat 时每 :15/:45 必然空退，S0.1 成为不可达状态。R151 已就 A/B 向浩然请示，本轮**不重复推送**。
+3. **P1 新发现 · 合入回退风险（记入待合前置）**：`git diff --stat main..feat/SB-053-today-saved-card` = 5 文件 **+148 / -86**，其中 `REVIEW.md **-84**`、`progress.md **-2**`——该分支切出点落后 main 两票（R150/R151）。若日后直接 squash 合入，会把这两轮的监工记录与 progress 行一并抹掉。**合入前必须 rebase 到最新 main，或只挑业务文件（home_page.dart / today_saved_row.dart / sb053 测试）**。不影响裁A 冻结，仍属「已审待合 → tag 批量落」流程。
+
+## 提示词新鲜度自审（每轮一步）
+- 对现实核验：SB-053 最高卡号 ✓（`docs/tasks/` 实测 SB-021/051/052/053 + done）· 052 已审待合 ✓ · 051 挂起 ✓ · done 47 ✓ · 冒烟锚 e61e0f7 ✓ · wake **b0ea8424** cron `15,45` enabled、lastRunStatus=ok ✓ · applicationId `com.zangou.runway`（SB-013 归一后口径）✓。
+- **过时 1 处**：锚块「`_LOCK` 80886 在役」与实测相反（17:1x 已死且本轮已清）→ 需 cron edit 改为「死锁已清；环停转因 S0.2 分支守卫（树停 feat）·待浩然 A/B」。改后以 `openclaw cron get` 回读比对（R142/R143 持久性纪律）。
+- wake 三件套：payload 为 command（argv 实测 `sh /Users/dada561/.openclaw/tools/runway-wake-dispatch.sh`），无卡号/版本锚 → 无过期面；watchdog abaa94c7 为 agentTurn 指向 LOOP.md watchdog 节，无卡号锚 ✓。
+
+## 决策模型
+本轮唯一判断「死锁能否由监工直删」有明文条款（LOOP S0.3 + watchdog 分级处置），不属边界裁决 → `decision_evaluate` 调用 **0 次**。R151 的 A/B 灰区（p=0.69）仍挂浩然侧，未决。
+
+## 反虚构自验
+- 本票所有 commit / mtime / 计数 / 空回显均来自本轮终端输出（`411b48c`、`1792740028`/`1792740932`、`47`、`+148/-86`、`LOCK REMOVED`、`EMU=0`）。
+- 本票**不含**任何「已合入 / 已归档 / 冒烟 PASS」声明——本轮无此类动作。
+- 记账经临时 main worktree `/tmp/sup-r152`（树在 feat，直接在主库写会把票记到分支上，R144 教训），收轮删除。
+
+## 利益点自省
+**原地（不更远）**：本轮只把环的卫生清回可运转，SB-053「首页空白卡」仍停在分支上没修到用户眼前；产品离「以接近零成本天天看见自己挪一步」没靠近一步。
+
+## 簿记
+落笔前 `git rev-list --count main`=**737**，本票预期 **738**。
+
+监工签字：老油条 [supervisor R152]
