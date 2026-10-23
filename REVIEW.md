@@ -3568,3 +3568,45 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 **原地（第 9 轮）**：清掉 2.1G 垃圾与补齐账本让机器更干净，但用户端依旧零变化；「一眼看见今天攒到了什么」的首页空壳卡修法仍卡在提审链与环停转之后。机制侧等浩然 A/B，本轮不新增提案。
 
 监工签字：老油条 [supervisor R159]
+
+# REVIEW — 2026-10-23 21:00 巡检（R160 · 票371）
+
+**结论：PASS（守场轮 · 零新审 · 零合入 · 零冒烟义务）**
+
+## 1. 新审查判定（mtime 实测）
+- `stat -f %m`：REVIEW_REQUEST = **1792740028**（15:20:28）＜ REVIEW = **1792740932**（15:35:32）→ **无新提审，不审**。
+- `grep -c "SB-053" REVIEW_REQUEST.md` = **0**；REQ 首行仍是「SB-051 §6 动效…裁B重开首审」；`feat/SB-053-today-saved-card` head 仍 **a322a5b**（未触 REQ）→ 非漏判，是未提审。不预读、不预判。
+
+## 2. 队列同步（vs 快照 `runway-card-state.json`）
+- 卡面状态行实测：SB-021 挂起 v0.2｜SB-051（空/状态行缺，快照口径=挂起）｜SB-052（空，快照口径=已审待合）｜SB-053（空状态行·快照口径=待办·施工在分支）
+- `git ls-tree main docs/tasks/done/ | wc -l` = **47**；main head = **af7c536**（= R159/票370）；零漂移。
+- 待办卡 = **1**（SB-053，码已在分支、提审链断）≤2 → 提醒在册；环停转 + A/B 待拍板，本轮**不自派新卡**（与 R151–R159 同口径）。
+
+## 3. 模拟器冒烟
+- 锚 **e61e0f7**；`git diff --stat e61e0f7..main -- app lib tool pubspec.yaml pubspec.lock` = **空（0 行）** → **冒烟义务不发生**，未起模拟器（`pgrep -f emulator` = 0，flutter/gradle 进程 0）。
+
+## 4. 漂移与一致性审计（一行结论）
+- 禁词 `没省|又花|喝掉|罪恶|浪费钱`：命中 **3 行全为元引用**（`goal_ladder.dart:7` 注释、`achievement.dart:13` 禁词清单、`DESIGN_SYSTEM.md:86` 规范条文）→ 真实文案命中 **0**。
+- 裸 `Color(0x`：非 token 文件 **0**；41 处全在 `app/lib/ui/theme/tokens.dart`（token 定义，白名单内）。
+- 裸 `Duration(milliseconds:`：非 motion_spec **0**（18 处全在 motion_spec）。
+- `_LOCK` 不存在（`ls -la _LOCK` 无输出）；stash = **0**；`git status --short`（feat 树）= 空；`git worktree list` = **1**（仅主库，`/tmp/sup-r160` 收轮删除）。
+- 分支 7：main + feat/SB-053 + feat/SB-052-shots-pipeline + feat/SB-051-motion + feat/SB-034-diag-channel + feat/SB-048-goal-editor + archive/SB-051-motion-r3，**零 stray**；origin 零触碰。
+- **漂移结论：全绿（P1/P2 无新增）**。main 头 commit af7c536 ↔ R159 票面自洽；`task_plan.md` = 8 行薄索引（只读缓存，未据其判进度）。
+
+## 5. 环与三件套
+- wake 日志实测第 **10** 空拍：`[2026-10-23 20:45:00 dispatch] 退出：分支=feat/SB-053-today-saved-card 非 main（S0.2，等监工合入）`；16:15 起 10 拍同因，与 R155–R159 在册根因一致（派发器第 13 行 S0.2 早于锁清理/S0.4/S0.5 判定，S0.1 不可达）。A/B 提案仍待浩然，**不重复推送**。
+- cron：巡检 19b5f29f = running（<1m）、wake b0ea8424 = ok（16m，:15/:45）、watchdog abaa94c7 = ok（1h）、统一看门狗 169be936 = ok（57m）→ **三件套零过时，本轮 cron edit 0 次**。
+- 提示词新鲜度：卡号最高 SB-053 ✓（docs/tasks 实测）、done=47 ✓、冒烟锚 e61e0f7 ✓、包名 com.zangou.runway ✓（SB-013 归一后口径）、唤醒语与 LOOP.md 第 4 行一致 ✓ → **无过时项**。
+
+## 6. 决策模型
+本轮零新审、零合入、零卡面变更、无 D 级偏差/返工/验收冲突 → **未调用 decision_evaluate**（A/B 提案 p=0.26 灰区结论沿用 R156，不回炉）。
+
+## 7. 反虚构自验
+- 本票数字（1792740028 / 1792740932 / 0 / 47 / 745 / 3 / 41 / 18 / 1 / 10 / 8）**全部来自本轮终端回显**。
+- 本票**不含任何「已合入 / 已归档 / 冒烟 PASS」声明**；未触碰 `git remote`、未改业务代码、未动 `docs/tasks/*.md`。
+- 提交后自验三连实测回填（本票 hash 以 `git log -1 main` 回显为准，不在此自指）：`git ls-tree HEAD docs/tasks/done/ | wc -l` = **47**｜`grep -c "票371" REVIEW.md` = **2**｜`git rev-list --count HEAD` = **746**（票前 745）｜提交后 `git status --short` = 空。
+
+## 8. 利益点自省
+**原地（第 10 轮）**：守场保住管线账本干净，产品用户侧零变化；「首页今日攒空白卡」这张真正能让用户天天看见进度的修复，仍卡在提审链断裂 + 环停转 + A/B 未拍板之后。机制不新增提案，等浩然一句话。
+
+监工签字：老油条 [supervisor R160]
