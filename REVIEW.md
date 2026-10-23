@@ -2766,3 +2766,68 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 - 提审到来时按视觉保真闸门查实拍截图，缺图直接 REQUEST_CHANGES。
 
 签字：老油条 [supervisor R142 · 票353]
+
+---
+
+# REVIEW — 2026-10-23 13:00 SB-051 §6 动效体系四页落地（裁B重开首审 · 票354）
+
+结论: REQUEST_CHANGES（第 1 轮 · 卡 SB-051 · 重开后轮次归零）
+
+## 一、审查义务判定
+- [x] `stat -f %m` 实测：REVIEW_REQUEST.md 1792731110（12:51:50）> REVIEW.md 1792729997（12:33:17）→ 新提审成立。
+- [x] 提审单：`feat/SB-051-motion@09f38f4`（码体 2dbb133，基于 main@860ca57），R 申报齐全（§6 清单落点/豁免、偏差三条、自检记录）。
+
+## 二、码体核对（监工实测 vs builder 自述）
+- **我实跑**：`cd app && flutter test test/sb051_motion_test.dart` → 回显 `+8: All tests passed!`（8/8）。
+- **我实跑**：`git diff main...feat` = 10 文件（业务 8 + 簿记 REQ/progress 2）：5 页 + `widgets/motion_kit.dart`(208) + `test/sb051_motion_test.dart`(127) + golden 口径 1 行；单文件最大 `experiment_card.dart` 376 行 ≤400；禁区（tokens/pubspec/schema/CI/docs 规范）零触碰；无 RunwayIcon 替换、无 SB-049/050 回退、golden png 0 变更 → 与"剔除 r3 越界项"声明相符。
+- **我实跑**：新增行裸字面量 `Color(0x` = 0、`Duration(` = 0，全部走 MotionSpec。
+- 常量对 §6 表格：press 140(120–160)、state 260(220–320)、transition 360(320–400)、stagger 80、listRise 15(14–16)、reducedMotion 80、sheetIn/Out 280/220 在位未用（豁免成立）。
+- 未由监工复跑（builder 自述，本票不作事实背书）：全量 512/512、`tool/ci.sh` EXIT=0、analyze/format 零告警、hygiene OK。
+
+## 三、视觉保真审查闸门（本节为判据）
+- 提审分支无任何新增截图/视频：`git diff --name-only main...feat | grep -iE 'png|jpg|mp4'` = none；`docs/designaudit/` 最新目录仍为 `2026-10-15-hero-precision`。四页各 2 帧实拍 = 0。
+- 缺图即 REQUEST_CHANGES（SUPERVISOR.md 闸门第 1 条）；且本卡为动效交付，`DESIGN_SYSTEM §8.4` 明写"动效验收必须用 24fps reel 视频，静图不作动效结论"，builder 亦自述 reel 不可达（偏差①）→ 按闸门不进入码体审美判定。
+- 决策：`决策p=0.78`（"严格执行闸门判 RC" vs "按重开令『截图待授权』视同豁免"），>0.75 依判 RC；豁免权只在浩然，监工不自审。
+
+### 审美审计（静态可判维度；截图/实拍维度留空、不计结论）
+| 维度 | 结论 | 依据 |
+|---|---|---|
+| 层级 | 通过（待实拍复核） | 未新增字号档；CountUp 仅替换同 style 文本 |
+| 间距节奏 | 通过 | 仅外包 MotionStagger，未改 padding；RunwaySpacing 原样 |
+| 圆角/阴影 token | 通过 | 零新增形状/阴影，仍用既有 Card(r16) |
+| 对比度 | **不可判** | 白字压 hero 渐变需实拍；本轮无帧 |
+| 动效节奏 | 参数合规、观感不可判 | 常量全落 §6 区间；节奏/顿挫需 24fps reel |
+| AI 味 | 通过 | 零新渐变/零 emoji/零紫色默认，图标体系未动 |
+| 一致性 | 通过 | 四构件单入口 motion_kit、统一 Motion* 命名 |
+
+- 结论：静态 6 维无新增违反；动效结论缺 reel，不计 PASS。
+
+## 四、问题列表
+1. **P0 · 缺实拍截图**（四页各 ≥1 帧；动效卡另需 24fps reel）：闸门硬条款。解锁只有两条：浩然批"SB-051 本轮豁免实拍"（则判已审待合 + 补拍轮落地），或先拍 SB-052 截图管线。
+2. **P1 · MotionTabSwitch"保状态"声明未证**：`root_shell` 把 `key: ValueKey<int>(tabIndex)` 挂在 TweenAnimationBuilder 上；tabIndex 变化=key 变化=该子树 element 重建，IndexedStack 三页会被重新 inflate，滚动位置/页面 State 丢失，与提审单"child 透传 IndexedStack 保状态"相反。现有 `sb051_motion_test` 只断言切换后文本出现，未覆盖状态保持。请改法（不动 key，用 controller.forward(from: 0) 驱动重播）或补一条"切 tab 后 State 保持"的回归实证。
+3. **P2 · 触觉时机**：§6 写 pointer-down 即响应，实现把 `.light` 放在 `onTapUp`——scale 按下即缩，触觉晚到抬指。若无异议请在卡/文档写明口径，别让规范与实现各说一套。
+4. **P2 · 文件数口径**：提审单写"8≤10"，实际 diff 10 文件（含 REQ/progress 簿记）。后续统一写"业务 8 + 簿记 2"。
+5. **P2 · 过程观察（非 builder 过错）**：R142 记录的 cron message 修正（5192→5258）在 13:00 回读为 5192 chars、旧锚块 → 存储被旧值覆盖或编辑未持久；本轮重写并以回读为证，后续每次 edit 均须二次回读。
+
+## 五、模拟器冒烟
+不发生。锚点按 **main** 判（本轮 HEAD 在 feat）：`git diff --stat e61e0f7..main -- app packages tool pubspec.yaml` = 空 → 锚 e61e0f7（票317 一条龙 PASS）继续有效；feat 侧新码未合入，无可测主线行为。
+
+## 六、漂移与一致性审计（一行结论）
+禁词 3 命中全为元引用（goal_ladder.dart:7 文风条款、achievement.dart:13 禁用词表、DESIGN_SYSTEM.md:86 条款），用户可见 0；ui/theme 外裸 `Color(0x` = 0；motion_spec 外裸 `Duration(milliseconds:` = 0；真实账目红线 0（app_db.dart:16 仅注释）；`_LOCK` 0、stash 0、worktree 3、本地支 6 全在册、origin a73f90c 零触碰；progress.md 为注册表、task_plan 8 行薄索引；main 头 860ca57 ↔ 票353/R142 可对应 → **全绿**。
+
+## 七、提示词新鲜度自审
+- 发现：巡检 cron message 回读为 5192 chars、锚块仍是「10-23 00:0x」（SB-051 第3轮熔断 / REQ 5 行熔断段），与 11:57 裁B 及 12:51 提审现实不符；R142 记的 5258 修正未在存储生效。
+- 处置：本轮 `cron edit` 重写锚块（SB-051 重开首轮 RC 第1轮 / 截图闸 / 决策 p=0.78 / done 47 / 冒烟锚 e61e0f7），回读证明新串在位、旧串 0 命中、schedule `*/30` 与 enabled 不变。
+- 其余：applicationId `com.zangou.runway`（build.gradle.kts:19）、冒烟四参数（`-no-window -no-snapshot-load -no-audio -no-boot-anim`）、wake b0ea8424 :15/:45 ok、watchdog abaa94c7 ok、统一看门狗 169be936 ok、backup ok — 无失配。
+
+## 八、决策模型
+1 调用：p=0.78（RC vs 豁免）→ 依判 RC。
+
+## 九、利益点自省
+本轮把"看见自己挪一步"的手感工程推到可验收门口，但用户此刻看不到任何效果（无实拍、无 reel），产品距核心利益点**仍原地半格**；根因是截图管线缺一句话授权。
+
+## 十、下一步
+- 等浩然一句话：A=本轮豁免实拍（判已审待合 + 补拍轮落地）；B=先拍 SB-052 截图管线（SB-051 挂起、不返工）。
+- 未拍板前不消耗第 2 轮返工额度：下一拍若空转，只做 P1 状态保持修正，不做第二次提审。
+
+签字：老油条 [supervisor R143 · 票354]
