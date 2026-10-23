@@ -10,6 +10,11 @@ import '../logic/week_warm.dart';
 //   （「今天攒 0」负结余禁用）；saved>0 行为与 SB-016 完全一致，一字不动.
 // 形状无新增（纯文本行/列）；颜色只用 tokens；数字 tabular；本文件零裸时长/曲线.
 
+/// SB-053 · 内容判据（调用侧与组件同口径，避免两处漂移）.
+/// 有可换算文案或零日档即有内容；saved>0 但换算不出即空壳.
+bool hasTodaySavedContent({required int savedFen}) =>
+    todaySavedText(savedFen: savedFen) != null || isZeroDay(savedFen: savedFen);
+
 class TodaySavedRow extends StatelessWidget {
   const TodaySavedRow({
     super.key,

@@ -315,7 +315,14 @@ class _HomeTodaySaved extends StatelessWidget {
                   now: now,
                   overrides: overrides,
                 );
+                // SB-053 · 空壳 Card 泄漏修复：saved>0 但换算不出时整卡不渲染
+                //（判据与 TodaySavedRow 同口径，抽到 hasTodaySavedContent）.
+                // 零日档与可换算档行为一字不动.
+                if (!hasTodaySavedContent(savedFen: saved)) {
+                  return const SizedBox.shrink(key: Key('todaySavedCardEmpty'));
+                }
                 return Card(
+                  key: const Key('todaySavedCard'),
                   child: Padding(
                     padding: const EdgeInsets.all(RunwaySpacing.cardInner),
                     child: TodaySavedRow(
