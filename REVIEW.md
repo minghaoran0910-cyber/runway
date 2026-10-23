@@ -2831,3 +2831,53 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 - 未拍板前不消耗第 2 轮返工额度：下一拍若空转，只做 P1 状态保持修正，不做第二次提审。
 
 签字：老油条 [supervisor R143 · 票354]
+
+---
+
+# REVIEW — 2026-10-23 13:30 巡检（R144 · 票355）
+
+结论: PASS（守场轮 · 零新提审 · 补修独立复核通过）
+
+## 一、审查义务判定
+- [x] `stat -f %m` 实测：REVIEW_REQUEST.md 1792731869（13:04:29）< REVIEW.md 1792732580（13:16:20）→ **零新审**。
+- [x] `git diff --numstat -- REVIEW_REQUEST.md` = 空（盘上无残留提审单）。
+- [x] 盘面提示：13:18 起工作树停在 `feat/SB-051-motion`，该树 REVIEW.md 缺 R143 票354 条目（`grep -c R143` = 0）；main 版 `git show main:REVIEW.md | grep -c R143` = 1。本轮记账改在临时 main worktree(/tmp/sup-r144) 完成，**未动 builder 工作树**，R143 条目零丢失。
+
+## 二、新增提交复核（未提审，只验不判轮）
+- `12e2b95 fix(motion): Tab切保状态+触觉pointer-down [SB-051]`（13:18）= 针对 R143 两项问题的补修：motion_kit 73 行增删（TabSwitch 改 Stateful + `forward(from:0)` 重播，不换 key 保 IndexedStack 子树 State；触觉移 pointer-down）、sb051_motion_test +81 行、progress +1；合计 137+/18-。
+- builder 明示「只修不提审，待截图管线」，故**不新开审查轮、不消耗第 2 轮额度**，卡仍为 RC 第1轮。
+- 监工独立复跑（非采信自述）：`cd app && flutter test test/sb051_motion_test.dart` → **9/9 All tests passed**，含新增「MotionTabSwitch 切tab保状态（R143 P1回归）」。
+- 判定：R143 的 **P1（保状态）/P2（触觉时机）技术面已闭环**；P0（四页实拍 + 24fps reel）仍缺 → RC 结论不变，阻塞仍在视觉闸门。
+
+## 三、现场实测
+- `git rev-parse --short`：HEAD=12e2b95（feat/SB-051-motion）｜main=d463bdc｜origin/main=a73f90c（**零触碰**）。
+- 工作树 `git status --porcelain` = 空；业务脏 0；`_LOCK` 不存在；`git stash list` = 0；本地支 6（main + archive/SB-051-motion-r3 + feat×4）；`git worktree list` = 3。
+- 并发：flutter/dart test/emulator/qemu `pgrep` = 0。
+- main 头 d463bdc = R143（票354）归档提交，**头↔归档轮可对应**。
+- `git ls-tree -r HEAD docs/tasks/done/ | wc -l` = **47**（与快照 doneCount 一致）。
+- 队列：SB-051 RC第1轮（P1 已修待拍板）→ SB-052 待 A/B（236adcb）→ SB-021 挂起 v0.2；无位次翻转，A/B 请示已两轮，不重复催。
+- 卡面 `状态：` 行：SB-051/SB-052 全文 grep 0 命中（沿 R142 观察），队列以 REVIEW + 快照为准。
+
+## 四、模拟器冒烟
+不发生。`git diff --name-only e61e0f7..main -- app packages tool pubspec.yaml | wc -l` = **0** → 锚 e61e0f7（票317 一条龙 PASS）继续有效。12e2b95 在 feat 分支未合入 main，无新合入行为可测；按裁A 测试期合入冻结也未到批量落点。
+
+## 五、漂移与一致性审计（一行结论）
+禁词 grep = 3 命中全为元引用（goal_ladder.dart:7 文风条款、achievement.dart:13 禁用词表、DESIGN_SYSTEM.md:86 规范原文），**用户可见 0**；`ui/theme` 外裸 `Color(0x` = 0；`motion_spec` 外裸 `Duration(milliseconds:` = 0；真实账目红线 = 1 条注释（app_db.dart:16「真实账目永不入库」）；`_LOCK` 0；stash 0；支 6 零 stray（SB-034/SB-048 在册待浩然一句话、SB-051 在飞、SB-052 WIP 存档）；worktree 3；task_plan.md 8 行薄索引只读；main 头 ↔ R143 归档轮 → **全绿**（唯一非绿项为盘面 REVIEW 版本回退，已在本轮第一节记录并绕行处理）。
+
+## 六、提示词新鲜度自审（本轮有修正）
+- 过期点：锚块仍写「13:00 现行 / SB-051 提审 @09f38f4」；现实为分支头 12e2b95（P1/P2 已补、未提审）。
+- 已 `cron edit` 就地重写锚块为「13:30 现行」并加「12e2b95 在 feat 未合入」「工作树停 feat 致盘面 REVIEW 回退」两条现场事实；message 5288→5404 chars。
+- `cron get` 二次回读：与写入文本 **IDENTICAL True**；`13:30 现行` 命中 1、旧串 `13:00 现行` 命中 0；schedule `*/30`、enabled=True 不变。
+- 族状态：wake b0ea8424 `:15/:45` ok(suppressed 13:15)；watchdog abaa94c7 ok；统一看门狗 169be936 ok；runway-backup ok；applicationId 仍 `com.zangou.runway`。
+
+## 七、决策模型
+0 调用（无边界裁决：零提审、零合入；补修复核为事实核验非取舍判断）。
+
+## 八、利益点自省
+本轮动作=补修复核 + 记账绕行 + 提示词纠偏，产品**原地半格**：动效层质量更稳，但「天天看见自己挪一步」的可见证据（实拍/reel）仍卡在设备管线，等浩然二选一。
+
+## 九、下一步
+- 等浩然：①「SB-051 本轮豁免实拍」→ 卡转「已审待合」（裁A 冻结下不合入）；②先拍 SB-052 管线 → SB-051 挂起不返工。二选一不拍，第 2 轮必熔断。
+- 下一拍唤醒（13:45）观察 builder 是否仍在 feat 分支等待；若工作树久不回 main，记账继续走临时 main worktree，并列入周一 GIT_WORKFLOW 条款提案。
+
+签字：老油条 [supervisor R144 · 票355]
