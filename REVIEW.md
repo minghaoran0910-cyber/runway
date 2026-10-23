@@ -3614,3 +3614,39 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 ### 同轮勘误（21:0x · 记账纪律）
 - 本票初稿在 `git worktree add --detach` 的 /tmp 工作树提交 → 提交只落**游离 HEAD**，`main` ref 未前进（实测 `git log main -1` 仍是 af7c536）。已 `git branch -f main 7a233d1` 校正，并在本 attach 工作树补本勘误提交使 main 前进可溯。
 - **新纪律（记入在册观察 P2）**：监工在临时工作树记账时，若用 `--detach`，收轮前必须 `git log main -1` 实测 main 头是否前进；否则票只存在于游离 HEAD（与 10-23 13:18 盘面回退同源风险）。
+
+---
+
+## 票 372 · 2026-10-23 21:3x 守场巡检（R161·环第 11 空拍）
+
+**结论：零新审（无提审）·队列零漂移·无冒烟义务·漂移全绿·不派卡。**
+
+### 1. 新审判定
+- `stat -f %m`：REVIEW_REQUEST=1792740028（15:20:28）< REVIEW.md=1792740932（15:35:32）→ REQ 未更新，按规不审、不预读。
+- 工作树停 `feat/SB-053-today-saved-card`@a322a5b（`git branch --show-current` + `git log -1` 实测），porcelain=0；分支未前进（仍 a322a5b）→ builder 无新动作。
+
+### 2. 队列同步
+- 卡面状态行 grep 实测：SB-053「待办（R149 见底自派）」、SB-052「已审待合（R148 PASS）」、SB-051「挂起（裁 B）」、SB-021「挂起 v0.2」——与快照 queue 逐条一致，**无变化**，不推送。
+- 待办卡=1（SB-053，施工在分支且提审链断）≤2 → 提醒在册；环停转 + A/B 待拍板下**不新开卡**（防双开撞道）。
+- done/ = 47（`git ls-tree HEAD docs/tasks/done/ --name-only | wc -l` 实测）。
+
+### 3. 模拟器冒烟
+- 不发生：main 头 = cc2bec0（R160 票），`git diff --stat e61e0f7..main -- app/` 输出为空（0 行）→ 无新合入；无 G 卡 PASS。锚点 `last_smoke_commit=e61e0f7` 继续有效。emulator 未起。
+
+### 4. 漂移与一致性审计（一行结论）
+禁词命中 2 条且均为元引用（`goal_ladder.dart:7` 注释禁例、`achievement.dart:13` 禁词过滤表字面量）→ 违规 0；裸 `Color(0x` 非 theme=0、裸 `Duration(milliseconds:` 非 motion_spec=0；`_LOCK`=0、stash=0、porcelain=0；分支 7 支全在册（main+feat×4+archive×1 计 6 具名 + 主干）零 stray；worktree 收轮仅主库（/tmp/sup-r161 本票后删）；`task_plan.md` 8 行薄索引在位、`progress.md` 285 行唯一真相；main 头 cc2bec0 ↔ REVIEW 票 371 R160 可对应；origin 零触碰。
+
+### 5. 提示词新鲜度自审
+- 三件套现役：巡检 `19b5f29f` */30 ok；唤醒 `b0ea8424` :15/:45 command → `runway-wake-dispatch.sh`；watchdog `abaa94c7` 每 2h agentTurn（LOOP watchdog 节）。
+- 对照现实：最高卡号 SB-053 = 快照队列头 ✓；applicationId `com.zangou.runway`（build.gradle.kts:19 实测）✓；MainActivity `app/android/app/src/main/kotlin/com/zangou/runway/MainActivity.kt` ✓；task_plan 薄索引已落地 ✓；唤醒/巡检时间 `15,45`/`*/30` 无失配 ✓。**本轮 cron edit = 0**（无过时项，避免 churn）。
+
+### 6. 环状态（沿册 P1，不重推）
+- wake 日志 18:45/19:15/19:45/20:15/20:45/**21:15** 连续 6 条「分支=feat/SB-053 非 main（S0.2）」→ 累计第 11 空拍。根因不变：派发器第 14 行 S0.2 早于锁清理/S0.4/S0.5，S0.1 不可达；A/B 提案 R155 已呈、R156 p=0.26 灰区→**留浩然拍板**。本轮不重复推送（⚡收口条款自检：此消息浩然不回也能过 → 不发明）。
+
+### 反虚构自验
+- 本票所有 mtime、分支名、commit、计数、grep 行号均来自本轮终端回显；**不含任何「已合入/已归档/冒烟 PASS」声明**（本轮无此类动作）。`decision_evaluate` 调用 0 次（无边界裁决）。
+
+### 利益点自省
+**原地（不更远）**：守场只保住已审结论不被误领；用户端无任何可见变化——「首页今日攒空白卡」仍卡在 SB-053 提审链断裂处。
+
+监工签字：老油条 [supervisor R161]
