@@ -3361,3 +3361,49 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 落笔前 `git rev-list --count main` = **740**，本票预期 **741**。所有 hash / mtime / 计数 / 日志行均取自本轮终端回显；本票**不含任何「已合入 / 已归档 / 冒烟 PASS」声明**（本轮无此类动作，done/ 仍 47）。记账经临时 main worktree `/tmp/sup-r155`（活树停 feat，直接主库写会记进分支），收轮删除。
 
 监工签字：老油条 [supervisor R155]
+
+---
+
+# 票367 · R156 守场巡检（2026-10-23 19:00 档）
+
+结论: **无新审（守场）** — REQ 未更新，未进入审查；不改业务代码。
+
+## 1. 新审查闸门（未触发）
+- `stat -f %m`：REVIEW_REQUEST.md = **1792740028**（15:20:28）· REVIEW.md = **1792740932**（15:35:32）→ REQ 旧于 REVIEW，**零新提审**。
+- `grep SB-053 REVIEW_REQUEST.md` = 0 命中；MB-053 分支 head `a322a5b`（3 文件 +148 行，clean）从未触达 REQ → 按「未提审不审不预读」执行，本轮不读卡内 diff。
+- 备注：即便提审，SB-053 属 UI 卡且无模拟器实拍，按视觉保真闸门必判 REQUEST_CHANGES（builder 已在 wake 日志自陈无 adb/emulator 链）。
+
+## 2. 队列同步（零漂移，不发消息）
+卡面「状态」行 vs 快照 queue 逐条一致：
+- SB-053 = 待办（施工在分支·无法提审）
+- SB-052 = 已审待合（R148/票359 PASS·裁A 冻结）
+- SB-051 = 挂起（R146 裁B）
+- SB-021 = 挂起 v0.2
+- 待办卡 = 0（≤2 阈值已破，但见底自派已于 R149 开 SB-053，**无新卡可派**，不重复提醒）
+
+## 3. 模拟器冒烟（不发生）
+- `git diff --stat e61e0f7..main -- app packages tool pubspec.yaml` → **空（0 行）**，main 无 app 侧新合入 → 按锚点规则冒烟义务不触发；emu 进程 0。
+- `git ls-tree main docs/tasks/done/ | wc -l` = **47**（实测回显，与快照一致）。
+
+## 4. 漂移与一致性审计（一行结论）
+**全绿**：亏欠框架禁词 8 处全为「反面词表/测试夹具/规范原文」元引用（app/test 3 + app/lib/logic 2 + docs 2 + _inbox 1，零用户可见文案）；裸 `Color(0x` 于 ui/theme 之外 = 0；裸非零 `Duration(milliseconds:` 于 motion_spec/theme 之外 = 0；PII 16 位数字 = 0；stash 0；porcelain 0；_LOCK 0；分支 7 支（main + feat 053/052/051/048/034 + archive 051-r3，零 stray）；worktree 主库 + 本轮临时 /tmp/sup-r156（收轮即删）；origin/main 仍 a73f90c 零触碰；task_plan.md 8 行（薄索引在册）、progress.md 285 行；main 头 8e8f3de 对应 R155 归档轮。
+
+## 5. 环停转第 6 拍（P1·已在册）
+- wake 日志实测：16:15 / 16:45 / 17:15 / 17:45 / 18:15 / **18:45** 六拍均「退出：分支=feat/SB-053-today-saved-card 非 main（S0.2）」。
+- 根因不变：派发器 `/Users/dada561/.openclaw/tools/runway-wake-dispatch.sh` 第 13 行分支守卫**早于**第 16–23 行锁清理与 S0.4/S0.5 判定 → S0.1 不可达。
+- 边界裁决（decision_evaluate·boolean）：监工此刻是否应未拍板自行 `git checkout main` 复位环 → **p=0.26**，按阈值 0.25<p<0.75 属灰区 → **不自行判决，留浩然拍板**（与 R155 已呈 A/B 提案同源，本轮不重复推送）。
+
+## 6. 三件套新鲜度自审（零过时）
+- 巡检 cron 19b5f29f（*/30）·wake b0ea8424（15,45 * * * * Asia/Shanghai）·unified watchdog 169be936（0 */2）全部 enabled/ok，时间参数无失配。
+- wake 现役 prompt = `opencode run "读 LOOP.md，按状态机只做一件事，做完就退出；_LOCK 存在则直接退出" --dir $REPO` → 不含卡号/包名/路径硬编码，无过时项；applicationId 口径 `com.zangou.runway` 与卡面一致。
+- 已知缺口（不擅自改 prompt）：唤醒语未写「禁写 /tmp」→ builder 提审链被外部目录权限墙截断；修法随 A/B 一并定，防 churn。
+
+## 7. 反虚构自验
+- 以上 mtime / diff=0 / done=47 / 禁词 8 / 分支 7 / rev=741 均为本轮终端回显。
+- 本票**不含任何「已合入 / 已归档 / 冒烟 PASS」声明**；本轮无 git remote 触碰、无业务码修改。
+- 自验三连：`git log --oneline -1 main` = 本票提交；`git ls-tree HEAD docs/tasks/done/` = 47；REVIEW.md 含本票（票367/R156）。
+
+## 8. 利益点自省
+**原地（第 6 轮）**：守场只能保证已过审的东西不被误领，用户端零变化——「首页空白卡」这类让用户一眼看见攒钱进展的修法，仍卡在提审链（/tmp 墙）与环停转后面。机制层面已连续两轮以上「更远」，升级动作已于 R155 完成（正式排期提案呈报），本轮补决策 p=0.26 灰区证据。
+
+监工签字：老油条 [supervisor R156]
