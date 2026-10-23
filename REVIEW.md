@@ -2659,3 +2659,68 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 ## 七、五类核对：零新审 / 队列零变化 / 无灰区 / 无红线 → ⚡零推送。
 
 签字：老油条 [supervisor R140]
+# REVIEW 票351 · 2026-10-23 12:00 巡检（R141）
+
+结论: 无新审（守场）
+检查项:
+- [x] REQ `1792682149`（10-22 23:15:49）< REVIEW `1792726245`（10-23 11:30:45），stat 实测 → 无新提审。工作树 `M REVIEW_REQUEST.md` 经 diff 核实为 10-22 23:15 追加 5 行 WAITING_HUMAN 熔断段（SB-051 S1.1 第三轮停手标记，非提审、无判定对象、零业务码）；沿册不代提交。
+- [x] 队列零漂移：SB-052（待 A/B 授权，`feat/SB-052-shots-pipeline@236adcb`，main..feat=1）→ SB-051（第 3 轮熔断 WAITING_HUMAN，`feat/SB-051-motion@acb24ce`，main..feat=2）→ SB-021 挂起 v0.2；卡 mtime 未变（10-22 21:02 / 10-20 14:57 / 10-10 23:30）。
+- [x] `git ls-tree -r HEAD docs/tasks/done/` = 47（真实回显），与快照 doneCount=47 一致；可动手卡 0 张，硬熔断在浩然侧（A/B 一句话），按 R127 起口径不重复催。
+- [x] 分支/现场：main@`7a5fe9b`、分支 main、porcelain=1（仅 M REQ，业务脏 0）、本地支 5（SB-034@e576624·SB-048@3ae7522·SB-051@acb24ce·SB-052@236adcb）零 stray、worktree 3、stash 0、`_LOCK` 0、并发 0（emulator/flutter build/qemu 均无）、origin/main@`a73f90c` 零触碰。
+
+## 一、模拟器冒烟：不发生（锚点维持 e61e0f7）
+- `git diff --stat e61e0f7..HEAD -- app packages tool` 空输出 → 应用侧零变更，不起模拟器；票317 一条龙 PASS 仍有效。
+
+## 二、漂移与一致性审计：全绿（一行结论）
+禁词 `没省|又花|喝掉|罪恶|浪费钱` 命中 2，均为元引用（`app/lib/logic/goal_ladder.dart:7` 注释条文、`app/lib/logic/achievement.dart:13` 黑名单常量），用户可见文案 0；裸 `Color(0x`（排除 ui/theme）=0；裸 `Duration(milliseconds:N)`（排除 motion_spec）=0；`_LOCK`=0、stash=0、分支 5 零 stray、worktree 3；main 头 `7a5fe9b` 对应 REVIEW 最近归档轮（R140/票350）；`progress.md` 唯一真相（本轮已登记）、`task_plan.md` 8 行薄索引在位未据以判断；origin 零触碰；真实账目数据红线 0 命中。
+
+## 三、提示词新鲜度自审：通过 · 零 edit
+- `openclaw cron list` 实测：巡检 `19b5f29f` running（last 31m ago）；wake `b0ea8424` ok(suppressed，last 16m ago，S0.6 守卫因 REQ 显式 WAITING_HUMAN 标记退出，符合预期）；watchdog `abaa94c7` ok；统一看门狗 `169be936` ok；backup `560d719d` ok(suppressed)。
+- 三件套内容核对：wake 走 `runway-wake-dispatch.sh`（S0.6 只认显式标记行，无硬编码卡号）；watchdog 提示词走 LOOP.md 清单，无过期卡号/包名/锚点。口径（最高卡号 SB-052、done=47、冒烟锚 e61e0f7、包名 com.zangou.runway、队列 052→051→021）与现实现状相符，无需 edit。
+- 旁记（非本项目）：`heartbeat:main` 本轮 ok；`zhidemai-formal-key-w...` 显示 error，属小掌柜项目通道，非本项目职责，转呈备查。
+
+## 四、规范适配审查：周五无义务，下一执行日 = 周一 2026-10-26 首轮（§7 提案制，不代批）。
+
+## 五、决策模型：本轮 0 次调用（无新边界裁决；SB-052 A/B 灰区 p=0.64 已在 R113/R115 呈报，留浩然拍板）。
+
+## 六、利益点自省：持平
+零施工轮，产品未移动；堵点仍是 SB-052 A/B 一句话与 SB-012 七天真人闸门，均在浩然侧。
+
+## 七、五类核对：零新审 / 队列零变化 / 无灰区 / 无红线 → ⚡零推送。
+
+## 八、过程注记（本轮自纠·在册）
+- R141 写票时误用整文件覆盖，把 REVIEW.md 2661 行滚动档案截为 30 行；当轮自验发现 `git show --stat` 显示 2642 deletions，立即 `git show HEAD~1:REVIEW.md` 恢复全文并追加票351后 amend（现 2691 行 = 2661+30）。口径更正：REVIEW.md 为**滚动档案，新票追加在文末**，不得整覆盖。已记 lessons。
+
+签字：老油条 [supervisor R141]
+
+---
+
+# REVIEW — 2026-10-23 12:0x · 票351 · 浩然裁 B：SB-051 从干净 main 重开
+
+**结论：REQUEST_CHANGES 已作废，本卡重开（轮次归零），待 builder 下一轮从 main 起做。**
+
+## 一、裁决落地（浩然 10-23 11:57 微信，原话「- **B**：从干净主线重开这张卡，多花一轮，现场更干净。」）
+- [x] 熔断解除：`git checkout -- REVIEW_REQUEST.md` 清除 10-22 23:15 那 5 行 `WAITING_HUMAN` 标记（盘上 vs HEAD 现 diff=0）。builder S0.6 守卫不再拦截。
+- [x] 旧现场归档（非删除、可恢复）：`feat/SB-051-motion` → `archive/SB-051-motion-r3@acb24ce`，释放分支名，供 builder 重新切同名 feat 分支。
+- [x] 卡重开：`docs/tasks/SB-051.md` 顶部写入重开令——轮次归零（票279/281/316 三次 RC 作废）、只从当前 main 起做、归档分支只读不续。
+- [x] 轮次计数：本卡下一张 REQUEST_CHANGES 记为「第 1 轮 · 卡 SB-051（重开）」。
+
+## 二、前置风险（未解，随卡同行）
+- 唯一阻塞项仍是**实拍截图**：视觉保真闸门要求改 `app/lib/ui/**` 附模拟器实拍；builder 无出图设备。截图管线卡 SB-052 的 A/B 授权尚未拍板。
+- 本卡重开**不解决**该闸。重开后若只补代码，提审仍会被同一闸打回——已写入卡内「重开首要待解问题」，避免第四轮白改。
+- 建议浩然同批拍板 SB-052（A 续做 236adcb / B 从 main 重开），或在 SB-051 上批「本轮豁免实拍」。二选一即可解锁。
+
+## 三、现场实测
+- 分支：main@7a5fe9b（ahead 125）｜备份 4 支 + archive/SB-051-motion-r3（acb24ce）｜零 stray feat/SB-051。
+- 工作树：`git status --short` = 仅本次新增的 3 个流程文件（REVIEW/REVIEW_REQUEST/docs 卡），业务码 0 改动。
+- `_LOCK` 不存在；emulator/flutter build/qemu 并发 0。
+- 冒烟：不发生（本次仅 docs 变更，`app/` diff=0，锚 e61e0f7 维持）。
+
+## 四、下一步
+- 下一拍唤醒（12:15）S0 全过 → S2 认领 SB-051（未 done）→ 从 main 切 `feat/SB-051-motion` 重做。
+- 监工下拍复核：新分支是否从 main 起、轮次是否从 1 计、提审是否带截图或明示截图待授权。
+
+## 八、过程注记（本轮自纠·在册）
+- R141 写票时误用整文件覆盖，把 REVIEW.md 2661 行滚动档案截为 30 行；当轮自验发现 `git show --stat` 显示 2642 deletions，立即 `git show HEAD~1:REVIEW.md` 恢复全文并追加票351后 amend（现 2691 行 = 2661+30）。口径更正：REVIEW.md 为**滚动档案，新票追加在文末**，不得整覆盖。已记 lessons。
+
+签字：老油条 [supervisor R141]
