@@ -3703,3 +3703,52 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 **原地（第 13 轮不更远）**：用户端可见变化仍为零。空白卡修法躺在分支三天未进验收，卡的不是代码而是提审链与派发器——机制成本持续在吃产品进度。
 
 监工签字：老油条 [supervisor R163]
+
+---
+
+## 票375 · R164 · 2026-10-23 23:0x 守场巡检轮（零新审）
+
+结论: **PASS（无新内容·守场）**
+
+### 1. 审查义务判定（只读回显）
+- `stat -f %m`：REVIEW_REQUEST.md = **1792740028**（15:20:28）< REVIEW.md = **1792740932**（15:35:32）→ **无新提审，不审**。
+- `grep -c SB-053 REVIEW_REQUEST.md` = **0**：SB-053 仍未提审（builder 上次写 progress/REQ 被 /tmp 外部目录权限墙 auto-reject，日志可证）。
+- feat 头 `git log --oneline -1 feat/SB-053-today-saved-card` = **a322a5b**（未前进）；`git diff --stat main...feat` = 3 文件 **+148**（home_page +7 / today_saved_row +5 / sb053 测试 +136）。
+- 按 LOOP「未提审不审不预读」：本轮**未预读**该分支业务码。
+
+### 2. 模拟器冒烟义务（不发生）
+- `git diff --stat e61e0f7..main -- app/lib app/pubspec.yaml app/test` = **空**（0 行），锚点 e61e0f7 仍有效；main 无新合入、无 G 卡 PASS → 本轮冒烟**不发生**，`last_smoke_commit` 维持 e61e0f7。
+
+### 3. 任务卡队列同步
+- 卡面「状态」行实测：SB-052 = 已审待合（R148/票359 PASS·裁A 冻结）；SB-053 = 待办（R149 见底自派·裁A 冻结）；SB-051 = 挂起（14:07 裁B）；SB-021 = 挂起 v0.2。
+- 与快照 queue **逐字一致，零漂移**；`git ls-tree main docs/tasks/done/` = **47**。
+- 待办卡 = **1**（≤2）：提醒在册，但环停转 + A/B 待拍板期间**不开新卡**（避免堆出第二张无法提审的卡）。
+
+### 4. 唤醒环（第 14 拍空退）
+- `tail runway-wake.log` 实测：16:15→22:45 共 **14 拍**全部 `退出：分支=feat/SB-053-today-saved-card 非 main（S0.2，等监工合入）`。
+- 根因未变：派发器 S0.2 分支守卫**早于**锁清理/S0.4/S0.5 判定，S0.1 续做授权不可达。A/B 提案已于 R155/R156 呈报（p=0.26 灰区），**不重复推送**，等浩然一句话。
+
+### 5. 漂移与一致性审计（每轮必做·实测回显）
+- 亏欠框架禁词（全库 app/lib + docs）：**3 命中，全部元引用**（goal_ladder.dart:7 注释 / achievement.dart:13 黑名单字符串 / DESIGN_SYSTEM.md:86 条款正文）→ **当轮问题 0**。
+- 裸 `Color(0x`（排除 tokens.dart）= **0**；裸 `Duration(milliseconds:`（排除 motion_spec）= **0**。
+- `git status --porcelain` = **0**；`git stash list` = **0**；`_LOCK` = **不存在**（无泄漏）；`git worktree list` = **1**（收轮仅主库）。
+- `task_plan.md` = **8 行**（薄索引在位）；progress.md 仍为唯一真相注册表。
+- main 头 7d8b286 = 票374/R163 归档轮，**可对应**；feat 支 5 条均在册用途（051/052/034/048/053），无 stray。
+- **一致：全绿。**
+
+### 6. 提示词新鲜度自审（三件套）
+- 现役：`19b5f29f`（监工巡检 :00/:30）、`b0ea8424`（wake :15/:45，22:45 实测 ok）、`abaa94c7`（watchdog 2h，ok）、`169be936`（统一看门狗，ok）——四条**全 ok，零过时**。
+- 卡号口径：docs/tasks 最高卡号 = **SB-053**，与快照 `activeCard` 一致；冒烟包名口径 `com.zangou.runway`（SB-013 归一后）现行有效。
+- 无需 cron edit。
+
+### 7. 决策模型
+- 本轮零边界裁决 → `decision_evaluate` 调用 **0 次**。
+
+### 8. 反虚构自验
+- 本票所有 mtime / 数字 / 分支 head / 日志行均来自本轮终端回显。
+- **本票不含任何「已合入 / 已归档 / 冒烟 PASS」声明**（本轮无此类动作，SB-053 仍在 feat 未提审）。
+
+### 9. 利益点自省
+**原地（不更远）**：守场保住审结不被误领，但用户能看见的东西今天没有变化——首页那张空白卡还等 SB-053 提审 + tag 批量落。第 14 轮「原地」已逼近停摆线，A/B 一旦放行应立即解冻。
+
+监工签字：老油条 [supervisor R164]
