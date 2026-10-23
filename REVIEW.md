@@ -4184,3 +4184,54 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 **原地（第 23 轮不更远）**：用户端可见变化为零。「今日攒空白卡」修复在分支躺约 11 小时 45 分，卡点仍是提审链 + 派发器，不是代码。
 
 监工签字：老油条 [supervisor R173]
+
+---
+
+## 【票385 · 10-24 04:00 轮】巡检票（监工·零新审守场·结论 PASS·持平×24）
+
+### 1. 新审义务：不发生（四实测）
+- `REVIEW_REQUEST.md` mtime **1792740028（2026-10-23 15:20:28）** < `REVIEW.md` **1792740932（15:35:32）** → REQ 未更新，不进入审码、不预读卡文。
+- 盘上 `git status --porcelain` = **0**（工作树 feat 干净）；`_LOCK` 物理不存在；无半截现场需恢复。
+
+### 2. 队列同步：零漂移
+- 盘上 `docs/tasks/*.md` 实测 **4** 张：SB-021（挂起 v0.2）/ SB-051（挂起·R146 裁B）/ SB-052（已审待合·R148 PASS）/ SB-053（待办·施工在分支）→ 与快照 `queue` 逐条一致，本轮**不更新快照队列**（仅时间戳与证据字段刷新）。
+- `done/` = **47**（`git ls-tree --name-only main docs/tasks/done/ | wc -l` 实测回显）。
+- 待办卡 **1 张（≤2）**：提醒在册——环停转 + A/B 待拍板期间不开新卡，解冻后首批补排（本轮不重复推送）。
+
+### 3. 施工侧/分支实测
+- 活树分支 `feat/SB-053-today-saved-card`，HEAD **a322a5b**（未前进）；`rev-list --left-right --count feat...main` = **1 / 27**（behind 由 26 增至 27，只因监工本轮前 main 多 1 张票）。
+- 本地分支 **7**：main、feat/SB-053、feat/SB-052-shots-pipeline、feat/SB-051-motion、feat/SB-048-goal-editor、feat/SB-034-diag-channel、archive/SB-051-motion-r3 → 均在册无 stray。
+- `git worktree list` 收轮前 **1**（主库）；`stash` **0**；`tag` **4**；`pgrep -f "emulator|qemu|flutter build|gradle|opencode run"` = **0**（无并发 builder、未起模拟器）。
+
+### 4. 唤醒环
+- `~/.openclaw/logs/runway-wake.log` 实测：02:45 / 03:15 / **03:45** 三拍均 `退出：分支=feat/SB-053-today-saved-card 非 main（S0.2，等监工合入）`。
+- `openclaw cron get b0ea8424` 实测 `lastRunStatus ok` / `lastDurationMs 62` / `command ok with no output` → 机制在跑，卡在 S0.2 分支守卫早退（A/B 提案待浩然）。
+
+### 5. 漂移与一致性审计（实测回显）
+- 禁词（没省|又花|喝掉|罪恶|浪费钱）`app/lib` = **2**，均元引用（`logic/goal_ladder.dart:7` 规则声明注释、`logic/achievement.dart:13` 黑名单词表本体）→ 用户可见 **0**。
+- 裸 `Color(0x`（排 ui/theme）= **0**；裸 `Duration(milliseconds:` 出现 **18** 处，`grep -rl` 实测**全部集中于 `ui/theme/motion_spec.dart`**（规格文件本体），其余文件 **0** → 合规。
+- porcelain **0** / stash **0** / `_LOCK` **0** / worktree **1** / 分支 **7** / tag **4** / `task_plan.md` **8 行**薄索引（只读缓存非真相）。
+- main 头 **0af9a0b** = 票384/R173 归档轮，可对应；`main` rev-list=**762**；`origin/main` = **a73f90c**，**零触碰**（本轮无任何 remote 写入）。
+- **一致：全绿。** 今日周六，无周一【规范适配审查】义务。
+
+### 6. 提示词新鲜度自审（本轮发现并修正一处过时事实）
+- `openclaw cron list` 实测：`19b5f29f`（本巡检 `*/30` running）、`b0ea8424`（wake `15,45 * * * *` ok·03:45 拍）、`abaa94c7`（watchdog every 2h ok）、`169be936`（统一看门狗 `0 */2 * * *` ok）→ 四条全 enabled。
+- **过时点（P1·已直接修正）**：本 job 提示词长期写着「tag v0.1.0 待 SB-012 七天真人闸门（浩然侧）」——实测 `git cat-file -t v0.1.0` = `tag`，tagger date **2026-10-20 12:03:09**，`30ae2f0`（「v0.1.0 freeze — 浩然2026-10-20裁直打，真人闸门豁免转补验」），且为 main 祖先、`v0.1.0..main` 已 **192** 提交 → **该 tag 早已发布**（memory/logs/2026-10-20 12:1x「v0.1.0 正式发布完成·APK 双链接已交付」）。
+- 连带发现：裁A 冻结原文的解除条件「tag 前批量落」**已无触发点**（tag 已存在），SB-052「已审待合」实际处于**无窗口悬置**。本轮仅改提示词**事实口径**（不动操作规则）：tag 描述改为已发布事实，冻结改记「解冻窗口待浩然定 v0.1.1」，堵点行去掉已作废的 SB-012 闸门项。
+- 修正动作：`openclaw cron edit 19b5f29f --message "$(cat /tmp/patrol-msg.txt)"`（原文 5475→5484 字符，仅 3 处替换）；**二次回读验证** stale 短语=False / 新短语=True / 前缀 10-24 04:0x=True / 冻结新措辞=True / enabled=True。cron 其余字段未动。
+- wake payload 仍是外部脚本 `runway-wake-dispatch.sh`（66 行，grep 无硬编码卡号/包名/模拟器参数）；watchdog 为 `agentTurn` 指向 LOOP.md（第 36 行 watchdog 节在位）→ 两者无过时入参。`applicationId` 实测 `app/android/app/build.gradle.kts:19` = `com.zangou.runway` 现行口径。
+
+### 7. 模拟器冒烟：不发生
+- `git diff e61e0f7..main -- app/` = **0 行**（锚点仍有效）；无新 G 卡 PASS → 按条款不启模拟器（本轮 `pgrep emulator|qemu` = 0，无残留）。
+
+### 8. 决策模型
+- 本轮未做新裁决（仅事实勘正 + 维持现状不合入）→ `decision_evaluate` 调用 **0 次**。SB-052 合入时机属浩然侧窗口决定，监工不代判。
+
+### 9. 反虚构自验
+- 本票所有 mtime / 分支 head / 计数 / tag 属性 / cron 字段均取自本轮终端回显；落点后以 `git log --oneline -1 main` 复核本票为 main 新头。
+- 本票**不含任何「已合入 / 已归档 / 冒烟 PASS」声明**：SB-053 仍 feat 未提审、done/ 仍 **47**、无 `git mv`。
+
+### 10. 利益点自省
+**原地（第 24 轮不更远）**：用户端可见变化为零；SB-053 修复在分支躺约 12 小时 10 分。真正卡点仍是提审链 + 派发器 S0.2，不是代码——若 A/B 迟迟不定，产品离"天天看见自己挪一步"只会更远。
+
+监工签字：老油条 [supervisor R174]
