@@ -4038,3 +4038,49 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 **原地（第 20 轮不更远）**：用户端可见变化为零。「今日攒空白卡」修复在分支躺约 10 小时 10 分，卡点仍是提审链 + 派发器，不是代码。
 
 监工签字：老油条 [supervisor R170]
+
+## 票382 · R171 · 2026-10-24 02:3x 守场巡检（零新审）
+
+### 1. 新审判定
+- 主库实测 mtime：`REVIEW_REQUEST.md` **1792740028**（10-23 15:20:28）< `REVIEW.md` **1792740932**（10-23 15:35:32）→ **零新审**。
+- `grep -c "SB-053" REVIEW_REQUEST.md` = **0** → SB-053 未提审，按规**不审、不预读**。
+- feat 支 `feat/SB-053-today-saved-card@a322a5b` **未前进**：`git rev-list --count main..HEAD`=**1**、`HEAD..main`=**24**；`git diff --stat main...HEAD` = **3 文件 +148 / -0**（`ui/home_page.dart` +7、`ui/today_saved_row.dart` +5、`test/sb053_today_saved_card_test.dart` +136）——业务面干净，合入前只需 rebase 掉 24 票簿记落后。
+- 工作树停在 feat（clean，porcelain 0），REQ/REVIEW 均取 main 侧值，判定不受影响。
+
+### 2. 队列同步（快照比对）
+- 卡面实测：SB-053 `待办`（R149 见底自派·裁A 冻结）/ SB-052 `已审待合`（R148 票359 PASS）/ SB-051 `挂起`（裁B 10-23 14:07）/ SB-021 `挂起 v0.2` → 与 `runway-card-state.json` **零漂移**，不推送。
+- `git ls-tree --name-only main docs/tasks/done/ | wc -l` = **47**。
+- 待办卡 **1 张（≤2）**：提醒在册——环停转 + A/B 待拍板期间不开新卡，解冻后首批补排（本轮不重复推送，A/B 提案 R155 已呈、R156 p=0.26 灰区）。
+
+### 3. 模拟器冒烟
+- **不发生**：`git diff e61e0f7..main -- app/lib app/pubspec.yaml test packages tool | wc -l` = **0** → 锚 `e61e0f7` 仍有效；G 里程碑无新 PASS。
+- `pgrep -fl "emulator|flutter_tools|gradle"` = **空**，`_LOCK` 物理不存在 → 无并发。
+
+### 4. 唤醒环
+- `~/.openclaw/logs/runway-wake.log` 实测：01:45 → **02:15 第 21 拍**均为 `退出：分支=feat/SB-053-today-saved-card 非 main（S0.2，等监工合入）`。
+- `openclaw cron list` 实测 wake `b0ea8424` state：`lastRunAtMs 1792779300084`（02:15:00）、`lastRunStatus ok`、`lastDurationMs 62`、`command ok with no output`——机制在跑，判定在 S0.2 早退。
+- 根因沿册：树停 feat + 派发器 S0.2 早于锁清理/S0.4/S0.5 判定 → S0.1 不可达；A/B 提案待浩然拍板，R157–R171 不重复推送。
+
+### 5. 漂移与一致性审计（实测回显）
+- 禁词（没省|又花|喝掉|罪恶|浪费钱）`app/lib` = **2**，均元引用（`logic/goal_ladder.dart:7` 禁用声明注释、`logic/achievement.dart:13` 黑名单词表本身）→ 用户可见 **0**。
+- 裸 `Color(0x`（排 `ui/theme`）= **0**；裸 `Duration(milliseconds:`（排 theme/motion，非零）= **0**。
+- porcelain **0** / stash **0** / `_LOCK` 不存在 / worktree：主库 feat + `/tmp/sup-r171`（收轮删）= 实测 2，在册。
+- 本地分支 **7**：archive/SB-051-motion-r3、feat/SB-034-diag-channel、feat/SB-048-goal-editor、feat/SB-051-motion、feat/SB-052-shots-pipeline、feat/SB-053-today-saved-card、main——无 stray；tag **4**。
+- main 头 **98e0d4e** = 票381/R170 归档轮，**可对应**；`task_plan.md` = **8 行**薄索引（只读缓存），`progress.md` 为唯一真相注册表。
+- `origin/main` head = **a73f90c**（零触碰）。**一致：全绿。** 今日周六，无周一规范适配审查义务。
+
+### 6. 提示词新鲜度自审
+- `openclaw cron list` 实测：`19b5f29f`（本巡检 `*/30` enabled）、`b0ea8424`（wake `15,45 * * * *` ok·02:15 拍）、`abaa94c7`（watchdog enabled）、`169be936`（统一看门狗 `0 */2 * * *` enabled）→ **四条全 enabled/ok、零过时**。
+- 卡号口径：`docs/tasks/` 最高 **SB-053** ✓；包名 `app/android/app/build.gradle.kts:19` = `com.zangou.runway` ✓；wake payload 为外部脚本 `runway-wake-dispatch.sh`，无硬编码卡号。**本轮 cron edit 0 次**。
+
+### 7. 决策模型
+- 本轮零边界裁决 → `decision_evaluate` 调用 **0 次**。
+
+### 8. 反虚构自验
+- 本票全部 mtime / 数字 / 分支 head / 日志行取自本轮终端回显；落点提交后以 `git log --oneline -1 main` 复核本票为 main 新头。
+- 本票**不含任何「已合入 / 已归档 / 冒烟 PASS」声明**：SB-053 仍在 feat 未提审，done/ 仍 **47**，无 `git mv` 发生。
+
+### 9. 利益点自省
+**原地（第 21 轮不更远）**：用户端可见变化为零。「今日攒空白卡」修复在分支躺约 10 小时 45 分，卡点仍是提审链 + 派发器，不是代码。
+
+监工签字：老油条 [supervisor R171]
