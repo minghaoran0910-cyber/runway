@@ -4526,3 +4526,60 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 - **本票不含任何「已合入/已归档/冒烟 PASS」声明**（本轮无此类动作）。
 
 监工签字：老油条 [supervisor R179]
+
+---
+
+# 巡检票 391 · R180 — 2026-10-24 07:0x（守场零新审 · 停转第 30 轮升级呈报）
+结论: 无新审（守场）｜停转处置: 升级为默认动作提案（已推送待拍板 1 条）
+
+## 1. 新审判据（双证据）
+- 主库 `stat -f %m`：REVIEW_REQUEST=**1792793015** / REVIEW=**1792793016**（REVIEW 新 1s → **非新审**）。
+- 临时 main worktree 检出后两文件 mtime 均被 checkout 重写为 **1792796437**（相等）→ mtime 在临时树无判据价值，故本轮以主库原值 + 内容为准。
+- 内容证据：`grep -c "SB-053" REVIEW_REQUEST.md` = **0** → SB-053 **未提审**，按规则不审不预读。
+- 主库 `git status --porcelain` = **0** 行。
+
+## 2. 队列（卡号|状态）
+- **SB-053 | 待办·施工在分支·未提审**：`feat/SB-053-today-saved-card@a322a5b`（10-23 15:51:28），ahead **1** / behind **34**，`git diff --stat main...分支` = **3 文件 +148/-0**（home_page +7 / today_saved_row +5 / sb053_today_saved_card_test +136）。截至本轮已躺 **~15h**，零新提交。
+- **SB-052 | 已审待合**（R148/票359 PASS·feat@dd1d835），裁A 冻结不合 main、不进 done/。
+- **SB-051 | 挂起**（R146 裁B·feat@12e2b95 原样）。
+- **SB-021 | 挂起 v0.2**。
+- 与快照 queue **逐字一致 → 零漂移，不推送**。
+- **待办卡 = 1 张（≤2）** → 触发排下一批提醒；但 wake 停转+裁A 冻结下新卡只能堆成「已审待合」，故提醒随解冻窗口一并执行，本轮不空开卡。
+
+## 3. 模拟器冒烟
+`git diff --name-only e61e0f7..main -- app packages tool pubspec.yaml` = **0 行** → **不发生**，锚 **e61e0f7** 继续有效（无新合入即无新冒烟义务）。emulator 本轮未起。
+
+## 4. 停转账（第 30 轮，实测）
+- `openclaw cron list --all`：**runway-wake b0ea8424 = disabled**（last run 1h ago）；88a8e128 / b71bf570 / e71e53ac / f859efc9 同类旧任务亦全 disabled 在册；巡检 19b5f29f 正常（本轮即它）。
+- 结构性停转两条，缺一不可解：①LOOP S0-6「REVIEW_REQUEST 含 WAITING_HUMAN → 退出（唤醒任务应已被监工暂停）」属人工执行条款；②派发器 **S0.2 分支守卫**（当前分支非 main 即退）——工作树停在 `feat/SB-053`，**即便 re-enable 也会每 :15/:45 空退**（R179 已实测 28 连拍空退）。
+- 本轮零前进证据：`git rev-list --count main` = **769**，头 **9050ead** = 票390/R179，与快照一致。
+
+## 5. 漂移与一致性审计（一行）
+禁词 `没省|又花|喝掉|罪恶|浪费钱` = **7 行全为 meta**（achievement.dart:13 词表本体 · goal_ladder.dart:7 注释 · goal_ladder/cooloff/experiment/sb049 四个测试断言 · docs/DESIGN_SYSTEM.md:86 条款），**用户可见违例 0** · ui/theme 与 motion_spec 之外裸 `Color(0x` = **0** · 裸 `Duration(milliseconds:` = **0** · 真实账目红线 = **1 行且为反向注释**（app_db.dart:16「真实账目永不入库」）· `_LOCK` = **0** · stash = **0** · 主库 porcelain = **0** · 本地分支 **7** 全在册（main + feat/SB-053 + feat/SB-052-shots + feat/SB-051-motion + feat/SB-034 + feat/SB-048 + archive/SB-051-r3，无 stray）· worktree = **2**（主库 + `/tmp/sup-r180` 本票临时树，收轮删）· main 头 **9050ead** ↔ 票390/R179 归档轮吻合 · progress.md 唯一真相 · task_plan.md **8 行**薄索引未动 · origin/main **a73f90c** 零触碰。
+
+## 6. 三件套提示词新鲜度自审
+- 巡检 message 锚块逐项核：最高卡号 **SB-053** ✓ · SB-052 已审待合 ✓ · SB-051 挂起 ✓ · done **47**（ls-tree 实测）✓ · 冒烟锚 **e61e0f7** ✓ · 裁A 冻结 ✓ · `applicationId = "com.zangou.runway"`（build.gradle.kts:19）与 `am start -n com.zangou.runway/.MainActivity` 同口径 ✓。
+- **唯一失配（本轮已修）**：锚块原文「wake 现役=b0ea8424 :15/:45 **ok**」与实测 **disabled** 不符 → 已 cron edit 修正为 disabled 事实 + 待浩然裁 A/B/C，其余 6000 字不动（见 §11 回读验证）。
+- dispatch 脚本 66 行：`grep -nE 'SB-0[0-9]+|applicationId|com\.zangou'` 命中 **1 处 = 第 38 行历史注释（SB-024 先例）**，非活动锚 → 无过期面；**勘正 R179 票「零命中」表述**（当时结论对、数字不实，本轮按实测重写）。
+- watchdog abaa94c7：agentTurn 指向 LOOP watchdog 节，无卡号耦合 ✓；巡检 :00/:30 与 wake :15/:45 错峰不冲突 ✓。
+
+## 7. 周一首轮【规范适配审查】
+今天 **周六** → 不发生。挂账随周一（原文草案不动）：①LOOP S2 无卡面状态判据；②派发器 S0.1 落孤授权（decision p=0.37 灰区）；③「WAITING_HUMAN 后自动停 wake」应入 SUPERVISOR 附录条文。**新增挂账④**：LOOP S0.2 分支守卫早于 S0.1 续做判定，属结构性停转点，周一并入①同批提案。
+
+## 8. 决策模型
+本轮无技术边界裁决（停 wake 属 LOOP 明文；落窗口属浩然拍板）→ `decision_evaluate` **未调用**，无 p 值可记。
+
+## 9. 利益点自省
+**原地第 30 轮**：用户端可见变化仍为 0；「首页空白卡」这张丑已经照出来、修法也已在分支上躺了 15 小时，却因为合入闸门与派发器守卫双重卡死而落不了地。机制已与 SilentBook 旧病同构——**环靠人盯着才能转**。本轮的升级呈报不是再问一遍，是把默认动作摆上桌。
+
+## 10. 反虚构自验
+- 本票所有数字（REQ/REVIEW mtime 两处、done=47、diff=0、ahead1/behind34、+148、禁词 7、裸值 0/0、分支 7、worktree 2、rev 769、脚本 66 行、appId 行 19）均为**本轮终端回显**。
+- **本票不含任何「已合入/已归档/冒烟 PASS」声明**（本轮无此类动作）。SB-053 明确记为「未提审·未审」，不是「已通过」。
+
+## 11. 停转升级（本轮唯一实质交付）
+R178 呈报 A/B/C 未获回音，R179 预登记「下轮无回音即升为默认动作提案」→ **本轮兑现**。默认动作 = **开 v0.1.1 落窗口**：把 SB-052（已审待合）+ SB-053（待收尾审查）两张卡一次性合入 main → 跑模拟器实拍三帧 + 冒烟 → 出 v0.1.1 安装包。理由：两张卡都已完成，用户端唯一能感知的变化（首页不再有空白卡）就卡在这个闸门上；继续冻结是用 0 用户价值换 0 风险。已按 ⚡收口条款推送 1 条待拍板消息（用大白话，一句话选项）。
+
+## 簿记
+落笔前 `rev-list --count main` = **769**；本票 **770**，progress 登记 **771**；下拍预登记 票392/**772**±builder 并发。
+
+监工签字：老油条 [supervisor R180]
