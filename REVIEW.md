@@ -2723,3 +2723,46 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 - 监工下拍复核：新分支是否从 main 起、轮次是否从 1 计、提审是否带截图或明示截图待授权。
 
 签字：老油条 [supervisor R141]
+
+---
+
+# REVIEW — 2026-10-23 12:30 巡检（R142 · 票353）
+
+结论: PASS（守场轮 · 零新提审 · 无判定对象）
+
+## 一、审查义务判定
+- [x] `stat -f %m` 实测：REVIEW_REQUEST.md 1792728068（12:01:08）< REVIEW.md 1792728172（12:02:52）→ **零新审**。
+- [x] REQ 盘上 vs HEAD `git diff --numstat` = 空（12:01 裁B已清 5 行熔断段），无残留提审单、无判定对象。
+- [x] 本轮不快照新提审，不动业务码。
+
+## 二、现场实测（全部命令回显）
+- 分支：`feat/SB-051-motion`（builder 12:15 已认领，reflog `branch: Created from HEAD`），指向 `338764b`，`main..feat/SB-051-motion` = 0 条 → 截至 12:30 **零提交**。
+- main@338764b（ahead 129）；业务脏 0（`git status --porcelain` 空）；`_LOCK` 不存在；stash 0；worktree 3；本地支 6（main + feat×3 在册 + archive/SB-051-motion-r3@acb24ce + 当前 feat/SB-051-motion）；origin a73f90c 零触碰。
+- 并发：emulator / flutter build / qemu `pgrep` = 0。
+- done/ = 47（`git ls-tree -r --name-only HEAD docs/tasks/done/ | wc -l`，末 5 张 SB-046…SB-050）。
+- 队列：SB-051 裁B重开在飞（builder 已切支零提交）→ SB-052 待 A/B 授权（236adcb）→ SB-021 挂起 v0.2；无位次翻转，不重复催 A/B（R113/R116 已两轮请示）。
+- 卡面状态行勘误（P2 观察）：`docs/tasks/SB-051.md`/`SB-052.md` 现行全文无「状态：」行（grep 0 命中），队列以 REVIEW + 快照登记为准；下批开卡模板需带状态行，已列观察不回写业务卡。
+
+## 三、模拟器冒烟
+不发生。`git diff --stat e61e0f7..HEAD -- app packages tool pubspec.yaml` = 空；`git diff --name-only e61e0f7..HEAD -- app | wc -l` = 0 → 锚 e61e0f7（票317 一条龙 PASS）继续有效。新分支零提交，无新行为可测。
+
+## 四、漂移与一致性审计（一行结论）
+禁词=2 命中全为元引用（goal_ladder.dart:7 文风条款、achievement.dart:13 禁用词表），用户可见 0；`ui/theme` 外裸 `Color(0x` = 0；`motion_spec` 外裸 `Duration(milliseconds:` = 0；真实账目 app=1 为注释（app_db.dart:16「真实账目永不入库」）；`_LOCK` 0；stash 0；支 6 零 stray；worktree 3；main 头 338764b ↔ 票352 归档轮，可对应；task_plan 8 行薄索引只读 → **全绿**。
+
+## 五、提示词新鲜度自审（本轮有修正）
+- 发现过期：巡检 message 锚块仍写「SB-051 第 3 轮熔断 WAITING_HUMAN / feat@acb24ce 未动 / REQ 盘上含 5 行熔断段」，与 11:57 裁B落地后的现实（重开·归档·REQ diff=0·新支 12:15 已切）不符。
+- 已 `cron edit` 就地修正锚块，message 5192→5258 chars；`cron get` 回读与写入文本 **IDENTICAL True**；schedule `*/30` 与 enabled=True 不变；旧串「10-23 00:0x 现行」回读 0 命中。
+- wake b0ea8424 :15/:45 ok（12:15 点火实测过 S0/S2，12:45 下一拍）；watchdog abaa94c7 ok；统一看门狗 169be936 ok；backup ok。applicationId 实测 `com.zangou.runway`（build.gradle.kts:19），与冒烟四参数相符。
+- 新登记过程观察（P2）：12:15 builder 点火后 `git show … > /tmp` 写成功、读 `/tmp/*` 被 opencode 沙箱 `external_directory` 自动拒绝并自退（零提交），下轮看是否改用仓内路径自愈；不改 builder 配置。
+
+## 六、决策模型
+0 调用（本轮无边界裁决：零提审、零合入、零参数取舍）。
+
+## 七、利益点自省
+本轮动作=修提示词锚块+守场，产品**仍原地半格**：堵点未动（SB-052 A/B 授权、SB-012 真人闸门都在浩然侧），builder 已按裁B重开但零提交。
+
+## 八、下一步
+- 12:45 唤醒观察 SB-051 是否产出首个提交；若再被沙箱权限卡住，下轮升级 P1（只报告，不改 builder 配置）。
+- 提审到来时按视觉保真闸门查实拍截图，缺图直接 REQUEST_CHANGES。
+
+签字：老油条 [supervisor R142 · 票353]
