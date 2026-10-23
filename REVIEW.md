@@ -3270,3 +3270,48 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 落笔前 `git rev-list --count main`=**738**，本票预期 **739**。
 
 监工签字：老油条 [supervisor R153]
+
+---
+
+# 票 365 · R154 · 2026-10-23 18:0x 守场轮（零新审 · 环第 4 空拍 · 三件套自审）
+
+结论: **零新审（守场）** — REQ 未更新，本轮无审查义务；不判 PASS / 不判 REQUEST_CHANGES。
+
+## 一、审查义务判定（mtime 实测）
+- `stat -f %Sm -t "%F %T"`：REVIEW_REQUEST.md = **2026-10-23 15:20:28**（1792740028），REVIEW.md = **2026-10-23 15:35:32**（1792740932）→ REQ 旧于 REVIEW，**无新提审**。
+- `grep -c "SB-053" REVIEW_REQUEST.md` = **0**（命令 exit 1 即零命中）→ SB-053 至今未提审。
+- `git show --name-only --format="" a322a5b | grep -c REVIEW_REQUEST` = **0**：builder 15:51 的修复提交**未触 REQ**，符合「未提审不审不预读」。本票**不预读** a322a5b 码体。
+
+## 二、队列同步（卡面状态行 ↔ 快照 queue）
+- SB-053 = 待办（施工已提交未提审）· SB-052 = 已审待合 · SB-051 = 挂起（14:07 裁 B）· SB-021 = 挂起 v0.2 · G 里程碑 = G1~G11 ✓
+- 与快照 `memory/runway-card-state.json` 逐卡一致 → **零漂移**；`git ls-tree -r --name-only main docs/tasks/done/ | wc -l` = **47**。
+- 待办卡 = **1**（≤2，触发「提醒排下一批」条目）：**本轮不派新卡**——环已连续 4 拍空退（见四），再开卡只会多一张必然卡死的待办，属无效排期。排下一批的前置 = A/B 裁决落地。
+
+## 三、模拟器冒烟义务
+- `git diff --stat e61e0f7..main -- app packages tool pubspec.yaml` = **空**（app 域零差异）→ 义务不发生，锚点维持 **e61e0f7**。
+- `pgrep -f "emulator.*runway_api36" | wc -l` = **0**（无残留模拟器）。
+
+## 四、环状态（新增实证）
+- `~/.openclaw/logs/runway-wake.log` 连续 4 行：16:15:00 / 16:45:05 / 17:15:00 / **17:45:00** 均 `退出：分支=feat/SB-053-today-saved-card 非 main（S0.2，等监工合入）` → 比 R153 多第 4 拍。
+- `runway-wake-dispatch.sh` 复核：分支守卫（`[ "$BR" = "main" ]`）仍在第 13 行，**早于**第 16–23 行的 `_LOCK` 死锁清理与 S0.4/S0.5 判定 → 机制缺陷成立，待 A/B。
+- 新判据（本轮）：SB-053 的提交被 `/tmp` 权限墙截断（wake 日志实录 `permission requested: external_directory (/tmp/*); auto-rejecting` → `cp progress.md /tmp/... failed`），**progress.md 与 REQ 均未落** → 该卡处于「码在分支上、无法提审」态。故环停转的影响已从「没新活」升级为「活做完了也交不上来」。P1 记：唤醒语/卡文须显式写「禁写 /tmp，一律仓库内 `.tmp/` 或 heredoc 直接追加」。
+- cron 实测：wake b0ea8424 = enabled、lastRunStatus ok、lastDelivered false（empty 抑制）；watchdog abaa94c7 = ok。
+
+## 五、漂移与一致性审计（一行结论）
+**全绿**：禁词命中 2 处且均为元引用（`goal_ladder.dart:7` 注释声明禁词框架、`achievement.dart:13` 为 `achievementBannedWords` 白名单字面量）→ 用户可见文案零命中；`Color(0x` 于 `app/lib` 排除 `ui/theme`/`motion_spec` = **0**、`Duration(milliseconds:` 同口径 = **0**；`_LOCK` 无、stash **0**、`status --porcelain` **0**、branches **7** 支零 stray、worktree **2**（主库 + `/tmp/sb048-verify`）、PII/真实账目红线 **0**；main 头 `cb7210b` ↔ 票 364（R153）对应 ✓；task_plan.md 8 行（薄索引）· progress.md 285 行为唯一注册表 ✓；`origin/main` 仍 `a73f90c`，**零触碰**。
+
+## 六、提示词新鲜度自审
+- 三件套：wake = `command` 型（脚本 `runway-wake-dispatch.sh`，prompt 内不含卡号/路径参数）· watchdog = `agentTurn` 文案引用 `LOOP.md` watchdog 节 · 本体巡检 message 的括注仍指 SB-053 为最高卡。
+- 核对当天现实：最高卡号 SB-053 ✓、`com.zangou.runway` 冒烟口径 ✓、锚点 e61e0f7 ✓、唤醒时刻 :15/:45 ✓ → **零过时项，本轮无 cron edit**（防 churn，历史决定周一统一翻括注）。
+- 周一适配审查：今日周五，不发生。
+
+## 七、决策模型
+本轮无边界裁决（零新审、无返工判定、无卡参数取舍）→ 未调用 `decision_evaluate`。
+
+## 利益点自省
+**原地偏更远（第四轮）**：产品没有向「让用户以接近零成本天天看见自己挪一步」推进；连续四拍停摆且「做完的卡交不上来」，机制上已在复现 SilentBook 旧病（环靠人一句话才转）。19:00 闸未到（现 18:0x），**下一轮若无 A/B 回音，转正式排期提案呈报**（S0.1 落孤授权：feat 静默 N 拍 + 树净 → 自动归档分支回 main 并回写卡面状态）。
+
+## 簿记
+落笔前 `git rev-list --count main` = **739**，本票预期 **740**。所有 hash / 计数 / 日志行均取自本轮终端回显，无叙述生成；本票**不含任何「已合入 / 已归档 / 冒烟 PASS」声明**。
+
+监工签字：老油条 [supervisor R154]
