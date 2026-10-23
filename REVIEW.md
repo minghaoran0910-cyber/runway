@@ -2963,3 +2963,31 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 - 监工下拍复核：052 是否只在授权范围、是否零依赖变更、是否未碰业务码。
 
 签字：老油条 [supervisor R146 · 票357]
+
+## 票358 · 2026-10-23 14:3x · 监工 R147 — **SB-052 首审（第 1 轮 · 卡 SB-052）**
+
+**结论：REQUEST_CHANGES（第 1 轮 · 卡 SB-052）** —— 管线能跑，但跑出来的四张不是四个页面。
+
+- **提审对象**：`feat/SB-052-shots-pipeline@7682f75`（续做 236adcb；REQ mtime 1792736178 > REVIEW 1792736117 实测），改动 4 文件 = `tool/shots.sh` + `docs/DEV_WORKFLOW.md` + `docs/GIT_WORKFLOW.md` + `REVIEW_REQUEST.md`；`git diff 236adcb..HEAD` 业务码 0 行、dart 0 文件、pubspec 0 变更 → **范围与 R146 授权一致，不越界**。
+- **监工实跑（本轮核心证据，非自述）**：主仓 `tool/shots.sh SB-052 --keep-emu` 一条命令零人工干预跑通 **EXIT=0**，Gradle `assembleDebug` **17.5s**，产出 4 PNG + manifest（`"time":"2026-10-23 14:31 +0800"`, `"commit":"7682f75"`, device `sdk_gphone64_arm64`）→ **「一条命令」机制面成立**（R144 起的 /tmp 日志墙与首帧等待两处修复实测有效，未见崩溃）。
+- **但产出不合格（逐张看图，四张实为两页）**：
+  - `home_light.png` / `home_dark.png` = **Flutter 原生启动图**（浅底蓝 logo / 深底白圆 logo），非首页；
+  - `ledger_light.png` / `ledger_dark.png` = **实际是首页内容**（底部导航「首页」高亮；本月支出 0.0／今日 0 笔／最近 3 笔 食 ¥38.5），**账本页从未被切到**；
+  - 即 4 张只覆盖「启动图浅/深 + 首页浅/深」，与卡验收①「≥2 页面 × 浅/深」不符；manifest 的 page 标签与画面不符（机读清单不可信）。
+- **[P0-1] 首帧就绪用固定 `sleep 12`，不是就绪信号**：实测 cold force-stop→`am start` 后 12s 仍停在原生启动图（两轮/两主题均复现）。需改轮询型判据（轮询 screencap 直到与 splash 基准不符、或读 logcat 首帧标记），固定 sleep 不得作为唯一闸。
+- **[P0-2] `tap_tab` 坐标错**：`y=H-120` 落在底栏上方空白区（实拍底栏图标约在 H-90），点击未命中 tab，故「账本」两帧仍是首页。需按实际底栏热区取点，并在切换后校验当前路由/可见标题。
+- **[P0-3] 防 splash 三检被实测击穿**：20KB 体积闸（splash 44KB/60KB 全过）、PNG 魔数（splash 本身合法 PNG）、跨主题 md5（浅/深启动图天然不同）→ 对「主题不同的启动图」**零拦截**。须补内容级判据（页面特征区域比对 / OCR 关键文案 / 与 splash 基准帧相似度）。
+- **[P1] manifest 自洽性**：page 标签与画面不符时，提审单照抄会把错标签写进证据链。修完 P0 须重跑并以重跑件替换（覆盖同名文件，不另起目录）。
+- **[P2] 启动参数口径漂移**：脚本第 33 行 `emulator -avd "$AVD" -no-window -no-audio -no-boot-anim` 缺在册固定口径的 `-no-snapshot-load`（会加载 quickboot 快照带旧状态）。本轮实跑虽成功，仍按口径补齐。
+- **[P2] 无条件 `adb emu kill`**：脚本无法区分「自己起的」与「先前已在位」的模拟器，他人正在用会被杀；建议 `STARTED_BY_ME` 标记后再收口。
+- **[P2] 卡验收③未跑**：全量 `flutter test` + `tool/ci.sh` 四闸本轮未执行（提审自述偏差②）。改动仅 shell+docs，暂列待补；**重提时必须补跑并回显**。
+- **文档面：PASS** —— DEV §7（提审必附实拍/五项必填/golden 与 shots 分工）、GIT §9（shots 随提审提交/文件数豁免/合入保留/覆盖不另起目录）三条落地，标题编号无冲突（DEV 6 段后接 §7、GIT §8 后接 §9）；REQ 实拍清单五项结构齐备。文档条款无需返工。
+- **视觉保真闸门**：本卡不碰 `app/lib/ui/**`，闸门不适用；但实拍已按闸门口径逐张目审（见上，正是判 RC 的依据）。
+- **模拟器冒烟**：本卡 `app` 业务码 diff=0，正式冒烟义务不发生，锚维持 **e61e0f7**；本轮模拟器实跑仅为管线验收，收口 `adb emu kill` + pkill，`adb devices` 已空。
+- **工作树复位**：实跑覆盖了 `shots/SB-052/*`，已 `git checkout -- shots/` 还原至提审版（md5 复验 home_dark=5234d896…），工作树回 clean；证据图另存 `~/.openclaw/workspace/tmp/sb052/`（不入仓）。
+- **任务卡同步**：SB-052 状态由「待 A/B 授权」→ **RC 第 1 轮**；SB-051 挂起（原样 12e2b95 未碰）；SB-021 挂起 v0.2；done=**47**（`git ls-tree HEAD docs/tasks/done/` 实测）。待办卡仍 2 张（051/052），≤2 见底提醒已于 R107 呈报并已由浩然拍 A/B 解，本轮不重复推送。
+- **漂移与一致性审计（一行）**：禁词 `app/lib`=**2** 均元引用（`achievement.dart:13` 禁词表本体 / `goal_ladder.dart:7` 规则注释），用户可见 0 · ui 非 theme 裸 `Color(0x`=**0** · `motion_spec` 外裸 `Duration(milliseconds:`=**0** · 真实账目/PII 红线 0（实拍内为「示例数据」）· `_LOCK`=0 · stash=0 · 本地支 **6** 全在册（main + 052 在飞 + 051 挂起 + archive/SB-051-motion-r3 + 素材 SB-034/SB-048）零 stray · worktree 4（含本票临时 sup-r147，收轮删） · main 头 **ab1d650** ↔ REVIEW 票357(R146) 相邻吻合 · origin/main **a73f90c** 零触碰 · progress 唯一真相已续登 · task_plan **8 行**薄索引只读未动。
+- **决策模型**：1 次 —— 「本轮判 RC 而非 PASS 待补拍」boolean **p=0.88 ≥ 0.75** → 按判落 RC（另 `decision_evaluate` 状态 ok）。
+- **利益点自省**：**更近一格，但只到半路** —— 实跑证明"一条命令出图"这条路走得通，可它现在产出的是启动图和错页，等于给"提审必须带可看证据"装了个坏传感器；修好之前，SB-051 的视觉闸门仍无可靠凭据，产品仍停在同一格。
+- **下一步（给 builder，非浩然）**：修 P0-1/2/3 → 重跑 `tool/shots.sh SB-052` 四张为「首页/账本 × 浅/深」且内容自洽 → 补跑 `tool/ci.sh` 回显 → 再提审（第 2 轮额度；本卡两轮熔断线在册）。
+- **簿记**：落笔前 `rev-list --count main` = **729**，本票+progress 落点 **730**。签字：老油条 [supervisor R147]
