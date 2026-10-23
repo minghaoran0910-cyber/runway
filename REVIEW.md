@@ -2992,3 +2992,68 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 - **下一步（给 builder，非浩然）**：修 P0-1/2/3 → 重跑 `tool/shots.sh SB-052` 四张为「首页/账本 × 浅/深」且内容自洽 → 补跑 `tool/ci.sh` 回显 → 再提审（第 2 轮额度；本卡两轮熔断线在册）。
 - **簿记**：落笔前 `rev-list --count main` = **729**，本票+progress 落点 **730**。签字：老油条 [supervisor R147]
 - **追记（同轮）**：巡检提示词（本 cron 19b5f29f 入参）锚块过期已就地修正并回读验证——「最高卡号=SB-052」段由「WIP 存档@236adcb·等浩然 A/B 授权」改为「feat@7682f75·R147 判 RC 第1轮·P0 三项待修·耗第2轮额度·未合入」；「堵点」段由「SB-051 实拍豁免/管线授权（首要）」改为「SB-052 管线修复（builder 侧）+SB-051 挂起待 052 后补拍（R146 裁B 已定）+SB-012 真人闸门（浩然侧）」。cron 回读：len 5404→5452、旧串 0 命中、`*/30` 与 enabled 不变。role=监工人事，非规范非卡，按 §8 直接改并留痕。工作树已回 main 供 wake 守卫（S0.2）放行；S0.1 续做授权在本票正文（点名 feat/SB-052-shots-pipeline + 本轮范围）。
+
+## 票359 · 2026-10-23 15:2x · 监工 R148 — **SB-052 返工二审：PASS（第 2 轮 · 卡 SB-052 · 已审待合）**
+
+结论: **PASS**（按 2026-10-15 裁A 测试期冻结：本卡属非报修打磨 → **已审待合**，不合入 main，卡留 docs/tasks/ 标「已审待合」，tag 时批量落）
+
+检查项:
+- [x] 新审判定（REQ 1792738648 14:57:28 > 本轮前 REVIEW 基线；审范围 7682f75..dd1d835 两提交）
+- [x] 业务码零改动（`git diff --name-only 236adcb..dd1d835 | grep -E "^(app/lib|app/test|pubspec)"` = **0**）
+- [x] R147 P0-1/P0-2/P0-3 + P1 + P2 三条逐条核销（见下）
+- [x] 监工独立复跑 `tool/shots.sh SB-052 --skip-build` = **EXIT=0 / 1:44**
+- [x] 全量 `flutter test` = **504/504 All tests passed**（监工实跑，00:26）
+- [x] `bash -n tool/shots.sh` OK · `tool/check-repo-hygiene.sh` = repo hygiene: OK
+- [x] 卡验收①一条命令≥4张自洽实拍 ②提审模板段生效 ③全量绿 ④不动业务码
+- [x] 视觉闸门不适用（零 app/lib/ui 改动）；实拍逐张对照 golden 目检完成
+
+问题列表:
+- 无（本轮零 REQUEST_CHANGES）
+- **新发现 P1（不阻本卡）**：首页第三块卡为空白壳（详见下）
+
+### R147 问题逐条核销
+- **P0-1 固定 sleep 12 → 轮询就绪**：`wait_ready()`＝起后 2s 抓 splash 基准 → 每 3s 轮询（≤60s），连续两帧同 md5、≠基准、≥20KB 才返回；超时 die。核销：四图均落在 App 内容帧，无一为启动图。
+- **P0-2 tap 坐标 y=H-120 → H-90**：并新增 `assert_page_switch`（ledger 与同主题 home 同 md5 即 die）。核销：ledger 两帧标题「账本」、底栏「账本」高亮，与首页实质不同帧。
+- **P0-3 内容级防 splash**：`grab()` 与本轮 splash 基准比对；旧 splash 版（44/60KB）已被覆盖（home 207KB / ledger 205KB）。核销。
+- **P1 manifest 标签与画面不符**：四张 page 标签逐张目检一致（home=攒够首屏 / ledger=账本页）。核销。
+- **P2-1 启动口径**：补 `-no-snapshot-load`，与在册固定口径一致。核销。
+- **P2-2 收口归属**：`STARTED_BY_ME` 标记，自起才 `adb emu kill`。核销（复跑后 `adb devices` 空）。
+- **P2-3 验收③补跑**：本轮 504/504 与四闸回显在 REQ，监工复跑全量通过。核销。
+- 附带：bash 3.2 全角标点前 `${VAR}` 修复已在 diff 中，`bash -n` 与实跑双过。
+
+### 监工独立复跑（不采信自述）
+- 命令：`tool/shots.sh SB-052 --skip-build`（JAVA_HOME=openjdk@17）→ **EXIT=0，总耗时 1:44**（自起模拟器 + install + 两次 night 切换 + wait_ready 轮询）。
+- 产物：4 PNG + manifest（15:13 / commit `dd1d835`）；四张 md5 两两不同；复跑图与 builder 提审图版式逐张一致（仅状态栏时钟不同），管线**可复现**。
+- 页面内容核对（浅/深两组）：首页=「攒够」标题 + hero「本月支出 0.0 / 已记下、攒出在路上」+ 今日卡 + 最近 3 笔「食·¥38.5」+ 「示例数据」水印，底栏「首页」高亮；账本=「账本」标题 + 占比卡 + 角色卡 + 近期记录「餐饮·¥38.5」，底栏「账本」高亮。
+
+### 验收四项
+1. **PASS**：一条命令零人工产出 4 张（2 页 × 浅/深），内容与 golden 同版式（同区块顺序/同文案位）。
+2. **PASS**：提审单「实拍清单」段首例生效（本单）。SB-051 复拍将成为第二例。
+3. **PASS**：全量 504/504 绿（监工实跑）+ ci 四闸门 REQ 回显。
+4. **PASS**：业务码 0 行、pubspec 依赖 0 变更。
+
+### 新发现 P1（不阻本卡·不进本卡范围）
+四张实拍暴露 **首页第三块卡为空白壳**：`today_saved_row.dart:55-56` 在 `savedFen>0` 但文案不可换算时返回 `SizedBox.shrink`，而 `home_page.dart`（`_HomeTodaySaved`）外层 `Card + padding` 仍渲染 → 出现无字白/黑胶囊；与 2026-10-14 裁A「『今天攒出』日载体行必须常驻首页」相悖。属 **main 既有缺陷**（非本卡引入；修它必动 `app/lib/ui`，越本卡「不动业务码」授权）。
+处置：记 pending_items P1，备 **SB-053 草案**（隐藏空 Card 壳，单文件 ~5 行 + 一条回归），待 SB-051 收口后按见底自派开卡；本轮不增 WIP（052 尚未合入、裁A 冻结中）。
+
+### 模拟器冒烟
+**不发生**：`git diff --name-only e61e0f7..main -- app packages` = **0**（052 未合入、零业务码），锚维持 **e61e0f7**（票317 一条龙 PASS 仍有效）。本卡模拟器实跑仅作管线验收（同一 APK 树 dd1d835）。
+
+### 漂移与一致性审计（一行）
+禁词 `app/lib`=**2** 均元引用（`achievement.dart:13` 词表本体 / `goal_ladder.dart:7` 规则注释），用户可见 0 · ui 非 theme 裸 `Color(0x`=**0** · motion_spec/theme 外裸 `Duration(milliseconds:`=**0** · 真实账目/红线 0 · `_LOCK`=0 · stash=0 · porcelain=0 · 本地支 6 全在册（main / 052 在飞 / 051 / archive-051-r3 / 034 素材 / 048 素材，无 stray）· worktree 3（主仓 feat + sb048-verify + 临时 sup-r148，收轮删）· main 头 **51e8223** ↔ 本票最近归档轮吻合 · progress 唯一真相续登 · task_plan 8 行薄索引只读未动 · origin/main **a73f90c** 零触碰。
+
+### 反虚构自验
+- 「EXIT=0 / 1:44」行证＝本轮 `tool/shots.sh` 终端回显 + 四图 md5 + manifest(commit dd1d835)。
+- 「504 绿」行证＝终端 `00:26 +504: All tests passed!`。
+- **未合入 / 未归档**：`git ls-tree main docs/tasks/done/` 仍 47 张、无 SB-052；本卡按裁A **不合 main、不进 done/**，标「已审待合」。
+
+### 决策模型
+1 次 boolean「空卡缺陷是否应阻本卡」= **p=0.84**（>0.75）→ 按判：本卡 PASS，缺陷另卡闭环。
+
+### 利益点自省
+**更近一格**：管线第一次拍到用户真正看到的首页，并顺手照出一张空白卡——机制开始能看见产品的丑，比多审一轮更值钱。
+
+### 簿记
+落笔前 `rev-list main`=**731**，本票预期 **732**；下拍预登记 票360/**733**±builder 并发。
+
+监工签字：老油条 [supervisor R148]
