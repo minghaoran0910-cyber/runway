@@ -4348,3 +4348,60 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 **原地（第 26 轮不更远）**：用户端可见变化为零。SB-053 修的正是首页那张"空壳卡"——直接关系到"每天看见自己挪一步"的第一屏观感，但它在分支上已躺约 13 小时，卡在提审链（builder 写 REQ 被 /tmp 权限墙截断）和派发器分支守卫上。这两条不落地，产品再"守"也不会更近。
 
 监工签字：老油条 [supervisor R176]
+
+---
+
+# 票 388 · 2026-10-24 05:3x 巡检（R177 · 守场零新审）
+
+## 1. 新审判定（stat 实测）
+- `REVIEW_REQUEST.md` mtime = **1792740028**（Oct 23 15:20:28）
+- `REVIEW.md` mtime = **1792740932**（Oct 23 15:35:32）
+- REQ < REVIEW → **无新提审，本票不含审查结论**。
+- `grep -c "SB-053" REVIEW_REQUEST.md` = **0**：SB-053 未提审，按规则不审、不预读提审单。
+
+## 2. 现场（实测回显）
+- 工作树分支：`feat/SB-053-today-saved-card`，HEAD `a322a5b`（2026-10-23 15:51:28，未前进）
+- `git rev-list --left-right --count main...a322a5b` = **30 / 1**（feat 领先 1、落后 30）
+- `git diff --stat main..a322a5b` 业务面 = `home_page.dart +7`、`today_saved_row.dart +5`、`sb053_today_saved_card_test.dart +136`（新文件）→ 3 文件 +148，与 R149 认领时一致，**builder 卡在提审链，非施工中断**
+- `git status --porcelain` = 0 行｜`_LOCK` 不存在｜`git stash list` = 0
+- `git worktree list` = 1（主库）｜分支 7（main + 5 feat + 1 archive）
+- `git log -1 origin/main` = `a73f90c`（2026-10-20 18:17:11），`main...origin/main` = 170 / 0 → **remote 零触碰**
+- 并发：`pgrep -fl emulator|flutter|gradle` = 0｜`opencode run` = 0
+
+## 3. 队列同步
+- `docs/tasks/` 状态行实测：SB-021 = 挂起 v0.2｜SB-051 = 挂起（10-23 14:07 裁 B）｜SB-052 = 已审待合｜SB-053 = 待办（施工在分支、未提审）
+- 与快照 `runway-card-state.json` 的 queue **逐字零漂移** → 不推送
+- 待办卡 = 1 张（≤2 触发提醒，已在册）：因唤醒环停转 + A/B 待拍板，本轮不开新卡
+
+## 4. 模拟器冒烟
+**不发生**：`git diff --stat e61e0f7..main -- app/` = **0 行**，main 无新业务提交，锚点 `e61e0f7` 仍有效。`last_smoke_commit` 维持 `e61e0f7`。
+
+## 5. 漂移与一致性审计（每轮必做）
+- 亏欠框架禁词（没省|又花|喝掉|罪恶|浪费钱）：app/lib 命中 **2** 处，均为元引用（`goal_ladder.dart:7` 注释、`achievement.dart:13` 检测数组），**用户可见文案 = 0**
+- 裸 `Color(0x`：`app/lib/ui`+`app/lib/theme` 共 41 处（设计系统内允许）；**ui/theme 之外 = 0**
+- 裸 `Duration(milliseconds:`：`-v motion_spec` 后 = **0**
+- main 头 `1bc468c` ↔ REVIEW.md 最近归档轮 **R176/票387** 对应 ✓｜无 `_LOCK` 泄漏 ✓｜feat 无 stray（5 支全在册：034/048/051/052/052-shots-pipeline/053 中的 5 支 + archive 1）
+- `progress.md` 唯一真相｜`task_plan.md` = **8 行**薄索引（含"只读缓存·禁据决策"头）✓
+→ **审计结论：全绿，零 P1。**
+
+## 6. 唤醒环状态（沿册，不重复推送）
+- `runway-wake`（b0ea8424）enabled、schedule `15,45 * * * *` Asia/Shanghai、last status ok / suppressed / `empty`
+- 日志实测 **05:15:00 第 27 拍**空退：`退出：分支=feat/SB-053-today-saved-card 非 main（S0.2，等监工合入）`
+- 03:15 / 03:45 / 04:15 / 04:45 同因。根因未变：S0.2 分支守卫早于锁清理/S0.4/S0.5 → 树停在 feat 时环结构性停转；**A/B 提案 R155 已呈、R156 决策 p=0.26 灰区，R157–R177 按规定不重复推送，等浩然一句话**。
+
+## 7. 提示词三件套新鲜度（§8 自审）
+- 本巡检 prompt：现役（SB-053 卡号/状态、e61e0f7 锚、applicationId `com.zangou.runway`、v0.1.1 解冻口径均与现实吻合）→ **零 edit**
+- `runway-wake` = command 架构，argv 指向 `runway-wake-dispatch.sh`（3015 字节，2026-10-23 04:32 版）：脚本内**无卡号/无里程碑锚/无包名**，守卫全部文件驱动 → 无过时面，零 edit
+- `runway-watchdog` = agentTurn，message 指向"先读 LOOP.md watchdog 一节" + 未审先合核查 → 与 LOOP.md 现行版一致，零 edit
+- cron 三件套全 enabled（监工巡检/唤醒/watchdog）状态 ok
+
+## 8. 决策模型
+本轮无边界裁决（零新审、零合入、零派卡）→ **未调用**。
+
+## 9. 周一首轮【规范适配审查】
+今天为**周六**，非首轮义务轮 → 不发生（R149 已挂 P2 提案：LOOP S2 未含卡面状态判据，条文草案待周一）。
+
+## 10. 利益点自省
+**原地（第 27 轮不更远）**：用户端可见变化为零。真正能拉近距离的那张卡（首页空壳卡 = 第一屏观感）已在分支上躺 **13 小时 41 分**，卡在提审链 + 派发器守卫；两条都在等 A/B 落地，不在施工强度。
+
+监工签字：老油条 [supervisor R177]
