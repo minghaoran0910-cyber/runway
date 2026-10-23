@@ -3057,3 +3057,40 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 落笔前 `rev-list main`=**731**，本票预期 **732**；下拍预登记 票360/**733**±builder 并发。
 
 监工签字：老油条 [supervisor R148]
+
+---
+
+# 巡检票 360 · R149 — 2026-10-23 15:3x（守场零新审）
+结论: 无新审（守场）
+
+## 检查项
+- [x] 新审判据：`stat -f %m` 实测 REVIEW_REQUEST=**1792740028** / REVIEW=**1792740028**（相等→非新审），盘上 `git status --porcelain`=**0** 行。
+- [x] 队列比对：`docs/tasks/SB-*.md` 状态行实测 —— SB-052=**已审待合**（R148/票359）· SB-051=**挂起**（10-23 14:07 裁B）· SB-021=**挂起 v0.2**，与快照 queue 逐字一致 → **零漂移，不推送**。
+- [x] done 计数：`git ls-tree HEAD docs/tasks/done/` 实测 = **47** 张（与快照 doneCount 一致，SB-052 按裁A 未归档）。
+- [x] 冒烟义务：`git diff --name-only e61e0f7..main -- app packages tool pubspec.yaml` = **0** → **不发生**，锚维持 **e61e0f7**（票317 一条龙 PASS 仍有效）。
+- [x] 归档对应：main 头 **3f33442**（票359 R148）↔ REVIEW 最近归档轮吻合；无 feat 合入未审迹象。
+
+## 漂移与一致性审计（一行）
+禁词 `没省|又花|喝掉|罪恶|浪费钱` 全库 = **7 行全为元引用**（`achievement.dart:13` 词表本体 · `goal_ladder.dart:8` 规则注释 · 4 个测试断言表 · `docs/DESIGN_SYSTEM.md` 条款），**用户可见文案 0** · ui/theme 之外裸 `Color(0x` = **0** · motion_spec/theme 之外裸 `Duration(milliseconds:` = **0** · 真实账目/红线 **0** · `_LOCK`=**0** · stash=**0** · porcelain=**0** · 本地支 **6**（main + archive/SB-051-motion-r3 + feat 034/048/051/052，无 stray）· worktree **2**（主仓 main + sb048-verify；原 `/private/tmp/sup-r104` 陈旧临时树已清）· progress 唯一真相续登 · task_plan **8 行**薄索引只读未动 · origin/main **a73f90c** 零触碰。
+
+## 提示词新鲜度自审（每轮一步）
+- 巡检 message：锚块 15:2x 版逐项对现实核验 —— 最高卡号 **SB-052**（SB-053 仅草案无文件）✓ · SB-052 **已审待合** ✓ · SB-051 **挂起** ✓ · done **47** ✓ · 冒烟锚 **e61e0f7** ✓ · 裁A 冻结在册 ✓ · wake **b0ea8424** :15/:45 **ok**（15:15 实测 S0.2 空退，分支当时在 052 支）✓ · applicationId 实测 `com.zangou.runway`（build.gradle.kts:19）✓ → **零 edit**。
+- wake 三件套入参：`opencode run "读 LOOP.md，按状态机只做一件事，做完就退出；_LOCK 存在则直接退出"`（dispatch 脚本第 61 行实测）——不含卡号/版本锚，无过期面 ✓。
+- watchdog（abaa94c7）：agentTurn 文案指向 LOOP.md watchdog 节，无卡号锚，无过期面 ✓。
+
+## 本轮发现
+1. **P2（已处置）**：`/private/tmp/sup-r104` 为 R104 遗留临时 worktree（detached dade314、porcelain=0、mtime 10-22 19:02），属收轮未清；本轮 `git worktree remove` 干净摘除，现 worktree=2 在册。
+2. **P2（观察·规范提案挂周一）**：LOOP.md S2「新卡 = 编号未出现在 progress.md 的 done 记录里」**字面不含卡面状态判据**；当前 SB-052（已审待合）/SB-051、SB-021（挂起）三张卡在 progress 均无 done 记录，理论上可被 S2 再认领。实证反证：SB-021 挂起 13 天从未被误领、builder 按卡内开工令动作 → builder 实际尊重「状态：」行。故**只立提案不动规范**：周一规范审查呈条文草案「S2.1 增订：卡面状态为『挂起』『已审待合』者不视为新卡，跳过」。
+3. **无 P0/P1**：本轮零新审，无边界裁决 → `decision_evaluate` 调用 **0 次**（无判决可出）。
+
+## 反虚构自验
+- 「mtime 相等」「done=47」「diff=0」「registry 0」均为本轮终端回显，非叙述生成。
+- 「零漂移」指快照 queue 与卡面状态行逐字一致；**本票不含任何「已合入/已归档/冒烟 PASS」声明**（本轮无此类动作）。
+
+## 利益点自省
+**原地（不更远）**：守场轮只能保住已过的管线审结不被误领，产品本身没向前挪——真正的下一步「SB-053 首页空白卡修掉」还压在 051 收口与 tag 闸门后面。
+
+## 簿记
+落笔前 `rev-list main`=**732**，本票预期 **733**；下拍预登记 票361/**734**±builder 并发。
+
+监工签字：老油条 [supervisor R149]
