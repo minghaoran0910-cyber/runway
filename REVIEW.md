@@ -3315,3 +3315,49 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 落笔前 `git rev-list --count main` = **739**，本票预期 **740**。所有 hash / 计数 / 日志行均取自本轮终端回显，无叙述生成；本票**不含任何「已合入 / 已归档 / 冒烟 PASS」声明**。
 
 监工签字：老油条 [supervisor R154]
+
+---
+
+# 票 366 · R155 · 2026-10-23 18:30 守场轮（零新审 · 环第 5 空拍 · 19:00 闸正式排期提案）
+
+结论: **零新审（守场）** — REQ 未更新，本轮无审查义务；不判 PASS / 不判 REQUEST_CHANGES。
+
+## 一、审查义务判定（mtime 实测）
+- `stat -f "%m %Sm"`：REVIEW_REQUEST.md = **1792740028 / 2026-10-23 15:20:28**，REVIEW.md = **1792740932 / 2026-10-23 15:35:32** → REQ 旧于 REVIEW，**无新提审**。
+- `grep -c "SB-053" REVIEW_REQUEST.md` = **0**（exit 1 零命中）→ SB-053 仍未提审；本票**不预读** a322a5b 码体。
+- 提审失败根因沿 R154：builder 15:5x 的提审单只到了 wake 日志，写 `progress.md` / `REVIEW_REQUEST.md` 时被 `/tmp` 外部目录权限墙截断（日志实录 `permission requested: external_directory (/tmp/*); auto-rejecting` → `The user rejected permission`）→ 属**工具链事故**，非 builder 跳流程。
+
+## 二、队列同步（卡面 ↔ 快照 queue）
+- 逐卡一致 → **零漂移**：SB-053 待办（施工已提交未提审，`feat/SB-053-today-saved-card@a322a5b`，3 文件 +148 行，落后 main **5** 票）· SB-052 已审待合（裁A 冻结）· SB-051 挂起（14:07 裁 B）· SB-021 挂起 v0.2 · G 里程碑 G1~G11 ✓。
+- `git ls-tree -r --name-only main docs/tasks/done/ | wc -l` = **47**，与快照 doneCount 一致。
+- 待办卡 = **1**：本轮仍**不派新卡**（环死，派卡必卡死）→ 但已到闸点，转为第 ③ 类「需拍板」正式排期提案（见七）。
+
+## 三、模拟器冒烟义务
+- `git diff --stat e61e0f7..main -- app packages tool pubspec.yaml` = **0 行** → 义务不发生，锚点维持 **e61e0f7**。
+- `pgrep -f "emulator.*runway_api36" | wc -l` = **0**（无残留）。
+
+## 四、环状态（新增第 5 拍）
+- wake 日志连续 5 行：16:15:00 / 16:45:05 / 17:15:00 / 17:45:00 / **18:15:00**，均为 `退出：分支=feat/SB-053-today-saved-card 非 main（S0.2，等监工合入）`。
+- `runway-wake-dispatch.sh` 复核：第 13 行 `[ "$BR" = "main" ] || exit` 仍在第 16–23 行 `_LOCK` 死锁清理与 S0.4/S0.5 判定**之前** → 树一停 feat，S0.1 续做授权即不可达，机制缺陷成立。
+- 影响面（沿 R154）：从「没新活」升级为「活做完了也交不上来」——SB-053 已 commit 但 REQ 无法落笔 → 提审链断在写文件权限。
+
+## 五、漂移与一致性审计（一行结论）
+**全绿**：禁词于用户可见文案零命中（6 处命中全为元引用：`achievement.dart:13` 的 `achievementBannedWords` 白名单字面量、`goal_ladder.dart:7` 注释声明、3 个测试的 bad-string 断言）；`Color(0x` 排除 `ui/theme`/`motion_spec` = **0**、`Duration(milliseconds:` 同口径 = **0**；`_LOCK` 无、stash **0**、`status --porcelain` **0**、7 支零 stray、worktree 2（主库 + `/tmp/sb048-verify`）、PII/真实账目红线 **0**；main 头 `6f53e0e` ↔ 票 365（R154）对应 ✓；`task_plan.md` **8** 行（薄索引，只读缓存）· `progress.md` **289** 行为唯一真相注册表 ✓；`origin/main` 仍 `a73f90c`，**零触碰**。
+
+## 六、提示词新鲜度自审
+- 三件套核对：最高卡号 SB-053 ✓、包名 `com.zangou.runway` 冒烟口径 ✓、锚点 e61e0f7 ✓、唤醒时刻 :15/:45 ✓ → **零过时，本轮无 cron edit**（防 churn，周日/周一统一翻括注）。
+- 新增待改项（下批）：唤醒语须写「禁写 `/tmp`，一律仓库内 `.tmp/` 或 heredoc 直写」——本轮只立提案，不改文案（动 prompt 属机制改动，随 A/B 一并定）。
+- 周一规范适配审查：今日周五，不发生。
+
+## 七、决策模型（2 次调用，均灰区）
+- `unilateral_unstick`（监工自行执行方案 A：归档分支+切 main）→ **p=0.45**（0.25<p<0.75 灰区）→ **不编判决，留浩然拍板**。
+- `proposal_is_right_form`（提案目标定为「派发器增 S0.1 落孤授权」）→ **p=0.37** 灰区 → 不预设机制，随 A/B 一并呈报。
+- 两问同向指向：**动手替浩然定机制的把握不足**，按规则只提案不代批。
+
+## 利益点自省
+**原地偏更远（第五轮）**：产品仍未向「让用户以接近零成本天天看见自己挪一步」推进；五拍停摆且「做完的卡交不上来」，机制上已同构 SilentBook 旧病（环靠人一句话才转）。达到自设闸点 → 已升级为正式排期提案呈报浩然（见七），不再继续静默。
+
+## 簿记
+落笔前 `git rev-list --count main` = **740**，本票预期 **741**。所有 hash / mtime / 计数 / 日志行均取自本轮终端回显；本票**不含任何「已合入 / 已归档 / 冒烟 PASS」声明**（本轮无此类动作，done/ 仍 47）。记账经临时 main worktree `/tmp/sup-r155`（活树停 feat，直接主库写会记进分支），收轮删除。
+
+监工签字：老油条 [supervisor R155]
