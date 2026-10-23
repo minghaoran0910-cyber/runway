@@ -4405,3 +4405,72 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 **原地（第 27 轮不更远）**：用户端可见变化为零。真正能拉近距离的那张卡（首页空壳卡 = 第一屏观感）已在分支上躺 **13 小时 41 分**，卡在提审链 + 派发器守卫；两条都在等 A/B 落地，不在施工强度。
 
 监工签字：老油条 [supervisor R177]
+
+---
+
+## 巡检票 2026-10-24 06:00 · R178 / 票389
+
+**结论：无新审（PASS 无逐条理由）＋ WAITING_HUMAN 处置（按 SUPERVISOR 附录2 / LOOP S0-6）**
+
+### 1. 新审查：不发生
+- stat 实测：`REVIEW_REQUEST.md` mtime **1792792198**（2026-10-24 05:49:58）> `REVIEW.md` **1792740932**（2026-10-23 15:35:32）→ 文件确实翻新，但**内容不是提审**：
+  - `git diff REVIEW_REQUEST.md` 全文仅 +10 行，全部为 **runway-watchdog 2026-10-24 05:47 追加的「WAITING_HUMAN · 熔断登记」**段；
+  - 提审正文仍是既有 **SB-051** 单（10-23 15:20:28 版，已于 R147 裁 B 挂起）；`grep -c SB-053 REVIEW_REQUEST.md = 0` → **SB-053 仍未提审**。
+- 按 SUPERVISOR「REQ 新于 REVIEW 才审」的实质口径（新写入须为开发方提审），本轮**零审码、零预读**，不产出逐条裁决。
+- 处置：按 SUPERVISOR 附录第 2 条「含 WAITING_HUMAN → 停掉唤醒任务并通知浩然」，本拍执行停唤醒（见 §2）；熔断登记原文转录于 §2.2 后，工作树文件已 `git checkout --` 复原（保持树净，防下游误读为提审）。
+
+### 2. WAITING_HUMAN 处置
+#### 2.1 停唤醒（before/after 实测）
+- Before：`b0ea8424` runway-wake，enabled，schedule `15,45 * * * *` Asia/Shanghai，last = ok (suppressed)，日志 05:45:00 仍 `退出：分支=feat/SB-053-today-saved-card 非 main（S0.2）`（16:15 起 **28 拍连退**）。
+- Action：`openclaw cron disable b0ea8424`。
+- After：回读状态 = **disabled**（详见下方回显）；恢复条件 = 浩然在 A/B/C 中选定其一后由监工 `cron enable` 并按选定分支执行。
+- 依据：LOOP.md S0 守卫第 6 条原文"`REVIEW_REQUEST.md` 含 `WAITING_HUMAN` → 退出（等人工裁决，**唤醒任务应已被监工暂停**）"——即本次停机是状态机明文要求，非监工自选动作。
+#### 2.2 熔断登记原文（转录，防丢失）
+> 命中项：LOOP 清单②（当前分支非 main）。分支 `feat/SB-053-today-saved-card@a322a5b`（10-23 15:51:28 提交，3 文件 +148，未提审：grep SB-053 REVIEW_REQUEST.md=0），落后 main 30 票。
+> 停转实证：`~/.openclaw/logs/runway-wake.log` 自 10-23 16:15 起连续 ~28 拍全部 `退出：分支=feat/SB-053…非 main（S0.2）`，末拍 05:45:00；`_LOCK` 物理 0、stash 0。S0.2 守卫早于 S0.1 续做判定 → 树停在 feat 即结构性停转，builder 无法自愈。
+> 性质：非施工中断（分支内容与 R149 认领一致），是提审链断点（builder 写 REQ 被 /tmp 权限墙截断）+ 派发器分支守卫；连续多轮 sick，按 LOOP「连续两轮仍 sick 且 loop 实质停转」升格熔断。
+> 需人工三选一：(A) 给监工 S0.1 续做授权，指名该分支补提审；(B) 由监工代跑收尾（补 REQ→审→合）；(C) 丢弃 a322a5b、`git checkout main` 回滚，卡回 SB-053 待办。
+#### 2.3 监工未擅自做的（留给浩然）
+- 未 `git checkout main`：切换会清 S0.2 但使 **陈旧 SB-051 单**重新暴露给派发器（REQ 内容仍是旧单），且属"树/分支落点"类改动，等 A/B/C 一并定。
+- 未补写 SB-053 的 REQ、未审、未合、未删分支；`a322a5b` 原样保留（分支在，零丢失）。
+- 建议（供拍板参考，非裁决）：**B** 最快且零丢失——builder 已实证写不了 REQ（/tmp 权限墙是本机 ro 策略，非规范缺口），再由它试一次大概率复现同一断点；B 只补 REQ+审（裁A 冻结下审过也是「已审待合」），C 会白扔 3 文件+148 行，A 需先修派发器守卫才有意义。
+
+### 3. 队列同步（与快照逐条比）
+| 卡 | 卡面状态行实测 | 快照 | 判定 |
+|---|---|---|---|
+| SB-053 | 待办（R149 见底自派；施工在 feat@a322a5b，未提审） | 同 | 零漂移 |
+| SB-052 | 已审待合（R148 PASS；裁A 冻结） | 同 | 零漂移 |
+| SB-051 | 挂起（10-23 14:07 裁 B） | 同 | 零漂移 |
+| SB-021 | 挂起 v0.2 | 同 | 零漂移 |
+| done/ | **47**（`git ls-tree --name-only main docs/tasks/done/` 实测） | 47 | 零漂移 |
+- 待办卡 = 1 张（≤2 触发提醒，仍在册）：环停转 + A/B/C 待拍板 → **本轮不开新卡**（不推队列变化，零漂移）。
+
+### 4. 模拟器冒烟：不发生
+- `git diff --stat e61e0f7..main -- app/` = **空**（0 行）；main 无新业务提交，无 G 卡新 PASS。
+- 锚点 `last_smoke_commit` 维持 **e61e0f7**；emulator 未启动，零并发。
+
+### 5. 漂移与一致性审计
+- 亏欠框架禁词（没省|又花|喝掉|罪恶|浪费钱）：`app/lib` 命中 **2** = `achievement.dart:13`（禁词检测数组本体）、`goal_ladder.dart:7`（注释复述）→ **用户可见文案 = 0**。
+- 裸 `Color(0x`：`app/lib/ui`+`app/lib/theme` 之外 = **0**。
+- 裸 `Duration(milliseconds:`：`motion_spec` 之外 = **0**。
+- `_LOCK` 物理 = **0**；分支 = **7**（main + 034/048/051/052-shots/053 + archive/SB-051-r3）全在册零 stray；worktree = **1**（临时 /tmp/sup-r178 收轮删除）；porcelain 复原后 = **0**。
+- main 头 `248653f` ↔ REVIEW.md 最近归档轮 **R177/票388** 对应 ✓。
+- `progress.md` 唯一真相；`task_plan.md` = **8 行**薄索引（含"只读缓存·禁据决策"头）✓。
+→ **审计结论：全绿，零 P1。**
+
+### 6. 提示词三件套新鲜度（§8）
+- 巡检 prompt：SB-053（最高卡号实测 = SB-053）/ done 47 / 锚 e61e0f7 / applicationId `com.zangou.runway` 全部与现实吻合 → **零 edit**；唯一需改的现实是"wake 空转待 A/B"已变成"wake 已停"，下发文本本身无需改（A/B 措辞仍准确，补入 C 选项待浩然拍板后一并改）。
+- `runway-wake`：command 指向 `~/.openclaw/scripts/runway-wake.sh`（12 行），`grep SB-0|e61e0f7|com.zangou` = **0 命中** → 无过时面。
+- `runway-watchdog`：agentTurn，只指 LOOP.md watchdog 节 → 与现行 LOOP.md 一致。
+- cron 族：巡检 running / wake **本轮 disabled（本次处置）** / watchdog ok / 统一看门狗 ok / backup 04:30 suppressed。
+
+### 7. 周一首轮【规范适配审查】
+今天为**周六** → 不发生。挂账随周一：①LOOP S2 无卡面状态判据（R149 P2 草案）；②派发器 S0.1 落孤授权草案（R153 P2，decision p=0.37 灰区）；③"WAITING_HUMAN 后自动停唤醒"应写进 SUPERVISOR 附录条文（本轮已按 LOOP S0-6 手工执行，条款化待批）。
+
+### 8. 决策模型
+本轮无技术边界裁决（停唤醒为 LOOP 明文要求；A/B/C 属浩然拍板）→ **未调用**。
+
+### 9. 利益点自省
+**原地第 28 轮，机制面呈同构病**：用户端可见变化仍为零；单点人工依赖（一次 builder 写文件失败 → 整条环停 14h 无人自愈）与 SilentBook 旧病「要人盯着才转」同构 → 本轮把它从"观察"升格为**随 A/B/C 一并拍**的机制提案（附带 P2 落孤授权草案）。
+
+监工签字：老油条 [supervisor R178]
