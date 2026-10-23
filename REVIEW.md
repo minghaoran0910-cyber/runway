@@ -3094,3 +3094,11 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 落笔前 `rev-list main`=**732**，本票预期 **733**；下拍预登记 票361/**734**±builder 并发。
 
 监工签字：老油条 [supervisor R149]
+
+### 同轮追加（15:4x）· 见底自派开卡 SB-053
+- 触发：队列见底——SB-052 已审待合、SB-051 / SB-021 挂起，**待办卡 = 0**；按 SUPERVISOR「见底即自派授权」（②单卡 ≤10 文件 / ≤400 行，①在册证据）。
+- 开卡前实证（grep，非叙述）：`app/lib/ui/today_saved_row.dart:55` = `return const SizedBox.shrink(key: Key('todaySavedEmpty'))`，命中条件 `todaySavedText==null && !isZeroDay(savedFen)`；`app/lib/ui/home_page.dart:321` = 外层 `Card(child: Padding(... today inner ...))` 无条件渲染 → 空壳 Card。
+- 卡文：`docs/tasks/SB-053.md` · 状态 **待办** · 方案二选一（调用侧判定 / 组件侧 hasContent）· 回归测试锁「saved>0 且换算不出 → 无 Card」· 视觉保真闸门实拍条款 · 裁A 冻结（过审不合入）。
+- 落盘：commit **4993d30**（`git log --oneline -1` 回显），`git rev-list --count main` = **734**（与票内预登记 733 差 1，即本笔开卡提交，非 builder 并发）。
+
+> ⚡ 通知口径：本轮零推送（守场 + 自派均属常规结果，按 ⚡收口条款只落盘）。下次若需浩然拍板：SB-051 是否在 tag 前解冻（其补拍依赖未合入的 052 管线，跨支取用属边界）。
