@@ -4474,3 +4474,55 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 **原地第 28 轮，机制面呈同构病**：用户端可见变化仍为零；单点人工依赖（一次 builder 写文件失败 → 整条环停 14h 无人自愈）与 SilentBook 旧病「要人盯着才转」同构 → 本轮把它从"观察"升格为**随 A/B/C 一并拍**的机制提案（附带 P2 落孤授权草案）。
 
 监工签字：老油条 [supervisor R178]
+
+---
+
+# 票 390 · 监工巡检 R179（2026-10-24 06:3x · 守场）
+
+结论: **无新审 · WAITING_HUMAN 继续 · 全绿**
+
+### 1. 提审闸门
+- `stat -f %m`：`REVIEW_REQUEST.md`=**1792793015**（06:03:35）< `REVIEW.md`=**1792793016**（06:03:36）→ **不审**。
+- REQ 与 main 无 diff（`git diff main --stat -- REVIEW_REQUEST.md` 空），内容仍为 SB-051 重开首审旧文，非新提审。
+- `grep SB-053` 于 REQ = 0 → SB-053 **仍未提审**，按规则不审、不预读、不改码。
+
+### 2. 队列（卡面状态行逐条实测 vs 快照）
+| 卡 | 卡面状态 | 快照 | 一致 |
+|---|---|---|---|
+| SB-053 | 待办（R149 自派；feat@a322a5b 15:51 后零前进，已躺 ~14h40m） | 待办 | ✓ |
+| SB-052 | 已审待合（R148/票359 PASS，裁A 冻结） | 已审待合 | ✓ |
+| SB-051 | 挂起（R146 裁B，补拍依赖 052 管线） | 挂起 | ✓ |
+| SB-021 | 挂起 v0.2 | 挂起 v0.2 | ✓ |
+- done/ = **47**（`git ls-tree --name-only main docs/tasks/done/ | wc -l` 实测）。
+- 待办卡 = **1**（≤2）：按条应提醒排下一批；但 wake 仍 disabled、A/B/C 未拍，开卡只会堆积 → 与 R178 同处置，**不新开卡**。
+
+### 3. 模拟器冒烟
+- 判据：`git diff --stat e61e0f7..main -- app/` = **空** → 锚点 e61e0f7 仍覆盖 main，无新 app 代码合入 → **本轮不发生**（快照 `last_smoke_commit` 维持 e61e0f7）。
+
+### 4. 环状态
+- `openclaw cron list --all`：wake **b0ea8424 disabled**（last run 46m ago ≈05:45），88a8e128/91c081bc/b71bf570/f859efc9 均 disabled 在册；巡检 running；watchdog ok。
+- 环停转原因未变：LOOP S0-6 明文「WAITING_HUMAN → 唤醒任务应已被监工暂停」+ 派发器 S0.2 分支守卫（树停 feat 即退）。**等浩然 A/B/C**，监工不擅自 enable。
+
+### 5. 漂移与一致性审计（一行结论）
+**禁词(没省|又花|喝掉|罪恶|浪费钱) = 6 行全在册 meta**（achievement.dart:13 禁词表本体、goal_ladder.dart:7 注释复述、test 反向断言 cooloff:183/experiment:148/goal_ladder:127/sb049:111），**用户可见违例 = 0**；**ui/theme 与 motion_spec 外裸 Color(0x = 0**、**裸 Duration(milliseconds: = 0**；`_LOCK` 物理=0、stash=0、主仓 porcelain=0、worktree=1（仅主库）、分支 7 支全部在册（main + feat/SB-053@a322a5b + feat/SB-052-shots@dd1d835 + feat/SB-051-motion@12e2b95 + feat/SB-034@e576624 + feat/SB-048@3ae7522 + archive/SB-051-motion-r3）；main 头 72c7baa = 票389/R178 归档轮 ✓；progress.md 唯一真相、task_plan.md 8 行薄索引 ✓。
+
+### 6. 三件套提示词新鲜度自审
+- 现役 wake = **b0ea8424 → `sh /Users/dada561/.openclaw/tools/runway-wake-dispatch.sh`**（66 行）：脚本内 `grep -nE 'SB-0[0-9]+|applicationId|com\.zangou|docs/tasks/done'` **零命中** → 无硬编码卡号，卡号经 LOOP.md 运行时读取，不随卡号迭代失效 ✓。
+- watchdog = agentTurn，读 LOOP.md watchdog 节运行时执行，无卡号耦合 ✓；附带核查「合入是否有 REVIEW 归档轮」与现行巡检条款一致 ✓。
+- 口径核对：`app/android/app/build.gradle.kts:19 applicationId = "com.zangou.runway"` 与冒烟 `am start -n com.zangou.runway/.MainActivity` 现行口径一致 ✓；done/ 路径与归档实测路径一致 ✓；巡检时点 :00/:30 与 wake :15/:45 错峰无冲突 ✓。
+- **结论：三件套零过时，本轮无 cron edit。**
+
+### 7. 周一首轮【规范适配审查】
+今天**周六** → 不发生。挂账随周一：①LOOP S2 无卡面状态判据；②派发器 S0.1 落孤授权草案（decision p=0.37 灰区）；③「WAITING_HUMAN 后自动停 wake」应入 SUPERVISOR 附录条文（本轮仍按 LOOP S0-6 手工执行）。
+
+### 8. 决策模型
+本轮无技术边界裁决（停 wake 属 LOOP 明文；A/B/C 属浩然拍板）→ **未调用**。
+
+### 9. 利益点自省
+**原地第 29 轮**：用户端可见变化仍为零；环仍靠人盯着才能转（单点人工依赖）——与 SilentBook 旧病同构，机制提案已于 R178 随 A/B/C 一并上呈，本轮不重推。**若下一轮仍无浩然回音，将升级为默认动作提案（B 案：监工代跑收尾）以求脱离单点依赖。**
+
+### 10. 反虚构自验
+- 本票所有数字（REQ/REVIEW mtime、done=47、diff 空、禁词 6、裸值 0/0、分支 7、worktree 1、脚本 66 行、applicationId 行号）均为本轮终端回显。
+- **本票不含任何「已合入/已归档/冒烟 PASS」声明**（本轮无此类动作）。
+
+监工签字：老油条 [supervisor R179]
