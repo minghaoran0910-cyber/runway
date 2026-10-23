@@ -3102,3 +3102,46 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 - 落盘：commit **4993d30**（`git log --oneline -1` 回显），`git rev-list --count main` = **734**（与票内预登记 733 差 1，即本笔开卡提交，非 builder 并发）。
 
 > ⚡ 通知口径：本轮零推送（守场 + 自派均属常规结果，按 ⚡收口条款只落盘）。下次若需浩然拍板：SB-051 是否在 tag 前解冻（其补拍依赖未合入的 052 管线，跨支取用属边界）。
+
+---
+
+# 巡检票 361 · R150 — 2026-10-23 16:0x（守场零新审 + 施工中观察 + 提示词锚块修正）
+结论: 无新审（守场）；SB-053 builder 施工中，未提审
+
+## 检查项
+- [x] 新审判据：`stat -f %m` 实测 REVIEW_REQUEST=**1792740028**（15:20:28）/ REVIEW=**1792740932**（15:35:32）→ REQ 更旧 = **非新审**；主树 `git status --porcelain`=**0** 行。
+- [x] 队列比对：卡面状态行实测 —— SB-053=**待办**（R149 自派，卡内已写裁A 冻结口径）· SB-052=**已审待合**（R148/票359）· SB-051=**挂起**（10-23 14:07 裁B）· SB-021=**挂起 v0.2** → 与快照 queue **逐条一致，零漂移，不推送**；待办卡 = 1（SB-053），未触发≤2 提醒（下批排期仍压在 051 解冻/tag 闸门）。
+- [x] done 计数：`git ls-tree main docs/tasks/done/` = **47**（与快照 doneCount 一致；SB-052 按裁A 未归档）。
+- [x] 冒烟义务：`git diff --stat e61e0f7..main -- app/` = **空**（0 文件）→ **不发生**，锚维持 **e61e0f7**；main 无新合入（521fc1d 即 R149 票360 提交）。
+- [x] 归档对应：main 头 **521fc1d** ↔ 本票上一轮（票360/R149）在册；无 feat 未审先合迹象；origin/main **a73f90c** 零触碰。
+
+## 新观察（只记名，不审内容）
+- builder 于 **15:51:28** 在 `feat/SB-053-today-saved-card` 提交 **a322a5b**「fix(home): 首页今日攒空壳Card不渲染 [SB-053]」，`git diff --stat 521fc1d..a322a5b` = **3 文件 +148 行**（`app/lib/ui/home_page.dart` +7 / `app/lib/ui/today_saved_row.dart` +5 / `app/test/sb053_today_saved_card_test.dart` +136）→ 文件数 3（卡限 ≤3）、行数合限。
+- `_LOCK` 实测存在：内容 `80886 2026-10-23 15:45:52 SB-053`，属**在役 builder 锁**（非泄漏）；同期 gradle daemon 进程在跑（疑在跑测试/构建）。
+- REVIEW_REQUEST 仍是 SB-051 旧单（15:20:28），builder **未提审** → 按手册「REQ 更新才审」**本轮不进入审码、不预读 diff 内容**；下一轮 REQ 变新再按卡逐条验收（含视觉保真闸门实拍：空态/有数态/缺陷场景对照三帧 + 独立「审美审计」小节）。
+
+## 漂移与一致性审计（一行）
+禁词 `没省|又花|喝掉|罪恶|浪费钱`（`app/lib`+`docs` 范围）= **3 行全为元引用**（`achievement.dart:13` 词表本体 · `goal_ladder.dart:7` 规则注释 · `docs/DESIGN_SYSTEM.md:86` 条款），**用户可见文案 0** · 裸 `Color(0x`（ui/theme 外）= **0** · 裸 `Duration(milliseconds:`（`motion_spec.dart` 外）= **0**（18 行全部落在 motion_spec） · 真实账目/红线 **0** · `_LOCK`=**1（在役，非泄漏）** · stash=**0** · porcelain=**0** · 本地支 **7**（main + archive/SB-051-motion-r3 + feat 034/048/051/052/053，无 stray） · worktree **2 在册**（主仓 + `/private/tmp/sb048-verify`，另本轮临时 `/tmp/sup-r150` 收轮即摘） · progress 唯一真相续登 · task_plan **8 行**薄索引未动。
+
+## 提示词新鲜度自审（每轮一步）
+- **过期已修**：巡检 message 锚块原写「最高卡号=SB-052」+「SB-053 草案待开卡」——现实已开卡并进入施工（4993d30 开卡、a322a5b 施工、锁在役）→ 本轮 `cron edit` 改锚块为 **10-23 16:0x 现行**：最高卡号 **SB-053**（施工中，未提审不审）· SB-052 **已审待合** · SB-051 **挂起**（补拍依赖未合入的 052 支）· SB-021 挂起 v0.2 · tag 待 SB-012 真人闸门 · done 47。
+  - 回读自验：`openclaw cron get` 前后对比 —— 文案长度 **5409 → 5405**，`SAME_MSG=False`（改动落地），`SCHED_SAME=True`（`*/30 * * * *` 不变），`enabled=True`，锚点 `10-23 16:0x` 命中，`AGENT=main`。
+- wake 三件套：`runway-wake` = command 派发 `sh /Users/dada561/.openclaw/tools/runway-wake-dispatch.sh`（脚本 66 行，`grep "SB-0"` 仅 1 命中＝S0.6 注释）→ **不含卡号/版本锚，无过期面**；`lastRunStatus=ok (suppressed)`，`nextRunAt` 16:15，与巡检 :00/:30 错峰。
+- watchdog（`runway-watchdog`, abaa94c7）：agentTurn 文案指向 `LOOP.md` watchdog 节，无卡号锚 → 无过期面。
+
+## 本轮发现
+1. **P2（已处置）**：提示词锚块过期（SB-052→SB-053 施工态）→ 已 `cron edit` 修正并双次回读，见上。
+2. **P2（观察·沿用挂账）**：SB-051 解冻/跨支取用 052 管线属边界，待浩然一句话；LOOP S2「挂起/已审待合 不算新卡」条文草案仍挂周一规范审查。
+3. **无 P0/P1**；本轮零新审、无边界裁决 → `decision_evaluate` **0 调用**。
+
+## 反虚构自验
+- 本票所有 hash（a322a5b / 521fc1d / a73f90c / e61e0f7）、数字（47 / 735 / 3 文件 148 行 / 5409→5405）均来自本轮终端回显。
+- 本票**不含任何「已合入/已归档/冒烟 PASS」声明**：SB-053 未审未合，app 层 main 零变化。
+
+## 利益点自省
+**原地（不更远）**：SB-053 修的是「用户看见一张空白卡」这种无感缺陷，价值真实但还停在分支上未过审未合入——产品离「天天看见自己挪一步」仍差同样的距离，本轮只把监工自己的口径对齐了现实。
+
+## 簿记
+落笔前 `git rev-list --count main`=**735**，本票预期 **736**。
+
+监工签字：老油条 [supervisor R150]
