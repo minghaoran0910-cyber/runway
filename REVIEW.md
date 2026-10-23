@@ -3145,3 +3145,44 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 落笔前 `git rev-list --count main`=**735**，本票预期 **736**。
 
 监工签字：老油条 [supervisor R150]
+
+---
+
+# 巡检票 362 · R151 — 2026-10-23 16:3x（守场零新审 + P1 半截事故：环已停转，待浩然拍板）
+
+结论: **PASS（守场 · 零新审）** — 本轮无提审、无合入、无冒烟义务；另列 **P1 流程事故**一项（builder 半截死亡致唤醒环停转），按决策灰区不擅动，留浩然拍板。
+
+## 检查项
+- [x] **新审判定（实测）**：活工作树 `stat -f %m` → `REVIEW_REQUEST.md`=1792740028（15:20:28） < `REVIEW.md`=1792740932（15:35:32）→ 非新审。正文核对：REQ 标题仍为「SB-051 §6动效体系四页落地」提审单，`grep -n SB-053 REVIEW_REQUEST.md` = **0 命中** → SB-053 **未提审**，按规则不审、不预读。
+- [x] **队列比对（卡面状态行实测）**：SB-053=**待办**（R149 自派，卡内裁A 冻结口径在位）· SB-052=**已审待合**（R148/票359 PASS）· SB-051=**挂起**（10-23 14:07 裁B）· SB-021=**挂起 v0.2** → 与快照 `runway-card-state.json` queue 逐条一致，**零漂移**。待办卡=1，未触发「≤2 提醒」（下批排期仍压在 051 解冻与 tag 闸门）。**不推送**（⚡条款）。
+- [x] **冒烟义务**：`git diff --stat e61e0f7..main -- app packages tool pubspec.yaml` = **空（0 文件）** → **不发生**，锚维持 **e61e0f7**；本轮未起模拟器（pgrep emulator=0）。
+- [x] **归档对应**：main 头 **20d2695** = 上一轮（票361/R150）落点，REVIEW.md 内实测存在 `# 巡检票 361 · R150` 段 → 对应成立；origin/main=**a73f90c**，本轮零 fetch/零 push/零触碰。
+- [x] **done 计数**：`git ls-tree -r --name-only main docs/tasks/done/ | wc -l` = **47**。
+- [x] **真相注册表**：`progress.md` 仍为完成记录唯一真相；`task_plan.md` 首段自述「只读缓存·薄索引，禁止据此决策」→ 16:31 浩然批准的 3a9d763 形态未回退。
+- [x] **提示词三件套自审**：wake=`b0ea8424`（command 架构派发器 `~/.openclaw/tools/runway-wake-dispatch.sh`）enabled/ok；watchdog=`abaa94c7` enabled/ok（consecutiveErrors=0）。口径核对：最高卡号 **SB-053** ✓、done **47** ✓、冒烟锚 **e61e0f7** ✓、包名 `applicationId = "com.zangou.runway"`（`app/android/app/build.gradle.kts:19` 实测）✓、冒烟命令 `am start -n com.zangou.runway/.MainActivity` ✓。**唯一偏差**：派发器只实现 S0.2 分支守卫，**未实现 LOOP.md S0.1 续做授权放行** → 见 P1-2。
+
+## P1 流程事故：builder 半截死亡，唤醒环已停转（本轮核心）
+**事实链（全部来自本轮命令回显）**：
+1. `feat/SB-053-today-saved-card@a322a5b`（Fri Oct 23 15:51:28 2026 +0800，3 文件 +148 行，Agent: opencode）——代码与回归测试**已提交**。
+2. `progress.md` 未追加、`REVIEW_REQUEST.md` 未更新（仍是 SB-051 单）→ 未进入提审态。
+3. wake 日志实录根因：builder 把 progress 临时文件写到 **`/tmp/prog_base.txt`**，被 opencode 权限墙拒绝（`permission requested: external_directory (/tmp/*); auto-rejecting` + `Error: The user rejected permission to use this specific tool call.`）→ 违反 LOOP.md 顶部既有铁律「工作区外（`/tmp` 等）一律拒绝，绝不放 `/tmp`」。失败后进程退出。
+4. `_LOCK` 残留 `80886 2026-10-23 15:45:52 SB-053`，`ps -p 80886` **无输出**（PID 已死）= 死锁；按 LOOP S0.3 属可删残留。
+5. 派发器 16:15 实录：`退出：分支=feat/SB-053-today-saved-card 非 main（S0.2，等监工合入）`。工作树自 15:51 起停在 feat → **之后每 :15/:45 都会在此退出**，环已停转；且脚本分支守卫在锁清理之前，死锁不会被自动清。
+**根因**：①builder 单轮内用了 `/tmp`（流程违规，非规范缺口）；②派发器与 LOOP.md S0.1（崩溃现场续做）**实现不一致**——续做授权无放行通道，故半截分支只能等人工。
+**处置**：本轮**未擅动**（未删分支/未切树/未删锁/未审码）。`decision_evaluate`（state=卡文+证据+LOOP/裁A 条款，boolean「A 存档重开 vs B 保持分支等待」）→ **p=0.69 灰区** → 按规不编判决，**留浩然拍板**（选项见简报）。决策p=0.69。
+
+**附带 P1（卡参数与在册能力冲突）**：SB-053 卡要求「模拟器实拍三帧」作为视觉闸门证据，而 `tool/shots.sh` 只存在于**未合入**的 `feat/SB-052-shots-pipeline`（裁A 冻结），main 的 `tool/` 仅 5 个脚本（实测）。→ 即使 builder 正常提审，实拍证据链仍会卡在跨支取用。下批修订卡文时应写明「实拍走 `adb exec-out screencap` 手工三帧，不依赖 052 支」，本条不代改卡（卡改动按规请示）。
+
+## 漂移与一致性审计（一行结论）
+禁词（没省|又花|喝掉|罪恶|浪费钱）全库 40 行命中**全为元引用**：`app/lib/logic/achievement.dart:13` 禁词表本体、`goal_ladder.dart:7` 注释复述、test 断言与规范原文/归档票 → **app/lib 真实 UI 文案命中 0**；`ui/theme`、`motion_spec` 之外裸 `Color(0x` = **0**、裸 `Duration(milliseconds:` = **0**；main 头 20d2695 ↔ 票361/R150 ✓；分支 7 条全在册（main+archive/SB-051-motion-r3+feat×5）**零 stray**；`_LOCK`=**1 死锁残留**（P1，见上）；stash=0；worktree 主库+`/private/tmp/sb048-verify`（在册）；porcelain=0；红线（真实账目数据）=0 触发。
+
+## 本周节奏
+周五，非周一 → 无【规范适配审查】义务；LOOP S2 增订草案（挂起/已审待合不算新卡）与 wake 括注统翻仍挂周一。
+
+## 利益点自省
+本轮只守场+暴露事故、未推进代码 → 对「让用户零成本天天看见自己挪了一步」**持平**（既未更近也未更远）；但环停转 1 轮属于机制摩擦，若连续两轮不恢复将按规升级为排期提案。
+
+## 簿记
+落笔前 `git rev-list --count main`=**736**，本票预期 **737**。
+
+监工签字：老油条 [supervisor R151]
