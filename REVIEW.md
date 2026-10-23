@@ -3509,3 +3509,62 @@ REVIEW 2026-10-22 SB-051/8帧golden（守场·零新审）
 **原地（第 8 轮）**：守场与簿记修补保证已过审成果不被误领、账不再漏记，但用户端零变化；让人「一眼看见今天攒到了什么」的首页空壳卡修法仍卡在提审链与环停转之后。升级动作已于 R155 完成，机制侧等浩然拍 A/B，本轮不再新增。
 
 监工签字：老油条 [supervisor R158]
+
+---
+
+## 【票370 · R159】2026-10-23 20:30 巡检（守场零新审 · 结论 PASS · 无新审/无合入/无冒烟义务）
+
+### 1. 新审判定：零新审（三实测）
+- `stat -f %m`: `REVIEW_REQUEST.md` = 1792740028（2026-10-23 15:20:28） **<** `REVIEW.md` = 1792740932（15:35:32）→ 无新提审。
+- `grep -c "SB-053" REVIEW_REQUEST.md` = **0**；`git rev-parse --short feat/SB-053-today-saved-card` = **a322a5b**（与 R158 拍点一致，无新提交）→ builder 未提审，按规则**不审、不预读**。
+- 提审链断因沿册不变：builder 15:5x 的 `cp progress.md /tmp/prog_base.txt` 被宿主 `external_directory (/tmp/*)` 权限墙 auto-reject + user reject（wake 日志原文在册），progress/REQ 均未落盘 → 属 LOOP.md「工作区外一律拒绝」明写条款下的**违规操作**，非规范缺口。
+- 另注（非违规）：feat 树 `REVIEW.md` md5 = `276679f2…` ≠ main `87d622bf…`，因该分支基于 521fc1d 切出、未同步后续监工票；账本真相始终以 main 为准，本轮记账亦在临时 main worktree 进行。
+
+### 2. 队列同步：零漂移（快照→实测一致）
+| 卡 | 卡面状态（docs/tasks 实测行） | 与快照 |
+|---|---|---|
+| SB-053 | 待办·施工在分支未提审（feat@a322a5b，3 文件 +148 行） | 一致 |
+| SB-052 | 已审待合（R148 PASS，feat@dd1d835，裁A 冻结） | 一致 |
+| SB-051 | 挂起（R146 裁B，feat@12e2b95 原样） | 一致 |
+| SB-021 | 挂起 v0.2（10-10 浩然拍板摘出 v0.1） | 一致 |
+| G 里程碑 | G1~G11 ✓，tag v0.1.0 待 SB-012 七天真人闸门 | 一致 |
+
+- `git ls-tree HEAD docs/tasks/done/ | wc -l` = **47**（实测回显），与快照 doneCount 一致。
+- **待办卡 = 1 张（SB-053）≤ 2 → 触「提醒监工排下一批」条款**：本轮记录在册；实际排卡被环停转（S0.2 守卫）与 A/B 待拍板双重阻塞，此时再开卡只会堆成第三张「审不了也合不了」的挂账卡，故本轮**不开新卡**（见底自派④的前提是「队列见底」，现尚有 1 张待办在施工中，不成立）。
+- 分支落后实测：`feat/SB-052-shots-pipeline` behind main **54**、`feat/SB-051-motion` behind **19**、`feat/SB-053` behind **9** / ahead **1** → 三支合入前均需 rebase 或只挑业务文件（P1 沿册）。
+
+### 3. 模拟器冒烟：不发生（无义务）
+- `git diff --stat e61e0f7..HEAD -- app lib tool pubspec.yaml pubspec.lock` = **空输出（0 行）** → 锚点 `e61e0f7` 仍覆盖 main 全部 app 域，正式冒烟义务不发生。
+- main 无新合入（head `26e8b89` = R158 票，20:02:59），无 G 卡本轮 PASS → 不满足「必做」两条件。
+- 进程实测：`pgrep emulator|qemu` = 0、`pgrep flutter|gradle`（除 opencode）= 0，无并发冲突。
+
+### 4. 漂移与一致性审计（全绿 + 1 项新清理）
+- 亏欠框架禁词 `没省|又花|喝掉|罪恶|浪费钱` = **7 行全为元引用**：`app/test/` 夹具 4（sb049_experiment_copy_test:111 / cooloff_test:183 / experiment_test:148 / goal_ladder_test:127 黑名单）+ `app/lib/logic/goal_ladder.dart:7` 与 `achievement.dart:13`（禁词黑名单/注释）+ `docs/DESIGN_SYSTEM.md:86`（规范条文）→ **零用户可见文案**，合规。
+- `Color(0x` 在 `app/lib` 非 theme 域 = **0**；theme 内 41 处为 token 白名单。`Duration(milliseconds:` 共 18 处，**全部**在 `app/lib/ui/theme/motion_spec.dart`，motion_spec 外 = **0**。
+- PII/手机号/真实账目 grep = **0**；`git stash list` = 0；`_LOCK`/`index.lock` = 0；porcelain（repo 树）= 空。
+- 分支 7 支（main + 5 feat + 1 archive）零 stray；main head `26e8b89` ↔ 本文件 R158 票闭环 ✓；`task_plan.md` = 8 行薄索引 ✓（progress.md 285 行，唯一真相注册表）。
+- **本轮新发现（P2·已自清）**：残留 worktree `/private/tmp/sb048-verify`（detached `b7dcfd2`，占用 **2.1G**，最后改动 10-21 13:02，porcelain 干净）——自 10-21 SB-048 验证后遗留，R158 记「worktree2→1」与实际不符（当时未实测该目录）。本轮 `git worktree remove` 已清（exit=0，目录已消失，worktree list 3→2，收轮后→1）。教训入册：worktree 计数须 `git worktree list` 实测，不抄上轮结论。
+
+### 5. 环停转第 9 拍（P1·已在册，无翻转不重复推送）
+- wake 日志实测新增：`[2026-10-23 20:15:00 dispatch] 退出：分支=feat/SB-053-today-saved-card 非 main（S0.2，等监工合入）` → 16:15 起累计 **9 拍**全空退。
+- 根因不变：派发器第 13 行 `[ "$BR" = "main" ]` 早于第 16–23 行死锁清理与 S0.4/S0.5 判定 → S0.1 续做不可达。
+- 提案状态：R155 A/B 已呈报、R156 补 p=0.26 灰区，**仍待浩然拍板**；按通知收口条款本轮零推送。
+
+### 6. 三件套新鲜度自审（零过时）
+- `openclaw cron list` 实测：巡检 `19b5f29f`（*/30，running）· runway-wake `b0ea8424`（`15,45 * * * *` Asia/Shanghai，command 型派发器，lastStatus=ok/suppressed，lastDuration=70ms，next 20:45）· runway-watchdog `abaa94c7`（every 2h，ok）· 统一看门狗 `169be936`（`0 */2`，ok）。退役 wake `88a8e128`/`91c081bc` 不在活动列表（disabled 在册）。
+- 唤醒入参实测全文 = `读 LOOP.md，按状态机只做一件事，做完就退出；_LOCK 存在则直接退出`，与 `LOOP.md` 第 4 行「期望的唤醒语」**逐字一致**，无硬编码卡号/包名/路径。
+- 事实核对：最高卡号 SB-053 ✓（`docs/tasks` 实测）· builder 分支 `a322a5b` 3 文件 +148 行 ✓（`git show --stat`）· `_LOCK` 0 ✓ · `applicationId = "com.zangou.runway"` ✓（`app/android/app/build.gradle.kts:19`）· done=47 ✓ · 锚点 `e61e0f7` diff 0 ✓。
+- 当天无超时连败、无时间参数失配 → **本轮零 cron edit**。
+
+### 7. 决策模型
+本轮零新审、零合入、零卡面变更、无 D 级偏差/返工/验收冲突 → **未调用 decision_evaluate**；A/B 提案 p=0.26 灰区结论沿用 R156，不回炉重算。清理残留 worktree 属本地可逆低风险操作（已核 porcelain 干净 + 保留 hash `b7dcfd2` 可复现），不构成边界裁决。
+
+### 8. 反虚构自验
+- 本票数字（1792740028 / 1792740932 / 47 / 7 / 18 / 41 / 54 / 19 / 9 / 1 / 0 / 2.1G / 70ms）**全部来自本轮终端回显**，无叙述生成。
+- 本票**不含任何「已合入 / 已归档 / 冒烟 PASS」声明**；未触碰 `git remote`、未改业务代码、未动 `docs/tasks/*.md`。
+- 提交后自验三连（下条如实回填）：`git -C /tmp/sup-r159 log --oneline -1` / `git ls-tree HEAD docs/tasks/done/ | wc -l` / `grep -c "票370" REVIEW.md`。
+
+### 9. 利益点自省
+**原地（第 9 轮）**：清掉 2.1G 垃圾与补齐账本让机器更干净，但用户端依旧零变化；「一眼看见今天攒到了什么」的首页空壳卡修法仍卡在提审链与环停转之后。机制侧等浩然 A/B，本轮不新增提案。
+
+监工签字：老油条 [supervisor R159]
