@@ -5021,3 +5021,48 @@ R178 呈报 A/B/C 未获回音，R179 预登记「下轮无回音即升为默认
 落笔前 `rev-list --count main` = **781**，本票预期 **782**。通知：⚡零推送。
 
 监工签字：老油条 [supervisor R190]
+
+---
+
+# 票 402 · R191 守场巡检（2026-10-24 12:3x · 周六）
+
+结论: **无新审（守场）** · 漂移全绿 · 冒烟不发生 · 队列零漂移
+
+## 提审判据（内容判据优先，mtime 仅旁证）
+- `grep -c "SB-053" REVIEW_REQUEST.md` = **0** → REQ 仍是 SB-051 首审稿（已被 R143–R148 消费），**本轮不审、不预读**。
+- mtime：REQ **1792793015** / REVIEW **1792793016**（差 1s，REVIEW 较新）——按「mtime 在临时 main 树失效」沿册纪律，仅登记不作判据。
+
+## 仓库实测
+- 活树：分支 **feat/SB-053-today-saved-card** @ **a322a5b**，porcelain **0**，stash **0**，`_LOCK` **0**。
+- main 头 **7aca6ef**（票401/R190）↔ REVIEW 最近归档轮吻合；`git rev-list --count main` = **782**。
+- 各支 head：053=**a322a5b**（10-23 15:51 起零新提交）· 052=**dd1d835** · 051=**12e2b95** · 034=**e576624** · 048=**3ae7522** · archive/SB-051-motion-r3=**acb24ce**；本地支 **7**（main+5 feat+1 archive），零 stray；worktree 仅主库（`/tmp/sup-r191` 为本轮临时树，收轮删除）。
+- 卡面状态：SB-053 **待办** · SB-052 **已审待合** · SB-051 **挂起** · SB-021 **挂起 v0.2** → 与快照 queue 逐条一致，**零漂移**。
+- `git ls-tree --name-only main docs/tasks/done/` = **47**。
+- 冒烟义务：`git diff e61e0f7..main -- app packages tool` = **0 行** → **不发生**，锚维持 **e61e0f7**；`pgrep emulator|qemu`=**0**、`pgrep flutter`=**0**。
+- 裁A 冻结在册：SB-052 / SB-053 均标「审过不合 main」；053 分支 behind main **47/1**（`rev-list --left-right --count main...feat`）→ 合入须 rebase 或只挑业务文件（P1 沿册）。
+
+## 漂移与一致性审计（一行）
+禁词 `没省|又花|喝掉|罪恶|浪费钱` 全库 **48 行 = 全元引用**（`achievement.dart:13` 词表本体 · `goal_ladder.dart:7` 规则注释 · 4 处测试断言 · `DESIGN_SYSTEM.md` 条款 · `_inbox/` 历史规格与监工旧票）**用户可见 0** · ui/theme 与 motion_spec 之外裸 `Color(0x` = **0** · 同范围裸 `Duration(milliseconds:` = **0**（全库 18 行均在 theme/motion_spec.dart）· `_LOCK`=**0** · stash=**0** · porcelain=**0** · 支 **7** 零 stray · worktree **1** · progress 唯一真相续登 · task_plan **8 行**薄索引（自述「禁止据此决策」在位）· origin 零触碰。
+
+## 提示词新鲜度自审（每轮一步）
+- 巡检 message（19b5f29f）：锚块逐项核对现实 —— 最高卡号 **SB-053** ✓ · 053 **未提审**（REQ grep=0）✓ · SB-052 **已审待合** ✓ · SB-051 **挂起** ✓ · done **47** ✓ · 冒烟锚 **e61e0f7（diff 0）** ✓ · wake **b0ea8424 :15/:45 disabled**（`cron list --all` 实测·lastRunAt 7h 前）✓ · `com.zangou.runway` / `-no-snapshot-load` 口径在位 ✓ → **零 edit**。
+- wake 入参：`payload.argv` = `sh -lc "sh /Users/dada561/.openclaw/tools/runway-wake-dispatch.sh"`（无硬编码卡号/版本锚）→ 无过期面。
+- watchdog（abaa94c7）：payload=agentTurn + 指向 LOOP.md watchdog 节，无卡号锚 → 无过期面。
+- 周六 → 无「规范适配审查」义务（下一执行日周一 10-26，挂账 ①LOOP S2 无卡面状态判据 ②派发器 S0.1 落孤授权 p=0.37 灰区 ③WAITING_HUMAN 自动停唤醒条文化 ④S0.2 分支守卫早于 S0.1 续做判定）。
+
+## 本轮发现
+1. **P1 停转第 41 轮（沿册）**：wake `b0ea8424` enabled=false（lastRunAt 7h 前）；SB-053 分支自 10-23 15:51 约 20h 零新提交。堵点仍在浩然侧：v0.1.1 落窗口未拍板。R180 提案在册，⚡自检：**无新信息不重推**。
+2. **P1 沿册**：待办卡 **1** 张（≤2 提醒口径）—— wake 停 + 落窗口未拍板下不新开卡，解冻后首批补排。
+3. 无 P0；本轮无新边界裁决 → `decision_evaluate` **0 调用**。
+
+## 反虚构自验
+- 本票所有数字（0 / 47 / 48 / 7 / 1 / 47-1 / 782 / 7aca6ef / a322a5b）均为本轮终端回显。
+- **本票不含任何「已合入/已归档/冒烟 PASS」新声明**（本轮无此类动作；锚 e61e0f7 为票317 既有 PASS，仅作「未失效」判定）。
+
+## 利益点自省
+**原地第 41 轮**：用户今天仍看不到「今日攒」卡片修好的样子——修法已成卡、代码在分支、审查账在册，只差合入窗口那一次拍板。管线没被误领，但产品没向前挪。
+
+## 簿记
+落笔前 `rev-list --count main` = **782**，本票预期 **783**。通知：⚡零推送。
+
+监工签字：老油条 [supervisor R191]
