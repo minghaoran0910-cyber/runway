@@ -6191,3 +6191,53 @@ R180「v0.1.1 落窗口 = 合 SB-052 + SB-053 → 实拍三帧 + 冒烟 → 出�
 监工签字：老油条 [supervisor R219]
 
 > ⚡ 通知口径：本轮零推送（守场属常规结果，按 ⚡收口条款只落盘）。
+
+---
+
+# 票 431 · R220 — 2026-10-25 03:0x 周日守场（零新审）
+
+结论: **PASS（本轮无提审对象，守场全绿）** — 不构成对任何卡的验收签字。
+
+## 1. 审查闸门（内容判据，mtime 不可用）
+- `git show main:REVIEW_REQUEST.md | grep -c "SB-053"` = **0**；REQ 卡号仅 SB-044/049/050/051/052（旧单已消费）；WAITING_HUMAN = **0**
+- → **未提审，不审不预读**。SB-053 分支有施工（feat@a322a5b）但 REQ 未更新，按规则不动。
+
+## 2. 队列同步（快照 queue ↔ 卡面状态行）
+| 卡 | 卡面状态（main:docs/tasks） | 变化 |
+|---|---|---|
+| SB-053 | 待办（R149 见底自派·裁A 冻结） | 无 |
+| SB-052 | 已审待合（R148/票359 PASS，feat@dd1d835） | 无 |
+| SB-051 | 挂起（10-23 14:07 浩然裁 B） | 无 |
+| SB-021 | 挂起 v0.2（10-10 浩然拍板摘出 v0.1） | 无 |
+
+- **零漂移**；最高卡号 **SB-053**（无 SB-054+）；**待办卡 = 1（≤2）** → 按条款提醒监工排下一批，但当前 wake disabled + 待浩然裁 A/B/C，恢复前不灌队列。
+
+## 3. 分支/构建面
+- `git rev-list --left-right --count main...feat/SB-053` = **76 / 1**；feat 头 a322a5b（10-23 15:51:28）→ **停 35h08m 零新提交**
+- `git diff --stat main...feat/SB-053` = **3 文件 +148 行**（home_page 7 / today_saved_row 5 / sb053 测试 136，无越界改动）
+- 工作树当前停在 feat/SB-053（porcelain=0）；_LOCK **不存在**；stash **0**；分支 **7**（main + 6 feat/archive 在册）；worktree 主 1 + 本轮临时 1；tag **4**
+- done/ = **47**（`git ls-tree main docs/tasks/done/` 实测）；SB-053 不在 done/ ✓
+
+## 4. 模拟器冒烟
+- **不发生**：`git diff e61e0f7 main -- app packages tool pubspec.yaml` = **0 行**，main 自锚点以来无 app 侧变更；锚 e61e0f7 继续有效，未起模拟器（省电省时）。
+
+## 5. 漂移与一致性审计（一行结论）
+禁词 app/lib 命中 **2**（goal_ladder.dart:7 注释引述禁词表 / achievement.dart:13 测试素材）→ 用户可见 **0**；ui/theme 与 motion_spec 之外裸 `Color(0x` = **0**、裸非零 `Duration(milliseconds:` = **0**；"真实账目"命中 **1** 行 = app_db.dart:16 注释「真实账目永不入库」→ 非数据、非红线；main 头 581dca1 ↔ 最近归档轮票430/R219 ✓；feat 无 stray（除在册素材支 034/048、archive-051-r3）；_LOCK 无泄漏；progress.md 唯一真相、task_plan.md **8 行**薄索引（只读缓存）→ **全绿**。
+
+## 6. 提示词新鲜度自审（每轮一步）
+- 巡检 message：最高卡号 SB-053 ✓ · 052 已审待合 ✓ · 051 挂起 ✓ · done 47 ✓ · 冒烟锚 e61e0f7 ✓ · 裁A 冻结在册 ✓ · wake b0ea8424 **disabled**（last run 10-24 05:45，cron list --all 实测）✓ · applicationId 现行口径 ✓ → **零 edit**
+- wake 三件套入参：`opencode run "读 LOOP.md，按状态机只做一件事，做完就退出；_LOCK 存在则直接退出"` — 不含卡号/版本锚 → 无过期面 ✓
+- watchdog abaa94c7：agentTurn 文案指向 LOOP.md，无卡号锚 → 无过期面 ✓（本轮前 1h 已 ok 运行）
+- 周日无「周一规范适配审查」义务（挂账 P2 四条顺延至 10-26 周一）。
+
+## 7. 决策模型
+- 本轮无边界裁决（零新审、零合入、零开卡）→ `decision_evaluate` 调用 **0** 次。
+
+## 8. 反虚构自验
+- 上述 hash/计数/行数均为本轮终端回显；**本票不含任何「已合入 / 已归档 / 冒烟 PASS」类声明**（本轮无此类动作）。
+- 记账走临时 main worktree `/tmp/sup-r220`（主库树停 feat），收轮即删。
+
+## 9. 利益点自省
+**原地（第 70 轮）**：守场只保住管线审结不被误领，产品没有更接近「让用户接近零成本天天看见自己挪一步」——真正卡点是 SB-053（首页空白卡）在分支停了 35 小时且 wake 停摆，等浩然一句话开 v0.1.1 落窗口。
+
+监工签字：老油条 [supervisor R220]
