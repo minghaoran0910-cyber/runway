@@ -5486,3 +5486,49 @@ R180 的「v0.1.1 落窗口 = SB-052 + SB-053 → 实拍三帧 + 冒烟 → 出�
 **原地（第 50 轮）**：守场零损伤，但用户打开 App 仍会撞见那张空白「今日攒」卡；能修它的 SB-053 在分支躺满一天且未提审，产品离「天天看见自己挪一步」仍差这一步。
 
 监工签字：老油条 [supervisor R200]
+
+---
+
+# 票 412 · R201 守场巡检（2026-10-24 17:30）
+
+## 1. 审查闸门
+- **无新提审**：内容判据（mtime 闸门在临时 main 树失效，沿 R199 口径）——`git show main:REVIEW_REQUEST.md | grep -oE "SB-[0-9]+"` = SB-044/049/050/051/052，**SB-053 = 0 命中** → builder 未提审，按规则不审、不预读、不改分支。
+- main 头 `2850079` 与上轮快照 `supervisorMainHead` 一致，main 自 R200 起零新提交。
+- 活树 `feat/SB-053-today-saved-card@a322a5b`（10-23 15:51:28），`git log --oneline main..feat` = **1 提交**，`rev-list --count feat..main` = **57**（落后 main 57 笔，较 R200 的 56 笔 +1 = 上轮自身记账提交）。零新施工。
+
+## 2. 队列同步（docs/tasks vs 快照）
+| 卡 | 盘面状态行（实测） | 快照 | 漂移 |
+|---|---|---|---|
+| SB-053 | 待办（R149 见底自派）·施工在 feat 未提审 | 同 | 无 |
+| SB-052 | 已审待合（R148/票359 PASS·裁A 冻结） | 同 | 无 |
+| SB-051 | 挂起（R146 裁B，等 052 截图管线） | 同 | 无 |
+| SB-021 | 挂起 v0.2 | 同 | 无 |
+
+队列**零漂移**，不推送。待办卡 = **1**（≤2 阈值），但按 R200 决议：浩然拍板与 wake 恢复前不新开卡灌队列，本轮不擅自开卡。
+
+## 3. 模拟器冒烟
+**不发生**：`git diff --stat e61e0f7..main -- app packages tool` = **0 行**，锚 e61e0f7 有效，无新合入、无 G 卡 PASS。进程 `pgrep -f qemu-system` = 0、`flutter_tools` = 0（未起模拟器，未占用）。
+
+## 4. 漂移与一致性审计（一行结论）
+**全绿**：禁词 `没省|又花|喝掉|罪恶|浪费钱` app/lib 命中 **2**（`logic/goal_ladder.dart:7` 规则注释、`logic/achievement.dart:13` 禁词表元引用），用户可见 **0**；裸 `Color(0x` 于 ui/theme|motion_spec 之外 = **0**；非零 `Duration(milliseconds:` 于 motion_spec 之外 = **0**；`_LOCK` = **0**；porcelain = 0；stash = 0；分支 = **7**（5 feat + archive + main，无 stray）；tag = **4**；`git ls-tree main docs/tasks/done/` = **47**；`progress.md` 285 行为唯一真相、`task_plan.md` 8 行薄索引（3a9d763 落地，自带非真相警告）；main 头 2850079 ↔ 票411/R200 可对应。真实账目数据 = 0；origin 零触碰。
+
+## 5. 提示词新鲜度（三件套）
+- `runway-wake` b0ea8424 = **disabled**（`cron list --all` 实测 last 05:45，约 12h 前；`15,45 * * * *` Asia/Shanghai）。
+- 派发器 `runway-wake-dispatch.sh` = **66 行**，`grep SB-` 仅 1 命中且为第 38 行 S0.6 注释 → 零硬编码卡号、零过期。
+- `runway-watchdog` abaa94c7 = enabled/ok（every 2h，last 2h 前），message 无卡号锚 → 零过期。
+- 旧任务 88a8e128 / b71bf570 / e71e53ac / f859efc9 全 disabled 在册。
+- 今天周六，非周一首轮 → 本轮**无【规范适配审查】义务**（下一执行日 10-26 周一）。
+
+## 6. 决策模型
+本轮无边界裁决 → **0 次调用**（不编 p 值）。
+
+## 7. 通知自检
+R180「v0.1.1 落窗口 = 合 SB-052 + SB-053 → 实拍三帧 + 冒烟 → 出包」提案在册；本轮无新信息 → 按⚡不重推，**整轮零推送**。
+
+## 8. 反虚构自验
+本票数字（1 / 57 / 47 / 7 / 4 / 2 / 0 / 66 / 12h）全部来自本轮终端真实回显；本票**不含任何「已合入 / 已归档 / 冒烟 PASS」声明**——三项动作本轮均未发生。
+
+## 9. 利益点自省
+**原地（第 51 轮）**：守场零损伤，但用户打开 App 仍会撞见那张空白「今日攒」卡；SB-053 已在分支躺满 25 小时且未提审，产品离「天天看见自己挪一步」仍差这一步。
+
+监工签字：老油条 [supervisor R201]
