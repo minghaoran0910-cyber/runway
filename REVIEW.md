@@ -6009,3 +6009,50 @@ R180「v0.1.1 落窗口 = 合 SB-052 + SB-053 → 实拍三帧 + 冒烟 → 出�
 落笔前 `git rev-list --count HEAD` = **805**，本票预期 **806**（含 progress 登记，同提交）。
 
 监工签字：老油条 [supervisor R214]
+
+---
+
+## 2026-10-25 00:3x 巡检票（R215 · 票426 · 周日守场 · 零新审 · 停转第 65 轮）
+
+结论: PASS（无新提审，零动作守场）
+
+### 零新审判据（内容判据，沿册）
+- `git show main:REVIEW_REQUEST.md | grep -c 'SB-053'` = **0** → SB-053 仍未提审，按规则**不审不预读**。
+- REQ 内 `WAITING_HUMAN` 命中 = **0**，无挂起人工裁决单。
+- 活树 `feat/SB-053-today-saved-card` @ **a322a5b**（10-23 15:51:28 起零新提交，停 **32h39m**）；`git rev-list --left-right --count main...feat` = **71/1**。
+
+### 队列同步（与快照 queue 比对：零漂移）
+- `docs/tasks/`：SB-053 **待办**（施工在分支·未提审）、SB-052 **已审待合**（dd1d835·裁A 冻结）、SB-051 **挂起**（12e2b95）、SB-021 **挂起 v0.2**。
+- `git ls-tree main docs/tasks/done/` 行数实测 = **47**（未变）。
+- 待办卡 **1 ≤ 2**：按沿册口径（待浩然拍板与 wake 恢复前不灌队列）本轮**不开新卡**；解冻后首批补排。
+
+### 模拟器冒烟
+- **不发生**：`git diff e61e0f7..main -- app packages tool pubspec.yaml pubspec.lock` = **0 行**，e61e0f7 仍是 main 祖先 → 锚有效，无新合入业务码，无冒烟义务。
+- 并发实测 `emu=0 / flutter=0`，未起模拟器（亦遵守不与 opencode 并发起 emulator）。
+
+### 漂移与一致性审计（一行结论）
+主头 **59c1d73** ↔ REVIEW.md R214/票425 对应✓ · 禁词 app/lib 命中 **2**（均元引用：achievement.dart 禁词表、goal_ladder.dart 注释）= 用户可见 **0** · theme 外裸 `Color(0x` **0** · motion_spec/theme 外非零 `Duration(milliseconds:` **0**（18 处全在 motion_spec.dart） · 真实账目数据 **0** · `_LOCK` **0** · stash **0** · porcelain **0** · 分支 **7** 无 stray（main + feat 034/048/051/052/053 + archive-SB-051-r3，均有在册理由） · worktree 主 1 + 本票临时 /tmp/sup-r215（收轮删除） · progress.md 尾行 R214 在册 · task_plan.md **8 行**仍为薄索引（非真相） · tag **4**。
+
+### 三件套提示词新鲜度（wake / watchdog / 巡检）
+- `runway-wake` b0ea8424 **disabled**（`state.lastRunAtMs`=1792791900066 → 2026-10-24 05:45，18h+ 前）；payload=command 调 `runway-wake-dispatch.sh`，脚本文案为通用「读 LOOP.md 按状态机只做一件事」，**无卡号/包名硬编码** → 零过期。
+- `runway-watchdog` abaa94c7 **ok**（last 44m 前）；`统一看门狗` 169be936 ok；旧 wake 88a8e128 / b71bf570 / e71e53ac / f859efc9 均 disabled 在册。
+- 本轮 **零 cron edit**（无过时候选）。
+
+### 本轮发现
+1. **无 P0/P1 新增**；零新审 → 无边界裁决 → `decision_evaluate` 调用 **0 次**。
+2. **P1（沿册·停转第 65 轮）**：feat 停摆 + wake disabled + SB-053 未提审三者互锁未变。默认出口仍是浩然一句话启动 v0.1.1 落窗口（合 052+053 → 实拍 + 冒烟 → 出包）。
+3. **P1（沿册）**：SB-053 合入回退风险——feat 落后 main **71 笔**，届时须 rebase 或只挑 3 个业务文件（home_page/today_saved_row/sb053 测试，+148 行）。
+4. **P2（沿册）**：停盘期 30min 巡检产出恒为零 → 降频 2h 提案挂周一规范审查，不自改 cron。
+5. **周日无「规范适配审查」义务**（仅每周一首轮输出）；周一挂账四条顺延（LOOP S2 状态判据 / S0.1 落孤授权 p=0.37 灰区 / WAITING_HUMAN 停唤醒条文化 / S0.2 分支守卫早于 S0.1）。
+
+### 反虚构自验
+- 本票引用的全部数字均来自本轮终端回显：`grep -c SB-053=0`、`WAITING_HUMAN=0`、`rev-list 71/1`、`feat head=2026-10-23 15:51:28`、`done=47`、`app diff 0 行`、`禁词 2`、`裸 Color 0`、`非零 Duration 0`、`_LOCK 0`、`stash 0`、`porcelain 0`、`分支 7`、`worktree 1`、`task_plan 8 行`、`tag 4`、`lastRunAtMs 1792791900066`、`rev-list --count main=806`。
+- **本票不含任何「已合入 / 已归档 / 冒烟 PASS」声明**（本轮无此类动作）。
+
+### 利益点自省
+**原地（第 65 轮）**——产品零位移：首页那张空白「今日攒」卡仍在用户眼前，修法在 feat 上躺了 32 小时 39 分，差的只是启动 v0.1.1 落窗口的一句话。
+
+### 簿记
+落笔前 `rev-list --count HEAD` = **806**，本票预期 **807**（含 progress 登记，同提交）。
+
+监工签字：老油条 [supervisor R215]
