@@ -6475,3 +6475,42 @@ c) `progress.md` 349 行仍为唯一真相注册表；`task_plan.md` 8 行薄索
 **原地（第 76 轮）**：本轮仍为守场——SB-053 修复躺在分支未提审、裁A 冻结无落窗口，产品没有更接近「让用户以接近零成本，天天看见自己向想要的东西挪一步」。卡点两项未变：SB-053 提审 / v0.1.1 落窗口，各待浩然一句话。连续「更远」计数：0（原地，不升级排期提案）。
 
 监工签字：老油条 [supervisor R226]
+
+---
+
+## 巡检票 R227 · 2026-10-25 06:3x（周日 · 守场零新审）
+
+### 1. 新审查（不发生，判据实证）
+- `grep -c "SB-053" REVIEW_REQUEST.md` = **0**（内容判据）；REQ 最新主题仍为 SB-051 重开首审（已于 R142 裁 B 处理），无新提审内容。
+- `REVIEW_REQUEST.md` mtime 被临时 worktree checkout 刷新为 06:30:42，与 REVIEW.md 同值 → **mtime 闸门本轮不可采信**，一律以内容判据为准（该坑已在册）。
+- 结论：本轮不审、不预读 feat 分支，不写 PASS/REQUEST_CHANGES。
+
+### 2. 队列与快照（零漂移）
+- 卡面：SB-053 待办（feat 施工中未提审）/ SB-052 已审待合（裁A 冻结）/ SB-051 挂起（裁B）/ SB-021 挂起 v0.2；`git ls-tree HEAD docs/tasks/done/` = **47**；待办卡 **1**（≤2，排卡提醒仍在册：待浩然拍板与 wake 恢复前不灌队列）。
+- 与 `runway-card-state.json` queue 逐项一致，**零漂移**，仅刷新 generated。
+
+### 3. 模拟器冒烟（本轮不发生）
+- `git log main --merges --since=2026-10-23` = **0**；`git diff --stat e61e0f7..main -- app packages tool pubspec.yaml pubspec.lock` 输出为空 → 锚点 e61e0f7 仍有效，无新合入业务 diff、无 G 卡新 PASS，不启模拟器（避免与 builder 抢资源）。
+
+### 4. 漂移与一致性审计（一行结论）
+禁词 `app/lib` **2** 行（`logic/goal_ladder.dart:7` 条款注释、`logic/achievement.dart:13` 禁用词表本身）均为元引用、用户可见 **0**；theme/motion_spec 之外裸 `Color(0x` = **0**、非零 `Duration(milliseconds:` = **0**；`_LOCK` = 0、stash = 0；分支 **7**（feat 5 + archive 1 + main）无 stray；worktree = 2（主库 feat + 临时 `/tmp/sup-r222`，收轮删）；tag **4**（含 v0.1.0）；`task_plan.md` 8 行薄索引（只读缓存非真相）、`progress.md` 349 行仍为唯一真相注册表；main 头 **78cb112**（票437/R226）↔ REVIEW.md 最近归档轮吻合，`git rev-list --count main` = **818**，feat 侧 `main...feat` = **83/1**（落后 83 笔，含旧 REVIEW/progress 版本，合入须 rebase 或只挑 3 个业务文件）；origin 零触碰（main 818 / origin 595，本地领先属常态）. **全绿。**
+
+### 5. 提示词新鲜度自审（三件套，零过期）
+- wake 族 `cron list --all` 实测：`runway-wake(b0ea8424)` disabled（last 1d ago），`88a8e128 / b71bf570 / e71e53ac / f859efc9` 四条旧 wake 亦 disabled 在册；payload 为派发脚本无卡号锚 → 无失配，本轮不改 cron。
+- `runway-watchdog(abaa94c7)` 44m 前 ok；`统一看门狗(169be936)` 27m 前 **error**（非本项目，旁记备查，不并入本票结论）。
+- 本巡检 message：卡号锚 SB-053（= `docs/tasks/` 最高卡号）、包名 `com.zangou.runway/.MainActivity`（SB-013 归一后口径）、冒烟锚 e61e0f7（本轮 diff 实测空）、:00/:30 与 wake :15/:45 错峰 → 零失配，不做 cron edit。
+
+### 6. 阻塞与转呈（无新事件）
+- 工作树根 `WAITING_HUMAN`（**981B / 03:49:18**，watchdog 巡夜熔断写）内容与 R222 首报一致，**无变化 = 非新事件**，按「⚡无新信息不重推」不再推送浩然；待其三选一（①SB-053 提审或作废 ②重开 wake 并清重复 cron ③暂停本 loop）。
+- feat/SB-053@a322a5b 自 10-23 15:51 停 **38h39m** 零新提交。
+
+### 7. 决策模型
+- 本轮无边界裁决（无新审、无合入、无卡参数取舍）→ 调用 **0** 次。
+
+### 8. 记账方式
+- 主库树停 `feat/SB-053`，记账走临时 main worktree `/tmp/sup-r222`（78cb112），先 `cp` 基线再 append，提交后 `git diff --stat` 核删行、收轮删除 worktree；本票数字均取自本轮终端回显，无「已合入/已归档/冒烟 PASS」类声明（本轮无此类动作）。
+
+### 9. 利益点自省
+**原地（第 77 轮）**：仍为守场——修复躺在分支未提审、裁A 冻结无落窗口，产品没有更接近「让用户以接近零成本，天天看见自己向想要的东西挪一步」。卡点不变：SB-053 提审 / v0.1.1 落窗口，各待浩然一句话。连续「更远」计数：0。
+
+监工签字：老油条 [supervisor R227]
