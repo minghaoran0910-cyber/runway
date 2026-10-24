@@ -4774,3 +4774,58 @@ R178 呈报 A/B/C 未获回音，R179 预登记「下轮无回音即升为默认
 监工签字：老油条 [supervisor R184]
 
 > ⚡ 通知口径：本轮零推送（守场属常规结果）。停转第 34 轮，R180 提案已推一次不重推。
+
+---
+
+## 票396 · R185 · 2026-10-24 09:30 守场轮（零新审）
+
+### 1. 提审闸门
+- mtime（builder 树）：REVIEW_REQUEST = 1792793015（06:03:35）、REVIEW = 1792793016（06:03:36）→ REQ 不新；临时 main 树两文件同值（checkout 产物）→ mtime 闸门在本环境不可用，**一律以内容判据为准**（沿 R182–R184 结论）。
+- 内容判据：`git show main:REVIEW_REQUEST.md | grep -oE 'SB-0[0-9][0-9]'` 去重 = 044 / 049 / 050 / 051 / 052，**SB-053 = 0**；REQ 首行仍为已裁 SB-051 旧单。→ 未提审，不审不预读。
+
+### 2. 现场（实测）
+- main `74cca9d`，`git rev-list --count main` = **776**；main 头即 R184/票395 归档轮，能对上。
+- 活树 HEAD = `feat/SB-053-today-saved-card@a322a5b`（未前进，10-23 15:51:28 起无新提交）。
+- `git rev-list --left-right --count main...feat` = **41 / 1**（behind 继续拉大，合入须 rebase 或只挑 3 个业务文件；P1 在册）。
+- `git status --porcelain` = **0**；stash **0**；分支 **7**（archive/SB-051-motion-r3 · feat 034/048/051/052/053 · main），零 stray；worktree 审计时主库 1 + 本轮临时 /tmp/sup-r185（收轮删除）。
+- `git ls-tree main docs/tasks/done/` = **47**；卡号最高 SB-053。
+
+### 3. 队列同步
+| 卡 | 状态（main 卡文状态行实测） | 与快照 |
+|---|---|---|
+| SB-053 | 待办（施工在分支 @a322a5b，未提审） | 一致 |
+| SB-052 | 已审待合（R148/票359 PASS，裁A 冻结） | 一致 |
+| SB-051 | 挂起（R146 裁B，等 052 截图管线） | 一致 |
+| SB-021 | 挂起 v0.2 | 一致 |
+
+零漂移 → 不推送（⚡收口条款）。待办 1 张 ≤2 阈值，但 wake 停 + v0.1.1 落窗口待拍板下不新开卡（沿册）。
+
+### 4. 模拟器冒烟
+不发生：`git diff --name-only e61e0f7..main -- app` = **0**（锚点仍有效，main 自 e61e0f7 起无 app 侧合入）；无新 G 卡 PASS；`pgrep -f emulator` = **0**、`flutter` = 0、`GradleDaemon` = 0（无并发施工，不与 builder 抢机）。
+
+### 5. 漂移与一致性审计（本轮一行结论）
+禁词 grep（没省|又花|喝掉|罪恶|浪费钱）命中 **3** 条全为元引用（`achievement.dart` 禁词表 / `goal_ladder.dart` 注释 / `DESIGN_SYSTEM.md` 条文），**用户可见 0**；裸 `Color(0x`（theme/motion_spec 之外）= **0**；裸 `Duration(milliseconds:`（非 0、非 motion_spec/theme）= **0**；仓库根 `_LOCK` = **0**；stash 0；feat 分支零未审提交（5 支全在册，与「让位三不复评」一致）；progress.md 唯一真相（R181–R184 顺序追加在尾）、task_plan.md 仍薄索引 **8** 行（只读缓存口径在文首）→ **全绿**。
+
+### 6. 提示词新鲜度自审
+- 本巡检 message 锚块逐项吻合：最高卡 SB-053 ✓、052 `dd1d835` ✓、051 `12e2b95` ✓、done=47 ✓、锚 `e61e0f7` ✓、wake `b0ea8424-3eab-4207-b8dd-14671503b30c` **disabled**（`cron get` 实测 lastRunStatus ok、lastRunAtMs=1792791900066 = 05:45）✓、applicationId `com.zangou.runway` ✓ → **零 edit**。
+- dispatch 脚本 66 行，payload = `sh runway-wake-dispatch.sh`，`grep SB-0` 仅命中 S0.6 历史注释，无硬编码卡号；watchdog message 为通用清单无卡号锚 → 无过期。
+- **新观察（P3，归属未证）**：wake `updatedAtMs` / `scheduleActivatedAtMs` = 1792793024328 = 2026-10-24 06:03:44，与仓库 REQ/REVIEW mtime 06:03:35/36 同簇 → 06:03 前后有一次「配置停 wake + 仓库 checkout」的动作，无法从现有回显判定主体（浩然手动 / 某轮 cron）。只登记不追责；后续如需归因，须查 cron 编辑日志而非推测。
+
+### 7. 规范适配审查
+周六，非周一 → 无义务（挂账④ 派发器 S0.2 分支守卫早于 S0.1 仍待周一并入提案；LOOP S2 无卡面状态判据同挂）。
+
+### 8. 决策模型
+本轮无边界裁决 → **0 调用**。
+
+### 9. 反虚构自验
+本票所有数字（776 / 148 / 41·1 / 47 / 7 / 1 / 0 / 3）均为本轮终端回显；**不含任何「已合入/已归档/冒烟 PASS」声明**；SB-053 仍未合入、done/ 仍 47。
+
+### 10. 利益点自省
+**原地第 35 轮**：用户端可见变化 0。核心利益点是「让用户以接近零成本天天看见自己向想要的东西挪一步」，而首页那块空壳 Card（SB-053 代码已在分支、未提审）仍在冻结里，用户每次打开都先撞见一处「没做干净」——离利益点更远。R180 的默认动作（开 v0.1.1 落窗口：合 052+053 → 实拍三帧 → 冒烟 → 出包）仍待浩然一句话。
+
+### 11. 漂移审计一行结论（页尾归档）
+`漂移审计：禁词用户可见0 · 裸Color 0 · 裸Duration 0 · _LOCK 0 · 支7零stray · done 47 · main↔R184票395 对齐 → 全绿`
+
+监工签字：老油条 [supervisor R185]
+
+> ⚡ 通知口径：本轮零推送（守场属常规结果）。停转第 35 轮，R180 提案已推一次不重推。
