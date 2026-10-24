@@ -4724,3 +4724,53 @@ R178 呈报 A/B/C 未获回音，R179 预登记「下轮无回音即升为默认
 监工签字：老油条 [supervisor R183]
 
 > ⚡ 通知口径：本轮零推送（守场属常规结果）。停转第 33 轮，R180 提案已推一次不重推。
+
+---
+
+## 票395 · R184 · 2026-10-24 09:00 守场轮（零新审）
+
+### 1. 提审闸门
+- `stat -f %m`（builder 树）：REVIEW_REQUEST = 1792793015、REVIEW = 1792793016 → REQ 不新；临时 main 树两文件同值（1792803651，checkout 产物）→ mtime 闸门在本环境不可用，**一律以内容判据为准**（沿 R182 结论）。
+- 内容判据：REQ 首行仍为已裁 SB-051 旧单，`grep -oE 'SB-0[0-9][0-9]'` 命中 044/049/050/051/052，**SB-053 = 0**（builder 树与 main 版皆 0）→ 未提审，不审不预读。
+
+### 2. 现场（实测）
+- main `55842b2`，`git rev-list --count main` = **775**。
+- 活树 HEAD = `feat/SB-053-today-saved-card@a322a5b`（未前进），`git diff --stat main...feat` = **3 文件 +148/-0**（home_page / today_saved_row / sb053 测试）。
+- `git rev-list --left-right --count main...feat` = **40 / 1**；porcelain **0**；stash **0**；分支 **7**（archive/SB-051-motion-r3 · feat 034/048/051/052/053 · main），零 stray；worktree 2（主库 + 本轮临时 /tmp/sup-r184，收轮删除）。
+- `git ls-tree main docs/tasks/done/` 命中 SB-* = **47**。
+
+### 3. 队列同步
+| 卡 | 状态（main 卡文状态行实测） | 与快照 |
+|---|---|---|
+| SB-053 | 待办（施工在分支，未提审） | 一致 |
+| SB-052 | 已审待合（R148/票359 PASS，裁A 冻结） | 一致 |
+| SB-051 | 挂起（R142 裁B，等 052 管线） | 一致 |
+| SB-021 | 挂起 v0.2 | 一致 |
+
+零漂移故不推送；待办 1 张 ≤2 阈值，但 wake 停 + 落窗口待拍板下不新开卡（沿册）。
+
+### 4. 模拟器冒烟
+不发生：`git diff --name-only e61e0f7..main -- app` = **0**，锚点仍有效；`pgrep -f emulator` = **0**。main 自 e61e0f7 起无 app 侧合入，无新 G 卡 PASS。
+
+### 5. 漂移与一致性审计（本轮一行结论）
+禁词 grep 命中 **3** 条全为元引用（achievement.dart 禁词表 / goal_ladder 注释 / DESIGN_SYSTEM 条文），用户可见 0；裸 `Color(0x` = **0**；裸 `Duration(milliseconds:` = **0**；`_LOCK` = **0**；stash 0；feat 分支零残留提交（5 支全在册）；main 头 `55842b2` 即 R183/票394 归档轮，能对上；progress.md 为唯一真相（R182/R183 顺序追加在尾）、task_plan.md 仍薄索引 8 行 → **全绿**。
+
+### 6. 提示词新鲜度自审
+- 本巡检 message 锚块逐项吻合：最高卡 SB-053 ✓、052 `dd1d835` ✓、051 `12e2b95` ✓、done=47 ✓、锚 `e61e0f7` ✓、wake `b0ea8424` disabled（`cron get` 实测 lastRunStatus ok）✓、applicationId `com.zangou.runway` ✓ → **零 edit**。
+- dispatch 脚本 66 行，`grep SB-0` 仅命中 S0.6 历史注释 → payload 为 `sh runway-wake-dispatch.sh`，无硬编码卡号；watchdog 通用无锚。
+
+### 7. 规范适配审查
+周六，非周一 → 无义务（挂账④ 派发器 S0.2 分支守卫早于 S0.1 仍待周一并入提案）。
+
+### 8. 决策模型
+本轮无边界裁决 → **0 调用**。
+
+### 9. 反虚构自验
+本票所有数字（775 / 148 / 40·1 / 47 / 7 / 2 / 0 / 3）均为本轮终端回显；**不含任何"已合入/已归档/冒烟 PASS"声明**；SB-053 仍未合入、done/ 仍 47。
+
+### 10. 利益点自省
+**原地第 34 轮**：用户端可见变化 0。首页空白卡（SB-053）已在分支上做完但未提审、裁A 冻结未解，用户打开 App 仍会看到那块空壳；R180 的默认动作（开 v0.1.1 落窗口）仍待浩然一句话。
+
+监工签字：老油条 [supervisor R184]
+
+> ⚡ 通知口径：本轮零推送（守场属常规结果）。停转第 34 轮，R180 提案已推一次不重推。
