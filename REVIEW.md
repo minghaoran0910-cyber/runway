@@ -6277,3 +6277,29 @@ R180「v0.1.1 落窗口 = 合 SB-052 + SB-053 → 实拍三帧 + 冒烟 → 出�
 **原地（第 71 轮）**：守场只保证管线审结不被误领，产品离「让用户接近零成本、天天看见自己向想要的东西挪一步」没有更近一步——真卡点是首页空白卡（SB-053）在分支停了 35 小时、wake 停摆、v0.1.1 落窗口等浩然一句话。
 
 监工签字：老油条 [supervisor R221]
+
+## 监工巡检票 2026-10-25 04:00（R222 · 票433 · WAITING_HUMAN 首次出现 · 零新审）
+结论: 无新提审（不审）；新增事件＝watchdog 熔断件 WAITING_HUMAN → 上报浩然，未擅自处置
+
+### 检查项
+- [x] 新审判据（内容判据，非 mtime）：`git show main:REVIEW_REQUEST.md | grep -c 'SB-053'` = **0**，首行仍为 `# REVIEW_REQUEST — SB-051 §6动效体系四页落地`；REQ/REVIEW mtime = 1792793015/1792793016（均 10-24 06:03）→ **SB-053 未提审，不审、不预读**。
+- [x] **新事件**：主树出现未跟踪文件 `WAITING_HUMAN`（981 B，mtime **Oct 25 03:49**，porcelain=1）；内容为 watchdog 巡夜熔断，需人工三选一（①SB-053 提审或作废 ②重开 wake 并清重复 cron ③暂停本 loop）。逐条核验其指控：
+  - wake 全族 disabled ✓ —— `cron list --all` 实测 **5 条**同名唤醒（b0ea8424 现役 last=1792791900066=**10-24 05:45**；88a8e128/b71bf570/e71e53ac/f859efc9 历史 disabled 在册）；
+  - 巡检连续空转 ✓ —— 19b5f29f `*/30` enabled，last=1792870200145（04:00），R151→R221 共 **71** 轮零新审；
+  - SB-053 停摆 ✓ —— `git log -1 --format='%h %ci' feat/SB-053-today-saved-card` = **a322a5b 2026-10-23 15:51:28**，`rev-list --left-right --count main...feat` = **78 / 1**，`diff --stat main...feat` = **3 文件 +148 行**；
+  - 无未审先合 ✓ —— main 无新业务提交，`git diff --stat e61e0f7..main -- app packages tool pubspec.yaml` = **空**。
+- [x] 处置口径：按 SUPERVISOR.md 附录 2「含 WAITING_HUMAN → 停唤醒 + 通知浩然」——唤醒已全 disabled（无额外动作），**未删标记文件、未 enable/disable 任何 cron、未提审/作废 SB-053**（后三者超出监工权限；自派授权只覆盖新开卡）。决策模型对本项：`status=unavailable / reason=transport` → 记「决策模型不可用」，按原流程上报。
+- [x] 队列比对：SB-053=待办（施工在分支未提审）、SB-052=已审待合（dd1d835·裁A 冻结）、SB-051=挂起（12e2b95）、SB-021=挂起 v0.2 → 与快照 queue **零漂移**；待办卡 **1**（≤2，见底不灌卡，wait 恢复前不自派）。
+- [x] done 计数：`git ls-tree main docs/tasks/done/ | wc -l` = **47** 实测；SB-053 不在 done/ ✓。
+- [x] 归档对应：main 头 **b932224**（票432/R221）↔ REVIEW.md 最近归档轮吻合；`git rev-list --count main` = **813**；分支 **7**（无 stray）·worktree 主 1 + 临时 `/tmp/sup-r222`（收轮删）·tag **4**。
+- [x] 冒烟义务：`e61e0f7..main` app/packages/tool/pubspec diff = **0 行** → **不发生**，锚 **e61e0f7** 继续有效；未起模拟器。
+- [x] 提示词新鲜度：最高卡号 **SB-053** ✓（docs/tasks 实测 021/051/052/053）· 052 已审待合 ✓ · 051 挂起 ✓ · done **47** ✓ · 锚 **e61e0f7** ✓ · applicationId **com.zangou.runway** ✓ · wake **b0ea8424 disabled** ✓ · watchdog **abaa94c7** enabled/2h/last 03:47 ok ✓ · dispatch 脚本无卡号硬编码 → **零 edit**。
+- [—] 规范适配审查：**周日无义务**（P2 四条挂账顺延 10-26 周一：LOOP S0.2 分支守卫早于 S0.1、S0.1 孤卡授权灰区、WAITING_HUMAN 自动停唤醒条文化、巡检降频提案）。
+
+### 漂移与一致性审计（一行结论）
+禁词 `没省|又花|喝掉|罪恶|浪费钱` app/lib 命中 **2 行全为元引用**（`logic/achievement.dart:13` 禁词表常量、`logic/goal_ladder.dart:7` 注释）= **用户可见 0** · theme 与 motion_spec 之外裸 `Color(0x` = **0** · motion_spec 外裸非零 `Duration(milliseconds:` = **0** · 真实账目/PII 命中仅注释（`data/app_db.dart:16`「真实账目永不入库」）= 非数据、**红线未触发** · main 头 ↔ 最近归档轮 ✓ · `_LOCK` **0** 无泄漏 · feat 无 stray · progress.md 唯一真相、task_plan.md **8 行**薄索引 → **全绿**。
+
+### 利益点自省
+**原地（第 72 轮）**：本轮只把「管线已停 36 小时」写成票，产品离「让用户接近零成本、天天看见自己向想要的东西挪一步」没有更近一步——真卡点仍是首页空白卡（SB-053）停在分支未提审 + v0.1.1 落窗口等浩然一句话。
+
+监工签字：老油条 [supervisor R222]
