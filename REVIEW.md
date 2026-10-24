@@ -6332,3 +6332,62 @@ R180「v0.1.1 落窗口 = 合 SB-052 + SB-053 → 实拍三帧 + 冒烟 → 出�
 **原地（第 73 轮）**：本轮只确认「管线仍停、等待人工裁决」，产品离「让用户接近零成本、天天看见自己向想要的东西挪一步」没有更近一步——真卡点仍是首页空白卡（SB-053）停在分支未提审 + v0.1.1 落窗口等浩然一句话。
 
 监工签字：老油条 [supervisor R223]
+
+---
+
+## 票 435 · R224 · 2026-10-25 05:0x 巡检票（周日守场 · 零新审 · 决策 0 调用）
+
+**结论：守场（PASS 无新提审，无 PASS/RC 判决对象）**
+
+### 1. 新审判据（内容判据为准）
+- `git show main:REVIEW_REQUEST.md | grep -c "SB-053"` = **0**；REQ 头部仍是「SB-051 §6 动效体系重开首审」旧提审单。
+- stat 实测：REVIEW_REQUEST 1792793015 < REVIEW 1792793016（均 10-24 06:03 前后，已 23h 无更新）。
+- → 无新提审，不审、不预读 feat 分支代码（按在册纪律：REQ 未写卡号=未提审）。
+
+### 2. 队列与卡面（零漂移）
+- `docs/tasks/` 最高卡号仍 **SB-053**（SB-021/051/052/053 四张在册）。
+- SB-053：`feat/SB-053-today-saved-card@a322a5b`（2026-10-23 15:51:28），停 **37h09m** 零新提交；`git rev-list --left-right --count main...feat` = **80/1**；改动 3 文件 +148 行（home_page.dart +7 / today_saved_row.dart +5 / sb053 测试 +136）→ 与快照逐字一致，无漂移。
+- SB-052：已审待合（R148/票359 PASS），裁A 冻结不合 main，不进 done/。
+- SB-051：挂起（R146 裁B），feat@12e2b95 原样保留。
+- SB-021：挂起 v0.2。
+- `git ls-tree main docs/tasks/done/ | wc -l` = **47**（实测回显）。
+- 待办卡 = 1（≤2）→ 按在册：浩然裁 A/B/C 与 wake 恢复前不开新卡灌队列。
+
+### 3. 模拟器冒烟（不发生）
+- `git diff --stat e61e0f7..main -- app packages tool pubspec.yaml pubspec.lock` → **空**，锚点 e61e0f7 仍有效，main 无新业务合入 → 本轮无冒烟义务（非跳过，是条件未触发）。
+- 未启动 emulator，未占用并发窗口（builder 侧随时可用）。
+
+### 4. WAITING_HUMAN 状态
+- `/Users/dada561/Documents/runway/WAITING_HUMAN` 存在，981B，mtime **Oct 25 03:49**，内容与 R222/R223 首见一致（唤醒全族 disabled、SB-053 停摆熔断）→ 非新事件，按在册「无新事件不重推」不重复推送。
+- 待浩然三选一：①SB-053 提审或作废 ②重开 wake 并清 5 条重复 cron ③暂停本 loop。
+
+### 5. cron 族实测
+- `runway-wake`（b0ea8424-3eab-4207-b8dd-14671503b30c）：**enabled=false**，lastRunAtMs=1792791900066（10-24 05:45，约 23h 前），lastRunStatus=ok。
+- 唤醒全族 5 条全 disabled：88a8e128 / b0ea8424 / b71bf570 / e71e53ac / f859efc9。
+- `runway-watchdog`（abaa94c7）：enabled=true，last 1h ago ok（116s）。
+- 本巡检 19b5f29f：ok（上轮 31m 前）。
+
+### 6. 漂移与一致性审计（全绿）
+a) 亏欠框架禁词：`grep -rnE "没省|又花|喝掉|罪恶|浪费钱" app/lib | wc -l` = **2**，逐行核为元引用（`logic/goal_ladder.dart:7` 规则注释、`logic/achievement.dart:13` 禁词常量表）→ 用户可见 = **0**。
+   `ui/theme` 与 motion_spec 之外裸 `Color(0x` = **0**；motion_spec 之外非零 `Duration(milliseconds:` = **0**。
+b) main 头 = `ff88430`（票434/R223），能对应 REVIEW.md 最近归档轮；feat 分支 7 条无 stray（archive/SB-051-motion-r3、feat/034、feat/048、feat/051、feat/052、feat/053、main）；`_LOCK` 无匹配（0）；stash 0；worktree 1（主库）；tag 4；origin 零触碰。
+c) `progress.md` 285 行仍为唯一真相注册表，末条=10-23 15:4x 见底自派开卡 SB-053；`task_plan.md` 8 行薄索引（16:31 浩然批准 3a9d763），仅只读缓存，未据其判进度。
+
+### 7. 提示词新鲜度自审（三件套，零过期零 edit）
+- wake（b0ea8424）payload = command `sh ~/.openclaw/tools/runway-wake-dispatch.sh`（66 行），全文无卡号/applicationId 锚，最新语义为 S0.6「只认显式标记行」→ 与当日现实不冲突。
+- watchdog（abaa94c7）message 仅指向 `LOOP.md` watchdog 一节 + 未审先合核查 → 无卡号锚，无需更新。
+- 本巡检 message：卡号锚 **SB-053**（与 docs/tasks 最高卡号一致）、冒烟命令 `com.zangou.runway/.MainActivity`（SB-013 归一后现行口径）、锚 e61e0f7（本轮 diff 实测仍空）、:00/:30 与唤醒 :15/:45 错峰成立 → **零失配，不做 cron edit**。
+
+### 8. 规范适配审查（周日，无义务）
+- 本周一（10-26）挂账四条顺延：①LOOP S2 无卡面状态判据 ②派发器 S0.1 落孤授权 ③「WAITING_HUMAN 后自动停唤醒」条文化 ④S0.2 分支守卫早于 S0.1 续做判定。
+
+### 9. 决策模型
+- 本轮无边界裁决（无新审、无合入、无卡参数取舍）→ 调用 **0** 次。
+
+### 10. 记账方式
+- 主库树停 feat/SB-053，故记账走临时 main worktree `/tmp/sup-r224`（detached ff88430），提交后收轮删除；本票所有数字均取自本轮终端回显，无「已合入/已归档/冒烟 PASS」类声明（本轮无此类动作）。
+
+### 11. 利益点自省
+**原地（第 74 轮）**：本轮只做守场确认——停摆未解、SB-053 仍停分支未提审，产品离「让用户以接近零成本，天天看见自己向想要的东西挪一步」没有更近。真卡点仍是两张：首页空白卡（SB-053）等提审、v0.1.1 落窗口等浩然一句话。
+
+监工签字：老油条 [supervisor R224]
