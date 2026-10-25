@@ -371,3 +371,91 @@
 ⚡零推送（守场属常规结果，按收口条款只落盘）。
 
 监工签字：老油条 [supervisor R259]
+
+---
+
+## 票471 · R260 · 2026-10-26 00:00（周一·首轮·含规范适配审查）
+
+结论: 无新审查（SB-053 仍未提审）· 队列零漂移 · 冒烟不发生 · 漂移全绿 · 周一规范适配审查 7 条提案（不代批）
+
+### 1. 新审查
+内容判据：`git show main:REVIEW_REQUEST.md | grep -c 'SB-053'` = **0**（REQ 仍是 SB-051 重开首审旧版）；mtime 1792793015 < 1792793016 属 checkout 后同秒伪值，不采信。→ **未提审，不审不预读**。
+main 头 **6964157**（票470/R259）· `rev-list --count main` = **854** · 本轮 main 零新业务提交。
+feat/SB-053-today-saved-card 头 **a322a5b**（2026-10-23 15:51:28）· 停 **56h08m** · `main...feat` = **119/1** · diff **3 文件 +148 行**。
+
+### 2. 队列同步（卡面 vs 快照）
+- 卡文件 **4** 张（SB-021/051/052/053）；状态行实测：SB-021 有「挂起 v0.2」，SB-051/052/053 **无状态行**（依票面：051 挂起 R146 裁B / 052 已审待合 R148 票359 / 053 待办 R149 自派）→ 与快照 queue **零漂移**，仅刷时间戳与停转时长。
+- done **47**（`git ls-tree -r --name-only main docs/tasks/done/` 实测）；tag **4**；待办卡 **1** ≤2 → 排卡提醒在册；但 wake 族 5 条全 disabled，无施工方，按沿册**不自派**（派卡也不会被认领，只会加剧分支堆积）。
+- 推荐下一批（待浩然放行）：v0.1.1 落窗口（SB-052+SB-053 合入 → 实拍三帧 → 冒烟 → 出包），不放行则本环维持停转。
+
+### 3. 模拟器冒烟
+**不发生**：`git diff --stat e61e0f7..main -- app/` 输出 **0 行**（锚 e61e0f7 仍有效），main 无新合入、无 G 卡 PASS。
+
+### 4. 漂移与一致性审计（main 树 /tmp/sup-r260 实测）
+- 亏欠框架禁词：app/lib 命中 **2**，均为元引用（`logic/achievement.dart:13` 禁词表常量、`logic/goal_ladder.dart:7` 注释条文），**用户可见 0**；全库命中 8 处全为禁词表/测试断言/规范文档 → 合规。
+- 裸 `Color(0x`：app/lib **41**，全在 `app/lib/ui/theme/tokens.dart`；theme 外 **0**（app/test 29+1 属断言，不计）。
+- `Duration(milliseconds:` 非零：motion_spec/theme 外 **0**。
+- `_LOCK` **0**；stash **0**；分支 **7**（main + feat 034/048/051/052/053 + archive-051-r3，零 stray）；tag **4**；worktree 主 1 + 临时 /tmp/sup-r260（收轮删）；真账目 **0**。
+- progress.md **372** 行（唯一真相注册表，本票 +1 → 373）；task_plan.md **8** 行薄索引（未据此判进度，符合 3a9d763）。
+- 一行结论：**漂移全绿，无 P1；唯一红灯仍是「环停转」本身，不属漂移。**
+
+### 5. 提示词三件套新鲜度自审
+- 最高卡号 **SB-053** ✓（docs/tasks 实测）；快照队列卡号 ✓；applicationId `com.zangou.runway` ✓（build.gradle.kts:19）；入口 `.MainActivity` ✓；巡检 cron `19b5f29f` running ✓；watchdog `abaa94c7` ok（13m 前）✓。
+- wake 族 **5 条全 disabled**（b0ea8424 2d / 88a8e128 11d / b71bf570 14d / e71e53ac 11d / f859efc9 15d），启用 **0** → 时间参数无失配，但环无驱动。
+- 派发器守卫顺序未变：分支守卫在 L13-14（S0.2）先于 S0.1 落孤/S0.3 锁/S0.4 脏树 → 树停 feat 即结构性空退（P1，本轮并入提案④）。
+- **零 cron edit**（本轮无过时项）。
+
+### 6. 周一规范适配审查（提案，逐条带条文草案；不代批）
+
+**上周（10-19~10-25）偏差裁决与流程事故汇总**（均有在册证据）：
+- R147 SB-052 首审 RC（管线跑绿但截图是启动图/错页）→ 判据缺口：对"实拍证据"只查有无、未查内容。
+- R148 SB-052 二审 PASS、R149 出票360 自派 SB-053；SB-051 三 RC 熔断后人工重开（轮次归零无状态机入口）。
+- 10-22 02:06:29 main 半截 squash 归因不明 → 已回滚亲合。
+- R247 与 R257 两次 progress 漏登（24h 内同构）→ R259 起加机械自检。
+- mtime 闸门在 worktree checkout 后同秒失真 → 改内容判据。
+- 监工记账一度在半截树操作 → R148/R149 起步临时 main worktree。
+- 10-25 03:49 watchdog 写 WAITING_HUMAN，但条款没要求同步停 wake。
+
+**提案条文（草案，供浩然批）**：
+
+1. `DEV_WORKFLOW §2` 增 **2.7「卡面状态行强制」**：每张 `docs/tasks/SB-*.md` 首部必含 `状态：待办｜施工中｜已审待合｜挂起｜done`，与分支/提审状态同步更新；缺状态行视为卡不合规，监工可退回补。
+   *依据：SB-051/052/053 三张无状态行，S2 只能靠 progress 判；R149/R253 沿册。*
+
+2. `LOOP.md` 增 **S2.1「卡面状态判据」**：卡面状态为「挂起」「已审待合」者不视为新卡，跳过；卡面无状态行时回退 progress 注册表判定。
+   *依据：R149 实证 builder 实际尊重状态行，规则文本未写 → 只补文本不改行为。*
+
+3. `LOOP.md` / 派发器 **守卫顺序修正**：S0.1 落孤续做判定上移至分支守卫之前；或 S0.2 增例外——REVIEW.md 最新段含有效「续做授权」且分支名匹配时放行。
+   *依据：dispatch.sh L13-14 早于 L39-42；树停 feat 即结构性停转第 110 轮。*
+
+4. `LOOP.md` 增 **S0.7「WAITING_HUMAN 联动停唤醒」**：写入 WAITING_HUMAN 的同一次运行内必须 disable wake cron 并记录 job id+时间；巡检发现「WAITING_HUMAN 存在且 wake enabled」→ P1 上报。
+   *依据：10-25 03:49 watchdog 写挂起但未停 wake（本轮实测全族 disabled 属旁因，条款仍缺）。*
+
+5. `GIT_WORKFLOW §8` 增 **「审计判据一律内容优先」**：mtime 仅作初筛；正式判定用 `git show main:REVIEW_REQUEST.md | grep -c 'SB-nnn'` + REVIEW 尾票卡号。worktree checkout 后的同秒 mtime 不采信。
+   *依据：本轮及 R246 起全部改用内容判据，规则文本未跟。*
+
+6. `GIT_WORKFLOW §4` 增 **「合入后自验」**：squash 落 main 后立即 `git log --oneline -2` + `git diff HEAD~1 --stat` 复核单卡范围；出现跨卡混杂/半截 squash → 立即 revert 并在 progress 留一行归因。
+   *依据：10-22 02:06:29 半截 squash。*
+
+7. `DEV_WORKFLOW §5` 增 **「记账工作树隔离 + 归档实测」**：工作树停 feat 时，监工记账必须 `git worktree add /tmp/sup-rNNN main` 在临时树写并提交，收轮 `worktree remove`；done/ 归档以 `git ls-tree main docs/tasks/done/` 实测计数入票，叙述无效。
+   *依据：R148/R149 已实践；done/ 历史谎报教训。*
+   （另：`DESIGN_SYSTEM §6` 增「实拍工具不得跨未合入分支取用，依赖未合入工具时卡标挂起+依赖卡号」——依据 SB-051 补拍依赖 052 的 tool/shots.sh，跨界待浩然一句话。）
+
+**LOOP 状态机与实际运转失配（b 项）**：
+- S0.5 用 `REVIEW_REQUEST.md -nt REVIEW.md` 判"等审"，worktree checkout 后同秒失真 → 建议同步改内容判据（并入提案 5）。
+- S1 轮次上限 3 与实际一致（SB-051 三 RC 熔断成立）；但「熔断后重开」无状态机入口，靠人工裁B + 手工重置 → 建议增 S1.5「重开授权三段式：分支重置 · 轮次归零 · 范围重述」。
+- 锁：本轮 _LOCK=0、stash=0、死锁清理未触发；S0.3 只判 PID 存活，无时长上限 → 建议「_LOCK 内含启动时间戳，>90min 视为死锁自动清除」（防 SIGKILL 后残留）。
+- 巡检频率 30min 在无 wake 期产出恒零（本轮为第 110 轮停转）→ 提降频至 2h（仅提案，不擅改 cron）。
+
+### 7. 决策模型
+0 调用（无边界裁决：未提审、无冒烟、无偏差判定；7 条均为规范提案，非 D 级裁决）。
+
+### 8. 反虚构自验
+main 6964157 / rev 854 / 119-1 / diff 3 文件 +148 行 / done 47 / tag 4 / 分支 7 / 禁词 2（app/lib·用户可见 0）/ 裸 Color 41（theme 外 0）/ 非零 Duration 0 / progress 372 行 / task_plan 8 行 / WAITING_HUMAN 981B md5 c19ce45 未变 / applicationId build.gradle.kts:19 —— 均为本轮终端回显。
+本轮无「已合入 / 已归档 / 冒烟 PASS」声明。
+
+### 9. 利益点自省
+**原地（第 110 轮）**：修首页空白卡的代码躺在分支上 56 小时没人审，用户看到的仍是那张空壳 Card——离"天天看见自己挪一步"没近一步。停转本身已从"偶发"变成"机制"，建议本轮把「放行 v0.1.1 落窗口」作为唯一待办推给浩然。
+
+⚡推送：周一规范适配审查+放行请求=需拍板，按收口条款③发一条。
+
+监工签字：老油条 [supervisor R260]
