@@ -795,3 +795,39 @@ main 6964157 / rev 854 / 119-1 / diff 3 文件 +148 行 / done 47 / tag 4 / 分�
 簿记：落笔前 main rev = **863**，本票预期 **864**。
 
 监工签字：老油条 [supervisor R269]
+
+---
+
+## 巡检票 · 票481 / R270 · 2026-10-26 05:0x（守场 · 环停第120轮）
+
+结论: PASS（本轮无新提审，无合入判定）
+
+## 检查项
+- [x] 新审判据（内容优先）：`git show main:REVIEW_REQUEST.md | grep -c SB-053` = **0**；live REQ md5 `f039fbfe` == main 版 md5 `f039fbfe` → 零漂移；live mtime 1792793015/1792793016 为同秒伪值，按既定判据不采信 → **未提审，不审不预读**。
+- [x] 队列（卡面状态行实测）：SB-021=挂起 v0.2 · SB-051=挂起（10-23 14:07 裁B）· SB-052=已审待合（R148/票359 PASS）· SB-053=待办（分支施工未提审）→ 与快照 queue **零漂移**。
+- [x] 待办卡 = **1**（SB-053 施工在分支未提审）；≤2 水位自 R149 维持，环停期间不新派卡防撞道。
+- [x] done 计数：`git ls-tree --name-only main docs/tasks/done/ | wc -l` = **47**。
+- [x] 冒烟义务：`git diff --stat e61e0f7..main -- app` 为空 → **不发生**，锚维持 **e61e0f7**。
+- [x] 归属：main 头 **9438203**（票480 / R269，rev 864）↔ REVIEW 最近归档轮吻合；本轮 main 零新业务提交；无未审 feat 合入迹象。
+- [x] feat 现场：`feat/SB-053-today-saved-card`@**a322a5b**（2026-10-23 15:51:28，停 **61h09m**，零新提交）；`rev-list --left-right --count main...feat` = **129/1**；diff = **3 文件 +148 行**。
+- [x] 注册表：progress.md **420** 行（唯一真相，本票 +1）；task_plan.md **8** 行薄索引（只读缓存，未据此判进度，符合 3a9d763 裁定）。
+- [x] 周一规范适配审查：R260（票471）已于本日 00:00 出票（7 条条文草案 + LOOP 失配 4 项），本轮为周一第六拍，按规不重复，等浩然批。
+- [x] 决策模型：本轮无边界裁决，调用 0 次。
+- [x] WAITING_HUMAN：md5 `c19ce45` 与 R260 起一致＝非新事件；三选一请求已随 R260 单条推送，本轮不重复。
+- [x] 提示词新鲜度：wake 族 5 任务实测 disabled（b0ea8424 2d / 88a8e128 11d / e71e53ac 12d / b71bf570 14d / f859efc9 15d），dispatch 未变，applicationId `com.zangou.runway` 为现行口径，零 edit。
+- [x] 新观察：`runway-backup`（560d719d）今 04:30 本次执行 status=error（announce→last 无路由 fail-closed），与 10-25 起投递通道降级同因；不涉仓库，记 P2 沿册，不推送。
+- [x] 收尾三件套：审查结论 + REVIEW.md 提交 + progress 登记，同轮完成（temp main worktree 落笔，收轮删除）。
+
+## 漂移与一致性审计（一行）
+禁词 `没省|又花|喝掉|罪恶|浪费钱`（app/lib）= **2 行全元引用**（`achievement.dart:13` 词表本体 · `goal_ladder.dart:7` 规则注释），用户可见 **0**（另 4 处命中均在 `app/test/` 断言黑名单，非产品文案）；非 `ui/theme` 裸 `Color(0x` = **0**；非 `motion_spec` 裸 `Duration(milliseconds:` = **0**；真账命中 3 行为 `grain_report` 口径/导入注释（非真实账目）；`_LOCK` **0** / stash **0** / worktree 主 **1**+临时 sup-r270 / 分支 **7** / tag **4**（含 v0.1.0）/ done **47**；main 头 **9438203** ↔ 票480 对齐；无 feat 残留合入、无 `_LOCK` 泄漏 → **全绿**。
+
+问题列表:
+1. 无新增 P0/P1。在册遗留（不新增）：SB-053 停转 61h09m 待提审或作废；裁A 冻结解除条件悬空（tag v0.1.0 已于 10-20 直打，待浩然定 v0.1.1）；SB-051 补拍跨支取用待一句话；wake 族 5 任务 disabled；派发器 S0.2 分支守卫结构性停转（提案③）。
+
+**利益点自省（第 120 轮）**：原地——+148 行仍躺分支，用户打开首页仍见空壳卡，离"天天看见自己挪一步"零位移；机制未落入"要用户自律才运转"的旧病，但停转已连续 120 轮消耗迭代窗口。
+
+⚡推送：无（收口条款①-⑤均不触发；已推送的拍板请求不重复）。
+
+簿记：落笔前 main rev = **864**，本票预期 **865**。
+
+监工签字：老油条 [supervisor R270]
