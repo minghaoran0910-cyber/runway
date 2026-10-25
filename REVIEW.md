@@ -161,3 +161,28 @@
 ⚡零推送（守场属常规结果，按收口条款只落盘）。
 
 监工签字：老油条 [supervisor R251]
+
+---
+
+## 票463 · R252 · 2026-10-25 20:00（周日）守场巡检
+
+结论: 无新审查（守场，零新审）
+
+- 审查闸门：工作树停 feat/SB-053，盘上 REQ/REVIEW mtime 1792793015/1792793016（REQ 早 REVIEW 1s）为旧版伪值不采信；内容判据 `git show main:REVIEW_REQUEST.md | grep -c 'SB-053'` = **0** → SB-053 未提审，按规则不审不预读。
+- 仓库现状（main **6358f67** 实测，rev=**844**）：done/ = **47**（`git ls-tree main docs/tasks/done/`）；progress.md **364** 行；task_plan.md 8 行（薄索引，只读未动）；`git rev-list --left-right --count main...feat/SB-053-today-saved-card` = **109 / 1**；feat 末次 **a322a5b**（2026-10-23 15:51:28），停 **52h09m** 零新提交，diff 3 文件 +148 行（home_page 7 / today_saved_row 5 / sb053 测试 136）；feat/SB-052=dd1d835（已审待合）、feat/SB-051-motion=12e2b95（挂起）、feat/SB-034-diag-channel=e576624、feat/SB-048-goal-editor=3ae7522、archive/SB-051-motion-r3 均在册；本地支 **7**，零 stray。
+- 队列同步：`docs/tasks/SB-*.md` 状态行实测 —— SB-053=待办（施工在分支·未提审）· SB-052=已审待合 · SB-051=挂起 · SB-021=挂起 v0.2，与快照 queue 逐字一致 → **零漂移，不推送**。待办卡=**1**（≤2 阈值已触发"提醒排下一批"），但 wake 全族 disabled + 裁A 冻结 + WAITING_HUMAN 在场 → 开新卡无施工方，本轮不自派（结构性停转）。
+- 模拟器冒烟：**不发生**。`git diff --name-only e61e0f7..main -- app packages tool pubspec.yaml` = **0** 行 → 锚 e61e0f7 仍有效，无新合入、无 G 卡 PASS。
+- 漂移与一致性审计（一行结论）：禁词 **2** 命中全为元引用（`goal_ladder.dart:7` 规则注释 + `achievement.dart:13` 检测词表），用户可见 **0**；裸 `Color(0x` **41** 处全在 `app/lib/ui/theme` 内，theme 外 **0**；motion_spec 外非零 `Duration(milliseconds:` **0**；真实账目数据 **0**（grep `¥|元|余额` 命中仅 `goal_editor.dart` 输入标签与 `budget_card.dart:160` 预算标签，无真实流水/金额数据）；_LOCK **0** / stash **0** / 支 **7** / tag **4** / worktree 主 **1**（临时 sup-r252 收轮删）；main 头 6358f67 对应 R251 归档轮、无未审先合、无锁泄漏 → 符合。
+- 提示词新鲜度（三件套）：最高卡号 = **SB-053**（docs/tasks/ 实测）与快照一致 ✓；`cron list --all` 实测 wake 族 **5** 条（88a8e128 / b0ea8424 / b71bf570 / e71e53ac / f859efc9）**全 disabled**（b0ea8424 last 2d）✓；watchdog `abaa94c7` ok（13m ago）、巡检 `19b5f29f` running、需求反思 `6f3e81c0` ok，backup ok(suppressed)；派发器 S0.2 分支守卫（`runway-wake-dispatch.sh:13-14`）仍早于 S0.3 锁判定 → 树停 feat 即结构性空退，挂账并入周一规范提案；applicationId `com.zangou.runway` 现行口径 ✓ → **零 edit**。
+- WAITING_HUMAN（03:49 watchdog 写，981B，md5 `c19ce45`）与前轮一致 = 非新事件，**不重推**；仍需浩然三选一：①SB-053 提审或作废 ②重开 wake 并清重复 cron ③暂停本 loop。
+- 周一预告：明日（10-26）首轮必出【规范适配审查】，挂账 4 项（LOOP S2 无卡面状态判据 / 派发器 S0.1 落孤授权 / WAITING_HUMAN 后自动停唤醒条文化 / S0.2 分支守卫早于 S0.1）。
+- 决策模型：无边界裁决，**0 调用**。
+- 利益点自省：本轮仍只记账守场，产品未向"让用户以接近零成本天天看见自己挪一步"更近——**原地（第 102 轮）**；停转根因在流程（wake disabled + 未提审）而非产品机制同构，暂不升级排期提案。
+
+## 反虚构自验
+- 上述 main 头 6358f67 / rev 844 / done=47 / 364 行 / 109:1 / diff=0 / 禁词 2 / 裸 Color 41 / 真账 0 / wake 5 disabled 均为本轮终端回显，非叙述生成。
+- 本票不含任何「已合入 / 已归档 / 冒烟 PASS」声明（本轮无此类动作）。
+
+⚡零推送（守场属常规结果，按收口条款只落盘）。
+
+监工签字：老油条 [supervisor R252]
