@@ -7012,3 +7012,48 @@ main 头 **82a744a**（票449/R238）→ 本轮 main 零新提交，无待审对
 ⚡零推送（守场属常规结果，按收口条款只落盘）。
 
 监工签字：老油条 [supervisor R239]
+
+---
+
+# 票451 · 2026-10-25 13:30 周日巡检（R240）· 守场零新审
+
+## 1. 新审查
+REQ 内容判据 `git show main:REVIEW_REQUEST.md | grep -c SB-053` = **0**；mtime 1792793015/1792793016 秒级伪值不采信 → 未提审，不审不预读。main 头 **da90463**（票450/R239），本轮 main 无新业务提交。
+
+## 2. 队列同步（卡面 vs 快照）
+- 卡面「状态：」行：SB-051/052/053 三张仍无状态行，仅 SB-021 有（挂起 v0.2）→ 状态以分支+票证为准（P2 沿册）。
+- 与快照 queue 逐项一致，**零漂移**：SB-053 待办·施工在分支未提审 @a322a5b｜SB-052 已审待合 @dd1d835（R148 PASS·裁A 冻结）｜SB-051 挂起 @12e2b95｜SB-021 挂起 v0.2｜G1~G11 ✓ + tag v0.1.0（30ae2f0）。
+- 待办卡 = **1**（≤2 阈值）→ 提醒排下一批；WAITING_HUMAN 挂起期间不新派（防撞道，见 §7）。
+
+## 3. 模拟器冒烟
+**不发生**：`git rev-list --merges --count e61e0f7..main` = **0**；`git diff --stat e61e0f7..main -- app packages tool pubspec.yaml` = **空** → 锚 e61e0f7 仍有效；G 里程碑无新 PASS。未起模拟器。
+
+## 4. 漂移与一致性审计（main worktree /tmp/sup-r240 实测）
+- 禁词（没省|又花|喝掉|罪恶|浪费钱）：app/lib = **2**，均元引用（`logic/goal_ladder.dart:7` 声明注释、`logic/achievement.dart:13` 禁词清单字面量），用户可见 = **0**。
+- 裸 `Color(0x`：app/lib = **41**，全在 `ui/theme/tokens.dart` 豁免；theme 之外 = **0**。
+- motion_spec 之外非零 `Duration(milliseconds:` = **0**。
+- main 头 da90463（票450/R239）↔ REVIEW 尾票 R239 闭环，rev = **831**。
+- 分支 **7**（main + feat 034/048/051/052/053 + archive-051-r3），零 stray；_LOCK = **0**；stash = **0**；worktree = 1（/tmp/sup-r240 收轮删）；tag = **4**；`ls-tree main docs/tasks/done/` = **47**；porcelain = 1（未跟踪 WAITING_HUMAN，非业务脏）。
+- progress.md（main 版）**356** 行 = 唯一真相注册表；task_plan.md **8** 行薄索引（未据此判进度）。
+- 真账目数据命中：**0**。
+- 一行结论：**漂移全绿，无 P1**。
+
+## 5. 提示词三件套新鲜度自审
+- `cron list --all` 实测：wake 族 5 条全 **disabled**（b0ea8424 1d 前 / 88a8e128 10d / b71bf570 14d / e71e53ac 11d / f859efc9 15d）→ 启用 **0 条**；本巡检 19b5f29f running；runway-watchdog abaa94c7 ok。派发器 S0.2 分支守卫（L14）仍早于 S0.3~S0.6（P1，周一挂账④）。
+- 最高卡号 = SB-053 ✓；冒烟包名口径 com.zangou.runway ✓；时间参数无失配。无过时项 → 零 cron edit；周日不触发规范适配审查（周一 10-26 四条挂账）。
+
+## 6. 决策模型
+0 调用（无边界裁决）。
+
+## 7. 反虚构自验
+数值均取本轮命令回显：main head da90463 / rev 831 / main...feat=**96/1** / feat head a322a5b(10-23 15:51:28·停 **45h39m**) / diff 3 文件 +148 行 / done 47 / tag 4 / WAITING_HUMAN 981B md5 c19ce45（与 R222~R239 一致=非新事件）。无「已合入/已归档/冒烟 PASS」声明。
+
+## 8. 利益点自省
+**原地（第 90 轮）**：守场只防腐，产品未前挪——首页空白卡仍在 feat 躺着，提审/落窗口两开关都在浩然手里。连续「更远」= 0。
+
+## 9. 待浩然（不重推）
+同 WAITING_HUMAN 三选一：① SB-053 提审或作废 ② 重开 wake 并清重复 cron ③ 明确暂停本 loop。默认建议：开 v0.1.1 落窗口（合 052+053 → 实拍三帧+冒烟 → 出包）。
+
+⚡零推送（守场属常规结果，按收口条款只落盘）。
+
+监工签字：老油条 [supervisor R240]
