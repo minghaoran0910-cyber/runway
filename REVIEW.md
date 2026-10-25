@@ -6747,3 +6747,62 @@ SB-053 待办（施工在分支·未提审）｜SB-052 已审待合（R148/票35
 ⚡零推送（守场属常规结果，按收口条款只落盘）。
 
 监工签字：老油条 [supervisor R234]
+
+---
+
+# 票446 · 2026-10-25 11:0x 周日巡检（R235）· 守场零新审
+
+结论: **无新审查**（不产生 PASS / REQUEST_CHANGES 判决——未提审）
+
+## 1. 审查义务判定
+- mtime：REVIEW_REQUEST=1792793015 < REVIEW=1792793016 —— 秒级伪值不采信（临时 worktree checkout 会刷新 mtime）。
+- 内容判据（准）：`main:REVIEW_REQUEST.md` 中 `SB-053` 命中数 = **0**（grep -c 回显 0）→ 在飞卡未提审，按「REQ 未更新=未提审 → 不审不预读」执行。
+- 在飞卡：`feat/SB-053-today-saved-card@a322a5b`（2026-10-23 15:51:28）停 **43h08m** 零新提交；`git rev-list --left-right --count main...feat` = **91 / 1**。
+
+## 2. 队列同步（卡面 vs 快照）
+- SB-053 待办（施工在分支·未提审）｜SB-052 已审待合（R148/票359 PASS·裁A 冻结）｜SB-051 挂起（R146 裁B）｜SB-021 挂起 v0.2｜G1~G11 ✓ + tag v0.1.0（30ae2f0）
+- 与 `memory/runway-card-state.json` queue **逐项一致 → 零漂移**；待办卡 = 1（≤2）；`done/` = **47**（`git ls-tree main docs/tasks/done/ | wc -l` 实测）；`docs/tasks/` 最高卡号 = **SB-053** ✓（提示词口径现行）。
+- 待办卡 ≤2 成立，但唯一待办卡在施工中且被 WAITING_HUMAN 挂起 → **不新派卡**（防撞道）。
+
+## 3. 模拟器冒烟
+- **义务不发生**：`git log main --merges --oneline -3` 最近一笔 = `3eb3ca4 merge(SB-047)`（10-20），10-23 后 merges = 0；`git diff --stat e61e0f7..main -- app` = **空** → 锚 `e61e0f7` 仍有效。G 里程碑本轮无新 PASS。
+- 未起模拟器（无义务，不空烧）。
+
+## 4. 漂移与一致性审计（逐条）
+| 项 | 结果 | 证据 |
+|---|---|---|
+| 亏欠框架禁词 | 2 处，**全为元引用**（用户可见 0） | `logic/goal_ladder.dart:7`（禁用声明注释）、`logic/achievement.dart:13`（禁词表字符串）、`docs/DESIGN_SYSTEM.md:86`（规范条文） |
+| `ui/theme` 外裸 `Color(0x` | **0** | grep 全量 `app/lib` 回显 0 |
+| `motion_spec` 外非零 `Duration(milliseconds:` | **0** | 同上 |
+| `_LOCK` 泄漏 | **0** | `find . -name "_LOCK*"` = 0 |
+| stash | 0 | `git stash list` = 0 |
+| 分支残留 | 7 支（main + feat×5 + archive×1） | 与快照一致，无新增残留 |
+| tag | 4 | `git tag` 实测 |
+| worktree | 主 1 + 本临时 1（收轮删） | `git worktree list` |
+| main 头 ↔ 最近归档轮 | `e6e40b4`(票445/R234) ✓ | `git log --oneline -1 main` |
+| progress.md / task_plan.md | 285 行（唯一真相）/ 8 行（薄索引，只读缓存） | `wc -l` 实测，3a9d763 落地后口径未变 |
+| `WAITING_HUMAN` | 981B / 03:49 / md5 `c19ce45…` = 与 R222 首报及 R229~R234 完全一致 → **非新事件** | 按「无新信息不重推」，未处置 |
+
+## 5. 提示词三件套新鲜度自审
+- 派发器 `~/.openclaw/tools/runway-wake-dispatch.sh`：仅 `SB-0XX` 一处注释，**无硬编码卡号/分支**；卡号口径以 `docs/tasks/` 最高卡号对照，本轮 = SB-053 ✓ 与快照一致。
+- cron 实测（`--all`）：`runway-wake` b0ea8424 **disabled**；攒够-loop唤醒 88a8e128 / b71bf570 / e71e53ac / f859efc9 全 **disabled** → 启用 0 条；巡检 19b5f29f 运行中（1m ago）；watchdog abaa94c7 ok（1h ago）。
+- 结构性阻塞未变：**S0.2 分支守卫早于 S0.1 续做判定** → 树停 feat 即空退（挂周一第四条）。
+- 周日 → **规范适配审查不触发**；周一 10-26 四条挂账：①LOOP S2 卡面状态判据 ②派发器 S0.1 落孤授权 ③WAITING_HUMAN 自动停唤醒条文化 ④S0.2 守卫顺序。
+
+## 6. 决策模型
+- 本轮零新审 / 零合入 / 零派卡 → 无边界裁决，`decision_evaluate` **0 调用**。
+
+## 7. 反虚构自验
+- 本票所有 hash / 计数 / 路径均来自本轮终端回显（e6e40b4、92f1c3a、a322a5b、91/1、47、826、md5 c19ce45）。
+- 本票**不含任何「已合入 / 已归档 / 冒烟 PASS」声明**（本轮无此类动作）。
+- 三连自验（提交后回填）：`git log --oneline -1 main` / `git rev-list --count main` / `git show main:REVIEW.md | grep -c "票446"`。
+
+## 8. 利益点自省
+**原地（第 85 轮）**：守场只保住管线不被误领，产品未前挪——用户首页那张空白卡仍在 feat 分支上躺着，SB-053 提审/落窗口两个开关都在浩然手里。连续「更远」计数：0。
+
+## 9. 待浩然（不重推，同 WAITING_HUMAN）
+三选一：① SB-053 提审或作废 ② 重开 wake 并清重复 cron ③ 明确暂停本 loop。默认建议不变：开 v0.1.1 落窗口（合 052+053 → 实拍三帧+冒烟 → 出包）。
+
+⚡零推送（守场属常规结果，按收口条款只落盘）。
+
+监工签字：老油条 [supervisor R235]
