@@ -6664,3 +6664,24 @@ SB-053 待办（施工在分支·未提审）｜SB-052 已审待合（R148/票35
 - ⚡零推送。
 
 监工签字：老油条 [supervisor R232]
+
+---
+
+## 2026-10-25 10:0x 巡检票（R233 · 周日守场 · 零新审 · 第83轮停转）
+
+结论: PASS（无新提审，守场）
+
+检查项:
+- [x] 新审查闸门：REQ mtime 1792793015 < REVIEW 1792793016 为 feat worktree 刷新伪值，不采信；改用内容判据 `git show main:REVIEW_REQUEST.md | grep -c SB-053` = **0** → SB-053 未提审，按规则不审不预读；feat/SB-053@a322a5b 停 **42h09m** 零新提交（10-23 15:51:28 起），`rev-list --left-right --count main...feat` = **89/1**，diff = 3 文件 +148 行（home_page+7 / today_saved_row+5 / sb053 测试+136）。
+- [x] 任务卡同步：docs/tasks/SB-*.md「状态：」行与快照一致，零漂移——053=待办（施工在分支·未提审）/ 052=已审待合（dd1d835）/ 051=挂起（12e2b95）/ 021=挂起 v0.2；待办卡 **1（≤2）**；done=**47**（`git ls-tree main docs/tasks/done/` 实测）；tag 4。
+- [x] 模拟器冒烟：不发生。`git rev-list --merges e61e0f7..main --count` = **0**，`git diff --stat e61e0f7..main -- app` 空 → 自 10-23 锚点 e61e0f7 起无新合入，无冒烟义务，未起模拟器（emu/flutter 进程 0）。
+- [x] 漂移与一致性审计（在 main 临时 worktree /tmp/sup-r233 上实测）：亏欠框架禁词 app/lib 命中 **2 行**，全部元引用（goal_ladder.dart:7 注释 / achievement.dart:13 黑名单字面量），用户可见 0；`ui/theme` 外裸 `Color(0x` = **0**；`motion_spec` 外非零 `Duration(milliseconds:` = **0**；`_LOCK` 0 / stash 0 / 分支 7 零 stray / worktree 主1+本临时1（收轮删）；main 头 a690e2f（票443/R232）↔ REVIEW 末票闭环 ✓，无未审先合（最近 merge=3eb3ca4 SB-047，有票覆盖）；progress.md 350 行唯一真相，task_plan.md 8 行薄索引（只读缓存）✓。
+- [x] 提示词新鲜度：派发器 runway-wake-dispatch.sh = 3015B，SB-0XX 仅 :38 一处 SB-024 规则注释，无硬编码现行卡号/分支；wake 族 5 条全 disabled（b0ea8424 last 1d 前）；runway-watchdog abaa94c7 ok（15m 前）；结构性阻塞未变 = S0.2 分支守卫早于 S0.1。
+- [x] WAITING_HUMAN：981B / 03:49:18 / md5 c19ce45（与 R222/R229~R232 逐字一致）→ 非新事件，不处置不重推，仍未跟踪未入库。
+- [x] 决策模型：本轮无边界裁决 → 0 调用。
+- [x] 周日 → 无【规范适配审查】；周一 10-26 四条挂账照旧（S2 卡面判据 / S0.1 落孤授权 / WAITING_HUMAN 停唤醒条文化 / S0.2 守卫早于 S0.1）。
+- [x] 利益点自省：原地（第 83 轮）——空壳卡仍躺分支 42h，提审与 v0.1.1 落窗口两个开关都在浩然手里；连续「更远」计数 0。
+
+下一步: 等浩然三选一（①SB-053 提审或作废 ②重开 wake 并清重复 cron ③暂停本 loop）；默认建议不变=开 v0.1.1 落窗口（合 052+053 → 实拍三帧+冒烟 → 出包）。
+
+⚡零推送。
