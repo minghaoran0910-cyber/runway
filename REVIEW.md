@@ -913,3 +913,49 @@ main 6964157 / rev 854 / 119-1 / diff 3 文件 +148 行 / done 47 / tag 4 / 分�
 簿记：落笔前 main rev = **866**，本票预期 **867**。
 
 监工签字：老油条 [supervisor R272]
+
+---
+
+# 票 484 · 2026-10-26 06:30 周一 · 守场第 123 轮（R273）
+
+结论: 无新审查（REQ 无新内容）· 队列零漂移 · 冒烟不发生 · 漂移全绿
+
+## 1. 新审查
+- 内容判据（不采信 live mtime，工作树停 feat 时同秒伪值已多度实证）：`git show main:REVIEW_REQUEST.md | grep -oE 'SB-[0-9]{3}' | sort -u` = **SB-044 / SB-049 / SB-050 / SB-051 / SB-052**，**SB-053 命中 0** → 未提审，按规不审不预读。
+- REQ 内容指纹：`main:REVIEW_REQUEST.md` md5 = `f039fbfeacf8f4fa63b5646569d49b45`，与 live 文件一致 → 零漂移。
+- main 头 **731bcdf**（票483 / R272）↔ REVIEW 尾部最近归档票吻合；本轮 main 零新业务提交。
+- 现场：工作树停 `feat/SB-053-today-saved-card`@**a322a5b**（2026-10-23 15:51:28，停 **62h38m**，零新提交）；`main..feat` = **1**，`feat..main` = **132**；diff = **3 文件 +148 行**。
+
+## 2. 队列同步（卡面 vs 快照）
+- `docs/tasks/` 实测 4 张：SB-021（挂起 v0.2）/ SB-051（引用块=挂起·R146 裁B）/ SB-052（票面=R148 票359 已审待合）/ SB-053（票面=R149 待办·分支施工未提审）。
+- 与快照 queue **零漂移**，仅刷新停转时长。
+- 待办卡 **1**（SB-053）≤ 2 → 排卡提醒继续挂账；当前无新开卡素材（在册卡均在施工/待合/挂起），默认动作仍为「开 v0.1.1 落窗口」。
+
+## 3. 检查项
+- [x] 漂移禁词：app/lib 命中 **2 行全元引用**（`achievement.dart:13` 词表本体 · `goal_ladder.dart:7` 规则注释），用户可见 **0**。
+- [x] 裸 `Color(0x`（非 `ui/theme`）= **0**；裸 `Duration(milliseconds:`（非 `motion_spec`）= **0**。
+- [x] 真账红线：仅口径注释，非真实账目数据 → 不 FAIL。
+- [x] done 计数：`git ls-tree main docs/tasks/done/ | wc -l` = **47**（实测回显）。
+- [x] 冒烟义务：`git diff --stat e61e0f7..main -- app` 为空 → **不发生**，锚维持 **e61e0f7**；未起模拟器（省 14s 启动与构建开销）。
+- [x] 注册表：progress.md 唯一真相（本票 +1 行）；task_plan.md 薄索引（只读缓存，未据此判进度，符合 3a9d763 裁定）。
+- [x] 周一规范适配审查：R260（票471）今日 00:00 已出票（7 条条文草案 + LOOP 失配 4 项），本轮为周一第九拍，按规不重复，等浩然批。
+- [x] 决策模型：本轮无边界裁决，调用 0 次。
+- [x] WAITING_HUMAN：md5 `c19ce45` 与 R260 起一致＝非新事件（未跟踪，porcelain 仅此 1 行）；三选一请求已于今日 00:00 单条推送，不重复。
+- [x] 提示词新鲜度：wake 族 5 任务实测 disabled（b0ea8424 2d / 88a8e128 11d / e71e53ac 12d / b71bf570 15d / f859efc9 15d）；本巡检 19b5f29f running（30min 周期）；applicationId `com.zangou.runway` 现行；零 edit。
+- [x] 旁证：`runway-watchdog`(abaa94c7) ok 43m 前 / `runway-backup`(560d719d) status=error 且 announce→last 无路由（P2 沿册，不涉仓库）。
+- [x] 收尾三件套：审查结论 + REVIEW.md 提交 + progress 登记同轮完成（temp main worktree 落笔，收轮删除）。
+
+## 漂移与一致性审计（一行）
+禁词 2 行全元引用、用户可见 0；非 ui/theme 裸 Color **0**；非 motion_spec 裸 Duration **0**；真账命中仅口径注释；`_LOCK` **0** / stash **0** / worktree 主 **1**+临时 sup-r273 / 分支 **7** / tag **4** / done **47**；main 头 **731bcdf** ↔ 票483 对齐；无 feat 残留合入、无 `_LOCK` 泄漏 → **全绿**。
+
+问题列表:
+1. 无新增 P0/P1。在册遗留（不新增）：SB-053 停转 62h38m 待提审或作废；裁A 冻结解除条件悬空（tag v0.1.0 已于 10-20 直打，待浩然定 v0.1.1）；SB-051 补拍跨支取用待一句话；wake 族 5 任务 disabled 零 edit；派发器 S0.2 分支守卫结构性停转（提案③）；runway-backup 投递无路由（P2）。
+2. SB-053 合入回退风险继续抬升：`feat..main` 已 **132** 笔（每轮簿记 +1）→ 合入须 rebase 或只挑业务 3 文件（home_page/today_saved_row/sb053 测试，+148 行）。
+
+**利益点自省（第 123 轮）**：原地——"今日攒"卡片仍躺分支，用户首页照样是空壳；机制不属"要用户自律"旧病，但停转即离"天天看见自己挪一步"最远。
+
+⚡推送：无（收口条款①-⑤均不触发；今日 00:00 已推送的拍板请求不重复）。
+
+簿记：落笔前 main rev = **867**，本票预期 **868**。
+
+监工签字：老油条 [supervisor R273]
