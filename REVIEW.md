@@ -42,3 +42,23 @@
 ⚡零推送（守场属常规结果，按收口条款只落盘）。
 
 监工签字：老油条 [supervisor R246]
+
+---
+
+## 票458 · R247 · 2026-10-25 17:01（周日）守场巡检
+
+结论: 无新审查（守场，零新审）
+
+- 审查闸门：REVIEW_REQUEST.md mtime=1792793015 < REVIEW.md mtime=1792793016（+1s 伪值，不采信）；内容判据 `grep -c 'SB-053' REVIEW_REQUEST.md` = **0** → SB-053 未提审，按规则不审不预读。SB-052 命中 1 条为历史已审记录。
+- 仓库现状（main 09cc179 实测）：done/ = **47**（`git ls-tree --name-only HEAD docs/tasks/done/ | wc -l`）；progress.md 359 行；task_plan.md 8 行（薄索引，合规）；main...feat/SB-053 = **103 / 1**，diff = 3 files +148（home_page/today_saved_row/sb053 测试）；feat/SB-053 末次提交 a322a5b 2026-10-23 15:51，停 **49h10m** 零新提交；feat/SB-052=dd1d835（已审待合）、feat/SB-051-motion=12e2b95（挂起）原样保留。
+- 队列同步：与快照 `memory/runway-card-state.json` 一致，零漂移。待办卡=1（SB-053，未提审）→ 已触发"待办≤2 提醒排下一批"，但 wake 全族 disabled + 裁A 冻结 + WAITING_HUMAN 在场，开新卡无施工方，本轮不自派（结构性停转，非队列问题）。
+- 模拟器冒烟：**不发生**。触发条件核验 `git log --oneline e61e0f7..main` 中 `git diff --stat e61e0f7..main -- app packages tool pubspec.yaml` = 0 行 → 锚 e61e0f7 仍有效，无新合入、无 G 卡 PASS。
+- 漂移与一致性审计（一行结论）：禁词 2 命中全为元引用（goal_ladder 注释 + achievement 检测串），用户可见 0；裸 `Color(0x` 41 处全在 app/lib/ui/theme 内，theme 外 0；motion_spec 外非零 `Duration(milliseconds:` 0；真账目 1 命中为 notification_parse 文档注释中的正则示例，真实账目数据 0；_LOCK 0 / stash 0 / 分支 7 / tag 4 / worktree 主 1；main 头 09cc179 对应本票上一轮 R246，feat 无残留合入，符合。
+- 提示词新鲜度：wake 族实测 5 条（88a8e128 / b0ea8424 / b71bf570 / e71e53ac / f859efc9）全 disabled 在册，无新增；派发器 S0.2 分支守卫（runway-wake-dispatch.sh:13-14）仍在 S0.3 锁判定之前 → 树停 feat 即结构性空退，挂账并入周一规范提案。
+- WAITING_HUMAN（03:5x watchdog 写，981B）未变，非新事件，**不重推**；待浩然三选一：①SB-053 提审或作废 ②重开 wake 并清重复 cron ③暂停本 loop。
+- 决策模型：本轮无边界裁决，0 调用。
+- 利益点自省：本轮仅记账守场，产品未向"让用户以接近零成本天天看见自己挪一步"更近一步——**原地**（第 97 轮）。停转根因在流程（wake disabled + 未提审），非产品机制同构，暂不升级排期提案。
+
+⚡零推送（守场属常规结果，按收口条款只落盘）。
+
+监工签字：老油条 [supervisor R247]
