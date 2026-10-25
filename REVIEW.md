@@ -520,3 +520,33 @@ main 6964157 / rev 854 / 119-1 / diff 3 文件 +148 行 / done 47 / tag 4 / 分�
 ⚡推送：无（常规守场结果，按收口条款①-⑤均不触发；R260 已推送的拍板请求不重复）。
 
 监工签字：老油条 [supervisor R262]
+
+---
+
+## 票 474 · R263 巡检（2026-10-26 01:30 · 周一第三拍 · 守场零新审）
+
+结论：**PASS（无新提审，零动作守场）**
+
+检查项:
+- [x] 新审闸门（内容判据）：`git show main:REVIEW_REQUEST.md | grep -c 'SB-053'` = **0** → SB-053 仍未提审，按规则不审不预读。mtime 闸门（REQ 1792793015 / REVIEW 1792793016 同秒级）在 worktree checkout 后不可信，沿用 R260 提案⑤：一律内容判据。
+- [x] 队列零漂移：待办卡 **1** 张（SB-053，施工在 feat@a322a5b，停 **57h39m** 零新提交）；SB-052 已审待合（R148 PASS·裁A 冻结）；SB-051 挂起（R146 裁B）；SB-021 挂起 v0.2；G1~G11 ✓，tag v0.1.0 已于 10-20 12:03 发布。卡面「状态：」行仍缺 SB-051/052/053 三张（在册 P2）。
+- [x] 分支/工作树：活树停 feat/SB-053-today-saved-card（`main...HEAD = 122/1`，diff 3 文件 +148 行 = home_page.dart +7 / today_saved_row.dart +5 / sb053 测试 +136）；其余 feat/SB-034-diag-channel、feat/SB-048-goal-editor、feat/SB-051-motion、feat/SB-052-shots-pipeline、archive/SB-051-motion-r3 均在册，`git branch` = 7 行**无 stray**；worktree 主 1（本票用 /tmp/sup-r263 临时 main worktree 记账，收轮删除）；`_LOCK` 不存在、stash=0、tag=4。
+- [x] done/ 实测：`git ls-tree main docs/tasks/done/ | wc -l` = **47**（命令回显，非叙述）。
+- [x] main 头对齐：main HEAD = `facddb2`，其票号 R262/票473，与 REVIEW.md 最近归档轮一致；无未记票的 main 提交。
+- [x] 冒烟不发生：`git diff --stat e61e0f7..main -- app` 输出 0 行 → app diff=0，锚点 e61e0f7 仍有效；本轮无新合入、无 G 卡 PASS，故无模拟器义务。
+- [x] 漂移与一致性审计（结论行）：禁词 `没省|又花|喝掉|罪恶|浪费钱` —— app/lib 命中 **2 行全元引用**（goal_ladder.dart:7 规则注释、achievement.dart:13 禁词表常量），app/test 命中 **4 行全断言**，用户可见 **0**；裸 `Color(0x` 共 41 处**全部**在 `app/lib/ui/theme/tokens.dart`，theme 之外 **0**；motion_spec 之外非零 `Duration(milliseconds:` **0**；真账关键词 2 处均为"真实账目永不入库/仅给真实金额"注释，**真账数据 0**；progress.md=386 行（唯一真相）／task_plan.md=8 行（薄索引，头注明确"非真相源"）；**全绿**。
+- [x] 提示词新鲜度自审：卡号口径 SB-053 与 `docs/tasks/` 最高卡号一致；包名口径 `com.zangou.runway`；冒烟锚点与命令现行；wake 族在 `openclaw cron list` 中**仍不可见**（全族 disabled，未擅自 enable）。三件套 message/command **零 edit**。
+- [x] 并发：`pgrep -fl emulator|flutter|gradle` = **0**，无 builder 在飞冲突。
+- [x] 周一规范适配审查：R260（票471）已于本日 00:00 出票，含 7 条条文草案 + LOOP 失配 4 项；本轮为周一第三拍，按规不重复出票，等浩然批。
+- [x] 决策模型：本轮无边界裁决，调用 0 次。
+- [x] WAITING_HUMAN：md5 `c19ce45` 与 R260~R262 一致＝非新事件（写于 10-25 03:49）；三选一请求已随 R260 单条推送，本轮不重复推送。
+- [x] 收尾三件套：审查结论 + REVIEW.md 提交 + progress 登记，本轮同轮完成。
+
+问题列表:
+1. 无新增 P0/P1。在册遗留（不新增）：SB-053 停转 57h39m 待提审或作废；裁A 冻结解除条件悬空（待浩然定 v0.1.1）；SB-051 补拍跨支取用待一句话；wake 族全 disabled 待裁 A/B/C。
+
+**利益点自省（第 113 轮）**：原地——修空壳卡的 +148 行仍躺在分支上，用户打开首页仍看见空白「今日攒」，离"天天看见自己挪一步"没近一步。机制与 SilentBook 旧病（没人推就不转）同构已连续多轮标注；破局只需浩然一句话放行 v0.1.1 落窗口。
+
+⚡推送：无（常规守场结果，按收口条款①-⑤均不触发；R260 已推送的拍板请求不重复）。
+
+监工签字：老油条 [supervisor R263]
