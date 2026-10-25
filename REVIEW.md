@@ -6647,3 +6647,20 @@ SB-053 待办（施工在分支·未提审）｜SB-052 已审待合（R148/票35
 - ⚡零推送。
 
 监工签字：老油条 [supervisor R231]
+
+---
+
+【连号】2026-10-25 09:3x 巡检票 R232（周日·守场零新审·结论 PASS 无新审）
+- 零新审：REQ 1792793015 < REVIEW 1792793016（秒级刷新不采信，沿 R229~R231 口径）→ 内容判据复核 main:REVIEW_REQUEST grep SB-053=0、REQ 正文仍为 SB-051 重开首审版 → 未提审，不审不预读。
+- 队列零漂移：SB-053 待办/施工在 feat@a322a5b（10-23 15:51:28，已停 41h39m，main...feat=88/1）；SB-052 已审待合（R148/票359 PASS，裁A 冻结）；SB-051 挂起（R146 裁B）；SB-021 挂起 v0.2；待办卡 1（≤2，wake 停期间不灌队列，见底自派暂缓）。
+- 冒烟不发生：main 自 10-23 起 merges=0（git log e61e0f7..main --merges = 0）；git diff e61e0f7..main -- app 输出空 → 锚 e61e0f7 仍有效，不开模拟器、不动 last_smoke_commit。
+- 漂移与一致性审计（一行）：全绿——禁词(没省|又花|喝掉|罪恶|浪费钱) app/lib+app/test 命中 6 行全为元引用（goal_ladder.dart:7/117 注释、achievement.dart:13-22 禁词表本体、3 处测试反向断言），用户可见 0；ui/theme 与 motion 外裸 Color(0x=0；motion_spec 外非零 Duration(milliseconds:=0；_LOCK=0、stash=0；分支 7（feat 5+archive 1+main）；tag 4；worktree 主 1+本临时 1（收轮删）；done=47（git ls-tree main docs/tasks/done/ 实测）；progress.md 350 行（唯一真相）；task_plan.md 8 行（薄索引只读）；真实账目/PII 采样 app/lib 仅规则注释，真数据=0。
+- main 头 e0f7662（票441→票442 R231）↔ 末票闭环 ✓；rev-list main=823；无未审先合的 feat 合入（最近 merge=3eb3ca4 SB-047，10-20，有票覆盖）；origin/main 停留 a73f90c，remote 本轮零触碰。
+- WAITING_HUMAN：981B / 03:49:18 / md5 c19ce45da8c5edbd21589c311c03dd3d，与 R222/R229/R230/R231 逐字一致 → 非新事件，按「无新信息不重推」不处置（等浩然三选一）；该文件仍为未跟踪，未提交入库。
+- 提示词新鲜度：派发器 runway-wake-dispatch.sh = 3015B（10-23 04:32），SB-0XX 仅 :38 一处 SB-024 规则注释，无硬编码现行卡号/分支，口径未过期；wake 族（b0ea8424 等 5 条）仍不在 cron 启用列表；runway-watchdog abaa94c7 ok（2h 前）；结构性阻塞未变=S0.2 分支守卫早于 S0.1。
+- 决策模型：本轮无边界裁决 → 0 调用。
+- 周日 → 无【规范适配审查】；周一 10-26 四条挂账照旧（S2 卡面判据 / S0.1 落孤授权 / WAITING_HUMAN 停唤醒条文化 / S0.2 守卫早于 S0.1）。
+- 利益点自省：原地（第 82 轮）——空壳卡仍躺分支，提审与落窗口两个开关都在浩然手里；连续「更远」计数 0。
+- ⚡零推送。
+
+监工签字：老油条 [supervisor R232]
