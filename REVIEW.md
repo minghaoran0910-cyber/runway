@@ -550,3 +550,43 @@ main 6964157 / rev 854 / 119-1 / diff 3 文件 +148 行 / done 47 / tag 4 / 分�
 ⚡推送：无（常规守场结果，按收口条款①-⑤均不触发；R260 已推送的拍板请求不重复）。
 
 监工签字：老油条 [supervisor R263]
+
+---
+
+## 巡检票 · 票475 / R264 · 2026-10-26 02:0x（守场 · 环停第114轮）
+
+结论: PASS（本轮无新提审，无合入判定）
+
+## 检查项
+- [x] 新审判据：main worktree `stat -f %m` 实测 REQ=**1792951253** / REVIEW=**1792951253**（相等→非新审）；内容判据 `git show main:REVIEW_REQUEST.md | grep -c SB-053` = **0** → SB-053 未提审，按规则不审不预读。
+- [x] 队列（卡面状态行实测）：SB-021=挂起 v0.2 · SB-051=挂起（10-23 14:07 裁B）· SB-052 / SB-053 **无状态行**（P2 在册）→ 与快照 queue 一致，**零漂移**。
+- [x] 待办卡 = **1**（SB-053 施工在分支未提审）；≤2 水位自 R149 自派后维持，环停期间不新派卡防撞道。
+- [x] done 计数：`git ls-tree --name-only main docs/tasks/done/ | wc -l` = **47**，与快照 doneCount 一致。
+- [x] 冒烟义务：`git diff --name-only e61e0f7..main -- app | wc -l` = **0** → **不发生**，锚维持 **e61e0f7**。
+- [x] 归属：main 头 **1d5fc83**（票474 / R263）↔ REVIEW 最近归档轮吻合；无 feat 未审合入迹象。
+- [x] feat 现场：`feat/SB-053-today-saved-card`@**a322a5b**（2026-10-23 15:51:28，停 **约58h**，零新提交）；`rev-list --left-right --count main...feat` = **123/1**；`diff --stat` = **3 文件 +148 行**（home_page +7 / today_saved_row +5 / sb053 测试 +136）。
+
+## 漂移与一致性审计（一行）
+禁词 `没省|又花|喝掉|罪恶|浪费钱`（`git grep` main · app/lib）= **2 行全元引用**（`achievement.dart:13` 词表本体 · `goal_ladder.dart:7` 规则注释），用户可见 **0** · ui/theme 与 tokens 之外裸 `Color(0x` = **0** · motion_spec 之外非零 `Duration(milliseconds:` = **0** · 真实账目/红线 **0** · `_LOCK`=**0** · stash=**0** · 本地支 **7**（无 stray）· tag **4** · worktree 主仓 1 + 本轮临时 `/tmp/sup-r264`（收轮删）· progress 唯一真相续登 · task_plan **8 行**薄索引未动 · origin/main 零触碰。
+
+## 提示词新鲜度自审（每轮一步）
+- `openclaw cron list`（26 条）与 `cron list --all | grep wake` 实测：wake 两族均 **disabled**（b0ea8424 last run **2d ago**、b71bf570 14d ago），巡检 19b5f29f running、watchdog abaa94c7 ok（13m 前）；巡检 message 内 wake 括注自带时点（R180 07:0x）属观察值非规范条款 → **零 edit**（改之无行为变化，避免 churn）。
+- dispatch 实体 `~/.openclaw/tools/runway-wake-dispatch.sh` mtime **Oct 23 04:32** 未变（旁证 `.bak-20261023-S06`）→ 环停因是 cron 停用，不是脚本被删。
+- watchdog message（`cron get` 实测）指向 LOOP.md watchdog 节，无卡号/版本锚 → 无过期面。
+- 卡号口径：docs/tasks/ 最高卡号 **SB-053** = 快照 queue 最高 → 一致；applicationId/冒烟命令口径 `com.zangou.runway` 未变。
+
+## 本轮发现
+1. **P1（沿册·未变）**：结构性停转第 **114** 轮——wake 全 disabled，且簿记已把 main 推离 feat **123 笔**；SB-053 合入前须 rebase 或只挑 3 个业务文件（+148 行）。无人工裁决无法自解；`WAITING_HUMAN`（md5 **c19ce45**，与上轮同值 = 非新事件）在册。
+2. 无 P0；无新边界裁决 → `decision_evaluate` 调用 **0 次**。
+
+## 反虚构自验
+本票所有数字均为本轮终端回显（mtime / ls-tree / rev-list / diff --stat / md5 / cron list）；**不含任何「已合入 / 已归档 / 冒烟 PASS」声明**——本轮无此类动作。
+
+## 利益点自省（第 114 轮）
+原地——SB-053 那 +148 行仍躺在分支上，用户打开首页依旧看见空白「今日攒」卡；机制「没人推就不转」与 SilentBook 旧病同构，破局只需浩然一句话放行 v0.1.1 落窗口。
+
+⚡推送：无（R260 00:00 已单条推送拍板请求，不重复）。
+
+簿记：落笔前 main rev = **858**，本票预期 **859**。
+
+监工签字：老油条 [supervisor R264]
