@@ -86,3 +86,28 @@
 ⚡零推送（守场属常规结果，按收口条款只落盘）。
 
 监工签字：老油条 [supervisor R248]
+
+---
+
+## 票460 · R249 · 2026-10-25 18:00（周日）守场巡检
+
+结论: 无新审查（守场，零新审）
+
+- 审查闸门：工作树停 feat/SB-053，盘上 REQ/REVIEW mtime 1792793015/1792793016 属旧版伪值不采信；内容判据 `git show main:REVIEW_REQUEST.md | grep -c 'SB-053'` = **0** → SB-053 未提审，按规则不审不预读。
+- 仓库现状（main **7d6ecba** 实测，rev=**841**）：done/ = **47**（`git ls-tree`）；progress.md **361** 行；task_plan.md **8** 行（薄索引，只读未动）；`git rev-list --left-right --count main...feat/SB-053-today-saved-card` = **106 / 1**；feat 末次 **a322a5b**（2026-10-23 15:51:28），停 **50h08m** 零新提交，diff 3 文件 +148 行；feat/SB-052=dd1d835（已审待合）、feat/SB-051-motion=12e2b95（挂起）原样；archive/SB-051-motion-r3 在册。
+- 队列同步：待办卡=**1**（SB-053 施工在分支·未提审）· SB-052=已审待合 · SB-051=挂起 · SB-021=挂起 v0.2，与快照 queue 逐字一致 → **零漂移，不推送**。待办≤2 阈值已触发"提醒排下一批"，但 wake 全族 disabled + 裁A 冻结 + WAITING_HUMAN 在场 → 开新卡无施工方，本轮不自派（结构性停转）。
+- 模拟器冒烟：**不发生**。`git diff --name-only e61e0f7..main -- app packages tool pubspec.yaml` = **0** 行 → 锚 e61e0f7 仍有效，无新合入、无 G 卡 PASS。
+- 漂移与一致性审计（一行结论）：禁词 **2** 命中全为元引用（`achievement.dart:13` 检测词表 + `goal_ladder.dart:7` 规则注释），用户可见 **0**；裸 `Color(0x` **41** 处全在 `app/lib/ui/theme` 内，theme 外 **0**；motion_spec 外非零 `Duration(milliseconds:` **0**；真实账目数据 **0**（`app_db.dart:16` 仅"真实账目永不入库"注释，diag_mask 为脱敏示例，其余为输入标签文案）；_LOCK **0** / 仓库 lock 文件 **0** / stash **0** / 本地支 **7**（main + 5 feat + 1 archive，零 stray）/ tag **4** / worktree 主 **1**（临时 sup-r249 收轮删）；main 头对应 R248 归档轮、无未审先合、无锁泄漏 → 符合。
+- 提示词新鲜度（三件套）：最高卡号 = **SB-053** 与快照一致 ✓；`cron get b0ea8424` = command 架构跑 `runway-wake-dispatch.sh`，脚本内 SB 卡号命中仅 1 行注释、守卫动态读 LOOP.md/REQ → 无过期卡号 ✓；watchdog `abaa94c7` message 指向 LOOP.md watchdog 节、无硬编码卡号 ✓；wake 族 **5** 条（88a8e128 / b0ea8424 / b71bf570 / e71e53ac / f859efc9）实测**全 disabled**，b0ea8424 lastRun 停在 10-23 → 与停转事实相符；applicationId 实测 `com.zangou.runway` 与冒烟口径一致 → **零 edit**。
+- WAITING_HUMAN（03:5x watchdog 写，981B，md5 `c19ce45`）与前轮一致 = 非新事件，**不重推**；仍需浩然三选一：①SB-053 提审或作废 ②重开 wake 并清重复 cron ③暂停本 loop。
+- 周一预告：明日（10-26）首轮须出【规范适配审查】，在册挂账 4 项（LOOP S2 无卡面状态判据 / 派发器 S0.1 落孤授权 / WAITING_HUMAN 后自动停唤醒条文化 / S0.2 分支守卫早于 S0.1）。
+- 决策模型：无边界裁决，**0 调用**。
+- 利益点自省：本轮仍只记账守场，产品未向"让用户以接近零成本天天看见自己挪一步"更近——**原地**（第 99 轮）；停转根因在流程而非产品机制，暂不升级排期提案。
+
+## 反虚构自验
+- 上述 main 头 / rev / done=47 / 361 行 / 106:1 / diff=0 / 禁词 2 / 裸 Color 41 / 真账 0 / wake 5 disabled 均为本轮终端回显，非叙述生成。
+- 本票不含任何「已合入 / 已归档 / 冒烟 PASS」声明（本轮无此类动作）。
+
+⚡零推送（守场属常规结果，按收口条款只落盘）。
+
+监工签字：老油条 [supervisor R249]
