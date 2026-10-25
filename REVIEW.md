@@ -310,3 +310,31 @@
 ⚡零推送（守场属常规结果，按收口条款只落盘）。
 
 监工签字：老油条 [supervisor R257]
+
+---
+
+## 票469 · R258 · 2026-10-25 23:00（周日守场·零新审）
+
+结论: 无新审（REVIEW_REQUEST 未更新 → 不审不预读）
+
+检查项:
+- [x] REQ 内容判据 `git show main:REVIEW_REQUEST.md | grep -c 'SB-053'` = **0**（首行仍是旧 SB-051 重开首审）；mtime 1792793015 < REVIEW 1792793016 为 feat 工作树 checkout 后秒级伪值，不采信
+- [x] main 头 **a8930db**（票468/R257）↔ 上轮归档票闭环，`rev-list --count main`=**850**；本轮 main 零新业务提交
+- [x] 队列与快照零漂移：SB-053 待办（feat@a322a5b，停 **55h08m** 零新提交，`main...feat`=**115/1**，diff 3 文件 +148 行）· SB-052 已审待合（dd1d835）· SB-051 挂起（12e2b95）· SB-021 挂起 v0.2；done=**47**（`git ls-tree main docs/tasks/done/` 实测）；卡面状态行：SB-051 有状态行（挂起·裁B），SB-052/053 仍缺（P2 沿册）
+- [x] 模拟器冒烟：**不发生** —— `git diff --stat e61e0f7..main -- app` = **空（0 行）**，锚 e61e0f7 仍有效；无新合入、无 G 卡 PASS，未起模拟器
+- [x] 视觉保真闸门：本轮无 app/lib/ui/** 提审，不触发
+
+漂移与一致性审计: 禁词 app/lib **2**（`achievement.dart:13` 检测词表 + `docs/DESIGN_SYSTEM.md:86` 条款引用，均为元引用，用户可见 **0**）· 裸 `Color(0x` app/lib **41** 全在 `ui/theme`、theme 外 **0** · `motion_spec` 外非零 `Duration(milliseconds:)` **0** · 真实账目数据 **0** · `_LOCK` **0** · stash **0** · 支 **7** 零 stray（含 2 素材支在册）· tag **4** · worktree 主 1 + 临时 1（本轮自建 `/tmp/sup-r258`，收轮删）· progress **369** 行 · task_plan **8** 行薄索引（只读缓存非真相）· live 树仅 1 条未跟踪 `WAITING_HUMAN`（981B，md5 `c19ce45` 未变 = 非新事件，不重推）· main 头 a8930db 对应 R257 归档轮 ✓
+
+提示词新鲜度自审: wake 现役 b0ea8424 实测 `disabled`（last run 2d ago）· runway-watchdog abaa94c7 `ok`（2h 周期）· 本巡检 19b5f29f `*/30` 运行中 · 最高卡号 docs/tasks/ 实测=**SB-053** 与快照队列一致 · applicationId 口径 `com.zangou.runway` · 三件套**零过期零 edit**。
+
+- 周一预告：明日（10-26）首轮出【规范适配审查】，挂账 4 项（LOOP S2 无卡面状态判据 / 派发器 S0.1 落孤授权 / WAITING_HUMAN 后自动停唤醒条文化 / S0.2 分支守卫早于 S0.1）。
+- 利益点自省: 原地第 **108** 轮——本轮只记账守场，产品未更近亦未更远；停转根因在流程（wake 全 disabled + SB-053 未提审 + 裁A 冻结无解冻窗口），非产品机制与 SilentBook 旧病同构，暂不升级排期提案。
+
+## 反虚构自验
+- 上述 main 头 a8930db / rev 850 / done=47 / 369 行 / task_plan 8 行 / 115:1 / 禁词 2 / 裸 Color 41 / theme 外 0 / 真账 0 / _LOCK 0 / stash 0 / tag 4 / worktree 2 / md5 c19ce45 均为本轮终端命令真实回显。
+- 本票不含任何「已合入 / 已归档 / 冒烟 PASS」声明（本轮无此类动作）。
+
+⚡零推送（守场属常规结果，按收口条款只落盘）。
+
+监工签字：老油条 [supervisor R258]
