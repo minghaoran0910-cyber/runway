@@ -338,3 +338,36 @@
 ⚡零推送（守场属常规结果，按收口条款只落盘）。
 
 监工签字：老油条 [supervisor R258]
+
+---
+
+## 票470 · R259 · 2026-10-25 23:30（周日守场·零新审）
+
+结论: 无新审（REVIEW_REQUEST 未更新 → 不审不预读）
+
+检查项:
+- [x] REQ 内容判据 `git show main:REVIEW_REQUEST.md | grep -c 'SB-053'` = **0**（首行仍是旧 SB-051 重开首审）；mtime 1792793015 < REVIEW 1792793016 属 feat 工作树 checkout 后秒级伪值，按既定口径不采信
+- [x] main 头 **f4b1c0b**（票469/R258 两笔：REVIEW 4197293 + progress f4b1c0b）↔ 上轮票闭环，`rev-list --count main`=**852**；本轮 main 零新业务提交
+- [x] 队列与快照零漂移：SB-053 待办（施工在 feat，@a322a5b，停 **55h38m** 零新提交；feat 领先 main **1** 笔 / 落后 **117** 笔；diff 3 文件 +148 行）· SB-052 已审待合（dd1d835）· SB-051 挂起（12e2b95）· SB-021 挂起 v0.2 · G1~G11 ✓（tag v0.1.0=30ae2f0）；done=**47**（`git ls-tree main docs/tasks/done/` 实测）；卡面状态行：SB-051 有（挂起·裁B），SB-052/053 仍缺（P2 沿册）
+- [x] 模拟器冒烟：**不发生** —— `git diff e61e0f7..main -- app/` = **0 行**，锚 e61e0f7 仍有效；main 本轮无新合入、无 G 卡 PASS，故未起 runway_api36
+- [x] 视觉保真闸门：本轮无 `app/lib/ui/**` 提审，不触发
+- [x] 待办卡 ≤2：现有 **1** 张（SB-053），按规则应提醒排下一批；但 wake 族全 disabled 且 WAITING_HUMAN 待浩然裁决，施工方缺席，本轮按挂账处理不自派（见下 P2）
+
+漂移与一致性审计: 禁词 app/lib **2**（`logic/goal_ladder.dart:7` 文案禁词注释 + `logic/achievement.dart:13` 检测词表，均为元引用，用户可见 **0**）· 裸 `Color(0x` app/lib **41** 全在 `ui/theme`、theme 外 **0** · `motion_spec` 外非零 `Duration(milliseconds:)` **0** · 真实账目数据 **0**（`data/app_db.dart:16` 仅"永不入库"约束注释）· `_LOCK` **0** · stash **0** · 支 **7** 零 stray（含 034/048/archive-051 三素材支在册）· tag **4** · worktree 主 1 + 临时 1（本轮自建 `/tmp/sup-r259`，收轮删）· progress **370** 行（本轮补登 R257 + 登 R259 后 **372**）· task_plan **8** 行薄索引（只读缓存非真相）· live 树仅 1 条未跟踪 `WAITING_HUMAN`（981B·03:49·md5 `c19ce45` 未变 = 非新事件，不重推）· main 头 f4b1c0b 对应 R258 归档轮 ✓
+
+本轮新发现（记账类，非产品问题）:
+1. **P2 · R257（票468）progress 漏登**：`a8930db` 仅改 REVIEW.md（1 file +25），progress.md 无 R257 行（`grep -c R257 progress.md`=1 且该 1 次命中是 R258 行内的引用）；R258 票里"a8930db ↔ 上轮归档票闭环"表述不严谨。**本轮已补登一行（标注"本行系 R259 补登"）**，卡类与 R247 同构、24h 内第二次 → 收轮前加一道机械自检：`grep -c "R<上轮号>" progress.md` 必须 ≥1 才允许收轮，写入本票备忘（无需改规范）。
+
+提示词新鲜度自审: wake 现役 b0ea8424 实测 `disabled`（last run 2d ago）· 其余 wake 族 4 条（88a8e128/b71bf570/e71e53ac/f859efc9）全 `disabled` 在册 · runway-watchdog abaa94c7 `ok`（every 2h，in 17m）· 本巡检 19b5f29f `*/30` 运行中 · 最高卡号 docs/tasks/ 实测=**SB-053** 与快照队列一致 · applicationId 口径 `com.zangou.runway`（`app/android/app/build.gradle.kts:19` 实测）· 派发器 `runway-wake-dispatch.sh` 3015B/10-23 04:32，S0.2 分支守卫 L14 仍早于 S0.3 锁判定（挂账④）· 三件套**零过期零 edit**。
+
+- 周一预告：下一轮（10-26 首轮）出【规范适配审查】，挂账 4 项（LOOP S2 无卡面状态判据 / 派发器 S0.1 落孤授权 / WAITING_HUMAN 后自动停唤醒条文化 / S0.2 分支守卫早于 S0.1），另加本周新增第 5 项观察（progress 登记机械自检是否条文化）。
+- 利益点自省: 原地第 **109** 轮——本轮只记账守场，产品未更近亦未更远；停转根因在流程（wake 全 disabled + SB-053 未提审 + 裁A 冻结无解冻窗口），非产品机制与 SilentBook 旧病同构，暂不升级排期提案。
+- 决策模型：本轮无边界裁决（无提审、无合入、无参数取舍），**0 调用**。
+
+## 反虚构自验
+- 上述 main 头 f4b1c0b / rev 852 / done=47 / 370 行 / task_plan 8 行 / 1:117 / diff 0 / 禁词 2 / 裸 Color 41 / theme 外 0 / 真账 0 / _LOCK 0 / stash 0 / tag 4 / worktree 2 / md5 c19ce45 / applicationId 行号 均为本轮终端命令真实回显。
+- 本票不含任何「已合入 / 已归档 / 冒烟 PASS」声明（本轮无此类动作）。
+
+⚡零推送（守场属常规结果，按收口条款只落盘）。
+
+监工签字：老油条 [supervisor R259]
