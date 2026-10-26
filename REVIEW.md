@@ -2047,3 +2047,36 @@ R260（票471）已于本日 00:00 出票 7 条条文草案 + LOOP 失配 4 项�
 簿记：落笔前 main rev = **897**，本票预期 **898**。
 
 监工签字：老油条 [supervisor R303]
+
+---
+
+## 票 515 · 2026-10-26 22:00 · R304 守场零新审
+
+结论: 无新提审（守场）· 漂移全绿
+
+检查项:
+- [x] 新审：内容判据 `git show main:REVIEW_REQUEST.md | md5` = f039fbfeacf8f4fa63b5646569d49b45 == R303 逐字节相同、`grep -c SB-053`=0 → 未提审，不审不预读（live 树 mtime 1792793015/1792793016 同秒伪值不采信）。
+- [x] 队列：SB-053 待办（施工在支 a322a5b，2026-10-23 15:51:28 落笔，停 ≈78h09m 零新提交，main...feat=1/163，业务 3 文件 +148 行）/ SB-052 已审待合（dd1d835，裁A 冻结）/ SB-051 挂起（12e2b95）/ SB-021 挂起 v0.2 / G1~G11 ✓ tag v0.1.0（30ae2f0）。与快照零漂移；待办=1。
+- [x] 模拟器冒烟：**不发生** —— `git diff e61e0f7..main -- app pubspec.yaml tool` 零行，main 无新合入提交，锚仍有效。
+- [x] 记账口径：done=47（`git ls-tree main docs/tasks/done/ | wc -l` 实测回显）、tag=4、支=7、_LOCK 不存在、stash=0、worktree 主 1 + 本轮临时 sup-r304（收轮删除）。
+- [x] 漂移与一致性审计（一行）：禁词 app/lib 命中 2 全为守卫本体（goal_ladder.dart:7 / achievement.dart:13），可见文案 0；裸 `Color(0x` 41 全在 ui/theme（外 0）；裸 `Duration(milliseconds:` 18 全在 motion_spec（外 0）；main 头 2824c68 ↔ 票 514/R303 对齐；feat 支残留 3 条（034/048/archive-SB-051-r3）均为在册让位支；progress.md 唯一真相（本票 +1，453→454 行），task_plan.md 8 行只读索引。
+- [x] 真实账目数据：红线 grep 无真实账户数据（命中仍为 grain_report.dart 注释中的概念说明与守卫本体）。
+- [x] 提示词新鲜度：三件套零过期零 edit —— 最高卡号 SB-053 与队列一致、包名 com.zangou.runway、`am start -n com.zangou.runway/.MainActivity`、冒烟锚 e61e0f7；wake 族 5 条（88a8e128/b0ea8424/b71bf570/e71e53ac/f859efc9）`cron list --all` 实测 **disabled**（b0ea8424 last 3d ago）；watchdog abaa94c7 last ok 13m 前、prompt 动态无硬编码卡号；两者本轮均无需 edit。
+- [x] 方法勘误（本轮新增，防下轮误判）：`openclaw cron list` **默认过滤 disabled 任务**，本轮首查 wake 族 5 条全缺、一度疑似"被删除"，改 `cron list --all` 后 5 条俱在（disabled）→ **核查停用任务必须带 --all**。
+- [x] 周一规范适配审查：R260 票 471 已出票（7 条条文草案 + LOOP 失配 4 项），本日后续轮次不重复，等浩然批。
+
+问题列表:
+1. P0 WAITING_HUMAN（10-25 03:49·md5 c19ce45 未变）仍待浩然三选一：SB-053 提审或作废 / 重开 wake 并清重复 cron / 暂停本 loop。R286 起不重推。
+2. P1 停转结构性：派发器 S0.2 分支守卫（runway-wake-dispatch.sh:13-14）早于 S0.1/S0.3~S0.6，工作树停 feat 即空退；仅 enable 不解守卫仍空转（wake 日志末条 10-24 05:45「分支非 main 退出」即证）。
+3. P1 SB-053 落后 main 163 笔（簿记每轮 +1）→ 合入须 rebase 或只挑业务 3 文件。
+
+下一步: 等浩然一句话；默认动作=开 v0.1.1 落窗口（合 SB-052+SB-053 → 实拍三帧 + 冒烟 → 出包）。
+
+- progress.md 唯一真相注册表（453→454 行实测）；task_plan.md 只读缓存非真相。
+- 决策模型：本轮无边界裁决，调用 **0** 次。
+- 利益点自省：**原地（连续第 154 轮）**——本轮零施工零合入，用户看不到任何新东西；SB-053 修的首页空白卡是用户可见缺陷，仍卡在提审与拍板上。
+- 推送：无（⚡通知收口条款；WAITING_HUMAN 内容未变，不重推）。
+
+簿记：落笔前 main rev = **898**，本票预期 **899**。
+
+监工签字：老油条 [supervisor R304]
