@@ -1444,3 +1444,53 @@ main 6964157 / rev 854 / 119-1 / diff 3 文件 +148 行 / done 47 / tag 4 / 分�
 簿记：落笔前 main rev = **879**，本票预期 **880**。
 
 监工签字：老油条 [supervisor R285]
+
+---
+
+## 票 497 · R286 守场巡检（2026-10-26 13:00）
+
+结论：**无新内容可审**（见底守场第 136 轮）。
+
+### 1. 审查闸门（内容判据，不用 mtime）
+- main@199084a `REVIEW_REQUEST.md` md5 = `f039fbfeacf8f4fa63b5646569d49b45`，与 R285 一致 → **零漂移**。
+- main:REQ 卡号去重 = SB-044 / SB-049 / SB-050 / SB-051 / SB-052；**SB-053 命中 0** → SB-053 未提审，按规则不审、不预读。
+- worktree mtime 伪值仍不可用（本树停在 feat，两文件同秒），继续只用内容判据。
+
+### 2. SB-053 现场
+- `feat/SB-053-today-saved-card`@`a322a5b`（10-23 15:51:28），**零新提交**，停滞约 69h09m。
+- `main..feat` = 1 提交；业务 diff = 3 文件 +148 行（home_page.dart +7 / today_saved_row.dart +5 / sb053_today_saved_card_test.dart +136）。
+- 未跟踪 `WAITING_HUMAN` 仍在（等浩然三选一）。
+
+### 3. 队列同步
+- 与快照一致，**零变化**：SB-053 待办（在分支未提审）／SB-052 已审待合（裁A 冻结）／SB-051 挂起（裁B）／SB-021 挂起 v0.2／G1~G11 ✓ + tag v0.1.0(30ae2f0)。
+- `docs/tasks/done/` 实测 47（`git ls-tree main docs/tasks/done/`）。
+- 待办卡 = 1（≤2），但队列非真空：SB-053 构件已在分支待提审、SB-052 已审待合 —— 堵点是浩然侧一句话，非监工缺卡，**不重复派新卡**。
+
+### 4. 模拟器冒烟：**不发生**
+- 锚 `e61e0f7..main -- app` diff = 0（零输出），main 无新合入；无 G 卡 PASS 事件 → 按条款不占机时不跑。
+
+### 5. 漂移与一致性审计
+- 禁词（没省|又花|喝掉|罪恶|浪费钱）：`app/lib` 命中 2 = 1 条注释（goal_ladder.dart:7 反例说明）+ 1 条守卫常量（achievement.dart:13 屏蔽词表），**用户可见 0** → 绿。
+- 裸 `Color(0x`（ui/theme 与 motion_spec 外）= **0**；裸 `Duration(milliseconds:` = **0** → 绿。
+- `_LOCK` = 0；stash = 0；分支 7（main/feat-053/feat-052/feat-051/feat-034/feat-048/archive-051）；tag 4；worktree 主 1 + 本票临时 `/tmp/sup-r286`（收轮删）。
+- main 头 199084a ↔ REVIEW.md 最近归档轮 R285 对应；无残留 feat 合入 main。
+- `task_plan.md` = 8 行薄索引（已落地），`progress.md` = 285 行唯一真相 → 合规。
+
+### 6. 三件套与 cron
+- wake 族 5 个（b0ea8424/b71bf570/88a8e128/e71e53ac/f859efc9）实测 disabled 在册，零 edit。
+- 巡检 19b5f29f running；watchdog abaa94c7 ok；统一看门狗 169be936 ok。
+- runway-backup 560d719d status=error（announce 无路由 fail-closed），不涉仓库，沿册不处理。
+- 提示词新鲜度：卡号锚 = SB-053（最高卡号）/队列 4 卡一致；applicationId `com.zangou.runway`、冒烟锚 e61e0f7、时间参数 :00/:30 均现行 → **无过期需改**。
+
+### 7. 周一规范适配审查
+已于 R260（票471）出票（7 条条文草案 + LOOP 失配 4 项），本日为同周一第 3 次巡检，**不重复出票**，等浩然批。
+
+### 8. 决策模型
+零新审／零合入／零取舍 → **0 调用**。
+
+### 9. 利益点自省
+本轮=纯记账，产品 **原地（第 136 轮）**：首页空白卡仍暴露给用户，修好的分支继续躺、已审卡继续冻 → 产出为零，堵点仍在浩然侧一句话。
+
+簿记：落笔前 main rev = 880，本票预期 **881**。
+
+监工签字：老油条 [supervisor R286]
