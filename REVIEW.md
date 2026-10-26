@@ -1399,3 +1399,48 @@ main 6964157 / rev 854 / 119-1 / diff 3 文件 +148 行 / done 47 / tag 4 / 分�
 簿记：落笔前 main rev = **878**，本票预期 **879**。
 
 监工签字：老油条 [supervisor R284]
+
+---
+
+# 票 496 · R285 · 2026-10-26 12:30 守场巡检（周一午间轮）
+
+结论: **无新审（REQ 未更新 · SB-053 未提审）**；队列零漂移；漂移全绿；不发生冒烟。
+
+## 1. 新审查
+- 内容判据（mtime 闸门在任何 worktree checkout 后失效，一律用内容）：`md5 REVIEW_REQUEST.md` = **f039fbfeacf8f4fa63b5646569d49b45**（与 R283/R284 同值，零漂移）；去重卡号 = **SB-044/049/050/051/052**；**SB-053 命中 0** → 未提审。
+- 按规则**不审、不预读**；`feat/SB-053-today-saved-card@a322a5b`（2026-10-23 15:51:28）继续停 **68h38m**，零新提交，业务 3 文件 +148 行（`main...feat` = 143/1）。
+- 无 PASS / 无 REQUEST_CHANGES / 无合入 / 无归档：done/ 实测 `git ls-tree main docs/tasks/done/ | wc -l` = **47**。
+
+## 2. 队列同步（卡面 vs 快照）
+- SB-053 待办（施工在分支·未提审）／SB-052 已审待合（裁A 冻结）／SB-051 挂起（R146 裁B）／SB-021 挂起 v0.2 —— 与 `runway-card-state.json` queue **零漂移**。
+- 待办卡 = **1（≤2）**，按条款提醒排下一批；但派发链已停（wake 族全 disabled + 工作树停 feat 撞 S0.2 分支守卫），**新卡目前派不动**，见 §5 与快照 P0。
+
+## 3. 模拟器冒烟
+**不发生**：main 无新合入（`git diff --stat e61e0f7 main -- app/` 输出行数 = **0**），无 G 里程碑卡 PASS → 锚 `e61e0f7` 仍有效，冒烟留待真合入轮。
+
+## 4. 漂移与一致性审计（main 树实测 /tmp/sup-r285）
+- 亏欠框架禁词全库 **21** 命中，逐条分类：`REVIEW.md` 13 处（历轮票面元引用）、`docs/DESIGN_SYSTEM.md:86` + `_inbox/SPEC-DESIGN…:86`（条文本身）、`goal_ladder.dart:7`（注释条约）、`achievement.dart:13`（禁词常量）、`cooloff_test:183` / `experiment_test:148` / `goal_ladder_test:127` / `sb049_experiment_copy_test:111`（断言）→ 用户可见 **0**，`app/lib/ui/` 命中 **0**。
+- 裸 `Color(0x`：ui/theme 外 **0**；`Duration(milliseconds:` 非 motion_spec **0**（`grep -vc` 双 0 回显）。
+- `_LOCK` **0**；stash **0**；分支 **7**（main + feat 034/048/051/052/053 + archive-051-r3，无新增残留）；worktree **2**（主 + 本轮临时 /tmp/sup-r285，收轮删除）；tag **4**。
+- main head **a094076**（票495/R284）↔ REVIEW 尾票 R284 签字 ✓；`rev-list --count main` = **879**，本票预期 **880**；ahead origin/main **284**（origin 零触碰）。
+- progress.md 唯一真相注册表（435 行，尾条 R284）；`task_plan.md` 8 行薄索引（只读缓存，不据此判进度）✓。
+- 一行结论：**漂移全绿，无 P1**。
+
+## 5. 提示词三件套新鲜度自审
+- `openclaw cron list --all` 实测：巡检 19b5f29f **running**（<1m）；runway-watchdog abaa94c7 **ok**（43m）；需求反思 6f3e81c0 **ok**；唤醒族 5 条（b0ea8424 / 88a8e128 / b71bf570 / e71e53ac / f859efc9）**全 disabled**；统一看门狗 169be936 **ok**（26m，较早前 error 已自愈）；runway-backup 560d719d **error**（announce 无路由 fail-closed，不涉仓库，沿册 P2）。
+- 派发器 `runway-wake-dispatch.sh` md5 **d6fe4f4b** / mtime **10-23 04:32** 未变；S0.2 分支守卫仍前置 → 树停 feat 即结构性空退（P1 挂账，提案③在票471）。
+- 最高卡号 **SB-053** ✓；包名 `com.zangou.runway` ✓；入口 `.MainActivity` ✓；时间参数（巡检 */30、wake 15,45）无失配 → **零 cron edit**。
+- `WAITING_HUMAN` md5 **c19ce45**（10-25 03:5x 写）未变，仍在册未跟踪。
+
+## 6. 决策模型
+本拍无边界裁决（零新审／零合入／零取舍）→ **0 调用**。
+
+## 7. 周一规范适配审查
+已于 R260（票471）出票（7 条条文草案 + LOOP 失配 4 项，等浩然批）；本轮为同周一第 2 次巡检，**不重复出票**。
+
+## 8. 利益点自省
+本轮=守场记账，产品 **原地（第 135 轮）**：首页空白卡仍摆在用户眼前，SB-053 已修却躺分支 68h+ 未提审、裁A 冻结不合入 → 产出为零，堵点全在浩然侧一句话（开 v0.1.1 落窗口 / 提审 SB-053 / 暂停本 loop）。
+
+簿记：落笔前 main rev = **879**，本票预期 **880**。
+
+监工签字：老油条 [supervisor R285]
