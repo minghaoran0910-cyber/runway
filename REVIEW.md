@@ -2683,3 +2683,55 @@ cron 族（`cron list --all` 实测）:
 - P2 待定口径（R315 提出未决）：零漂移轮是否继续每轮落 main 票（现为 feat..main 逐轮 +1 的唯一来源）。
 
 监工签字：老油条 [supervisor R317]
+
+---
+
+## 票 532 · 2026-10-27 06:30 巡检轮 [supervisor R321]
+
+**结论：本轮无新审（REQ 内容零漂移），队列零漂移，冒烟不发生，漂移全绿。**
+
+### 审查面
+- 内容判据（mtime 不采信）：`main:REVIEW_REQUEST.md` md5 = `f039fbfeacf8f4fa63b5646569d49b45`，与 R320 逐字节同；`grep -c "SB-053"` = **0** → 未提审，按规则不审不预读。（工作树 `REVIEW_REQUEST.md` md5 同为 `f039fbfe`，与 main 一致。）
+- 活树 `git branch --show-current` = `feat/SB-053-today-saved-card@a322a5b`；`git log -1 --format=%ci` = **2026-10-23 15:51:28 +0800** → 停 **≈86h39m 零新提交**；`main..feat=1` / `feat..main=180`（簿记每轮 +1）。
+- `WAITING_HUMAN`（未跟踪，981B，md5 `c19ce45d`）未变 → 不重推；内容仍为 10-25 03:49 watchdog 写的三选一。
+
+### 队列同步（卡面「状态：」行 vs 快照）
+| 卡 | 状态 | 与快照 |
+|---|---|---|
+| SB-053 | 待办（施工在分支，未提审） | 一致 |
+| SB-052 | 已审待合（R148/票359 PASS @dd1d835） | 一致 |
+| SB-051 | 挂起（R146 裁B @12e2b95） | 一致 |
+| SB-021 | 挂起 v0.2 | 一致 |
+| G1~G11 | ✓·tag v0.1.0 @30ae2f0 | 一致 |
+
+待办卡 = **1**（SB-053，已在分支施工中）；wake 族全 disabled + 裁A 冻结 → 不自派新卡。卡面状态行格式：SB-051/052/053 仍写在引用块内（`> **状态**：`），提案①待批中，不重复起票。
+
+### 模拟器冒烟
+- **不发生**。锚 `e61e0f7`：`git diff --stat e61e0f7 main -- app` = **0 行**；main 自 R320 仅本票簿记提交，无新合入、无 G 卡 PASS → 按条款不重复起模拟器。
+
+### 漂移与一致性审计（一行结论）
+禁词命中 **2** 全为元引用（`app/lib/logic/achievement.dart:13` 禁词名单量、`app/lib/logic/goal_ladder.dart:7` 「禁用亏欠表述」注释）→ **用户可见 0**；裸 `Color(0x` 非 ui/theme = **0**；裸 `Duration(milliseconds:` 除 `motion_spec.dart` = **0**；`_LOCK`=0、`stash`=0、worktree=2（主 + 本轮临时 sup-r321）、tag=4、分支=7、`done/`=47（`git ls-tree main docs/tasks/done/ | wc -l` 实测）；main 头 `e24a51b`（`git rev-list --count main`=**915**）↔ 票 531 对得上；活树 porcelain=1（仅 `?? WAITING_HUMAN`）。
+
+### 提示词三件套新鲜度
+- 卡号锚：`docs/tasks/` 最高卡号 = **SB-053**（`sort -V | tail` 实测），与 message 内卡号口径一致。
+- message 扫描（`cron get` 正则提取）：SB-053×4、SB-052×2、SB-051×3、SB-021/034/046/048 各 1，均与在册分支/卡面一致；应用包名 `com.zangou.runway` ×2 现行口径；wake lastRun `10-24 05:45` 与 `cron list --all` 实测「3d 前」吻合；DIAG 熄火时刻 `10-27 22:00` 仍在未来。
+- 派发器 `~/.openclaw/tools/runway-wake-dispatch.sh` 无硬编码卡号/包名（grep 仅命中第 38 行注释里的 SB-024 历史先例说明）；watchdog 侧同样无卡号硬编码。
+- `openclaw cron list --all`：wake 族 5 条 **disabled**（b0ea8424 3d / 88a8e128 12d / b71bf570 16d / e71e53ac 13d / f859efc9 16d）；watchdog `abaa94c7` **ok**（43m 前）；巡检 `19b5f29f` 本轮运行中；`560d719d` runway-backup **error(2x)**（announce 无路由，非仓库面）。
+- 本轮 **零 cron edit**；周二非周一 → 不重复规范适配审查（R260/票471 于 10-26 00:01 出票，7 条条文草案 + LOOP 失配 4 项待批）。
+
+### 决策模型
+本轮无边界裁决 → `decision_evaluate` 调用 **0 次**。
+
+### 反虚构自验
+- 本票所有 hash / 计数 / md5 均来自本轮终端回显；**不含任何「已合入/已归档/冒烟 PASS」声明**（本轮无此类动作）。
+- 簿记走临时 main worktree（`git worktree add /tmp/sup-r321 main`，非 `--detach`，避开 P1 陷阱），提交后回读 `git log main -1` 验证 main 前进。
+
+### 利益点自省
+**原地（不更远）**：守场只能防误领，产品没向前挪——用户离「天天看见自己挪一步」仍隔 SB-053 提审与 v0.1.1 落窗两道人工闸门。连续原地第 **171** 轮。
+
+### 收轮待办
+- 本轮结束删除临时 worktree。
+- P0 仍需浩然一句话：v0.1.1 落窗 / SB-053 提审或作废 / 暂停 loop（三选一）。
+- P2 待定口径（R315 提出未决）：零漂移轮是否继续每轮落 main 票（现为 feat..main 逐轮 +1 的唯一来源）。
+
+监工签字：老油条 [supervisor R321]
