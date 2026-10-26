@@ -2366,3 +2366,43 @@ cron 族（`cron list --all` 实测）:
 簿记：落笔前 main rev = **907**，本票预期 **908**。
 
 监工签字：老油条 [supervisor R313]
+
+---
+
+## 第 R314 轮 · 票525（2026-10-27 03:0x）· 守场零新审
+
+结论: PASS（本轮无新提审、零业务码改动）
+
+检查项:
+- [x] 新审闸门（内容判据）：`git show main:REVIEW_REQUEST.md | md5` = `f039fbfe…`，工作树同值；REQ 内 `SB-053` 命中 **0**；mtime 1792793015（10-24 06:03:35）< REVIEW 1792793016 → **无新审**，按规则不审不预读。
+- [x] 队列同步：各卡状态行与快照 queue **逐字零漂移**（SB-053 待办·施工在支未提审 / SB-052 已审待合 / SB-051 挂起 / SB-021 挂起 v0.2 / G1~G11 ✓）→ 不推送，快照仅更新时间戳。
+- [x] 待办卡计数 = **1**（SB-053）≤2 → 本应提醒排下一批；实际无从排：见底自派已在 R149 用满，下一张卡先决条件仍卡 WAITING_HUMAN 三选一 → 只记不推（R286→R314 不重推）。
+- [x] 模拟器冒烟：**不发生**（`git diff --stat e61e0f7 main -- app` 本轮实跑空回显 → app 面零差异，锚 e61e0f7 维持有效；main 头 ec13b3a 为 docs-only 票）。
+
+问题列表:
+1. **P0（沿册·未变）** SB-053 自 2026-10-23 15:51:28 起停 ≈83h（feat@a322a5b 零新提交；`main..feat`=1 / `feat..main`=173），REQ 未更新＝未提审；`WAITING_HUMAN`（md5 c19ce45）未删 → 待浩然三选一。
+2. **P1（沿册）** feat 落后 main 173 笔 → SB-053 落窗须 rebase 或只挑业务 3 文件（home_page / today_saved_row / sb053 测试）。
+3. 无新增 P1/P2。
+
+### 漂移与一致性审计（本轮实跑回显）
+- a) 禁词（没省|又花|喝掉|罪恶|浪费钱）在 `app/lib`+`docs` 命中 **3 行，全为元引用**：`logic/achievement.dart:13` 词表本体 `'又花掉'`、`logic/goal_ladder.dart:7` 规则注释、`docs/DESIGN_SYSTEM.md:86` 规范条文 → **用户可见文案 0**。
+- 裸 `Color(0x` 非 `ui/theme/tokens.dart` = **0**；裸 `Duration(milliseconds:` 非 `ui/theme/motion_spec.dart` = **0**；真实账目数据 = **0**。
+- b) main 头 **ec13b3a（rev908）↔ 票524 R313** 对应；feat 在册：051-motion@12e2b95 / 052-shots-pipeline@dd1d835 / 053-today-saved-card@a322a5b / 034-diag@e576624 / 048-goal-editor@3ae7522 / archive-SB-051-r3@acb24ce（无 stray）；`_LOCK` 无；stash **0**；worktree **1**（主，停 feat）；porcelain **1** = `?? WAITING_HUMAN`（md5 c19ce45 未变）→ **无 P1**。
+- c) `progress.md` 唯一真相（main 463 行）；`task_plan.md` **8 行**薄索引只读未动。
+- 一行结论：**漂移全绿 · 队列零漂移 · 无新审 · 冒烟不发生 · 唯一活动 P0＝SB-053 未提审停 ≈83h**。
+
+### 提示词新鲜度自审（每轮一步）
+- 巡检 message（19b5f29f）：最高卡号 SB-053 ✓、SB-052 已审待合 ✓、SB-051/SB-021 挂起 ✓、done=47（`git ls-tree main docs/tasks/done/` 实测 47）✓、冒烟锚 e61e0f7 ✓、wake 族 5 条 disabled（`cron list --all` 实测）✓、applicationId `com.zangou.runway` ✓。
+- **本轮 edit 1 次**：两处相对时长（`停≈2d20h`、`停≈82h`）改为日期锚定（`last run 10-24 05:45`、`自 10-23 15:51 起`），消除逐轮老化；`cron get` 回读 **len 5685**、两旧片段均不存在 → 持久性已验证。
+- wake 三件套入参（dispatch 第 61 行）`读 LOOP.md，按状态机只做一件事，做完就退出；_LOCK 存在则直接退出` —— 无卡号/版本锚 → 无过期面 ✓。
+- watchdog abaa94c7 `ok`（1h 前），文案指向 LOOP.md watchdog 节，无卡号锚 ✓。
+
+决策模型: 本轮零边界裁决 → `decision_evaluate` 调用 **0**。
+
+利益点自省: **原地（连续第 164 轮）**——零施工零合入，用户手里的 App 与前天完全一样；首页「今日攒」空白卡仍在，停转本身在拉远「天天看见自己挪一步」。
+
+推送：无（⚡通知收口条款；WAITING_HUMAN 未变不重推）。
+
+簿记：落笔前 `git rev-list --count main` = **908**，本票预期 **909**。
+
+监工签字：老油条 [supervisor R314]
