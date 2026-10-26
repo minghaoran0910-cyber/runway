@@ -1,3 +1,48 @@
+# REVIEW — 2026-10-27 05:00 周二 · 守场第 168 轮（R318 · 票529）
+
+结论: 无新审查（REQ 无新内容）· 队列零漂移 · 冒烟不发生 · 漂移全绿
+
+## 1. 新审查
+内容判据 `git show main:REVIEW_REQUEST.md | md5` = **f039fbfeacf8f4fa63b5646569d49b45**，与 R317 逐字节一致；`grep -c SB-053` = **0** → **未提审，不审不预读**。live 树 `REVIEW_REQUEST.md`/`REVIEW.md` mtime = 1792793015 / 1792793016（checkout 后同秒伪值），按既定内容判据不采信。分支头 `feat/SB-053-today-saved-card@a322a5b`（2026-10-23 15:51:28，停 **≈85h09m**，零新提交）；`main..feat` = **1**，`feat..main` = **177**；业务 diff 3 文件 +148 行（home_page/today_saved_row/sb053 测试）。
+
+## 2. 队列同步（卡面 vs 快照）
+- 卡文件实测 4 张（SB-021/051/052/053）。状态行实测：SB-021「挂起 v0.2」；SB-051/052/053 卡面状态写在引用块/票面，与快照一致 → 与 `runway-card-state.json` queue **零漂移**，本轮只刷新时间戳与停转时长。
+- 待办 **1**（SB-053 在支未提审）；SB-052 已审待合（dd1d835）；SB-051 挂起（12e2b95）；SB-021 挂起 v0.2；G1~G11 ✓；tag v0.1.0（10-20 12:03，30ae2f0）。
+- 待办 ≤2 但 wake 族全 disabled + 裁A 冻结 + SB-053 已在支 → **不自派新卡**；默认动作仍为「开 v0.1.1 落窗口」（合 052+053 → 实拍三帧+冒烟 → 出包）。
+- `WAITING_HUMAN`（981B，md5 `c19ce45da8c5edbd21589c311c03dd3d`）与 R222 起逐轮一致 = 非新事件，三选一未决 → 按「R286 起不重推」不重复通知。
+
+## 3. 模拟器冒烟
+**不发生**（条件未满足）：`git diff e61e0f7..main -- app` = **0 行** → 锚 e61e0f7 有效；main 自 R317 仅簿记提交，无新合入、无 G 卡 PASS → 按条款不起模拟器。
+
+## 4. 漂移与一致性审计（main 树 /tmp/sup-r318 实测）
+- 亏欠框架禁词（没省|又花|喝掉|罪恶|浪费钱）：app/lib+docs 命中 **3**，全部元引用（`goal_ladder.dart:7` 注释条文、`achievement.dart:13` 黑名单常量、`docs/DESIGN_SYSTEM.md:86` 规范本身）→ **用户可见 0**；测试侧断言命中另计，非用户可见。
+- 裸 `Color(0x` 非 `ui/theme` = **0**；裸 `Duration(milliseconds:` 非 `motion_spec` = **0**。
+- `_LOCK`=**0**、stash=**0**、分支=**7**（main + feat 034/048/051/052/053 + archive-051-r3）、tag=**4**、`done/`=**47**（`git ls-tree --name-only main docs/tasks/done/ | wc -l`）、worktree = 主 1 + 临时 sup-r318（收轮删）。
+- main 头 **9bb9914**（票528/R317）↔ `rev-list --count main` = **912**；活树 porcelain = 1（仅 `?? WAITING_HUMAN`）；`task_plan.md` = 8 行（薄索引在位）；`progress.md` = 285 行（唯一真相注册表）。
+
+## 5. 提示词三件套新鲜度
+- 卡号锚：`docs/tasks/` 最高卡号 = **SB-053**，与 19b5f29f message 口径一致；SB-053 状态与快照一致。
+- `openclaw cron list --all` 实测：wake 族 5 条 **disabled**（b0ea8424 last run 3d 前 / 88a8e128 12d / b71bf570 15d / e71e53ac 13d / f859efc9 16d）；watchdog `abaa94c7` **ok**（1h 前）、`统一看门狗 169be936` **ok**（56m 前）；`560d719d` runway-backup **error(2x)**（announce 无路由 fail-closed，非仓库面）；巡检 `19b5f29f` 运行中。
+- 派发器 `runway-wake-dispatch.sh:13-14` S0.2 分支守卫早于 S0.3~S0.6 仍原位 → 树停 feat 即结构性停转（结论不变）。
+- 本轮 **零 cron edit**；周二非周一 → 不重复规范适配审查（R260/票471 已出票待批）。
+
+## 6. 决策模型
+本轮无边界裁决 → `decision_evaluate` 调用 **0 次**。
+
+## 7. 反虚构自验
+- 本票所有 hash / 计数 / md5 / 行数均来自本轮终端回显；**不含任何「已合入/已归档/冒烟 PASS」声明**（本轮无此类动作）。
+- 簿记走临时 main worktree（`git worktree add /tmp/sup-r318 main`，非 `--detach`，避开 R309 的游离 HEAD 陷阱），提交后回读 `git log main -1` 验证 main 前进。
+
+## 8. 利益点自省
+**原地（不更远）**：守场只能防误领，产品没向前挪——用户离「天天看见自己挪一步」仍隔 SB-053 提审与 v0.1.1 落窗两道人工闸门。连续原地第 **168** 轮。
+
+## 收轮待办
+- 本轮结束删除临时 worktree `/tmp/sup-r318`。
+- P0 仍需浩然一句话：v0.1.1 落窗 / SB-053 提审或作废 / 暂停 loop（三选一）。
+- P2 待定口径（R315 提出未决）：零漂移轮是否继续每轮落 main 票（本巡检验为 feat..main 逐轮 +1 的唯一来源）。
+
+监工签字：老油条 [supervisor R318]
+
 # REVIEW — 2026-10-25 16:31 周日 · 守场第 96 轮（R246）
 
 结论: 无新审查（REQ 无新内容）· 队列零漂移 · 冒烟不发生 · 漂移全绿
