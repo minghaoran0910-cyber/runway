@@ -2178,3 +2178,49 @@ R260（票471）已于本日 00:00 出票 7 条条文草案 + LOOP 失配 4 项�
 簿记：落笔前 main rev = **901**，本票预期 **902**。
 
 监工签字：老油条 [supervisor R307]
+
+---
+
+## 票 519 · R308 · 2026-10-27 00:0x · 守场零新审（无提审内容 · 停转第 158 轮）
+
+结论: 本轮无新提审，**不审不预读**（守场票）
+
+检查项:
+- [x] 内容判据（mtime 同秒伪值不采信）：`git show main:REVIEW_REQUEST.md | md5` = `f039fbfeacf8f4fa63b5646569d49b45`，与 R307 逐字节相同；`grep -c "SB-053"` = **0** → SB-053 仍未提审
+- [x] live 盘 mtime 1792793015/1792793016（2026-10-24 06:03:35/36）：checkout 后同秒伪值，按既定判据不采信
+- [x] WAITING_HUMAN 未跟踪文件仍在（10-25 03:49 watchdog 写），内容未变；按 P0「R286 起不重推」继续静默
+- [x] 工作树：停 `feat/SB-053-today-saved-card@a322a5b`（2026-10-23 15:51:28），本轮实测停 **4809min ≈ 80h09m**，零新提交；`main...feat` = **167/1**（簿记每轮 +1）；`diff --stat main...feat` = 3 files / +148
+- [x] 队列与快照零漂移：SB-053 待办在支 / SB-052 已审待合 @dd1d835 / SB-051 挂起 @12e2b95 / SB-021 挂起 v0.2 / G1~G11 ✓ tag v0.1.0 @30ae2f0；`done/` = **47**（`git ls-tree main docs/tasks/done/ | wc -l` 实测）
+- [x] 冒烟不发生：`git diff e61e0f7..main -- app/` = **0 行**（全库 diff 14 文件全 docs）；无新合入提交、无 G 卡 PASS → 锚 e61e0f7 仍有效
+- [x] main 头 **1c5eba1**（票518/R307）↔ 上轮归档票对齐 ✓；`rev-list --count main` = **902**；本轮 main 零新业务提交
+
+漂移与一致性审计:
+- [x] 禁词（没省|又花|喝掉|罪恶|浪费钱）`app/lib` 命中 **2**，实读均为守卫本体：`logic/goal_ladder.dart:7` 注释条款 + `logic/achievement.dart:13` 过滤词表常量 → 合规
+- [x] 裸 `Color(0x` 在 ui/theme 之外 = **0**；裸 `Duration(milliseconds` 于 motion_spec 之外 = **0**
+- [x] `_LOCK` 不存在；`git stash list` = 0；`git status --porcelain` 仅 `?? WAITING_HUMAN`
+- [x] 分支 7（main + 5 feat + 1 archive）在册无 stray；worktree 主 1（本票临时 sup-r308 收轮即删）
+- [x] `progress.md` 唯一真相 / `task_plan.md` 仍为薄索引只读（16:31 批准版 3a9d763，未据此判进度）
+- [x] origin 零触碰（无 fetch/push/merge）
+
+新观察（P1，本轮实测口径）:
+- wake 派发器 S0.4 脏树守卫白名单不含 `WAITING_HUMAN`：`git status --short` 的 `?? WAITING_HUMAN` 会命中「业务文件脏」分支。当前 HEAD 停 feat，S0.2 先退，故无实害；但**浩然若只 enable 而不先回 main + 清 WAITING_HUMAN，唤醒会退在 S0.2/S0.4 而非 S0.6**，日志归因会误导排障 → 恢复步骤须写明：先 `git checkout main`、处置后删 WAITING_HUMAN、再 enable。
+
+提示词新鲜度自审:
+- wake（b0ea8424）payload = `sh /Users/dada561/.openclaw/tools/runway-wake-dispatch.sh`，脚本内 REPO 路径现行（`/Users/dada561/Documents/runway`）、唤醒语为 LOOP.md 标准文案、无硬编码卡号/包名 → 无过期
+- watchdog（abaa94c7）message = 通用清单读取式，无卡号/包名硬编码 → 无过期
+- 巡检本任务 message 内的现行口径括注（最高卡号 SB-053 / 冒烟包名 com.zangou.runway / 锚 e61e0f7）与本轮实测一致 → 零 edit
+
+cron 族（`cron list --all` 实测）:
+- `攒够-监工巡检` 19b5f29f running/<1m ✓；`runway-watchdog` abaa94c7 ok 13m 前 ✓；`攒够-需求反思` 6f3e81c0 ok 3h 前（not delivered）✓
+- wake 族 5 条 **disabled** 在册：b0ea8424 / 88a8e128 / b71bf570 / e71e53ac / f859efc9
+- `runway-backup` 560d719d error（announce 无路由 fail-closed，不涉仓库面，沿观察）
+
+下一步: 等浩然一句话；默认动作仍是开 v0.1.1 落窗口（合 SB-052 + SB-053 → 实拍三帧 + 冒烟 → 出包）。
+
+- 决策模型：本轮无边界裁决，调用 **0** 次。
+- 利益点自省：**原地（连续第 158 轮）**——零施工零合入，用户看不到任何新东西；SB-053 修的首页空白卡是用户可见缺陷，仍卡在提审与拍板上。
+- 推送：无（⚡通知收口条款；WAITING_HUMAN 内容未变，不重推）。
+
+簿记：落笔前 main rev = **902**，本票预期 **903**。
+
+监工签字：老油条 [supervisor R308]
