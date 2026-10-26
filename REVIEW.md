@@ -1617,3 +1617,49 @@ R260（票471，2026-10-26 00:00）已出票 **7 条条文草案 + LOOP 失配 4
 簿记：落笔前 main rev = **883**，本票预期 **884**。
 
 监工签字：老油条 [supervisor R289]
+
+## 票 501 · R290 守场巡检（2026-10-26 15:00）
+
+结论: PASS（无新审对象·守场）
+
+### 1. 新审查
+- 内容判据（主判据）：`git show main:REVIEW_REQUEST.md | md5` = **f039fbfeacf8f4fa63b5646569d49b45**，盘上 `md5 -q REVIEW_REQUEST.md` 同值 → **零漂移**；REQ 内 `grep -c 'SB-053'` = **0** → **未提审，不审不预读**。
+- mtime 仅旁证（REQ 1792793015 / REVIEW 1792793016，worktree checkout 后同秒伪值），不采信；提案⑤在册。
+- main 头 **e69ee5e**（票500/R289）· `git rev-list --count main` = **884** · 本轮 main 零新业务提交。
+- feat/SB-053-today-saved-card 头 **a322a5b**（2026-10-23 15:51:28）· 停 **71h09m** · 零新提交 · `main..feat` = **1** / `feat..main` = **149** · `git diff --stat main...feat` = **3 文件 +148 行**（home_page.dart +7 / today_saved_row.dart +5 / sb053_today_saved_card_test.dart +136）。
+
+### 2. 队列同步（卡面 vs 快照）
+- 卡文件 **4** 张。状态行实测：SB-053「待办（R149 自派）」· SB-052「已审待合（R148/票359 PASS）」· SB-051「挂起（10-23 14:07 裁B）」· SB-021「挂起 v0.2」→ 与快照 queue **逐条一致，零漂移，不推送**。
+- done = **47**（`git ls-tree HEAD docs/tasks/done/ | wc -l` 实测）· tag **4** · 本地支 **7**（stray 0）· worktree 主 1（停 feat）+ 本轮临时 /tmp/sup-r290（收轮删除）· `_LOCK` 无 · stash 0 · porcelain 仅 `?? WAITING_HUMAN`（md5 c19ce45，与 10-25 03:49 版一致，**停因未处置**）。
+- 待办卡 **1** ≤2 → 排卡提醒在册；wake 族 5 条全 disabled + 裁A 冻结未解 → 按沿册**不自派**（R145 先例 p=0.07；派卡无人认领只会加剧分支堆积）。
+
+### 3. 模拟器冒烟
+**不发生**：`git diff --stat e61e0f7..main -- app/` = **0 行**（锚 e61e0f7 仍有效），main 无新合入提交、无 G 卡新 PASS → 不触发。
+
+### 4. 漂移与一致性审计（main 树，本轮实测）
+- 亏欠框架禁词 `没省|又花|喝掉|罪恶|浪费钱`：app/lib 命中 **2**（`logic/achievement.dart:13` 禁词表常量 · `logic/goal_ladder.dart:7` 规则注释）→ **用户可见文案 0**。
+- 裸 `Color(0x`：`app/lib/ui` + `app/lib/theme`（除 theme 本体）命中 **0**。
+- 裸 `Duration(milliseconds:`：app/lib 命中 **18**，路径去重 **全部落在 `app/lib/ui/theme/motion_spec.dart`** → 越界 0。
+- `_LOCK` 0 · stash 0 · 支 7 零 stray · tag 4 · 真账目红线 **0** · origin/main **a73f90c** 零触碰。
+- progress.md **439** 行（唯一真相注册表，本票 +1）· task_plan.md **8 行**薄索引只读未动（符合 3a9d763，未据此判进度）。
+- 归档对应：main 头 e69ee5e ↔ 票500/R289，与 REVIEW.md 最近归档段一致；无未记票 main 提交、无 _LOCK 泄漏、feat 零残留。
+- 一行结论：**漂移全绿，无 P1；唯一红灯仍是「环停转」本身（WAITING_HUMAN 未处置），不属漂移。**
+
+### 5. 提示词三件套新鲜度自审
+- 最高卡号 **SB-053** ✓ · 快照队列卡号 ✓ · 状态口径（052 已审待合 / 051 挂起 / 021 挂起 v0.2）✓ · done **47** ✓ · 冒烟锚 **e61e0f7** ✓ · 裁A 冻结在册 ✓ · applicationId **com.zangou.runway** ✓（build.gradle.kts:19）· `.MainActivity` ✓ · 模拟器参数 `-no-window -no-snapshot-load -no-audio -no-boot-anim` ✓ · wake 族 5 条 disabled（b0ea8424/88a8e128/b71bf570/e71e53ac/f859efc9 实测）· dispatcher md5 **d6fe4f4b** 未变 → **零过期，零 edit**。
+
+### 6. 周一规范适配审查
+R260（票471）已于本日 00:00 出票 7 条条文草案 + LOOP 失配 4 项，等浩然批；本轮不重复。
+
+### 7. 决策模型
+本轮无边界裁决，调用 0 次。
+
+### 8. 利益点自省
+原地（第 140 轮）—— 本轮无施工无合入，产品未更近核心利益点；停转本身持续拉远，已在册等浩然一句话解冻。
+
+### 9. 推送
+无（⚡通知收口条款；WAITING_HUMAN 12:30 已单条请示，内容未变不重推）。
+
+簿记：落笔前 main rev = **884**，本票预期 **885**。
+
+监工签字：老油条 [supervisor R290]
