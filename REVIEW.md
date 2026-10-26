@@ -2080,3 +2080,35 @@ R260（票471）已于本日 00:00 出票 7 条条文草案 + LOOP 失配 4 项�
 簿记：落笔前 main rev = **898**，本票预期 **899**。
 
 监工签字：老油条 [supervisor R304]
+
+---
+
+## 巡检 R305 · 2026-10-26 22:30（票516 · 守场零新审）
+
+结论: 无新审（守场）
+
+检查项:
+- [x] 内容判据：`main:REVIEW_REQUEST.md` md5 `f039fbfe` 与 R304 逐字节一致；`grep -c SB-053` = 0 → 未提审，不审、不预读（worktree mtime 同秒伪值不采信）
+- [x] WAITING_HUMAN md5 `c19ce45d` 未变（mtime 10-25 03:49）→ 不重推
+- [x] 队列与快照零漂移：SB-053 待办在支 / SB-052 已审待合 @dd1d835 / SB-051 挂起 @12e2b95 / SB-021 挂起 v0.2 / G1~G11 ✓ tag v0.1.0 @30ae2f0
+- [x] feat/SB-053 @a322a5b 停 ≈78h39m 零新提交，`main...feat` = 164/1（簿记每轮 +1，落后持续恶化）
+- [x] 冒烟不发生：`git diff e61e0f7..main -- app lib tool pubspec.yaml` 零行，锚 e61e0f7 仍有效
+- [x] 漂移审计：禁词 2 命中全在守卫本体（goal_ladder.dart 注释 + achievement.dart 屏蔽词数组），可见文案 0；裸 `Color(0x` 41 全在 `lib/ui/theme/` 外 0；裸 `Duration(milliseconds:[1-9]` 18 全在 motion_spec 外 0；_LOCK 0、stash 0、worktree 主 1、支 7、done 47（ls-tree 实测）、tag 4
+- [x] cron 三件套：wake 族 5 条（88a8e128 / b0ea8424 / b71bf570 / e71e53ac / f859efc9）`cron list --all` 实测全部 disabled；runway-watchdog abaa94c7 status=ok（43m 前）；无过期提示词需 edit
+- [x] 今日非本周首轮（R260/票471 已出周一规范适配审查，不重复）
+
+问题列表:
+1. P0 停转第 154 轮：待浩然三选一（①SB-053 提审或作废 ②重开 wake 并清重复 cron ③暂停本 loop）
+2. P1 SB-053 落后 main 164 笔 → 合入须 rebase 或只挑业务 3 文件（home_page / today_saved_row / sb053 测试，+148 行）
+3. P1 裁A 冻结解冻条件悬空：tag v0.1.0 已于 10-20 直打，需浩然定 v0.1.1 落窗口
+
+下一步: 等浩然一句话；默认动作=开 v0.1.1 落窗口（合 SB-052+SB-053 → 实拍三帧 + 冒烟 → 出包）。
+
+- progress.md 唯一真相注册表（454→455 行实测）；task_plan.md 只读缓存非真相。
+- 决策模型：本轮无边界裁决，调用 **0** 次。
+- 利益点自省：**原地（连续第 155 轮）**——本轮零施工零合入，用户看不到任何新东西；SB-053 修的首页空白卡是用户可见缺陷，仍卡在提审与拍板上。
+- 推送：无（⚡通知收口条款；WAITING_HUMAN 内容未变，不重推）。
+
+簿记：落笔前 main rev = **899**，本票预期 **900**。
+
+监工签字：老油条 [supervisor R305]
