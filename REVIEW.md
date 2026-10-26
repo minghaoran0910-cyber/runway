@@ -2298,3 +2298,36 @@ cron 族（`cron list --all` 实测）:
 簿记：落笔前 main rev = **905**，本票预期 **906**。
 
 监工签字：老油条 [supervisor R311]
+
+---
+
+## 2026-10-27 02:0x · 票 523 · 监工巡检 R312（守场零新审 · 停转第 162 轮）
+
+结论: 无新审查（REVIEW_REQUEST.md 内容判据零漂移，SB-053 未提审 → 按规则不审不预读）
+
+检查项:
+- [x] 内容判据（mtime 闸门在 checkout 后失效，不用）：`git show main:REVIEW_REQUEST.md | md5` = **f039fbfeacf8f4fa63b5646569d49b45**，与 R311 逐字节同；`grep -c SB-053` = **0** → 未提审。
+- [x] 工作树：`feat/SB-053-today-saved-card` @ a322a5b（2026-10-23 15:51:28），停 **≈82h09m** 零新提交；`git rev-list --left-right --count main...feat` = **171/1**（业务 3 文件 +148 行，簿记落差持续恶化）。
+- [x] 队列零漂移：SB-053 待办（施工在支·未提审）/ SB-052 已审待合 @dd1d835 / SB-051 挂起 @12e2b95 / SB-021 挂起 v0.2 / G1~G11 ✓ tag v0.1.0 @30ae2f0。待办=1，但 wake 全 disabled + 裁A 冻结 → 不自派。
+- [x] 归档实测：`git ls-tree HEAD docs/tasks/done/` = **47**；tag = 4；本地支 = 7；`_LOCK` = 0；stash = 0；worktree 主 1 + 临时 sup-r312。
+- [x] 模拟器冒烟：**不发生**——`git diff --stat e61e0f7..main -- app` 零行，锚 e61e0f7 仍有效，main 自锚以来 14 文件全 docs/REVIEW 面。
+- [x] WAITING_HUMAN：md5 c19ce45 未变（10-25 03:49 watchdog 写，未跟踪）→ 三选一诉求仍在册，按 R286 起口径不重推。
+
+漂移与一致性审计（本轮一行结论）:
+- 禁词（没省|又花|喝掉|罪恶|浪费钱）：dart 命中 **6 处全元引用**（achievement.dart 禁词表本体、goal_ladder.dart 规则注释、3 个测试的违规样例数组），**用户可见文案命中 0**；裸 `Color(0x` = 41 全在 `app/lib/ui/theme/tokens.dart`，非 tokens 文件 **0**；裸 `Duration(milliseconds:` = 18 全在 `motion_spec.dart`，非 motion_spec **0**；真账目数据 0（grain_report.dart 命中为"自由基金余额"目标口径注释，非真实账目）；main 头 e7187e4 ↔ 票 522（rev906）对应；feat 残留 3 条均在册（034=e576624 / 048=3ae7522 / archive-SB-051-r3=acb24ce）；`_LOCK` 无泄漏；`progress.md` 仍是唯一真相、`task_plan.md` 已为薄索引（首行自述"只读缓存不决策"）。
+- **全绿，无 P1。**
+
+三件套提示词新鲜度自审:
+- `runway-wake-dispatch.sh`：无硬编码卡号、无旧包名，S0.2 分支守卫（第 13–14 行）与 S0.4 脏树白名单（第 30–32 行，不含 WAITING_HUMAN）与在册 P1 一致，本轮无 edit。
+- cron 族（`cron list --all` 实测）：wake 族 **5 条 disabled**（b0ea8424/88a8e128/b71bf570/e71e53ac/f859efc9）；watchdog abaa94c7 **ok（13m 前）**；backup 560d719d **error**（announce 无路由 fail-closed，非仓库面）；需求反思 6f3e81c0 ok（not delivered）；本巡检 19b5f29f running。
+- wake 恢复前提重申：先 `checkout main` → 处置并删 WAITING_HUMAN → 再 enable；仅 enable 会退在 S0.2/S0.4。
+
+决策模型: 本轮零边界裁决，decision_evaluate 调用 0。
+
+利益点自省: **原地（连续第 162 轮）**——零施工零合入，用户看不到任何新东西；首页「今日攒」空白卡仍卡在"未提审 + 待浩然三选一"，停转本身在拉远核心利益点。
+
+推送：无（⚡通知收口条款；WAITING_HUMAN 未变不重推）。
+
+簿记：落笔前 main rev = **906**，本票预期 **907**。
+
+监工签字：老油条 [supervisor R312]
