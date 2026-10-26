@@ -2331,3 +2331,38 @@ cron 族（`cron list --all` 实测）:
 簿记：落笔前 main rev = **906**，本票预期 **907**。
 
 监工签字：老油条 [supervisor R312]
+
+---
+
+## 2026-10-27 02:3x · 票 524 · 监工巡检 R313（守场零新审 · 停转第 163 轮）
+
+结论: 无新审查（REVIEW_REQUEST.md 内容判据零漂移，SB-053 未提审 → 按规则不审不预读）
+
+检查项:
+- [x] 内容判据（mtime 在 checkout 后同秒伪值不可采信）：`git show main:REVIEW_REQUEST.md | md5` = **f039fbfeacf8f4fa63b5646569d49b45**，与 R312 逐字节同；`grep -c SB-053` = **0** → 未提审，不审不预读。
+- [x] 工作树：`feat/SB-053-today-saved-card` @ **a322a5b**（2026-10-23 15:51:28，02:31 实测）停 **≈82h39m** 零新提交；`rev-list` = main..feat **1** / feat..main **172**（业务 3 文件 +148 行，簿记落差每轮 +1）。
+- [x] 队列零漂移：SB-053 待办（施工在支·未提审，卡首状态行实测"待办（R149 见底自派…）"）/ SB-052 已审待合 @dd1d835 / SB-051 挂起 @12e2b95 / SB-021 挂起 v0.2 / G1~G11 ✓ tag v0.1.0 @30ae2f0。待办=1，但 wake 族全 disabled + 裁A 冻结 + SB-053 已在支 → **不自派**。
+- [x] 归档实测：`git ls-tree main docs/tasks/done/` = **47**；tag = **4**；本地支 = **7**（main + 034/048/051/052/053 + archive-SB-051-motion-r3）；`_LOCK` **不存在**；stash = **0**；worktree 主 1 + 本轮临时 `/tmp/sup-r313`（main 检出·收轮删）。
+- [x] 模拟器冒烟：**不发生**——`git diff --stat e61e0f7..main -- app` 零行，锚 e61e0f7 仍有效，main 自锚以来改动全在 docs/REVIEW 面。
+- [x] WAITING_HUMAN：未跟踪文件 md5 **c19ce45d…** 未变（10-25 03:49 watchdog 写）→ 三选一诉求仍在册，按 R286 起口径不重推。
+- [x] cron 实测（`cron list --all` + 逐条 `cron get`）：wake 族 **5 条全 disabled**（b0ea8424 lastRun 10-24 05:45 / 88a8e128 / b71bf570 / e71e53ac / f859efc9）；runway-watchdog abaa94c7 **ok（43m 前）**；**统一看门狗 169be936 error（2 连败·125s）**；runway-backup 560d719d **error（1 连败·announce 无路由 fail-closed）**；本巡检 19b5f29f running。统一看门狗连败列观察（非本仓库面，归看门狗自身）。
+
+三件套提示词新鲜度自审:
+- 本轮**发生 edit 1 次**（19b5f29f 本巡检 message，两处过期修正）：①wake 现役备注由"R180 07:0x 实测 last run 1h ago"刷新为"R313 实测 last run 10-24 05:45·停≈2d20h"；②堵点由"SB-051 补拍 + SB-052 已审待合"补为"SB-053 未提审停≈82h（feat@a322a5b 零新提交·REQ 命中 0）+ WAITING_HUMAN 待浩然三选一 + SB-051 补拍 + SB-052 已审待合"。
+- 持久化验证（R144 教训：edit 后须二次回读）：`cron get` 回读 len **5687**，新片段 `R313`/`WAITING_HUMAN 待浩然三选一` 在位，旧片段 `R180 07:0x` 已消失。
+- `runway-wake-dispatch.sh`：无硬编码卡号/旧包名，S0.2 分支守卫（13–14 行）与 S0.4 脏树白名单（30–32 行，不含 WAITING_HUMAN）与在册 P1 一致，本轮无 edit。
+- watchdog abaa94c7 message：无卡号/包名硬编码，读 LOOP.md 现场取态，未过时，无 edit。
+
+漂移与一致性审计（本轮一行结论）:
+- 禁词（没省|又花|喝掉|罪恶|浪费钱）`app/lib` 命中 **2 行全元引用**（`logic/achievement.dart` 词表本体、`logic/goal_ladder.dart:7` 规则注释），**用户可见文案 0**；裸 `Color(0x` 共 **41 行全部**在 `app/lib/ui/theme/tokens.dart`，非 tokens 面 **0**；裸 `Duration(milliseconds:[1-9]` 共 **18 行全部**在 `ui/theme/motion_spec.dart`，非 motion_spec 面 **0**；真实账目数据 **0**（`data/app_db.dart:16` 命中为"真实账目永不入库"守卫注释）；main 头 **9da7aaa（rev907）↔ 票 523 R312** 对应；feat 残留 3 条均在册（034=e576624 / 048=3ae7522 / archive-SB-051-r3=acb24ce）；`_LOCK` 无泄漏；`progress.md` 唯一真相续登（462 行）、`task_plan.md` **8 行**薄索引只读未动。
+- **全绿，无 P1**（统一看门狗 2 连败为仓库外观察项）。
+
+决策模型: 本轮零边界裁决，decision_evaluate 调用 0。
+
+利益点自省: **原地（连续第 163 轮）**——零施工零合入，用户手里的 App 与昨天完全一样；首页「今日攒」空白卡仍卡在"未提审 + WAITING_HUMAN 待浩然三选一"，停转本身在拉远核心利益点（"天天看见自己挪一步"变成天天看见同一张空卡）。
+
+推送：无（⚡通知收口条款；WAITING_HUMAN 未变不重推）。
+
+簿记：落笔前 main rev = **907**，本票预期 **908**。
+
+监工签字：老油条 [supervisor R313]
