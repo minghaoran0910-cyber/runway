@@ -1568,3 +1568,52 @@ main 6964157 / rev 854 / 119-1 / diff 3 文件 +148 行 / done 47 / tag 4 / 分�
 簿记：落笔前 main rev = **882**，本票预期 **883**。
 
 监工签字：老油条 [supervisor R288]
+
+## 票 500 · R289 守场巡检（2026-10-26 14:30）
+
+结论: PASS（无新审对象·守场）
+
+### 1. 新审查
+- 内容判据（本轮主判据）：`git show main:REVIEW_REQUEST.md | md5` = **f039fbfeacf8f4fa63b5646569d49b45**，盘上 `md5 -q REVIEW_REQUEST.md` 同值 → **零漂移**；REQ 内 `grep -c 'SB-053'` = **0** → **未提审，不审不预读**。
+- mtime 仅作旁证（REQ 1792793015 / REVIEW 1792793016，worktree checkout 后同秒伪值，不采信；提案⑤在册）。
+- main 头 **530a2ac**（票499/R288）· `git rev-list --count main` = **883** · 本轮 main 零新业务提交。
+- feat/SB-053-today-saved-card 头 **a322a5b**（2026-10-23 15:51:28）· 停 **70h39m** · 零新提交 · `main..feat` = **1** / `feat..main` = **148**（簿记每轮 +1，回退风险随轮次累积）· `git diff --stat main...feat` = **3 文件 +148 行**（home_page.dart +7 / today_saved_row.dart +5 / sb053_today_saved_card_test.dart +136）。
+
+### 2. 队列同步（卡面 vs 快照）
+- 卡文件 **4** 张（SB-021/051/052/053）。状态行实测：SB-053「待办（R149 自派）」· SB-052「已审待合（R148/票359 PASS）」· SB-051「挂起（10-23 14:07 裁B）」· SB-021「挂起 v0.2」→ 与快照 queue **逐条一致，零漂移，不推送**。
+- done = **47**（`git ls-tree HEAD docs/tasks/done/ | wc -l` 实测）· tag **4** · worktree 主 1（停 feat）+ 本轮临时 /tmp/sup-r289（收轮删除）· `_LOCK` 无 · stash 0 · porcelain 仅 `?? WAITING_HUMAN`（md5 c19ce45，与 10-25 03:49 版一致）。
+- 待办卡 **1** ≤2 → 排卡提醒在册；但 wake 族 5 条全 disabled（无施工方）+ 裁A 冻结未解，按沿册**不自派**（R145 决策先例 p=0.07 / R260 判定同构：派卡也无人认领，只加剧分支堆积）。
+
+### 3. 模拟器冒烟
+**不发生**：`git diff --name-only e61e0f7..main -- app packages tool pubspec.yaml` = **0 行**（锚 e61e0f7 仍有效），main 无新合入提交、无 G 卡新 PASS → 不触发。
+
+### 4. 漂移与一致性审计（main 树，本轮实测）
+- 亏欠框架禁词 `没省|又花|喝掉|罪恶|浪费钱`：app/lib+app/test 命中 **6** —— `logic/achievement.dart:13`（禁词表常量）· `logic/goal_ladder.dart:7`（规则注释）· 4 处测试负向断言（`sb049_experiment_copy_test:111`/`cooloff_test:183`/`experiment_test:148`/`goal_ladder_test:127`）→ **用户可见文案 0**。
+- 裸 `Color(0x`：`app/lib/ui` + `app/lib/theme` 命中 **0**（全库仅在 `app/lib/ui/theme/tokens.dart` 本体与测试断言）。
+- 裸 `Duration(milliseconds:`：`app/lib/ui` 命中 **18**，`grep` 路径去重实测 **全部落在 `app/lib/ui/theme/motion_spec.dart`** → motion_spec 本体，**越界 0**。
+- `_LOCK` 0 · stash 0 · 本地支 **7**（main + feat 034/048/051/052/053 + archive-051-r3，零 stray）· tag 4 · 真账目红线 **0** · origin/main **a73f90c** 零触碰。
+- progress.md **438** 行（唯一真相注册表，本票 +1）· task_plan.md **8 行**薄索引只读未动（符合 3a9d763，未据此判进度）。
+- 归档对应：main 头 530a2ac ↔ 票499/R288，与 REVIEW.md 最近归档段一致；无未记票的 main 提交、无 _LOCK 泄漏、feat 分支零残留（6 支全在册有主）。
+- 一行结论：**漂移全绿，无 P1；唯一红灯是「环停转」本身（WAITING_HUMAN 未处置），不属漂移。**
+
+### 5. 提示词三件套新鲜度自审
+- 巡检 message（19b5f29f）：最高卡号 **SB-053** ✓（`docs/tasks/` 实测）· 快照队列卡号 ✓ · 状态口径（052 已审待合 / 051 挂起 / 021 挂起 v0.2）✓ · done **47** ✓ · 冒烟锚 **e61e0f7** ✓ · 裁A 冻结在册 ✓ · applicationId **com.zangou.runway** ✓（`app/android/app/build.gradle.kts:19`）· 入口 `.MainActivity` ✓ · 模拟器参数 `-no-window -no-snapshot-load -no-audio -no-boot-anim` ✓ → **零过期，零 edit**。
+- wake 族 **5 条全 disabled**（b0ea8424 2d / 88a8e128 11d / b71bf570 15d / e71e53ac 12d / f859efc9 16d），启用 0 → 时间参数无失配，但环无驱动。
+- 派发器 `~/.openclaw/tools/runway-wake-dispatch.sh` 分支守卫顺序未变（L13-14 早于 S0.1/S0.3~S0.6）→ 树停 feat 即结构性空退，P1 沿册（提案③在票471）。
+- 旁记（非本项目）：`统一看门狗 169be936` 本轮实测 **error**（R288 为 ok，26m 前），`heartbeat:investment_*` error(7x)、`heartbeat:xiaozhanggui` error(6x)、`runway-backup 560d719d` error（announce 无路由 fail-closed，沿册）→ 只登记沿册，不擅改他人 cron。
+
+### 6. 周一规范适配审查
+R260（票471，2026-10-26 00:00）已出票 **7 条条文草案 + LOOP 失配 4 项**，本轮为其后第 29 拍，按「不重复」沿册，等浩然批。本轮无新增失配证据。
+
+### 7. 决策模型
+本轮无边界裁决（无新审、无合入、无卡参数取舍）→ `decision_evaluate` 调用 **0 次**。
+
+### 8. 利益点自省
+**原地**：本轮无施工无合入，产品离「让用户以接近零的成本，天天看见自己向想要的东西挪一步」没有更近；停转第 139 轮本身在持续拉远，卡在浩然一句话（v0.1.1 落窗口 / SB-053 提审或作废 / 停 loop 三选一）。
+
+### 9. 推送
+**无**（⚡通知收口条款：守场属常规结果；WAITING_HUMAN 已于 10-26 00:00 与 12:30 两次单条请示，不重推）。
+
+簿记：落笔前 main rev = **883**，本票预期 **884**。
+
+监工签字：老油条 [supervisor R289]
