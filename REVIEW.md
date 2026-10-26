@@ -2145,3 +2145,36 @@ R260（票471）已于本日 00:00 出票 7 条条文草案 + LOOP 失配 4 项�
 簿记：落笔前 main rev = **900**，本票预期 **901**。
 
 监工签字：老油条 [supervisor R306]
+
+---
+
+## 票 518 · R307 · 2026-10-26 23:3x · 守场零新审（无提审内容）
+
+结论: 本轮无新提审，**不审不预读**（守场票）
+
+检查项:
+- [x] 内容判据（mtime 同秒伪值不采信）：`git show main:REVIEW_REQUEST.md | md5` = `f039fbfeacf8f4fa63b5646569d49b45`，与 R306 逐字节相同；`grep -c "SB-053"` = 0 → SB-053 未提审
+- [x] WAITING_HUMAN 未跟踪文件 md5 `c19ce45d` 未变（10-25 03:49 watchdog 写），按 P0「R286 起不重推」继续静默
+- [x] 工作树：停在 `feat/SB-053-today-saved-card@a322a5b`（10-23 15:51:28），停 ≈79h38m，零新提交；`main...feat` = 166/1（簿记每轮 +1）
+- [x] 队列与快照零漂移：SB-053 待办在支 / SB-052 已审待合 @dd1d835 / SB-051 挂起 @12e2b95 / SB-021 挂起 v0.2 / G1~G11 ✓ tag v0.1.0 @30ae2f0
+- [x] 冒烟不发生：`git diff e61e0f7..main -- app` 输出 0 行（本轮实测 `git diff --stat e61e0f7..main -- app` 空），锚 e61e0f7 仍有效（无新合入提交、无 G 卡 PASS）
+- [x] 漂移审计：禁词 app/lib 命中 2 全在守卫本体（goal_ladder.dart:7 注释、achievement.dart:13 屏蔽词数组），可见文案 0；裸 `Color(0x` 非 `ui/theme` 命中 0；裸 `Duration(milliseconds:` 非 motion_spec 命中 0；红线 PII/账目 app/lib 命中 1 = app_db.dart:16 注释「真实账目永不入库」，无真实数据；_LOCK 0、stash 0、worktree 主 1 + 本轮临时 sup-r307（收轮删除）、支 7、done 47（`git ls-tree main docs/tasks/done/ | wc -l` 实测）、tag 4
+- [x] cron 三件套：wake 族 5 条（88a8e128 / b0ea8424 / b71bf570 / e71e53ac / f859efc9）`cron list --all` 实测全部 disabled；runway-watchdog abaa94c7 status=ok（2h 前）；runway-backup 560d719d error（announce 无路由，非仓库面）；提示词无过期项需 edit
+- [x] 今日非本周首轮（R260/票471 已出周一规范适配审查，不重复出票）
+- [x] task_plan.md 8 行仍为薄索引只读缓存；progress.md 为唯一真相注册表（456→457 行实测）
+
+问题列表:
+1. P0 停转第 156 轮：待浩然三选一（①SB-053 提审或作废 ②重开 wake 并清重复 cron ③暂停本 loop）
+2. P1 SB-053 落后 main 166 笔 → 合入须 rebase 或只挑业务 3 文件（home_page / today_saved_row / sb053 测试，+148 行）
+3. P1 裁A 冻结解冻条件悬空：tag v0.1.0 已于 10-20 直打，需浩然定 v0.1.1 落窗口
+
+下一步: 等浩然一句话；默认动作=开 v0.1.1 落窗口（合 SB-052+SB-053 → 实拍三帧 + 冒烟 → 出包）。
+
+- 漂移与一致性审计（一行结论）：本轮全绿——禁词可见 0 / 裸 Color·Duration 越界 0 / main 头 539aa8a 对应票517 R306 归档轮 / feat 无残留新增 / _LOCK 无泄漏 / task_plan 薄索引只读。
+- 决策模型：本轮无边界裁决，调用 **0** 次。
+- 利益点自省：**原地（连续第 157 轮）**——本轮零施工零合入，用户看不到任何新东西；SB-053 修的首页空白卡是用户可见缺陷，仍卡在提审与拍板上。
+- 推送：无（⚡通知收口条款；WAITING_HUMAN 内容未变，不重推）。
+
+簿记：落笔前 main rev = **901**，本票预期 **902**。
+
+监工签字：老油条 [supervisor R307]
