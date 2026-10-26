@@ -1494,3 +1494,56 @@ main 6964157 / rev 854 / 119-1 / diff 3 文件 +148 行 / done 47 / tag 4 / 分�
 簿记：落笔前 main rev = 880，本票预期 **881**。
 
 监工签字：老油条 [supervisor R286]
+
+---
+
+## 票 498 · R287 守场巡检（2026-10-26 13:30）
+
+结论：**无新内容可审**（见底守场第 137 轮）。
+
+### 1. 审查闸门（内容判据）
+- main@4b25142 `REVIEW_REQUEST.md` md5 = `f039fbfeacf8f4fa63b5646569d49b45`，与 R286 完全一致 → **零漂移**。
+- main:REQ 卡号去重 = SB-044 / SB-049 / SB-050 / SB-051 / SB-052；**SB-053 命中 0** → SB-053 仍未提审，按规则不审、不预读。
+- 盘上 mtime：REQ 1792793015 / REVIEW 1792793016（REVIEW 新 1s，且同秒伪值在册）→ 只作旁证，判据仍为内容。
+
+### 2. SB-053 现场
+- `feat/SB-053-today-saved-card`@`a322a5b`（10-23 15:51:28），**零新提交**，停滞约 **69h39m**。
+- 业务 diff 实测：`app/lib/ui/home_page.dart` +7、`app/lib/ui/today_saved_row.dart` +5、`app/test/sb053_today_saved_card_test.dart` +136（3 文件 +148 行），与 R286 逐项一致。
+- main...feat = **146 / 1**（feat 落后 main 146 笔），合入须 rebase 或只挑业务 3 文件（P1 沿册）。
+
+### 3. 队列同步
+- `grep 状态` 实测：SB-021「挂起 v0.2」；SB-051「挂起（10-23 裁B）」；SB-052「已审待合（R148 PASS）」；SB-053「待办（R149 自派）」。与快照 queue **逐字一致，零漂移**。
+- `git ls-tree --name-only main docs/tasks/done/ | wc -l` = **47**（实测）。
+- 待办卡 = 1（SB-053）≤2 → 按条款应提醒排下一批：但 wake 全族 disabled 且裁A 冻结未解，**新派卡会空转撞道**，故不派，沿册挂「等浩然一句话」。
+
+### 4. 模拟器冒烟
+- 不发生：`git diff --stat e61e0f7..main -- app` 行数 = **0**（锚点 e61e0f7 仍有效），且无 G 卡 PASS 事件。
+- 模拟器/pgrep 无需操作，本轮未起 emulator。
+
+### 5. 漂移与一致性审计
+- 禁词 grep（`app/lib`）：2 处命中均为**元引用**（goal_ladder.dart:7 注释里的禁词表说明、achievement.dart:13 禁词常量清单），**用户可见面 = 0**。
+- 裸 `Color(0x`：仅 `app/lib/ui/theme/tokens.dart`（token 定义本体，规范允许），ui/theme 其余 **0**。
+- 裸 `Duration(milliseconds:`：**0**。
+- `_LOCK` **不存在**（0 泄漏）；stash **0**；分支 7 条全部在册（archive/SB-051-r3、feat 034/048/051/052/053、main），无 stray；worktree 主 1 个（临时 /tmp/sup-r287 本轮建、收轮删）；tag **4**。
+- main 头 4b25142 ↔ REVIEW 最近归档轮 R286 对应；feat 侧无未审合入 main 的痕迹。**全绿，P1 = 0**（除沿册 3 项：冻结解冻条件悬空、SB-053 落后 146 笔、mtime 闸门失效）。
+- _LOCK/stash/远端：**origin 零触碰**（本轮无 fetch/push 动作）。
+
+### 6. 提示词新鲜度
+- 最高卡号 SB-053 ✓；包名 `com.zangou.runway` ✓；入口 `.MainActivity` ✓；巡检 */30、wake 15,45 时间参数无失配 → **零 cron edit**。
+- `openclaw cron list --all` 实测：巡检 19b5f29f running；runway-watchdog abaa94c7 ok；需求反思 6f3e81c0 ok；**唤醒族 5 条仍全 disabled**（b0ea8424 / 88a8e128 / b71bf570 / e71e53ac / f859efc9）；统一看门狗 169be936 **ok**（早前 error 已自愈）；runway-backup 560d719d error（announce 无路由，不涉仓库，P2 沿册）。
+- `WAITING_HUMAN` md5 `c19ce45`（10-25 03:5x 写）未变，仍在册未跟踪。
+
+### 7. 决策模型
+零新审／零合入／零取舍 → **0 调用**。
+
+### 8. 周一规范适配审查
+已于 R260（票471）出票；本轮为同周一第 4 次巡检，**不重复出票**。
+
+### 9. 利益点自省
+本轮=纯记账，产品 **原地（第 137 轮）**：修好的「今日攒」空白卡仍躺分支，用户看到的还是那张空壳卡 → 距「天天看见自己挪一步」零位移，堵点仍是浩然侧一句话。
+
+**漂移审计一行结论**：禁词用户可见 0 / 裸 Color 0 / 裸 Duration 0 / _LOCK 0 / stash 0 / 分支在册 / main 头↔票 R286 对得上 → **全绿，P1 = 0**。
+
+簿记：落笔前 main rev = **881**，本票预期 **882**。
+
+监工签字：老油条 [supervisor R287]
