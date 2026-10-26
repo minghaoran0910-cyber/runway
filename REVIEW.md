@@ -2777,3 +2777,37 @@ cron 族（`cron list --all` 实测）:
 - P2 待定口径（R315 提出未决）：零漂移轮是否继续每轮落 main 票（现为 feat..main 逐轮 +1 的唯一来源；本轮已 +1 至 182）。
 
 监工签字：老油条 [supervisor R322]
+
+---
+
+## R323 · 2026-10-27 07:3x · 守场零新审（票534）
+
+结论: **PASS（守场）** — 无新提审内容，本轮不产生业务裁决。
+
+检查项:
+- [x] 提审闸门（内容判据，不信 mtime）：`git show main:REVIEW_REQUEST.md | md5` = `f039fbfeacf8f4fa63b5646569d49b45`，与工作树一致；`grep -c SB-053` = **0** → SB-053 未提审，按规则不审不预读。
+- [x] 分支守卫：活树停 `feat/SB-053-today-saved-card@a322a5b`（2026-10-23 15:51:28，零新提交，停≈87h39m）；`main...feat` = **182 / 1**（feat 侧 1 笔业务提交；业务 diff 实测 3 文件 +148 行）。
+- [x] `_LOCK` = 0，`git stash list` = 0，worktree 主 1（临时 sup-r323 收轮删除），未跟踪仅 `WAITING_HUMAN`（md5 `c19ce45`／981B，与 R322 一致，不重推）。
+- [x] 冒烟不发生：`git merge-base --is-ancestor e61e0f7 main` = YES，`git diff --stat e61e0f7 main -- app` 空，`e61e0f7..main --merges` = 0 笔 → 无新合入，锚有效，不跑模拟器。
+- [x] 队列零漂移（对照快照 `runway-card-state.json`）：SB-053 待办在支未提审 / SB-052 已审待合 `dd1d835` / SB-051 挂起 `12e2b95` / SB-021 挂起 v0.2 / G 全绿（tag v0.1.0 `30ae2f0`）→ 无变化，不推送。
+- [x] `done/` 归档 = **47**（`git ls-tree main docs/tasks/done/ | wc -l` 实测）；支 7 条；tag 4 个。
+- [x] 周二非周一 → 不重复规范适配审查（R260/票471 草案仍待批）。
+
+### 漂移与一致性审计
+**全绿**：亏欠框架禁词命中 2 处，逐条查为元引用（`goal_ladder.dart:7` 注释 + `achievement.dart:13` 禁词过滤表字符串），用户可见面 0；`ui/theme` 外裸 `Color(0x` = 0；`motion_spec.dart` 外非零 `Duration(milliseconds:` = 0；`_LOCK` 0、stash 0；main 头 `f473238` ↔ 票533（R322）；`progress.md` 仍为唯一真相注册表（472 行），`task_plan.md` 薄索引未回退。
+
+### 提示词新鲜度自审
+零 edit：dispatch 脚本 `~/.openclaw/tools/runway-wake-dispatch.sh` mtime = Oct 23 04:32，脚本内无硬编码卡号（`grep SB-05xx` = 0）；卡号 SB-053 与包名 `com.zangou.runway` 均为现行口径；wake 族 5 条实测 disabled（`cron list --all`），watchdog `abaa94c7` ok。
+
+### 决策模型
+本轮无边界裁决 → `decision_evaluate` 调用 **0 次**。
+
+### 利益点自省
+**原地（不更远）**：守场只防误领；用户要的「天天看见自己挪一步」仍卡在 SB-053 提审 + v0.1.1 落窗两道人工闸门。连续原地第 **173** 轮。
+
+### 收轮待办
+- 删除临时 worktree `/tmp/sup-r323`，提交后回读 `git log main -1`。
+- P0 待浩然一句话（三选一）：v0.1.1 落窗合 SB-052+SB-053 出包 / SB-053 提审或作废 / 暂停 loop。
+- P2 待定口径（R315 提出未决）：零漂移轮是否继续落 main 票（现为 `feat..main` 逐轮 +1 唯一来源；本轮 +1 至 182）。
+
+监工签字：老油条 [supervisor R323]
