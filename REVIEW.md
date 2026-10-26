@@ -1047,3 +1047,47 @@ main 6964157 / rev 854 / 119-1 / diff 3 文件 +148 行 / done 47 / tag 4 / 分�
 本轮动作=守场记账，产品**原地**（第 125 轮）：页面空白卡仍在用户眼前，SB-053 修好但未提审、裁A 冻结不合入；堵点全在浩然侧（A/B/C 三选一 或 直接开 v0.1.1 落窗口）。
 
 监工签字：老油条 [supervisor R275]
+
+---
+
+# 票 487 · 2026-10-26 08:00 周一 · 守场第 126 轮（R276）
+
+结论: 无新审查（REQ 无新内容）· 队列零漂移 · 冒烟不发生 · 漂移全绿
+
+## 1. 新审查
+内容判据：`git show main:REVIEW_REQUEST.md` 去重卡号 = SB-044/049/050/051/052，**SB-053 命中 0**；REQ 内容 md5 `f039fbfe` 与盘上完全一致（零漂移）→ **SB-053 未提审，按规则不审不预读**。盘上 REQ/REVIEW mtime（1792793015/1792793016）仍为工作树 checkout 到 feat 后的同秒伪值，按既定内容判据不采信。main 头 **da20b1e**（票486/R275）↔ `main:REVIEW.md` 尾票 486 实体在位 ✓；`rev-list --count main` = **870**；本轮 main 零新业务提交。活树停 `feat/SB-053-today-saved-card@a322a5b`（2026-10-23 15:51:28，停 **64h08m**）；`main...feat` = **1/134**；业务面 diff 3 文件 **+148/−0**。
+
+## 2. 队列同步（卡面 vs 快照）
+- 卡文件 4 张；卡面状态实测：SB-021「挂起 v0.2」、SB-051「挂起（10-23 14:07 裁B）」、SB-052「已审待合（R148 票359）」、SB-053「待办（R149 见底自派）」→ 与快照 `queue` **零漂移**，本轮只刷新停转时长与 generated 字段。
+- 待办卡 **1**（SB-053 施工停分支未提审）；SB-052 已审待合（dd1d835）；SB-051 挂起（12e2b95）；SB-021 挂起 v0.2；G1~G11 ✓；tag v0.1.0 已发（10-20 12:03，30ae2f0）。
+- 待办卡 1 ≤ 2 → **排卡提醒继续挂账**；监工侧默认动作仍为「开 v0.1.1 落窗口」（合 052+053 → 实拍三帧+冒烟 → 出包），等浩然一句话。
+
+## 3. 模拟器冒烟
+**不发生**。`git diff --stat e61e0f7..main -- app packages tool pubspec.yaml` = 空 → main 自锚点 e61e0f7 起 app 面零变化，锚仍有效；本轮无 G 里程碑卡 PASS。
+
+## 4. 漂移与一致性审计
+- 禁词（`没省|又花|喝掉|罪恶|浪费钱`）app/lib 命中 **2**：`logic/goal_ladder.dart:7` 条款注释 + `logic/achievement.dart:13` 禁词黑名单字面量 → **用户可见 0**，豁免沿册。
+- 裸 `Color(0x`：ui/theme 外 **0**；裸 `Duration(milliseconds:`：motion_spec 外 **0**。
+- 红线：真实账目数据 **0**（e61e0f7..main 变更 14 项，全为 REVIEW/REQ/tasks 三卡/progress + golden/sb007、sb012 共 8 张截图，无账目样本）。
+- 分支 7 支零 stray（archive/SB-051-motion-r3、feat SB-034/048/051/052/053、main）；_LOCK **0**、stash **0**、tag **4**、worktree 主 1（+本轮临时 sup-r276，收轮删除）；未跟踪仅 `WAITING_HUMAN`（md5 c19ce45 未变）。
+- `docs/tasks/done/` = **47**（`git ls-tree main` 实测）；`task_plan.md` 8 行薄索引，progress.md 为唯一真相注册表，本轮未据 task_plan 判进度。
+- origin 零触碰（未 fetch/push）。
+
+## 5. 提示词新鲜度自审（§8）
+- 卡号口径：`docs/tasks/` 最高卡号 = **SB-053**，与快照队列、巡检 prompt 内嵌口径一致 ✓。
+- 三件套状态：巡检 19b5f29f `*/30` running；wake 族 **5 条全 disabled**（runway-wake b0ea8424 2d ago、88a8e128 11d、e71e53ac 12d、b71bf570/f859efc9 15d）；watchdog abaa94c7 ok（2h 周期）；runway-backup 560d719d **error（announce→last 无路由 fail-closed，非本项目，沿册 P2）**。
+- 冒烟四参数与 `applicationId = "com.zangou.runway"`（build.gradle.kts:19）与 prompt 内嵌一致 ✓；派发器 `runway-wake-dispatch.sh` md5 **d6fe4f4b**、mtime **Oct 23 04:32** 未变（S0.2 分支守卫仍早于 S0.1/S0.3~S0.6，树停 feat 即结构性空退，提案在票471 待浩然批）。
+- **本轮零 self-edit**（无过时参数）。
+
+## 6. 规范适配审查（周一）
+本轮为周一第 12 拍；规范适配审查已于 **票471（R260）** 出票（7 条条文草案 + LOOP 失配 4 项），按「不重复催」沿册不发；LOOP 状态机与本周实际运转无新增失配证据。
+
+## 7. 边界裁决
+本轮无边界裁决（无提审、无合入、无返工），决策模型 0 调用。
+
+## 8. 利益点自省
+本轮动作=守场记账，产品**原地**（第 126 轮）：首页空白卡仍在用户眼前，SB-053 已修但停分支未提审、裁A 冻结不合入；堵点全在浩然侧（A/B/C 三选一，或直接开 v0.1.1 落窗口）。
+
+簿记：落笔前 main rev = **870**，本票预期 **871**。
+
+监工签字：老油条 [supervisor R276]
