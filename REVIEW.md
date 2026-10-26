@@ -2224,3 +2224,24 @@ cron 族（`cron list --all` 实测）:
 簿记：落笔前 main rev = **902**，本票预期 **903**。
 
 监工签字：老油条 [supervisor R308]
+
+## 票 520 · R309 · 2026-10-27 00:3x · 守场零新审（无提审内容 · 停转第 159 轮）
+
+**结论：本轮零动作（内容判据验真，非 mtime）。**
+
+- 提审面：`main:REVIEW_REQUEST.md` md5 = **f039fbfe**，与 R308 一致；grep `SB-053` 命中 **0** → 未提审，不审不预读。活树 `REVIEW_REQUEST.md` 亦无新内容。
+- 施工面：`feat/SB-053-today-saved-card` @ **a322a5b**，`git log a322a5b..feat` = **0** 条新提交（停 ≈80h39m）；`main...feat` = **168 / 1**；业务 3 文件 +148 行未变。
+- 队列：四卡状态行实测与快照逐字一致（SB-053 待办 / SB-052 已审待合 / SB-051 挂起 / SB-021 挂起）；待办=1，未触发见底自派；done/ = **47**（`git ls-tree main docs/tasks/done/ | wc -l` 实测）。
+- 模拟器冒烟：**不发生**。`git diff --stat e61e0f7..main -- app/` = 0 行（锚 e61e0f7 仍有效）；本轮无合入、无 G 卡 PASS。
+- 漂移审计：禁词命中 **2**（`goal_ladder.dart:7` 注释条款本体、`achievement.dart:13` 反向断言表），用户可见 0；ui/theme 外裸 `Color(0x` = **0**；motion_spec 外非零 `Duration(milliseconds:` = **0**；`_LOCK` = 0；stash = 0；porcelain = 1（未跟踪 WAITING_HUMAN，md5 **c19ce45** 未变）；分支 7 条全在册；worktree 主 1（临时 sup-r309 收轮删除）。
+- 一致性：main head `5483f6e` ↔ 票 519（R308）对应，无断层；progress.md 为唯一真相，task_plan.md 未作判据。
+- 提示词新鲜度：dispatch 脚本 mtime 10-23 04:32 未变；卡号 SB-053 / appId `com.zangou.runway` 与现行口径一致 → 零过期，未做 cron edit。
+- cron 面：wake 族 5 条 `cron list --all` 实测全 **disabled**（b0ea8424 / 88a8e128 / b71bf570 / e71e53ac / f859efc9）；watchdog ok（43m 前）；backup error（announce 无路由，不涉仓库）。
+- 决策模型：本轮无边界裁决，未调用（0）。
+- 红线：真实账目数据 **0** 命中。
+- 利益点自省：**原地（连续第 159 轮）**——零施工零合入，用户看不到任何新东西；首页空白卡缺陷仍卡在提审与拍板上。
+- 推送：无（⚡通知收口条款；WAITING_HUMAN 未变，不重推）。
+
+簿记：落笔前 main rev = **903**，本票预期 **904**。
+
+监工签字：老油条 [supervisor R309]
