@@ -2981,3 +2981,37 @@ cron 族（`cron list --all` 实测）:
 落笔前 `git rev-list --count main`=**922**，本票预期 **923**。临时 worktree `/tmp/sup-r328` 收轮即删。
 
 监工签字：老油条 [supervisor R328]
+
+
+---
+
+## 票540 · R329 · 2026-10-27 10:3x · 守场零新审（停转第179轮）
+
+### 新审判定
+**不发生**。内容判据：`git show main:REVIEW_REQUEST.md | md5` = **f039fbfeacf8f4fa63b5646569d49b45**，与 R328 基线逐字节相同；REQ 内 `grep -c "SB-053"` = **0** → 未提审，按规则不审、不预读分支代码（mtime 闸门同秒伪值不采信；盘上 REQ 1792793015 < REVIEW 1792793016）。
+
+### 队列（零漂移）
+- SB-053 待办·施工在分支未提审：`feat/SB-053-today-saved-card@a322a5b`（2026-10-23 15:51:28，停 **≈90h40m** 零新提交）；`main..feat`=**1**、`feat..main`=**188**；业务 3 文件 +148 行未变。
+- SB-052 已审待合（R148/票359 PASS，`dd1d835`，裁A 冻结不合 main）；SB-051 挂起（R146 裁B，`12e2b95`）；SB-021 挂起 v0.2。
+- 待办卡 = **1**（SB-053），wake 全 disabled + 裁A 冻结 → 不自派；`docs/tasks/done/` = **47**（`git ls-tree main` 实测）。
+- `WAITING_HUMAN`（10-25 03:49 watchdog 写、未跟踪、981B、md5 `c19ce45d`）**未变**，本轮不重推（R286~R328 口径）。
+
+### 模拟器冒烟
+**不发生**。锚 `e61e0f7` 实测为 main 祖先（`merge-base --is-ancestor` = YES）；`git diff --stat e61e0f7..main -- app` = **空**；期间 merges = **0**；wake 族全 disabled、无 G 卡新 PASS → 无可冒烟对象。
+
+### 漂移与一致性审计（一行）
+禁词 `没省|又花|喝掉|罪恶|浪费钱` 全库 dart+md = **39 行全为元引用**（REVIEW.md 票内历史引用 · `docs/DESIGN_SYSTEM.md` · `_inbox/SPEC-DESIGN` · `goal_ladder.dart:7` 规则注释 · `achievement.dart:13` 过滤表 · `cooloff/experiment/goal_ladder/sb049` 四个测试反例断言），**用户可见文案 0** · `ui/theme` 外裸 `Color(0x` = **0** · `motion_spec` 外非零 `Duration(milliseconds:` = **0**（全库 18 行全落 `app/lib/ui/theme/motion_spec.dart`） · `_LOCK` 无 · stash = **0** · porcelain = **1 行=WAITING_HUMAN（md5 未变）** · 真实账目/红线 **0** · main 头 `33bc725`（票539/R328）↔ REVIEW 最近归档轮吻合 · 本地支 **7** 零 stray · worktree 收轮回 **1** · `progress.md`（478 行）唯一真相续登 · `task_plan.md` 8 行薄索引只读未动 · origin/main **零触碰**。
+
+### 提示词新鲜度自审
+**零 edit**：最高卡号 SB-053 = `docs/tasks/` 最高，与快照队列一致；包名 `com.zangou.runway`（SB-013 归一后现口径）与本轮巡检语一致；dispatch 脚本（66 行、mtime 10-23 04:32）未变、无硬编码卡号/包名；wake 族 5 条 `--all` 实测 disabled（b0ea8424 / 88a8e128 / b71bf570 / e71e53ac / f859efc9，b0ea8424 lastRun 2026-10-24）；巡检自身 running、`runway-watchdog` abaa94c7 ok、`runway-backup` 560d719d error(2x) 非仓库面；周二非周一，规范适配审查不重复（R260 票471 已出票待批）。
+
+### 决策模型
+本轮无边界裁决 → `decision_evaluate` 调用 **0 次**。
+
+### 利益点自省
+**原地（不更远）**：用户侧零变化，产品仍卡在「SB-053 提审 + v0.1.1 落窗」两道人工闸门；连续原地第 **179** 轮。
+
+### 簿记
+落笔前 `git rev-list --count main`=**923**，本票预期 **924**。临时 worktree `/tmp/sup-r329` 收轮即删。
+
+监工签字：老油条 [supervisor R329]
