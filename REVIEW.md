@@ -2811,3 +2811,39 @@ cron 族（`cron list --all` 实测）:
 - P2 待定口径（R315 提出未决）：零漂移轮是否继续落 main 票（现为 `feat..main` 逐轮 +1 唯一来源；本轮 +1 至 182）。
 
 监工签字：老油条 [supervisor R323]
+
+---
+
+## 票535 · R324 · 2026-10-27 08:0x · 守场零新审（停转第174轮）
+
+### 新审判定
+**不发生**。mtime 判据（REVIEW.md 1792793016 > REVIEW_REQUEST.md 1792793015，同秒级伪值不可靠，按 P1 条款改用内容判据）：`git show main:REVIEW_REQUEST.md | md5` = **f039fbfeacf8f4fa63b5646569d49b45**，与快照基线一致零漂移；REQ 内 `SB-053` 命中 **0** → 未提审，按规则不审、不预读分支代码。
+
+### 队列（与快照逐字一致，零漂移）
+- SB-053 待办·施工在分支未提审：`feat/SB-053-today-saved-card@a322a5b`（2026-10-23 15:51:28，停 **≈88h09m** 零新提交）；`main..feat`=1、`feat..main`=**183**；业务 3 文件 +148 行未变。
+- SB-052 已审待合（R148/票359 PASS，`dd1d835`，裁A 冻结不合 main）。
+- SB-051 挂起（R146 裁B，`12e2b95` 原样保留）；SB-021 挂起 v0.2。
+- 待办卡 = **1**（SB-053），未触发「见底自派」；`docs/tasks/done/` = **47**（`git ls-tree main` 实测）。
+- `WAITING_HUMAN`（10-25 03:49 watchdog 写，未跟踪，md5 `c19ce45`／981B）**未变**，本轮不重推（R286~R324 口径）。
+
+### 模拟器冒烟
+**不发生**。main 无新合入：锚 `e61e0f7` 仍是 main 祖先（实测 YES）、`e61e0f7..main` 的 `app/` diff 行数 = **0**、期间 merges = **0** → 无可冒烟对象；且 wake 族全 disabled、无 G 卡新 PASS。
+
+### 漂移与一致性审计
+**全绿**：亏欠框架禁词全库 39 处（含 docs/REVIEW 元引用），`app/lib` 内仅 **2** 处且均为元引用（`goal_ladder.dart:7` 注释、`achievement.dart:13` 禁词过滤表字符串），用户可见面 0；`ui/theme` 外裸 `Color(0x` = **0**；`motion_spec.dart` 外非零 `Duration(milliseconds:` = **0**；`_LOCK` 无、stash = 0；worktree = 1（本轮临时 `/tmp/sup-r324` 收轮即删）；main 头 = `4c4ebd7`（票534/R323），本票提交后头随之；`progress.md` 仍是唯一真相注册表，`task_plan.md` 仍为薄索引（8 行声明未回退）；origin/main 零触碰。
+
+### 提示词新鲜度自审
+**零 edit**：卡号 SB-053 = `docs/tasks/` 最高卡号，与快照队列一致；包名 `com.zangou.runway` 为现行口径；dispatch 脚本无硬编码卡号；wake 族 5 条实测 disabled（`cron list --all`），巡检自身 running、watchdog `abaa94c7` ok、统一看门狗 `169be936` ok。
+
+### 决策模型
+本轮无边界裁决 → `decision_evaluate` 调用 **0 次**。
+
+### 利益点自省
+**原地（不更远）**：本轮只做守场，用户侧零变化；产品仍卡在「SB-053 提审 + v0.1.1 落窗」两道人工闸门。连续原地第 **174** 轮。
+
+### 收轮待办
+- 删除临时 worktree `/tmp/sup-r324`；提交后 `git log main -1` 回读。
+- P0 待浩然一句话（三选一，未重推）：v0.1.1 落窗合 SB-052+SB-053 出包 / SB-053 提审或作废 / 暂停 loop。
+- P2 待定口径（R315 提出未决）：零漂移轮是否继续落 main 票（本巡检是 `feat..main` 逐轮 +1 的唯一来源，现已 183）。
+
+监工签字：老油条 [supervisor R324]
